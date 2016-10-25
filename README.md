@@ -1,0 +1,2 @@
+# BannerLayoutSimple
+bannerLayout 简单的几行代码实现viewpager轮播以及小圆点，title
