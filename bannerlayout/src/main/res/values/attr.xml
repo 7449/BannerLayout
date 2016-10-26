@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BannerLayout">
+        <attr name="delay_time" format="integer" />
+        <attr name="start_rotation" format="boolean" />
+        <attr name="view_pager_touch_mode" format="boolean" />
+        <attr name="round_selector" format="reference" />
+        <attr name="round_container_background_switch" format="boolean" />
+        <attr name="round_left_margin" format="integer" />
+        <attr name="round_right_margin" format="integer" />
+        <attr name="title_left_margin" format="integer" />
+        <attr name="title_right_margin" format="integer" />
+        <attr name="round_width" format="integer" />
+        <attr name="round_height" format="integer" />
+        <attr name="round_container_background" format="reference" />
+        <attr name="round_container_width" format="integer" />
+        <attr name="round_container_height" format="integer" />
+        <attr name="glide_error_image" format="reference" />
+        <attr name="glide_place_image" format="reference" />
+        <attr name="banner_round_visible" format="boolean" />
+        <attr name="banner_title_visible" format="boolean" />
+        <attr name="banner_title_size" format="dimension" />
+        <attr name="banner_title_color" format="color" />
+    </declare-styleable>
+
+</resources>
