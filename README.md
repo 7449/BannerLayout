@@ -31,11 +31,20 @@
 ##使用效果
 ![](http://i.imgur.com/UXFFMDx.gif)
 
+>更新状态
+
+
+	0.0.2 修改部分代码，加载图片可选择自定义加载框架或者使用默认的Glide
+
+	0.0.1：提交项目
+
+
+
 ##基础使用方法
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:0.0.1'
+		compile 'com.ydevelop:bannerlayout:0.0.2'
 
 >如果是网络加载图片 记得添加
 
@@ -82,13 +91,36 @@
 
 4.提示栏及小圆点、title位置的改变
 
-想要改变位置在initRound()方法中实现几种不同的状态，不需要的可以直接传null 有默认的参数
+	想要改变位置在initRound()方法中实现几种不同的状态，不需要的可以直接传null 有默认的参数
+	
+	代码中提供了三个枚举
+	
+	- BANNER_ROUND_CONTAINER_POSITION 	 提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
+	- BANNER_ROUND_POSITION  	小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
+	- BANNER_TITLE_POSITION  	title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
 
-代码中提供了三个枚举
 
-- BANNER_ROUND_CONTAINER_POSITION 	 提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
-- BANNER_ROUND_POSITION  	小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
-- BANNER_TITLE_POSITION  	title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选   
+
+
+5.使用自定义加载图片框架
+	  
+	默认使用Glide加载图片，如果不喜欢的继承 ImageLoaderManage 然后在代码中 setImageLoaderManage.
+
+	 bannerLayout
+                .initImageListResources(mBanner)
+                .setImageLoaderManage(new ImageLoader()) //自己定义加载图片的方式
+                .initAdapter()
+                .initRound(true, true, false)
+                .start(true);
+
+	Glide默认就算是本地的资源文件也可以加载，但是Picasso加载时不行，如果使用Picasso加载图片请把url强转成int类型，其他的没有试过。
+
+	public class ImageLoader implements ImageLoaderManage {
+	    @Override
+	    public void display(Context context, ImageView imageView, Object url) {
+	        Picasso.with(context).load((Integer) url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
+	    }
+	}
 
 
 >最后调用start（）的时候可以决定是否开启自动轮播，不管在fragment还是activity里面，应该在合适的生命周期里选择暂停或者恢复轮播（如果开启了自动轮播），BannerLayout已经提供了方法，使用者直接调用就可以了，如果使用List数据，请使用BannerModel

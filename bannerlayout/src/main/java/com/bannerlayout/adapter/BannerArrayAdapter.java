@@ -13,10 +13,14 @@ public class BannerArrayAdapter extends BannerBaseAdapter {
         this.imageArray = imageArray;
     }
 
+
     @Override
-    public ImageView getView(ImageView view, int position) {
-        imageLoader(view.getContext(), (imageArray[position % imageArray.length]), view);
-        return view;
+    protected void imageBannerLoader(ImageView view, int position) {
+        if (imageLoaderManage == null) {
+            imageLoader(view.getContext(), imageArray[position % imageArray.length], view);
+        } else {
+            imageLoaderManage.display(view.getContext(), view, imageArray[position % imageArray.length]);
+        }
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.bannerlayout.adapter.BannerBaseAdapter;
 import com.bannerlayout.adapter.BannerListAdapter;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.util.BannerHandlerUtils;
+import com.bannerlayout.util.ImageLoaderManage;
 
 import java.util.List;
 
@@ -56,6 +57,8 @@ public class BannerLayout extends RelativeLayout
     private int errorImageView;//glide加载错误占位符
     private int placeImageView;//glide加载中占位符
 
+    private ImageLoaderManage imageLoaderManage = null;
+
     private void init(AttributeSet attrs) {
         if (attrs == null) {
             return;
@@ -96,6 +99,14 @@ public class BannerLayout extends RelativeLayout
     public BannerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
+    }
+
+    /**
+     * 设置加载图片管理器
+     */
+    public BannerLayout setImageLoaderManage(ImageLoaderManage loaderManage) {
+        this.imageLoaderManage = loaderManage;
+        return this;
     }
 
     /**
@@ -442,21 +453,20 @@ public class BannerLayout extends RelativeLayout
      * adapter
      */
     private PagerAdapter getBannerAdapter() {
+        BannerBaseAdapter adapter = null;
         switch (bannerAdapterType) {
             case LIST:
-                BannerListAdapter listAdapter = new BannerListAdapter(imageList);
-                listAdapter.setPlaceImage(placeImageView);
-                listAdapter.setErrorImage(errorImageView);
-                listAdapter.setImageClickListener(this);
-                return listAdapter;
+                adapter = new BannerListAdapter(imageList);
+                break;
             case ARRAY:
-                BannerArrayAdapter arrayAdapter = new BannerArrayAdapter(imageArray);
-                arrayAdapter.setPlaceImage(placeImageView);
-                arrayAdapter.setErrorImage(errorImageView);
-                arrayAdapter.setImageClickListener(this);
-                return arrayAdapter;
+                adapter = new BannerArrayAdapter(imageArray);
+                break;
         }
-        throw new NullPointerException("the viewPagerAdapter is null");
+        adapter.setPlaceImage(placeImageView);
+        adapter.setErrorImage(errorImageView);
+        adapter.setImageLoaderManage(imageLoaderManage);
+        adapter.setImageClickListener(this);
+        return adapter;
     }
 
     @Override

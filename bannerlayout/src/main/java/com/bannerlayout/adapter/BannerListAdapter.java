@@ -18,9 +18,12 @@ public class BannerListAdapter extends BannerBaseAdapter {
     }
 
     @Override
-    public ImageView getView(ImageView view, int position) {
-        imageLoader(view.getContext(), imageList.get(position % imageList.size()).getImage(), view);
-        return view;
+    protected void imageBannerLoader(ImageView view, int position) {
+        if (imageLoaderManage == null) {
+            imageLoader(view.getContext(), imageList.get(position % imageList.size()).getImage(), view);
+        } else {
+            imageLoaderManage.display(view.getContext(), view, imageList.get(position % imageList.size()).getImage());
+        }
     }
 
     @Override
