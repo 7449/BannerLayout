@@ -103,5 +103,13 @@ public class BannerDefaults {
      * 默认title的marginRight
      */
     public static final int BANNER_TITLE_RIGHT_MARGIN = 10;
+    /**
+     * 默认title的width
+     */
+    public static final int BANNER_TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * 默认title的height
+     */
+    public static final int BANNER_TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
 }

@@ -14,14 +14,16 @@
         <attr name="round_width" format="integer" />
         <attr name="round_height" format="integer" />
         <attr name="round_container_background" format="reference" />
-        <attr name="round_container_width" format="integer" />
-        <attr name="round_container_height" format="integer" />
+        <attr name="round_container_width" format="dimension" />
+        <attr name="round_container_height" format="dimension" />
         <attr name="glide_error_image" format="reference" />
         <attr name="glide_place_image" format="reference" />
         <attr name="banner_round_visible" format="boolean" />
         <attr name="banner_title_visible" format="boolean" />
         <attr name="banner_title_size" format="dimension" />
         <attr name="banner_title_color" format="color" />
+        <attr name="banner_title_width" format="dimension" />
+        <attr name="banner_title_height" format="dimension" />
     </declare-styleable>
 
 </resources>

@@ -28,13 +28,16 @@
 
 - 支持选择暂停 恢复 轮播状态
 
+- 支持自定义提示栏
+
 ##使用效果
 ![](http://i.imgur.com/UXFFMDx.gif)
 
 >更新状态
 
+	0.0.3： 添加上次忘记添加的一些方法，支持自定义提示栏，如果自定义提示栏请不要初始化initRound()
 
-	0.0.2 修改部分代码，加载图片可选择自定义加载框架或者使用默认的Glide
+	0.0.2： 修改部分代码，加载图片可选择自定义加载框架或者使用默认的Glide
 
 	0.0.1：提交项目
 
@@ -44,7 +47,7 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:0.0.2'
+		compile 'com.ydevelop:bannerlayout:0.0.3'
 
 >如果是网络加载图片 记得添加
 
@@ -122,15 +125,51 @@
 	    }
 	}
 
+6.自定义提示栏
+
+>自定义提示栏不建议使用，为了简便才封装，如果使用自定义提示栏就违背初衷，所以没有什么能快速设置的功能请尽量提[lssues](https://github.com/7449/BannerLayoutSimple/issues),除非是非常奇葩的需求，再使用自定义提示栏吧
+
+        bannerLayout
+                .initImageListResources(mDatas)
+                .setTitleSetting(ContextCompat.getColor(this, R.color.colorPrimary), -1)
+                .addOnBannerPageChangeListener(new BannerOnPage())
+				.initPromptBar(new PromptBarView(getBaseContext())) //自定义提示栏view initAdapter之前调用生效
+                .initAdapter()
+                .start(true);
+
+     /**
+     * 接管viewpager的onPage方法
+     */
+    public class BannerOnPage implements BannerLayout.OnBannerPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            Log.i(getClass().getSimpleName(), position + "");
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+	
+
 
 >最后调用start（）的时候可以决定是否开启自动轮播，不管在fragment还是activity里面，应该在合适的生命周期里选择暂停或者恢复轮播（如果开启了自动轮播），BannerLayout已经提供了方法，使用者直接调用就可以了，如果使用List数据，请使用BannerModel
+
+
 
 ## 自定义参数详解
 
 属性名								|说明  						|属性值
 ---    								|---   						|---
 delay_time   						|轮播时间					|默认2s
-start_rotation   					|是否开启自动轮播				|true 开启，默认不开启	
+start_rotation   					|是否开启自动轮播				|true 开启，默认不开启
 view_pager_touch_mode   			|viewpager是否可以手动滑动	|true禁止滑动,false可以滑动，默认可以滑动
 round_selector   					|小圆点状态选择器				|可参考自带的
 round_container_background_switch   |是否显示提示控件的背景		|true 显示，默认不显示
@@ -149,6 +188,8 @@ banner_round_visible  				|是否显示小圆点				|默认显示
 banner_title_visible  				|是否显示title				|默认不显示
 banner_title_size   				|字体大小					|默认12
 banner_title_color 					|字体颜色					|默认黄色
+banner_title_width 					|字体width					|默认自适应
+banner_title_height 				|字体height					|默认自适应
 
 #最后
 	

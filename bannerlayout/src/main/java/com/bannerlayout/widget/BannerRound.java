@@ -1,7 +1,9 @@
 package com.bannerlayout.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ public class BannerRound extends RelativeLayout {
     public BannerRound(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     /**
      * 初始化小圆点
@@ -84,9 +87,8 @@ public class BannerRound extends RelativeLayout {
      * @param isBackgroundColor             是否显示背景阴影
      * @param roundContainerBackgroundColor 背景阴影颜色
      */
-    public void settingBannerRound(int roundContainerWidth, int roundContainerHeight, BannerLayout.BANNER_ROUND_CONTAINER_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
-        LayoutParams roundContainerParams = new
-                LayoutParams(roundContainerWidth, roundContainerHeight);
+    public void settingBannerRound(float roundContainerWidth, float roundContainerHeight, BannerLayout.BANNER_ROUND_CONTAINER_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
+        LayoutParams roundContainerParams = new LayoutParams((int) roundContainerWidth, (int) roundContainerHeight);
         if (bannerRoundContainerPosition == null) {
             roundContainerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         } else {
@@ -121,11 +123,14 @@ public class BannerRound extends RelativeLayout {
     /**
      * 更新title,默认在左边
      */
-    public void addTitle(int textColor, float textSize, int leftMargin, int rightMargin, BANNER_TITLE_POSITION bannerTitlePosition) {
+    public void addTitle(int textColor, float textSize, int leftMargin, int rightMargin, float titleWidth, float titleHeight, BANNER_TITLE_POSITION bannerTitlePosition) {
         textView = new TextView(getContext());
+        textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setTextColor(textColor);
         textView.setTextSize(textSize);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setSingleLine(true);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        LayoutParams params = new LayoutParams((int) titleWidth, (int) titleHeight);
         params.addRule(RelativeLayout.CENTER_VERTICAL);
         params.leftMargin = leftMargin;
         params.rightMargin = rightMargin;
@@ -146,6 +151,7 @@ public class BannerRound extends RelativeLayout {
         }
         addView(textView, params);
     }
+
 
     /**
      * 设置title

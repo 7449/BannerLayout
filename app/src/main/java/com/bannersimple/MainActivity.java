@@ -1,10 +1,13 @@
 package com.bannersimple;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.widget.BannerLayout;
+import com.bannerlayout.widget.BannerRound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +33,33 @@ public class MainActivity extends AppCompatActivity {
 
         int[] mImage = new int[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
         String[] mTitle = new String[]{"bannerl", "banner2", "banner3"};
-
         bannerLayout
-                .initImageListResources(mBanner)
-                .setImageLoaderManage(new ImageLoader()) //自己定义加载图片的方式
+                .initImageListResources(mDatas)
+//                .setImageLoaderManage(new ImageLoader()) //自己定义加载图片的方式
+//                .setRoundContainerHeight(200)
+                .setTitleSetting(ContextCompat.getColor(this, R.color.colorPrimary), -1)
+//                .addPromptBar(new PromptBarView(getBaseContext()))//initAdapter之前调用生效
+//                .addOnBannerPageChangeListener(new BannerOnPage())
                 .initAdapter()
-                .initRound(true, true, false)
+                .initRound(true, true, true, null, BannerRound.BANNER_ROUND_POSITION.LEFT, BannerRound.BANNER_TITLE_POSITION.CENTERED)
                 .start(true);
 
+    }
+
+    public class BannerOnPage implements BannerLayout.OnBannerPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            Log.i(getClass().getSimpleName(), position + "");
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 }

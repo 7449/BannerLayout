@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -50,14 +51,19 @@ public class BannerLayout extends RelativeLayout
     private int roundRightMargin;//小圆点的marginRight
     private int titleLeftMargin;//title marginLeft
     private int titleRightMargin;//title marginRight
-    private int roundContainerHeight; //BannerRound高度
-    private int roundContainerWidth; // BannerRound宽度
+    private float titleWidth;//title width
+    private float titleHeight;// title height
+    private float roundContainerHeight; //BannerRound高度
+    private float roundContainerWidth; // BannerRound宽度
     private int roundContainerBackgroundColor; //BannerRound背景色
     private int roundSelector; //小圆点状态选择器
     private int errorImageView;//glide加载错误占位符
     private int placeImageView;//glide加载中占位符
 
-    private ImageLoaderManage imageLoaderManage = null;
+    private ImageLoaderManage imageLoaderManage = null; //图片加载管理器
+    private View promptBarView = null; //自定义提示栏，必须接管viewpager的OnPageChangeListener方法
+    private OnBannerPageChangeListener onBannerPageChangeListener = null;
+
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
@@ -65,8 +71,8 @@ public class BannerLayout extends RelativeLayout
         }
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
         roundContainerBackgroundColor = typedArray.getResourceId(R.styleable.BannerLayout_round_container_background, BannerDefaults.ROUND_CONTAINER_BACKGROUND);
-        roundContainerWidth = typedArray.getInt(R.styleable.BannerLayout_round_container_width, BannerDefaults.ROUND_CONTAINER_WIDTH);
-        roundContainerHeight = typedArray.getInt(R.styleable.BannerLayout_round_container_height, BannerDefaults.ROUND_CONTAINER_HEIGHT);
+        roundContainerWidth = typedArray.getDimension(R.styleable.BannerLayout_round_container_width, BannerDefaults.ROUND_CONTAINER_WIDTH);
+        roundContainerHeight = typedArray.getDimension(R.styleable.BannerLayout_round_container_height, BannerDefaults.ROUND_CONTAINER_HEIGHT);
         delayTime = typedArray.getInt(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_start_rotation, BannerDefaults.IS_START_ROTATION);
         isRoundContainerBackground = typedArray.getBoolean(R.styleable.BannerLayout_round_container_background_switch, BannerDefaults.ROUND_CONTAINER_BACKGROUND_SWITCH);
@@ -83,6 +89,10 @@ public class BannerLayout extends RelativeLayout
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_banner_title_size, BannerDefaults.BANNER_TITLE_SIZE);
         titleRightMargin = typedArray.getInt(R.styleable.BannerLayout_title_right_margin, BannerDefaults.BANNER_TITLE_RIGHT_MARGIN);
         titleLeftMargin = typedArray.getInt(R.styleable.BannerLayout_title_left_margin, BannerDefaults.BANNER_TITLE_LEFT_MARGIN);
+        titleWidth = typedArray.getDimension(R.styleable.BannerLayout_banner_title_width, BannerDefaults.BANNER_TITLE_WIDTH);
+        titleHeight = typedArray.getDimension(R.styleable.BannerLayout_banner_title_height, BannerDefaults.BANNER_TITLE_HEIGHT);
+        titleSize = typedArray.getDimension(R.styleable.BannerLayout_banner_title_size, BannerDefaults.BANNER_TITLE_SIZE);
+
         isVisibleRound = typedArray.getBoolean(R.styleable.BannerLayout_banner_round_visible, BannerDefaults.IS_VISIBLE_ROUND);
         typedArray.recycle();
     }
@@ -99,6 +109,17 @@ public class BannerLayout extends RelativeLayout
     public BannerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
+    }
+
+    /**
+     * 设置title颜色,字体大小,不需要字体大小设置-1
+     */
+    public BannerLayout setTitleSetting(int titleColor, int titleSize) {
+        this.titleColor = titleColor;
+        if (titleSize != -1) {
+            this.titleSize = titleSize;
+        }
+        return this;
     }
 
     /**
@@ -165,6 +186,14 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
+     * 初始化自定义提示栏  initAdapter之前调用
+     */
+    public BannerLayout addPromptBar(View view) {
+        this.promptBarView = view;
+        return this;
+    }
+
+    /**
      * 初始化小圆点,使用默认参数
      */
     public BannerLayout initRound() {
@@ -184,7 +213,7 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 初始化小圆点控件
+     * 初始化小圆点控件，如果选择自定义提示栏 请不要初始化此方法
      *
      * @param isBackgroundColor            是否显示背景色
      * @param bannerRoundContainerPosition 控件显示位置 默认底部
@@ -194,6 +223,9 @@ public class BannerLayout extends RelativeLayout
      * @param isVisibleTitle               是否显示title,默认不显示
      */
     public BannerLayout initRound(boolean isBackgroundColor, boolean isVisibleRound, boolean isVisibleTitle, BANNER_ROUND_CONTAINER_POSITION bannerRoundContainerPosition, BannerRound.BANNER_ROUND_POSITION bannerRoundPosition, BannerRound.BANNER_TITLE_POSITION bannerTitlePosition) {
+        if (promptBarView != null) {
+            return this;
+        }
         this.isRoundContainerBackground = isBackgroundColor;
         this.isVisibleRound = isVisibleRound;
         this.isVisibleTitle = isVisibleTitle;
@@ -211,7 +243,7 @@ public class BannerLayout extends RelativeLayout
                 bannerRound.addRound(getRoundSize(), roundSelector, roundWidth, roundHeight, roundLeftMargin, roundRightMargin, bannerRoundPosition);
             }
             if (isVisibleTitle) {
-                bannerRound.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, bannerTitlePosition);
+                bannerRound.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
                 if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
                     bannerRound.setTitle(imageArrayTitle[0]);
                 } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
@@ -244,9 +276,6 @@ public class BannerLayout extends RelativeLayout
 
     /**
      * 设置BannerRoundWidth
-     *
-     * @param width
-     * @return
      */
     public BannerLayout setRoundContainerWidth(int width) {
         this.roundContainerWidth = width;
@@ -383,15 +412,20 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
+
     /**
      * 初始化adapter
      * 必须在init图片资源之后才能调用此方法
      */
     public BannerLayout initAdapter() {
         initViewPager();
+        if (promptBarView != null) {
+            removeView(promptBarView);
+            addView(promptBarView);
+        }
+        viewPager.addOnPageChangeListener(this);
         viewPager.setAdapter(getBannerAdapter());
         viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getRoundSize()));
-        viewPager.addOnPageChangeListener(this);
         return this;
     }
 
@@ -479,48 +513,59 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        if (onBannerPageChangeListener != null) {
+            onBannerPageChangeListener.onPageScrolled(position % getRoundSize(), positionOffset, positionOffsetPixels);
+        }
     }
 
     @Override
     public void onPageSelected(int position) {
         int newPosition = position % getRoundSize();
-        if (bannerRound != null) {
-            if (isVisibleRound) {
-                bannerRound.changeRoundPosition(preEnablePosition, newPosition);
-            }
-            if (isVisibleTitle) {
-                bannerRound.clearText();
-                if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
-                    bannerRound.setTitle(imageArrayTitle[newPosition]);
-                } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                    bannerRound.setTitle(imageList.get(newPosition).getText());
+        if (onBannerPageChangeListener != null && promptBarView != null) {
+            onBannerPageChangeListener.onPageSelected(newPosition);
+        } else {
+            if (bannerRound != null) {
+                if (isVisibleRound) {
+                    bannerRound.changeRoundPosition(preEnablePosition, newPosition);
+                }
+                if (isVisibleTitle) {
+                    bannerRound.clearText();
+                    if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
+                        bannerRound.setTitle(imageArrayTitle[newPosition]);
+                    } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
+                        bannerRound.setTitle(imageList.get(newPosition).getText());
+                    }
                 }
             }
-        }
-        preEnablePosition = newPosition;
-        if (bannerHandlerUtils != null && isStartRotation) {
-            bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
+            preEnablePosition = newPosition;
+            if (bannerHandlerUtils != null && isStartRotation) {
+                bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
+            }
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (bannerHandlerUtils != null && isStartRotation) {
-            switch (state) {
-                case ViewPager.SCROLL_STATE_DRAGGING:
-                    bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-                    break;
-                case ViewPager.SCROLL_STATE_IDLE:
-                    bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
-                    break;
+        if (onBannerPageChangeListener != null && promptBarView != null) {
+            onBannerPageChangeListener.onPageScrollStateChanged(state);
+        } else {
+            if (bannerHandlerUtils != null && isStartRotation) {
+                switch (state) {
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+                        break;
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
+                        break;
+                }
             }
         }
+
     }
 
     @Override
     public void onBannerClick(int position) {
-        if (onBannerClickListener != null) {
+        if (onBannerClickListener != null && promptBarView != null) {
             onBannerClickListener.onBannerClick(position);
         }
     }
@@ -546,5 +591,21 @@ public class BannerLayout extends RelativeLayout
 
     public interface OnBannerClickListener {
         void onBannerClick(int position);
+    }
+
+    public BannerLayout addOnBannerPageChangeListener(OnBannerPageChangeListener onBannerPageChangeListener) {
+        this.onBannerPageChangeListener = onBannerPageChangeListener;
+        return this;
+    }
+
+    /**
+     * 接管viewpager的OnPageChangeListener方法
+     */
+    public interface OnBannerPageChangeListener {
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+
+        void onPageSelected(int position);
+
+        void onPageScrollStateChanged(int state);
     }
 }
