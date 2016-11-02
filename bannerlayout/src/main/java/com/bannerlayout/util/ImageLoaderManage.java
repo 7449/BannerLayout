@@ -8,5 +8,5 @@ import android.widget.ImageView;
  */
 
 public interface ImageLoaderManage {
-    void display(Context context, ImageView imageView, Object url);
+    void display(Context context, ImageView imageView, Object url, Object model);
 }

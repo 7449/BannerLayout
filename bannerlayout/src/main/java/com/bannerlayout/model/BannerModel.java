@@ -6,19 +6,23 @@ package com.bannerlayout.model;
 
 public class BannerModel {
     private Object image;
-    private String text;
+    private String title;
+
+    public BannerModel(){
+
+    }
 
     public BannerModel(Object image) {
         this.image = image;
     }
 
-    public BannerModel(String text) {
-        this.text = text;
+    public BannerModel(String title) {
+        this.title = title;
     }
 
-    public BannerModel(Object image, String text) {
+    public BannerModel(Object image, String title) {
         this.image = image;
-        this.text = text;
+        this.title = title;
     }
 
     public Object getImage() {
@@ -30,12 +34,12 @@ public class BannerModel {
     }
 
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

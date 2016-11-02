@@ -33,9 +33,17 @@
 ##使用效果
 ![](http://i.imgur.com/UXFFMDx.gif)
 
+
+
+##基础使用方法
+
+>项目中引用 
+
+		compile 'com.ydevelop:bannerlayout:0.0.4'
+
 >更新状态
 	
-	下个版本支持自定义Model类
+	0.0.4： 支持自定义Model类，自定的需要继承BaseModel，修改0.0.3不能点击的bug
 		
 	0.0.3： 添加上次忘记添加的一些方法，支持自定义提示栏，如果自定义提示栏请不要初始化initRound()
 
@@ -43,13 +51,6 @@
 
 	0.0.1：提交项目
 
-
-
-##基础使用方法
-
->项目中引用 
-
-		compile 'com.ydevelop:bannerlayout:0.0.3'
 
 >如果是网络加载图片 记得添加
 
@@ -80,18 +81,25 @@
                 .initRound()
                 .start(true);	
 
-3.点击事件，也可以自己单独写
+3.点击事件，也可以自己单独写，如果是list集合 返回的是当前model对象，如果是数组，返回的object就是当前数组对象,自定义的model如果获取的json图片命名不是image，请自行实现	ImageLoaderManage，返回的object里面获取网络url
+
 
 		bannerLayout
-                .initImageArrayResources(mImage, mTitle)
+                .initImageListResources(list) 
                 .initAdapter()
                 .initRound()
                 .start(true)
                 .setOnBannerClickListener(new BannerLayout.OnBannerClickListener() {
                     @Override
-                    public void onBannerClick(int position) {
+                    public void onBannerClick(int position, Object model) {
+                        ImageModel imageModel = (ImageModel) model;
+                        Toast.makeText(getApplicationContext(), imageModel.getTestText(), Toast.LENGTH_SHORT).show();
+                        //如果是array  返回的object是传入的数组对象
+	//                        int[] image = (int[]) model;
+	//                        Toast.makeText(getApplicationContext(), image[position], Toast.LENGTH_SHORT).show();
 
                     }
+                })
                 });
 
 4.提示栏及小圆点、title位置的改变
@@ -120,12 +128,17 @@
 
 	Glide默认就算是本地的资源文件也可以加载，但是Picasso加载时不行，如果使用Picasso加载图片请把url强转成int类型，其他的没有试过。
 
-	public class ImageLoader implements ImageLoaderManage {
-	    @Override
-	    public void display(Context context, ImageView imageView, Object url) {
-	        Picasso.with(context).load((Integer) url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
+	
+
+	    public class ImageLoader implements ImageLoaderManage {
+	
+	        @Override
+	        public void display(Context context, ImageView imageView, Object url, Object model) {
+				//如果是list集合 返回的model就是当前Model对象，如果是数组，返回的model就是当前数组对象
+	            Picasso.with(context).load((int) url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
+	        }
 	    }
-	}
+
 
 6.自定义提示栏
 

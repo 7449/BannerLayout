@@ -1,5 +1,6 @@
 package com.bannerlayout.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bannerlayout.model.BannerModel;
@@ -11,19 +12,27 @@ import java.util.List;
  */
 
 public class BannerListAdapter extends BannerBaseAdapter {
-    private List<BannerModel> imageList = null;
+    private List<? extends BannerModel> imageList = null;
 
-    public BannerListAdapter(List<BannerModel> imageList) {
+    public BannerListAdapter(List<? extends BannerModel> imageList) {
         this.imageList = imageList;
     }
 
     @Override
-    protected void imageBannerLoader(ImageView view, int position) {
+    protected void imageBannerLoader(ImageView view, final int position) {
         if (imageLoaderManage == null) {
-            imageLoader(view.getContext(), imageList.get(position % imageList.size()).getImage(), view);
+            imageLoader(view.getContext(), imageList.get(getPosition(position)).getImage(), view);
         } else {
-            imageLoaderManage.display(view.getContext(), view, imageList.get(position % imageList.size()).getImage());
+            imageLoaderManage.display(view.getContext(), view, imageList.get(getPosition(position)).getImage(), imageList.get(getPosition(position)));
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imageClickListener != null) {
+                    imageClickListener.onBannerClick(getPosition(position), imageList.get(getPosition(position)));
+                }
+            }
+        });
     }
 
     @Override

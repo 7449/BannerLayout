@@ -38,7 +38,7 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
     }
 
 
-    private OnBannerImageClickListener imageClickListener = null;
+    public OnBannerImageClickListener imageClickListener = null;
 
     @Override
     public int getCount() {
@@ -60,14 +60,6 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
         ImageView img = new ImageView(container.getContext());
         imageBannerLoader(img, position);
         container.addView(img);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (imageClickListener != null) {
-                    imageClickListener.onBannerClick(getPosition(position));
-                }
-            }
-        });
         return img;
     }
 
@@ -84,6 +76,6 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
     public abstract int getPosition(int position);
 
     public interface OnBannerImageClickListener {
-        void onBannerClick(int position);
+        void onBannerClick(int position, Object model);
     }
 }

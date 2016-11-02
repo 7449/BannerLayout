@@ -1,5 +1,6 @@
 package com.bannerlayout.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 
 /**
@@ -15,12 +16,20 @@ public class BannerArrayAdapter extends BannerBaseAdapter {
 
 
     @Override
-    protected void imageBannerLoader(ImageView view, int position) {
+    protected void imageBannerLoader(ImageView view, final int position) {
         if (imageLoaderManage == null) {
             imageLoader(view.getContext(), imageArray[position % imageArray.length], view);
         } else {
-            imageLoaderManage.display(view.getContext(), view, imageArray[position % imageArray.length]);
+            imageLoaderManage.display(view.getContext(), view, imageArray[position % imageArray.length], imageArray);
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imageClickListener != null) {
+                    imageClickListener.onBannerClick(getPosition(position), imageArray);
+                }
+            }
+        });
     }
 
     @Override

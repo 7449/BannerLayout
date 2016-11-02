@@ -29,7 +29,7 @@ public class BannerLayout extends RelativeLayout
         BannerBaseAdapter.OnBannerImageClickListener {
     private BANNER_ADAPTER_TYPE bannerAdapterType = null;
     private OnBannerClickListener onBannerClickListener = null;
-    private List<BannerModel> imageList = null;
+    private List<? extends BannerModel> imageList = null;
     private int[] imageArray = null;
     private String[] imageArrayTitle = null;
     private BannerViewPager viewPager = null;
@@ -247,7 +247,7 @@ public class BannerLayout extends RelativeLayout
                 if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
                     bannerRound.setTitle(imageArrayTitle[0]);
                 } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                    bannerRound.setTitle(imageList.get(0).getText());
+                    bannerRound.setTitle(imageList.get(0).getTitle());
                 }
             }
             bannerRound.settingBannerRound(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
@@ -343,7 +343,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * 初始化List图片资源
      */
-    public BannerLayout initImageListResources(List<BannerModel> imageList) {
+    public BannerLayout initImageListResources(List<? extends BannerModel> imageList) {
         if (imageList == null) {
             throw new NullPointerException("the imageList is null");
         }
@@ -533,7 +533,7 @@ public class BannerLayout extends RelativeLayout
                     if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
                         bannerRound.setTitle(imageArrayTitle[newPosition]);
                     } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                        bannerRound.setTitle(imageList.get(newPosition).getText());
+                        bannerRound.setTitle(imageList.get(newPosition).getTitle());
                     }
                 }
             }
@@ -563,10 +563,11 @@ public class BannerLayout extends RelativeLayout
 
     }
 
+
     @Override
-    public void onBannerClick(int position) {
-        if (onBannerClickListener != null && promptBarView != null) {
-            onBannerClickListener.onBannerClick(position);
+    public void onBannerClick(int position, Object model) {
+        if (onBannerClickListener != null) {
+            onBannerClickListener.onBannerClick(position, model);
         }
     }
 
@@ -590,7 +591,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     public interface OnBannerClickListener {
-        void onBannerClick(int position);
+        void onBannerClick(int position, Object model);
     }
 
     public BannerLayout addOnBannerPageChangeListener(OnBannerPageChangeListener onBannerPageChangeListener) {
