@@ -3,7 +3,11 @@ package com.bannerlayout.widget;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.animation.AccelerateInterpolator;
+
+import java.lang.reflect.Field;
 
 /**
  * by y on 2016/10/25
@@ -57,5 +61,20 @@ public class BannerViewPager extends ViewPager {
     @Override
     public boolean arrowScroll(int direction) {
         return !mViewTouchMode && !(direction != FOCUS_LEFT && direction != FOCUS_RIGHT) && super.arrowScroll(direction);
+    }
+
+    /**
+     * 设置切换速度
+     */
+    public void setDuration(int duration) {
+        try {
+            Field field = ViewPager.class.getDeclaredField("mScroller");
+            field.setAccessible(true);
+            FixedSpeedScroller scroller = new FixedSpeedScroller(getContext(), new AccelerateInterpolator());
+            field.set(this, scroller);
+            scroller.setDuration(duration);
+        } catch (Exception e) {
+            Log.i(getClass().getSimpleName(), e.getMessage());
+        }
     }
 }

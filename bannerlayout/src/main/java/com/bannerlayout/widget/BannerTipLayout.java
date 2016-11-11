@@ -10,23 +10,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
+import com.bannerlayout.bannerenum.BANNER_ROUND_POSITION;
+import com.bannerlayout.bannerenum.BANNER_TITLE_POSITION;
+
 /**
  * by y on 2016/10/25
  */
-public class BannerRound extends RelativeLayout {
+public class BannerTipLayout extends RelativeLayout {
 
     private TextView textView;
     private LinearLayout linearLayout;
 
-    public BannerRound(Context context) {
+    public BannerTipLayout(Context context) {
         super(context);
     }
 
-    public BannerRound(Context context, AttributeSet attrs) {
+    public BannerTipLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BannerRound(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BannerTipLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -87,7 +91,7 @@ public class BannerRound extends RelativeLayout {
      * @param isBackgroundColor             是否显示背景阴影
      * @param roundContainerBackgroundColor 背景阴影颜色
      */
-    public void settingBannerRound(float roundContainerWidth, float roundContainerHeight, BannerLayout.BANNER_ROUND_CONTAINER_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
+    public void settingBannerRound(float roundContainerWidth, float roundContainerHeight, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
         LayoutParams roundContainerParams = new LayoutParams((int) roundContainerWidth, (int) roundContainerHeight);
         if (bannerRoundContainerPosition == null) {
             roundContainerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -170,19 +174,4 @@ public class BannerRound extends RelativeLayout {
             textView.setText("");
         }
     }
-
-    /**
-     * bannerRound位置
-     */
-    public enum BANNER_ROUND_POSITION {
-        LEFT, CENTERED, RIGHT
-    }
-
-    /**
-     * bannerTitle位置
-     */
-    public enum BANNER_TITLE_POSITION {
-        LEFT, CENTERED, RIGHT
-    }
-
 }

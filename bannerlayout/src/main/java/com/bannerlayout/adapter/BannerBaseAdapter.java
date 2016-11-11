@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bannerlayout.Interface.OnBannerImageClickListener;
 import com.bannerlayout.util.ImageLoaderManage;
 import com.bumptech.glide.Glide;
 
@@ -21,9 +22,7 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
 
     public ImageLoaderManage imageLoaderManage = null;
 
-    public void setImageClickListener(OnBannerImageClickListener imageClickListener) {
-        this.imageClickListener = imageClickListener;
-    }
+    public OnBannerImageClickListener imageClickListener = null;
 
     public void setErrorImage(int error_image) {
         this.error_image = error_image;
@@ -33,12 +32,14 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
         this.place_image = place_image;
     }
 
-    public void setImageLoaderManage(ImageLoaderManage imageLoaderManage) {
-        this.imageLoaderManage = imageLoaderManage;
+    public void setImageClickListener(OnBannerImageClickListener imageClickListener) {
+        this.imageClickListener = imageClickListener;
     }
 
 
-    public OnBannerImageClickListener imageClickListener = null;
+    public void setImageLoaderManage(ImageLoaderManage imageLoaderManage) {
+        this.imageLoaderManage = imageLoaderManage;
+    }
 
     @Override
     public int getCount() {
@@ -75,7 +76,5 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
 
     public abstract int getPosition(int position);
 
-    public interface OnBannerImageClickListener {
-        void onBannerClick(int position, Object model);
-    }
+
 }

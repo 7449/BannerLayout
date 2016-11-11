@@ -3,6 +3,8 @@ package com.bannerlayout.util;
 import android.os.Handler;
 import android.os.Message;
 
+import com.bannerlayout.Interface.ViewPagerCurrent;
+
 /**
  * by y on 2016/9/15.
  */
@@ -51,13 +53,7 @@ public class BannerHandlerUtils extends Handler {
             case MSG_BREAK:
                 sendEmptyMessageDelayed(MSG_UPDATE, delayTime);
                 break;
-            default:
-                sendEmptyMessageDelayed(MSG_UPDATE, delayTime);
-                break;
         }
     }
 
-    public interface ViewPagerCurrent {
-        void setCurrentItem(int page);
-    }
 }

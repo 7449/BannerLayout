@@ -111,5 +111,8 @@ public class BannerDefaults {
      * 默认title的height
      */
     public static final int BANNER_TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
-
+    /**
+     * 默认viewpager的切换速度
+     */
+    public static final int BANNER_DURATION = 1500;
 }

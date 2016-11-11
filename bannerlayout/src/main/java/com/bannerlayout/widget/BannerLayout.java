@@ -10,14 +10,26 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bannerlayout.Interface.OnBannerClickListener;
+import com.bannerlayout.Interface.OnBannerImageClickListener;
+import com.bannerlayout.Interface.OnBannerPageChangeListener;
+import com.bannerlayout.Interface.ViewPagerCurrent;
 import com.bannerlayout.R;
 import com.bannerlayout.adapter.BannerArrayAdapter;
 import com.bannerlayout.adapter.BannerBaseAdapter;
 import com.bannerlayout.adapter.BannerListAdapter;
+import com.bannerlayout.animation.BannerTransformer;
+import com.bannerlayout.bannerenum.BANNER_ADAPTER_TYPE;
+import com.bannerlayout.bannerenum.BANNER_ANIMATION;
+import com.bannerlayout.bannerenum.BANNER_ROUND_POSITION;
+import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
+import com.bannerlayout.bannerenum.BANNER_TITLE_POSITION;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.util.BannerHandlerUtils;
 import com.bannerlayout.util.ImageLoaderManage;
+import com.bannerlayout.util.TransformerUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +37,10 @@ import java.util.List;
  */
 
 public class BannerLayout extends RelativeLayout
-        implements BannerHandlerUtils.ViewPagerCurrent, ViewPager.OnPageChangeListener,
-        BannerBaseAdapter.OnBannerImageClickListener {
+        implements ViewPagerCurrent, ViewPager.OnPageChangeListener,
+        OnBannerImageClickListener {
+
+    private List<BannerTransformer> transformerList = null; //动画集合
     private BANNER_ADAPTER_TYPE bannerAdapterType = null;
     private OnBannerClickListener onBannerClickListener = null;
     private List<? extends BannerModel> imageList = null;
@@ -34,7 +48,11 @@ public class BannerLayout extends RelativeLayout
     private String[] imageArrayTitle = null;
     private BannerViewPager viewPager = null;
     private BannerHandlerUtils bannerHandlerUtils = null;
-    private BannerRound bannerRound = null;
+    private BannerTipLayout bannerTipLayout = null;
+    private ImageLoaderManage imageLoaderManage = null; //图片加载管理器
+    private View promptBarView = null; //自定义提示栏，必须接管viewpager的OnPageChangeListener方法
+    private OnBannerPageChangeListener onBannerPageChangeListener = null;
+
     private int preEnablePosition = 0;
 
     private int roundWidth;//小圆点width
@@ -59,11 +77,7 @@ public class BannerLayout extends RelativeLayout
     private int roundSelector; //小圆点状态选择器
     private int errorImageView;//glide加载错误占位符
     private int placeImageView;//glide加载中占位符
-
-    private ImageLoaderManage imageLoaderManage = null; //图片加载管理器
-    private View promptBarView = null; //自定义提示栏，必须接管viewpager的OnPageChangeListener方法
-    private OnBannerPageChangeListener onBannerPageChangeListener = null;
-
+    private int mDuration;//viewpager切换速度
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
@@ -92,8 +106,9 @@ public class BannerLayout extends RelativeLayout
         titleWidth = typedArray.getDimension(R.styleable.BannerLayout_banner_title_width, BannerDefaults.BANNER_TITLE_WIDTH);
         titleHeight = typedArray.getDimension(R.styleable.BannerLayout_banner_title_height, BannerDefaults.BANNER_TITLE_HEIGHT);
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_banner_title_size, BannerDefaults.BANNER_TITLE_SIZE);
-
         isVisibleRound = typedArray.getBoolean(R.styleable.BannerLayout_banner_round_visible, BannerDefaults.IS_VISIBLE_ROUND);
+        mDuration = typedArray.getInt(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION);
+
         typedArray.recycle();
     }
 
@@ -109,69 +124,6 @@ public class BannerLayout extends RelativeLayout
     public BannerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
-    }
-
-    /**
-     * 设置title颜色,字体大小,不需要字体大小设置-1
-     */
-    public BannerLayout setTitleSetting(int titleColor, int titleSize) {
-        this.titleColor = titleColor;
-        if (titleSize != -1) {
-            this.titleSize = titleSize;
-        }
-        return this;
-    }
-
-    /**
-     * 设置加载图片管理器
-     */
-    public BannerLayout setImageLoaderManage(ImageLoaderManage loaderManage) {
-        this.imageLoaderManage = loaderManage;
-        return this;
-    }
-
-    /**
-     * 设置是否显示title，在初始化initRound()之前调用
-     */
-    public BannerLayout setVisibleTitle(boolean isVisibleTitle) {
-        this.isVisibleTitle = isVisibleTitle;
-        return this;
-    }
-
-    /**
-     * 设置是否显示小圆点，在初始化initRound()之前调用
-     */
-    public BannerLayout setVisibleRound(boolean isVisibleRound) {
-        this.isVisibleRound = isVisibleRound;
-        return this;
-    }
-
-    /**
-     * glide加载错误图片,在initAdapter之前调用
-     */
-    public BannerLayout setErrorImageView(int errorImageView) {
-        this.errorImageView = errorImageView;
-        return this;
-    }
-
-    /**
-     * Glide加载中图片,在initAdapter之前调用
-     */
-    public BannerLayout setPlaceImageView(int placeImageView) {
-        this.placeImageView = placeImageView;
-        return this;
-    }
-
-    /**
-     * 设置viewpager是否可以滑动，true禁止滑动
-     */
-    public BannerLayout setViewPagerTouchMode(boolean b) {
-        if (viewPager == null) {
-            throw new NullPointerException("the viewpager is null");
-        }
-        this.viePagerTouchMode = b;
-        viewPager.setViewTouchMode(viePagerTouchMode);
-        return this;
     }
 
     /**
@@ -222,7 +174,7 @@ public class BannerLayout extends RelativeLayout
      * @param isVisibleRound               是否显示小圆点，默认显示
      * @param isVisibleTitle               是否显示title,默认不显示
      */
-    public BannerLayout initRound(boolean isBackgroundColor, boolean isVisibleRound, boolean isVisibleTitle, BANNER_ROUND_CONTAINER_POSITION bannerRoundContainerPosition, BannerRound.BANNER_ROUND_POSITION bannerRoundPosition, BannerRound.BANNER_TITLE_POSITION bannerTitlePosition) {
+    public BannerLayout initRound(boolean isBackgroundColor, boolean isVisibleRound, boolean isVisibleTitle, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, BANNER_ROUND_POSITION bannerRoundPosition, BANNER_TITLE_POSITION bannerTitlePosition) {
         if (promptBarView != null) {
             return this;
         }
@@ -233,26 +185,268 @@ public class BannerLayout extends RelativeLayout
             Toast.makeText(getContext(), "请在初始化图片资源之后再调用initRound()", Toast.LENGTH_LONG).show();
             return this;
         }
-        if (bannerRound != null) {
-            removeView(bannerRound);
+        if (bannerTipLayout != null) {
+            removeView(bannerTipLayout);
         }
         if (getRoundSize() > 1) {
-            bannerRound = new BannerRound(getContext());
-            bannerRound.removeAllViews();
+            bannerTipLayout = new BannerTipLayout(getContext());
+            bannerTipLayout.removeAllViews();
             if (isVisibleRound) {
-                bannerRound.addRound(getRoundSize(), roundSelector, roundWidth, roundHeight, roundLeftMargin, roundRightMargin, bannerRoundPosition);
+                bannerTipLayout.addRound(getRoundSize(), roundSelector, roundWidth, roundHeight, roundLeftMargin, roundRightMargin, bannerRoundPosition);
             }
             if (isVisibleTitle) {
-                bannerRound.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
+                bannerTipLayout.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
                 if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
-                    bannerRound.setTitle(imageArrayTitle[0]);
+                    bannerTipLayout.setTitle(imageArrayTitle[0]);
                 } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                    bannerRound.setTitle(imageList.get(0).getTitle());
+                    bannerTipLayout.setTitle(imageList.get(0).getTitle());
                 }
             }
-            bannerRound.settingBannerRound(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
-            addView(bannerRound);
+            bannerTipLayout.settingBannerRound(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
+            addView(bannerTipLayout);
         }
+        return this;
+    }
+
+
+    /**
+     * 初始化List图片资源
+     */
+    public BannerLayout initImageListResources(List<? extends BannerModel> imageList) {
+        if (imageList == null) {
+            throw new NullPointerException("the imageList is null");
+        }
+        this.bannerAdapterType = BANNER_ADAPTER_TYPE.LIST;
+        this.imageList = imageList;
+        return this;
+    }
+
+    /**
+     * 初始化Array图片资源
+     */
+    public BannerLayout initImageArrayResources(int[] imageArray) {
+        if (imageArray == null) {
+            throw new NullPointerException("the imageArray is null");
+        }
+        this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
+        this.imageArray = imageArray;
+        return this;
+    }
+
+    /**
+     * 初始化Array图片资源
+     */
+    public BannerLayout initImageArrayResources(int[] imageArray, String[] imageArrayTitle) {
+        if (imageArray == null) {
+            throw new NullPointerException("the imageArray is null");
+        }
+        this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
+        this.imageArray = imageArray;
+        this.imageArrayTitle = imageArrayTitle;
+        return this;
+    }
+
+    /**
+     * 初始化轮播handler,默认时间2S
+     */
+    public BannerLayout start() {
+        start(isStartRotation, delayTime);
+        return this;
+    }
+
+    /**
+     * 初始化轮播handler
+     */
+    public BannerLayout start(boolean isStartRotation) {
+        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
+        bannerHandlerUtils.setDelayTime(delayTime);
+        this.isStartRotation = isStartRotation;
+        if (isStartRotation && getRoundSize() > 1) {
+            startBanner();
+        }
+        return this;
+    }
+
+    /**
+     * 初始化轮播handler
+     */
+    public BannerLayout start(boolean isStartRotation, long delayTime) {
+        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
+        bannerHandlerUtils.setDelayTime(delayTime);
+        this.delayTime = delayTime;
+        this.isStartRotation = isStartRotation;
+        if (isStartRotation && getRoundSize() > 1) {
+            startBanner();
+        }
+        return this;
+    }
+
+
+    /**
+     * 开始轮播
+     */
+    public void startBanner() {
+        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_START);
+    }
+
+    /**
+     * 暂停轮播
+     */
+    public void stopBanner() {
+        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+    }
+
+    /**
+     * 恢复轮播
+     */
+    public void restoreBanner() {
+        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isStartRotation && bannerHandlerUtils != null) {
+            restoreBanner();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (isStartRotation && bannerHandlerUtils != null) {
+            stopBanner();
+        }
+    }
+
+    /**
+     * 获取小圆点个数，这里还可以获取图片数量
+     */
+    private int getRoundSize() {
+        switch (bannerAdapterType) {
+            case LIST:
+                return imageList.size();
+            case ARRAY:
+                return imageArray.length;
+        }
+        throw new NullPointerException("getRoundSize error");
+    }
+
+
+    /**
+     * 初始化adapter
+     * 必须在init图片资源之后才能调用此方法
+     */
+    public BannerLayout initAdapter() {
+        initViewPager();
+        if (promptBarView != null) {
+            removeView(promptBarView);
+            addView(promptBarView);
+        }
+        viewPager.addOnPageChangeListener(this);
+        viewPager.setAdapter(getBannerAdapter());
+        viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getRoundSize()));
+        return this;
+    }
+
+    /**
+     * adapter
+     */
+    private PagerAdapter getBannerAdapter() {
+        BannerBaseAdapter adapter = null;
+        switch (bannerAdapterType) {
+            case LIST:
+                adapter = new BannerListAdapter(imageList);
+                break;
+            case ARRAY:
+                adapter = new BannerArrayAdapter(imageArray);
+                break;
+        }
+        adapter.setPlaceImage(placeImageView);
+        adapter.setErrorImage(errorImageView);
+        adapter.setImageLoaderManage(imageLoaderManage);
+        adapter.setImageClickListener(this);
+        return adapter;
+    }
+
+    @Override
+    public void setCurrentItem(int page) {
+        if (viewPager == null) {
+            throw new NullPointerException("the viewPager is null");
+        }
+        viewPager.setCurrentItem(page);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (onBannerPageChangeListener != null) {
+            onBannerPageChangeListener.onPageScrolled(position % getRoundSize(), positionOffset, positionOffsetPixels);
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (transformerList != null && transformerList.size() > 1) {
+            viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
+        }
+        int newPosition = position % getRoundSize();
+        if (onBannerPageChangeListener != null && promptBarView != null) {
+            onBannerPageChangeListener.onPageSelected(newPosition);
+        } else {
+            if (bannerTipLayout != null) {
+                if (isVisibleRound) {
+                    bannerTipLayout.changeRoundPosition(preEnablePosition, newPosition);
+                }
+                if (isVisibleTitle) {
+                    bannerTipLayout.clearText();
+                    if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
+                        bannerTipLayout.setTitle(imageArrayTitle[newPosition]);
+                    } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
+                        bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
+                    }
+                }
+            }
+            preEnablePosition = newPosition;
+            if (bannerHandlerUtils != null && isStartRotation) {
+                bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        if (onBannerPageChangeListener != null && promptBarView != null) {
+            onBannerPageChangeListener.onPageScrollStateChanged(state);
+        } else {
+            if (bannerHandlerUtils != null && isStartRotation) {
+                switch (state) {
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+                        break;
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
+                        break;
+                }
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onBannerClick(int position, Object model) {
+        if (onBannerClickListener != null) {
+            onBannerClickListener.onBannerClick(position, model);
+        }
+    }
+
+    public BannerLayout setOnBannerClickListener(OnBannerClickListener onBannerClickListener) {
+        this.onBannerClickListener = onBannerClickListener;
+        return this;
+    }
+
+    public BannerLayout addOnBannerPageChangeListener(OnBannerPageChangeListener onBannerPageChangeListener) {
+        this.onBannerPageChangeListener = onBannerPageChangeListener;
         return this;
     }
 
@@ -341,272 +535,142 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化List图片资源
+     * 获取viewpager
      */
-    public BannerLayout initImageListResources(List<? extends BannerModel> imageList) {
-        if (imageList == null) {
-            throw new NullPointerException("the imageList is null");
-        }
-        this.bannerAdapterType = BANNER_ADAPTER_TYPE.LIST;
-        this.imageList = imageList;
-        return this;
-    }
-
-    /**
-     * 初始化Array图片资源
-     */
-    public BannerLayout initImageArrayResources(int[] imageArray) {
-        if (imageArray == null) {
-            throw new NullPointerException("the imageArray is null");
-        }
-        this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
-        this.imageArray = imageArray;
-        return this;
-    }
-
-    /**
-     * 初始化Array图片资源
-     */
-    public BannerLayout initImageArrayResources(int[] imageArray, String[] imageArrayTitle) {
-        if (imageArray == null) {
-            throw new NullPointerException("the imageArray is null");
-        }
-        this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
-        this.imageArray = imageArray;
-        this.imageArrayTitle = imageArrayTitle;
-        return this;
-    }
-
-    /**
-     * 初始化轮播handler,默认时间2S
-     */
-    public BannerLayout start() {
-        start(isStartRotation, delayTime);
-        return this;
-    }
-
-    /**
-     * 初始化轮播handler
-     */
-    public BannerLayout start(boolean isStartRotation) {
-        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
-        bannerHandlerUtils.setDelayTime(delayTime);
-        this.isStartRotation = isStartRotation;
-        if (isStartRotation && getRoundSize() > 1) {
-            startBanner();
-        }
-        return this;
-    }
-
-    /**
-     * 初始化轮播handler
-     */
-    public BannerLayout start(boolean isStartRotation, long delayTime) {
-        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
-        bannerHandlerUtils.setDelayTime(delayTime);
-        this.delayTime = delayTime;
-        this.isStartRotation = isStartRotation;
-        if (isStartRotation && getRoundSize() > 1) {
-            startBanner();
-        }
-        return this;
-    }
-
-
-    /**
-     * 初始化adapter
-     * 必须在init图片资源之后才能调用此方法
-     */
-    public BannerLayout initAdapter() {
-        initViewPager();
-        if (promptBarView != null) {
-            removeView(promptBarView);
-            addView(promptBarView);
-        }
-        viewPager.addOnPageChangeListener(this);
-        viewPager.setAdapter(getBannerAdapter());
-        viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getRoundSize()));
-        return this;
-    }
-
-    /**
-     * 开始轮播
-     */
-    public void startBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_START);
-    }
-
-    /**
-     * 暂停轮播
-     */
-    public void stopBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-    }
-
-    /**
-     * 恢复轮播
-     */
-    public void restoreBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        if (isStartRotation && bannerHandlerUtils != null) {
-            restoreBanner();
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (isStartRotation && bannerHandlerUtils != null) {
-            stopBanner();
-        }
-    }
-
-    /**
-     * 获取小圆点个数，这里还可以获取图片数量
-     */
-    private int getRoundSize() {
-        switch (bannerAdapterType) {
-            case LIST:
-                return imageList.size();
-            case ARRAY:
-                return imageArray.length;
-        }
-        throw new NullPointerException("getRoundSize error");
-    }
-
     public BannerViewPager getViewPager() {
         return viewPager;
     }
 
     /**
-     * adapter
+     * 设置title颜色,字体大小,不需要的设置-1
      */
-    private PagerAdapter getBannerAdapter() {
-        BannerBaseAdapter adapter = null;
-        switch (bannerAdapterType) {
-            case LIST:
-                adapter = new BannerListAdapter(imageList);
-                break;
-            case ARRAY:
-                adapter = new BannerArrayAdapter(imageArray);
-                break;
+    public BannerLayout setTitleSetting(int titleColor, int titleSize) {
+        if (titleSize != -1) {
+            this.titleSize = titleSize;
         }
-        adapter.setPlaceImage(placeImageView);
-        adapter.setErrorImage(errorImageView);
-        adapter.setImageLoaderManage(imageLoaderManage);
-        adapter.setImageClickListener(this);
-        return adapter;
+        if (titleColor != -1) {
+            this.titleColor = titleColor;
+        }
+        return this;
     }
 
-    @Override
-    public void setCurrentItem(int page) {
+    /**
+     * 设置加载图片管理器
+     */
+    public BannerLayout setImageLoaderManage(ImageLoaderManage loaderManage) {
+        this.imageLoaderManage = loaderManage;
+        return this;
+    }
+
+    /**
+     * 设置是否显示title，在初始化initRound()之前调用
+     */
+    public BannerLayout setVisibleTitle(boolean isVisibleTitle) {
+        this.isVisibleTitle = isVisibleTitle;
+        return this;
+    }
+
+    /**
+     * 设置是否显示小圆点，在初始化initRound()之前调用
+     */
+    public BannerLayout setVisibleRound(boolean isVisibleRound) {
+        this.isVisibleRound = isVisibleRound;
+        return this;
+    }
+
+    /**
+     * glide加载错误图片,在initAdapter之前调用
+     */
+    public BannerLayout setErrorImageView(int errorImageView) {
+        this.errorImageView = errorImageView;
+        return this;
+    }
+
+    /**
+     * Glide加载中图片,在initAdapter之前调用
+     */
+    public BannerLayout setPlaceImageView(int placeImageView) {
+        this.placeImageView = placeImageView;
+        return this;
+    }
+
+    /**
+     * 设置viewpager是否可以滑动，true禁止滑动
+     */
+    public BannerLayout setViewPagerTouchMode(boolean b) {
         if (viewPager == null) {
-            throw new NullPointerException("the viewPager is null");
+            throw new NullPointerException("the viewpager is null");
         }
-        viewPager.setCurrentItem(page);
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (onBannerPageChangeListener != null) {
-            onBannerPageChangeListener.onPageScrolled(position % getRoundSize(), positionOffset, positionOffsetPixels);
-        }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        int newPosition = position % getRoundSize();
-        if (onBannerPageChangeListener != null && promptBarView != null) {
-            onBannerPageChangeListener.onPageSelected(newPosition);
-        } else {
-            if (bannerRound != null) {
-                if (isVisibleRound) {
-                    bannerRound.changeRoundPosition(preEnablePosition, newPosition);
-                }
-                if (isVisibleTitle) {
-                    bannerRound.clearText();
-                    if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
-                        bannerRound.setTitle(imageArrayTitle[newPosition]);
-                    } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                        bannerRound.setTitle(imageList.get(newPosition).getTitle());
-                    }
-                }
-            }
-            preEnablePosition = newPosition;
-            if (bannerHandlerUtils != null && isStartRotation) {
-                bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
-            }
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        if (onBannerPageChangeListener != null && promptBarView != null) {
-            onBannerPageChangeListener.onPageScrollStateChanged(state);
-        } else {
-            if (bannerHandlerUtils != null && isStartRotation) {
-                switch (state) {
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-                        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-                        break;
-                    case ViewPager.SCROLL_STATE_IDLE:
-                        bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
-                        break;
-                }
-            }
-        }
-
-    }
-
-
-    @Override
-    public void onBannerClick(int position, Object model) {
-        if (onBannerClickListener != null) {
-            onBannerClickListener.onBannerClick(position, model);
-        }
-    }
-
-    /**
-     * bannerAdapterType
-     */
-    public enum BANNER_ADAPTER_TYPE {
-        ARRAY, LIST
-    }
-
-    /**
-     * bannerRound在布局中显示的位置
-     */
-    public enum BANNER_ROUND_CONTAINER_POSITION {
-        TOP, BOTTOM, CENTERED
-    }
-
-    public BannerLayout setOnBannerClickListener(OnBannerClickListener onBannerClickListener) {
-        this.onBannerClickListener = onBannerClickListener;
-        return this;
-    }
-
-    public interface OnBannerClickListener {
-        void onBannerClick(int position, Object model);
-    }
-
-    public BannerLayout addOnBannerPageChangeListener(OnBannerPageChangeListener onBannerPageChangeListener) {
-        this.onBannerPageChangeListener = onBannerPageChangeListener;
+        this.viePagerTouchMode = b;
+        viewPager.setViewTouchMode(viePagerTouchMode);
         return this;
     }
 
     /**
-     * 接管viewpager的OnPageChangeListener方法
+     * 设置ViewPager切换速度
      */
-    public interface OnBannerPageChangeListener {
-        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
-
-        void onPageSelected(int position);
-
-        void onPageScrollStateChanged(int state);
+    public BannerLayout setDuration(int pace) {
+        if (viewPager == null) {
+            throw new NullPointerException("the viewpager is empty");
+        }
+        this.mDuration = pace;
+        viewPager.setDuration(mDuration);
+        return this;
     }
+
+    /**
+     * 设置系统切换动画
+     */
+    public BannerLayout setBannerTransformer(BANNER_ANIMATION bannerAnimation) {
+        if (viewPager == null || bannerAnimation == null) {
+            throw new NullPointerException("the viewpager or bannerAnimation is empty");
+        }
+        viewPager.setPageTransformer(true, TransformerUtils.getTransformer(bannerAnimation));
+        return this;
+    }
+
+    /**
+     * 设置自定义切换动画
+     */
+    public BannerLayout setBannerTransformer(BannerTransformer bannerTransformer) {
+        if (viewPager == null || bannerTransformer == null) {
+            throw new NullPointerException("the viewpager or bannertransformer is empty");
+        }
+        viewPager.setPageTransformer(true, bannerTransformer);
+        return this;
+    }
+
+    /**
+     * 自定义动画集合
+     */
+    public BannerLayout setBannerTransformerList(List<BannerTransformer> list) {
+        if (list == null) {
+            throw new NullPointerException("the transformerlist is empty");
+        }
+        if (transformerList != null) {
+            transformerList.clear();
+            transformerList = null;
+        }
+        this.transformerList = list;
+        return this;
+    }
+
+    /**
+     * 系统动画集合
+     */
+    public BannerLayout setBannerSystemTransformerList(List<BANNER_ANIMATION> list) {
+        if (list == null) {
+            throw new NullPointerException("the BANNER_ANIMATION is empty");
+        }
+        if (transformerList != null) {
+            transformerList.clear();
+            transformerList = null;
+        }
+        transformerList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            transformerList.add(TransformerUtils.getTransformer(list.get(i)));
+        }
+        return this;
+    }
+
 }

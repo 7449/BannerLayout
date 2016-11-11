@@ -24,6 +24,7 @@
         <attr name="banner_title_color" format="color" />
         <attr name="banner_title_width" format="dimension" />
         <attr name="banner_title_height" format="dimension" />
+        <attr name="banner_duration" format="integer" />
     </declare-styleable>
 
 </resources>

@@ -30,6 +30,8 @@
 
 - 支持自定义提示栏
 
+- 支持ViewPager切换速度以及动画(随机动画。需要List动画集合)
+
 ##使用效果
 ![](http://i.imgur.com/UXFFMDx.gif)
 
@@ -39,10 +41,12 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:0.0.4'
+		compile 'com.ydevelop:bannerlayout:0.0.5'
 
 >更新状态
 	
+	0.0.5：添加动画，支持自定义动画，系统自带十几种动画，支持随机动画	
+
 	0.0.4： 支持自定义Model类，自定的需要继承BaseModel，修改0.0.3不能点击的bug
 		
 	0.0.3： 添加上次忘记添加的一些方法，支持自定义提示栏，如果自定义提示栏请不要初始化initRound()
@@ -89,7 +93,7 @@
                 .initAdapter()
                 .initRound()
                 .start(true)
-                .setOnBannerClickListener(new BannerLayout.OnBannerClickListener() {
+                .setOnBannerClickListener(new OnBannerClickListener() {
                     @Override
                     public void onBannerClick(int position, Object model) {
                         ImageModel imageModel = (ImageModel) model;
@@ -108,7 +112,7 @@
 	
 	代码中提供了三个枚举
 	
-	- BANNER_ROUND_CONTAINER_POSITION 	 提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
+	- BANNER_TIP_LAYOUT_POSITION 	 提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
 	- BANNER_ROUND_POSITION  	小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
 	- BANNER_TITLE_POSITION  	title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
 
@@ -139,8 +143,61 @@
 	        }
 	    }
 
+6.切换动画以及速度
 
-6.自定义提示栏
+动画内置的 [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，多谢作者
+
+如果想自定义动画请继承 ABaseTransformer 或者 BannerTransformer 即可;
+
+        bannerLayout
+                .initImageListResources(list) //自定义model类
+                .setTitleSetting(ContextCompat.getColor(this, R.color.colorPrimary), -1)
+                .initAdapter()
+                .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
+                .setBannerTransformer(new FlipVerticalTransformer())  //切换动画效果
+                .setBannerTransformerList(transformers) //开启随机动画,这里设置，那就没必要设置切换动画效果了，需要一个list动画集合
+                .setDuration(3000) //切换速度
+                .start();
+
+如果只想使用内置的动画可以用 BANNER_ANIMATION 这个emun 进行选择
+
+例：
+
+
+        bannerLayout
+                .initImageListResources(list) //自定义model类
+                .initAdapter()
+                .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
+                .setBannerTransformer(BANNER_ANIMATION.CUBE_IN)
+                .start();
+
+动画集合：
+
+>自定义动画集合
+
+	
+        List<BannerTransformer> transformers = new ArrayList<>();
+        transformers.add(new RotateDownTransformer());
+        transformers.add(new AccordionTransformer());
+        transformers.add(new BackgroundToForegroundTransformer());
+        transformers.add(new CubeOutTransformer());
+        transformers.add(new CubeInTransformer());
+	
+		bannerLayout.setBannerTransformerList(transformers);
+
+>系统动画集合
+
+	
+        List<BANNER_ANIMATION> enumTransformer = new ArrayList<>();
+        enumTransformer.add(BANNER_ANIMATION.ACCORDION);
+        enumTransformer.add(BANNER_ANIMATION.CUBE_IN);
+        enumTransformer.add(BANNER_ANIMATION.CUBE_OUT);
+        enumTransformer.add(BANNER_ANIMATION.DEFAULT);
+        enumTransformer.add(BANNER_ANIMATION.DEPTH_PAGE);
+
+		bannerLayout..setBannerSystemTransformerList(enumTransformer);
+
+7.自定义提示栏
 
 >自定义提示栏不建议使用，为了简便才封装，如果使用自定义提示栏就违背初衷，所以没有什么能快速设置的功能请尽量提[lssues](https://github.com/7449/BannerLayoutSimple/issues),除非是非常奇葩的需求，再使用自定义提示栏吧
 
@@ -205,6 +262,7 @@ banner_title_size   				|字体大小					|默认12
 banner_title_color 					|字体颜色					|默认黄色
 banner_title_width 					|字体width					|默认自适应
 banner_title_height 				|字体height					|默认自适应
+banner_duration						|viewPager切换速度			|默认1500，越大越慢
 
 #最后
 	
