@@ -29,7 +29,7 @@ publish {
     userOrg = 'ydevelop'    //bintray.com用户名
     groupId = 'com.ydevelop'    //jcenter上的路径
     artifactId = 'bannerlayout' //项目名称
-    publishVersion = '0.0.5'    //版本号
+    publishVersion = '0.0.6'    //版本号
     desc = 'this is bannerlayout'   //描述
     website = 'https://github.com/7449/BannerLayoutSimple'//网站
 }

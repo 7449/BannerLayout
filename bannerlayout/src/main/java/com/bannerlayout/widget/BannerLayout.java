@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class BannerLayout extends RelativeLayout
     private BANNER_ADAPTER_TYPE bannerAdapterType = null;
     private OnBannerClickListener onBannerClickListener = null;
     private List<? extends BannerModel> imageList = null;
-    private int[] imageArray = null;
+    private Object[] imageArray = null;
     private String[] imageArrayTitle = null;
     private BannerViewPager viewPager = null;
     private BannerHandlerUtils bannerHandlerUtils = null;
@@ -124,6 +125,14 @@ public class BannerLayout extends RelativeLayout
     public BannerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (viewPager != null) {
+            return viewPager.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
     }
 
     /**
@@ -224,7 +233,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * 初始化Array图片资源
      */
-    public BannerLayout initImageArrayResources(int[] imageArray) {
+    public BannerLayout initImageArrayResources(Object[] imageArray) {
         if (imageArray == null) {
             throw new NullPointerException("the imageArray is null");
         }
@@ -236,7 +245,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * 初始化Array图片资源
      */
-    public BannerLayout initImageArrayResources(int[] imageArray, String[] imageArrayTitle) {
+    public BannerLayout initImageArrayResources(Object[] imageArray, String[] imageArrayTitle) {
         if (imageArray == null) {
             throw new NullPointerException("the imageArray is null");
         }
@@ -246,13 +255,6 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    /**
-     * 初始化轮播handler,默认时间2S
-     */
-    public BannerLayout start() {
-        start(isStartRotation, delayTime);
-        return this;
-    }
 
     /**
      * 初始化轮播handler

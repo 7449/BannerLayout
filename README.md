@@ -1,49 +1,43 @@
 # BannerLayoutSimple
 
-支持图片无限轮播的控件
+支持图片无限轮播的BannerLayout
 
 ##支持功能
 
-- 支持网络本地加载数据
 
-- 可自定义小圆点状态，左 中 右
+- 可自定义小圆点（左中右）,title（左中右）,提示栏（上中下）位置
 
-- 可自定义title状态，左 中 右
+- 可自定义小圆点，以及是否自动轮播，轮播时间
 
-- 可自定义提示栏状态，上 中 下
+- 支持List 、数组 两种数据格式（网络本地都支持）
 
-- 可自定义小圆点
-
-- 可自定义是否自动轮播
-
-- 支持List 、数组 两种数据格式
-
-- 支持点击事件
-
-- 支持设置轮播速度
+- 支持点击事件以及轮播速度及viewPager滑动切换速度
 
 - 支持是否显示小圆点，title,或者整个提示栏
 
-- 支持加载时和加载失败时图片显示状态
+- 支持加载时和加载失败时显示自定义图片
 
 - 支持选择暂停 恢复 轮播状态
 
-- 支持自定义提示栏
+- 支持自定义提示栏（不建议使用）
 
-- 支持ViewPager切换速度以及动画(随机动画。需要List动画集合)
+- 支持动画(随机动画需要List动画集合)
 
-##使用效果
-![](http://i.imgur.com/UXFFMDx.gif)
+####使用效果
 
+>simple只有第一个示例默认开启轮播，其余的示例不开启轮播,simple录制有点丢帧
 
+![](http://i.imgur.com/yLQUFvQ.gif)
 
 ##基础使用方法
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:0.0.5'
+		compile 'com.ydevelop:bannerlayout:0.0.6'
 
 >更新状态
+
+	0.0.6：修改部分代码，数组格式由int改为object，重写simple
 	
 	0.0.5：添加动画，支持自定义动画，系统自带十几种动画，支持随机动画	
 
@@ -60,10 +54,10 @@
 
 	<uses-permission android:name="android.permission.INTERNET" />
 
-1.数组方式
+1.数组方式（由int改为object,以便适应不同的类型）
 
         BannerLayout bannerLayout = (BannerLayout) findViewById(R.id.bannerLayout);
-        int[] mImage = new int[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
+        Object[] mImage = new Object[]{"http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", R.drawable.banner2, R.drawable.banner3};
         String[] mTitle = new String[]{"bannerl", "banner2", "banner3"};
         bannerLayout
                 .initImageArrayResources(mImage, mTitle)
@@ -109,20 +103,14 @@
 4.提示栏及小圆点、title位置的改变
 
 	想要改变位置在initRound()方法中实现几种不同的状态，不需要的可以直接传null 有默认的参数
-	
-	代码中提供了三个枚举
-	
-	- BANNER_TIP_LAYOUT_POSITION 	 提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
-	- BANNER_ROUND_POSITION  	小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
-	- BANNER_TITLE_POSITION  	title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
 
-
-
+	BANNER_TIP_LAYOUT_POSITION 	 	提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
+	BANNER_ROUND_POSITION  			小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
+	BANNER_TITLE_POSITION  			title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
 
 5.使用自定义加载图片框架
 	  
 	默认使用Glide加载图片，如果不喜欢的继承 ImageLoaderManage 然后在代码中 setImageLoaderManage.
-
 	 bannerLayout
                 .initImageListResources(mBanner)
                 .setImageLoaderManage(new ImageLoader()) //自己定义加载图片的方式
@@ -132,10 +120,8 @@
 
 	Glide默认就算是本地的资源文件也可以加载，但是Picasso加载时不行，如果使用Picasso加载图片请把url强转成int类型，其他的没有试过。
 
-	
-
 	    public class ImageLoader implements ImageLoaderManage {
-	
+
 	        @Override
 	        public void display(Context context, ImageView imageView, Object url, Object model) {
 				//如果是list集合 返回的model就是当前Model对象，如果是数组，返回的model就是当前数组对象
@@ -151,7 +137,6 @@
 
         bannerLayout
                 .initImageListResources(list) //自定义model类
-                .setTitleSetting(ContextCompat.getColor(this, R.color.colorPrimary), -1)
                 .initAdapter()
                 .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
                 .setBannerTransformer(new FlipVerticalTransformer())  //切换动画效果
@@ -159,12 +144,11 @@
                 .setDuration(3000) //切换速度
                 .start();
 
-如果只想使用内置的动画可以用 BANNER_ANIMATION 这个emun 进行选择
+如果只想使用内置的动画可以用 BANNER_ANIMATION 进行选择
 
 例：
 
-
-        bannerLayout
+	   bannerLayout
                 .initImageListResources(list) //自定义model类
                 .initAdapter()
                 .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
@@ -175,25 +159,13 @@
 
 >自定义动画集合
 
-	
         List<BannerTransformer> transformers = new ArrayList<>();
-        transformers.add(new RotateDownTransformer());
-        transformers.add(new AccordionTransformer());
-        transformers.add(new BackgroundToForegroundTransformer());
-        transformers.add(new CubeOutTransformer());
-        transformers.add(new CubeInTransformer());
-	
+       
 		bannerLayout.setBannerTransformerList(transformers);
 
 >系统动画集合
 
-	
-        List<BANNER_ANIMATION> enumTransformer = new ArrayList<>();
-        enumTransformer.add(BANNER_ANIMATION.ACCORDION);
-        enumTransformer.add(BANNER_ANIMATION.CUBE_IN);
-        enumTransformer.add(BANNER_ANIMATION.CUBE_OUT);
-        enumTransformer.add(BANNER_ANIMATION.DEFAULT);
-        enumTransformer.add(BANNER_ANIMATION.DEPTH_PAGE);
+		 List<BANNER_ANIMATION> enumTransformer = new ArrayList<>();
 
 		bannerLayout..setBannerSystemTransformerList(enumTransformer);
 
@@ -203,34 +175,30 @@
 
         bannerLayout
                 .initImageListResources(mDatas)
-                .setTitleSetting(ContextCompat.getColor(this, R.color.colorPrimary), -1)
                 .addOnBannerPageChangeListener(new BannerOnPage())
-				.initPromptBar(new PromptBarView(getBaseContext())) //自定义提示栏view initAdapter之前调用生效
+				.addPromptBar(new PromptBarView(getBaseContext())) //自定义提示栏view initAdapter之前调用生效
                 .initAdapter()
                 .start(true);
 
      /**
      * 接管viewpager的onPage方法
      */
-    public class BannerOnPage implements BannerLayout.OnBannerPageChangeListener {
+    public class BannerOnPage implements OnBannerPageChangeListener {
 
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            Log.i(getClass().getSimpleName(), position + "");
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    }
+	    @Override
+	    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 	
-
+	    }
+	
+	    @Override
+	    public void onPageSelected(int position) {
+	    }
+	
+	    @Override
+	    public void onPageScrollStateChanged(int state) {
+	
+	    }
+	}
 
 >最后调用start（）的时候可以决定是否开启自动轮播，不管在fragment还是activity里面，应该在合适的生命周期里选择暂停或者恢复轮播（如果开启了自动轮播），BannerLayout已经提供了方法，使用者直接调用就可以了，如果使用List数据，请使用BannerModel
 
@@ -270,7 +238,6 @@ BannerLayout这个类里面的注释我感觉已经很详细了，如果上面�
 我一个人肯定测不出来所有bug，所以现在我也不知道哪里还有问题，基本的使用暂时没发现问题。
 如果有人在使用的过程中出现未知或者莫名其妙的bug，欢迎提 [lssues](https://github.com/7449/BannerLayoutSimple/issues),
 至于图片加载我直接是内置了Glide来加载图片。不管本地或者网络的图片都可以，但是要记得添加网络权限
-
 
 License
 --

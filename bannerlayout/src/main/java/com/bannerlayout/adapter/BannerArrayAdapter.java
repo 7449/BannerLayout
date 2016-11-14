@@ -8,9 +8,9 @@ import android.widget.ImageView;
  */
 
 public class BannerArrayAdapter extends BannerBaseAdapter {
-    private int[] imageArray = null;
+    private Object[] imageArray = null;
 
-    public BannerArrayAdapter(int[] imageArray) {
+    public BannerArrayAdapter(Object[] imageArray) {
         this.imageArray = imageArray;
     }
 

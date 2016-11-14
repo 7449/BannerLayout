@@ -1,6 +1,7 @@
 package com.bannersimple;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -32,6 +33,7 @@ public class PromptBarView extends RelativeLayout {
     private void init() {
         textView = new TextView(getContext());
         textView.setText("this is promptbar textview");
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
         addView(textView);
         LayoutParams roundContainerParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         roundContainerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
