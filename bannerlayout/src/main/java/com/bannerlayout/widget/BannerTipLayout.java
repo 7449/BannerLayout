@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
 import com.bannerlayout.bannerenum.BANNER_ROUND_POSITION;
+import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
 import com.bannerlayout.bannerenum.BANNER_TITLE_POSITION;
 
 /**
@@ -36,15 +36,15 @@ public class BannerTipLayout extends RelativeLayout {
 
 
     /**
-     * 初始化小圆点
+     * Initialize the dots
      *
-     * @param roundSize           小圆点个数
-     * @param roundSelector       状态选择器
-     * @param roundWidth          小圆点width
-     * @param roundHeight         小圆点height
-     * @param roundLeftMargin     小圆点的marginLeft
-     * @param roundRightMargin    小圆点的marginRight
-     * @param bannerRoundPosition 小圆点处于什么位置，三种可选，左 中 右 默认在右边
+     * @param roundSize           The number of small dots
+     * @param roundSelector       State Selector
+     * @param roundWidth          Small dots width
+     * @param roundHeight         Small dots height
+     * @param roundLeftMargin     Small dots marginLeft
+     * @param roundRightMargin    Small dots marginRight
+     * @param bannerRoundPosition Small dot in what position, three optional, left in the right by default on the right
      */
     public void addRound(int roundSize, int roundSelector, int roundWidth, int roundHeight, int roundLeftMargin, int roundRightMargin, BANNER_ROUND_POSITION bannerRoundPosition) {
         linearLayout = new LinearLayout(getContext());
@@ -83,13 +83,13 @@ public class BannerTipLayout extends RelativeLayout {
     }
 
     /**
-     * 初始化this
+     * Initialize  this
      *
-     * @param roundContainerWidth           BannerRound高度
-     * @param roundContainerHeight          BannerRound宽度
-     * @param bannerRoundContainerPosition  this 处于什么位置，三种可选，上 中 下 默认为最下面
-     * @param isBackgroundColor             是否显示背景阴影
-     * @param roundContainerBackgroundColor 背景阴影颜色
+     * @param roundContainerWidth           BannerRound Width
+     * @param roundContainerHeight          BannerRound Height
+     * @param bannerRoundContainerPosition  this In what position, three optional, on the bottom of the default for the bottom
+     * @param isBackgroundColor             Whether to display background shadows
+     * @param roundContainerBackgroundColor Background shadow color
      */
     public void settingBannerRound(float roundContainerWidth, float roundContainerHeight, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
         LayoutParams roundContainerParams = new LayoutParams((int) roundContainerWidth, (int) roundContainerHeight);
@@ -115,7 +115,7 @@ public class BannerTipLayout extends RelativeLayout {
     }
 
     /**
-     * 更新小圆点位置
+     * Update the dot position
      */
     public void changeRoundPosition(int position, int newPosition) {
         if (linearLayout != null) {
@@ -125,7 +125,7 @@ public class BannerTipLayout extends RelativeLayout {
     }
 
     /**
-     * 更新title,默认在左边
+     * Update title, the default on the left
      */
     public void addTitle(int textColor, float textSize, int leftMargin, int rightMargin, float titleWidth, float titleHeight, BANNER_TITLE_POSITION bannerTitlePosition) {
         textView = new TextView(getContext());
@@ -156,19 +156,12 @@ public class BannerTipLayout extends RelativeLayout {
         addView(textView, params);
     }
 
-
-    /**
-     * 设置title
-     */
     public void setTitle(String title) {
-        if (textView != null) {
+        if (textView != null && title != null) {
             textView.setText(title);
         }
     }
 
-    /**
-     * 清除title
-     */
     public void clearText() {
         if (textView != null) {
             textView.setText("");

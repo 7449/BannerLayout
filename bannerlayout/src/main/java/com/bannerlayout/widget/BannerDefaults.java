@@ -9,110 +9,110 @@ import com.bannerlayout.R;
  * by y on 2016/10/25
  */
 
-public class BannerDefaults {
+class BannerDefaults {
 
     /**
-     * 默认小圆点状态选择器
+     * Default Small Dot State Selector
      */
-    public static final int ROUND_SELECTOR = R.drawable.point_background;
+    static final int ROUND_SELECTOR = R.drawable.point_background;
     /**
-     * 默认小圆点背景色
+     * Default small dot background color
      */
-    public static final int ROUND_CONTAINER_BACKGROUND = R.color.colorBackground;
+    static final int ROUND_CONTAINER_BACKGROUND = R.color.colorBackground;
 
     /**
-     * 默认小圆点控件宽度
+     * The default dots control width
      */
-    public static final int ROUND_CONTAINER_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
+    static final int ROUND_CONTAINER_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
     /**
-     * 默认小圆点控件宽度
+     * The default dots control height
      */
-    public static final int ROUND_CONTAINER_HEIGHT = 50;
+    static final int ROUND_CONTAINER_HEIGHT = 50;
 
     /**
-     * 默认轮播时间
+     * Default rotation time
      */
-    public static final int DELAY_TIME = 2000;
+    static final int DELAY_TIME = 2000;
 
     /**
-     * 默认显示小圆点
+     * The dots are displayed by default
      */
-    public static final boolean IS_VISIBLE_ROUND = true;
+    static final boolean IS_VISIBLE_ROUND = true;
 
     /**
-     * 默认不开启自动轮播
+     * Auto rotation is not turned on by default
      */
-    public static final boolean IS_START_ROTATION = false;
+    static final boolean IS_START_ROTATION = false;
     /**
-     * 默认不显示小圆点背景
+     * By default, small dot backgrounds are not displayed
      */
-    public static final boolean ROUND_CONTAINER_BACKGROUND_SWITCH = false;
+    static final boolean ROUND_CONTAINER_BACKGROUND_SWITCH = false;
 
     /**
-     * 默认小圆点的marginLeft
+     * The default dots are marginLeft
      */
-    public static final int ROUND_LEFT_MARGIN = 10;
+    static final int ROUND_LEFT_MARGIN = 10;
     /**
-     * 默认小圆点的marginRight
+     * The default dots are marginRight
      */
-    public static final int ROUND_RIGHT_MARGIN = 10;
+    static final int ROUND_RIGHT_MARGIN = 10;
 
     /**
-     * 默认小圆点的width
+     * The default dot width
      */
-    public static final int ROUND_WIDth = 15;
+    static final int ROUND_WIDth = 15;
 
     /**
-     * 默认小圆点的height
+     * The default dot height
      */
-    public static final int ROUND_HEIGHT = 15;
+    static final int ROUND_HEIGHT = 15;
 
     /**
-     * 默认viewpager可以手动滑动
+     * The default viewpager can be manually swiped
      */
-    public static final boolean VIEW_PAGER_TOUCH_MODE = false;
+    static final boolean VIEW_PAGER_TOUCH_MODE = false;
 
     /**
-     * Glide默认出错占位符
+     * Glide default error placeholder
      */
-    public static final int GLIDE_ERROR_IMAGE = R.drawable.ic_launcher;
+    static final int GLIDE_ERROR_IMAGE = R.drawable.ic_launcher;
 
     /**
-     * Glide默认加载时占位符
+     * Glide The default placeholder for the load
      */
-    public static final int GLIDE_PIACE_IMAGE = R.drawable.ic_launcher;
+    static final int GLIDE_PIACE_IMAGE = R.drawable.ic_launcher;
 
     /**
-     * 默认不显示title
+     * The title is not displayed by default
      */
-    public static final boolean BANNER_TITLE_VISIBLE = false;
+    static final boolean BANNER_TITLE_VISIBLE = false;
 
     /**
-     * 默认title字体大小
+     * The default title font size
      */
-    public static final float BANNER_TITLE_SIZE = 12;
+    static final float BANNER_TITLE_SIZE = 12;
     /**
-     * 默认title字体颜色
+     * The default title font color
      */
-    public static final int BANNER_TITLE_COLOR = Color.YELLOW;
+    static final int BANNER_TITLE_COLOR = Color.YELLOW;
     /**
-     * 默认title的marginLeft
+     * The default title of marginLeft
      */
-    public static final int BANNER_TITLE_LEFT_MARGIN = 10;
+    static final int BANNER_TITLE_LEFT_MARGIN = 10;
     /**
-     * 默认title的marginRight
+     * The default title of marginRight
      */
-    public static final int BANNER_TITLE_RIGHT_MARGIN = 10;
+    static final int BANNER_TITLE_RIGHT_MARGIN = 10;
     /**
-     * 默认title的width
+     * The width of the default title
      */
-    public static final int BANNER_TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int BANNER_TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
-     * 默认title的height
+     * The height of the default title
      */
-    public static final int BANNER_TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int BANNER_TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
-     * 默认viewpager的切换速度
+     * Default viewpager switching speed
      */
-    public static final int BANNER_DURATION = 1500;
+    static final int BANNER_DURATION = 1500;
 }

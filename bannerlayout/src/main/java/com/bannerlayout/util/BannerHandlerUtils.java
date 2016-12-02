@@ -10,12 +10,12 @@ import com.bannerlayout.Interface.ViewPagerCurrent;
  */
 public class BannerHandlerUtils extends Handler {
 
-    public static final int MSG_START = 0; //开始轮播
-    public static final int MSG_UPDATE = 1; //更新
-    public static final int MSG_KEEP = 2; //暂停
-    public static final int MSG_BREAK = 3; // 恢复
-    public static final int MSG_PAGE = 4; //最新的page
-    private long delayTime = 2000; //time
+    public static final int MSG_START = 0;
+    public static final int MSG_UPDATE = 1;
+    public static final int MSG_KEEP = 2;
+    public static final int MSG_BREAK = 3;
+    public static final int MSG_PAGE = 4;
+    private long delayTime = 2000;
     private ViewPagerCurrent mCurrent = null;
     private int page = 0;
 

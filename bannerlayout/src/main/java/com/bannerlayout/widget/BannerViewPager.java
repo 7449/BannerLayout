@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 
 public class BannerViewPager extends ViewPager {
 
-    //true viewpager禁止滑动
+    //true Viewpager Prevents swipe
     private boolean mViewTouchMode = false;
 
     public BannerViewPager(Context context) {
@@ -28,17 +28,17 @@ public class BannerViewPager extends ViewPager {
 
     public void setViewTouchMode(boolean b) {
         if (b && !isFakeDragging()) {
-            // 全权控制滑动事件
+            // Full control of sliding events
             beginFakeDrag();
         } else if (!b && isFakeDragging()) {
-            // 终止控制滑动事件
+            // Terminate the control slide event
             endFakeDrag();
         }
         mViewTouchMode = b;
     }
 
     /**
-     * 在 mViewTouchMode 为 true 的时候，ViewPager 不拦截点击事件，点击事件将由子 View 处理
+     * When mViewTouchMode is true, ViewPager does not intercept the click event, and the click event will be handled by the childView
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -55,8 +55,8 @@ public class BannerViewPager extends ViewPager {
     }
 
     /**
-     * 在 mViewTouchMode 为 true 或者滑动方向不是左右的时候，ViewPager 将放弃控制点击事件，
-     * 这样做有利于在 ViewPager 中加入 ListView 等可以滑动的控件，否则两者之间的滑动将会有冲突
+     * In the mViewTouchMode true or sliding direction is not about time, ViewPager will give up control of click events,
+     * This is conducive to the ListView in the ListView can be added, such as sliding control, or sliding between the two will have a conflict
      */
     @Override
     public boolean arrowScroll(int direction) {
@@ -64,7 +64,7 @@ public class BannerViewPager extends ViewPager {
     }
 
     /**
-     * 设置切换速度
+     * Set the switching speed
      */
     public void setDuration(int duration) {
         try {

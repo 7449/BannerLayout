@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bannerlayout.Interface.OnBannerClickListener;
 import com.bannerlayout.Interface.OnBannerImageClickListener;
 import com.bannerlayout.Interface.OnBannerPageChangeListener;
+import com.bannerlayout.Interface.OnBannerTitleListener;
 import com.bannerlayout.Interface.ViewPagerCurrent;
 import com.bannerlayout.R;
 import com.bannerlayout.adapter.BannerArrayAdapter;
@@ -41,7 +42,7 @@ public class BannerLayout extends RelativeLayout
         implements ViewPagerCurrent, ViewPager.OnPageChangeListener,
         OnBannerImageClickListener {
 
-    private List<BannerTransformer> transformerList = null; //动画集合
+    private List<BannerTransformer> transformerList = null; //Animation collection
     private BANNER_ADAPTER_TYPE bannerAdapterType = null;
     private OnBannerClickListener onBannerClickListener = null;
     private List<? extends BannerModel> imageList = null;
@@ -50,35 +51,36 @@ public class BannerLayout extends RelativeLayout
     private BannerViewPager viewPager = null;
     private BannerHandlerUtils bannerHandlerUtils = null;
     private BannerTipLayout bannerTipLayout = null;
-    private ImageLoaderManage imageLoaderManage = null; //图片加载管理器
-    private View promptBarView = null; //自定义提示栏，必须接管viewpager的OnPageChangeListener方法
+    private ImageLoaderManage imageLoaderManage = null; //Image Load Manager
+    private View promptBarView = null; //The custom hint bar must take over viewpager's OnPageChangeListener method
     private OnBannerPageChangeListener onBannerPageChangeListener = null;
+    private OnBannerTitleListener onBannerTitleListener = null;
 
     private int preEnablePosition = 0;
 
-    private int roundWidth;//小圆点width
-    private int roundHeight;//小圆点height
-    private boolean isStartRotation;//是否开启自动轮播，默认不开启
-    private boolean isRoundContainerBackground;//是否显示小圆点背景
-    private boolean viePagerTouchMode; //viewpager是否可以手动滑动，默认可以
-    private boolean isVisibleTitle;//是否显示title 默认不显示
-    private boolean isVisibleRound;//是否显示小圆点 默认显示
-    private float titleSize;//字体大小
-    private int titleColor;//字体颜色
-    private long delayTime; //轮播时间
-    private int roundLeftMargin; //小圆点的marginLeft
-    private int roundRightMargin;//小圆点的marginRight
+    private int roundWidth;//Small dot width
+    private int roundHeight;//Small dot height
+    private boolean isStartRotation;//Whether auto rotation is enabled or not is not enabled by default
+    private boolean isRoundContainerBackground;//Whether to display a small dot background
+    private boolean viePagerTouchMode; //Viewpager can manually slide, the default can
+    private boolean isVisibleTitle;//Whether to display the title default is not displayed
+    private boolean isVisibleRound;//Whether to display the small dot default display
+    private float titleSize;//font size
+    private int titleColor;//font color
+    private long delayTime; //Rotation time
+    private int roundLeftMargin; //The dots are marginLeft
+    private int roundRightMargin;//The dots are marginRight
     private int titleLeftMargin;//title marginLeft
     private int titleRightMargin;//title marginRight
     private float titleWidth;//title width
     private float titleHeight;// title height
-    private float roundContainerHeight; //BannerRound高度
-    private float roundContainerWidth; // BannerRound宽度
-    private int roundContainerBackgroundColor; //BannerRound背景色
-    private int roundSelector; //小圆点状态选择器
-    private int errorImageView;//glide加载错误占位符
-    private int placeImageView;//glide加载中占位符
-    private int mDuration;//viewpager切换速度
+    private float roundContainerHeight; //BannerRound height
+    private float roundContainerWidth; // BannerRound width
+    private int roundContainerBackgroundColor; //BannerRound BackgroundColor
+    private int roundSelector; //Small Dot State Selector
+    private int errorImageView;//Glide Load error placeholder
+    private int placeImageView;//Placeholder in glide loading
+    private int mDuration;//Viewpager switching speed
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
@@ -136,18 +138,19 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化ViewPager
+     * Initialize the ViewPager
      */
     private void initViewPager() {
         if (viewPager != null) {
             removeView(viewPager);
+            viewPager = null;
         }
         viewPager = new BannerViewPager(getContext());
         addView(viewPager);
     }
 
     /**
-     * 初始化自定义提示栏  initAdapter之前调用
+     * Initialize the custom hint column before calling initAdapter
      */
     public BannerLayout addPromptBar(View view) {
         this.promptBarView = view;
@@ -155,7 +158,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化小圆点,使用默认参数
+     * Initialize the dots using the default parameters
      */
     public BannerLayout initRound() {
         initRound(isRoundContainerBackground, isVisibleRound, isVisibleTitle, null, null, null);
@@ -163,25 +166,26 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化小圆点,是否开启背景 title 小圆点
+     * Initialize small dots, whether to open the background title small dots
      */
     public BannerLayout initRound(boolean isRoundContainerBackground, boolean isVisibleRound, boolean isVisibleTitle) {
         this.isVisibleRound = isVisibleRound;
         this.isVisibleTitle = isVisibleTitle;
+        this.isRoundContainerBackground = isRoundContainerBackground;
         initRound(isRoundContainerBackground, isVisibleRound, isVisibleTitle, null, null, null);
         return this;
     }
 
 
     /**
-     * 初始化小圆点控件，如果选择自定义提示栏 请不要初始化此方法
+     * Initialize the dots control, do not initialize this method if you select custom hint bar
      *
-     * @param isBackgroundColor            是否显示背景色
-     * @param bannerRoundContainerPosition 控件显示位置 默认底部
-     * @param bannerRoundPosition          小圆点显示位置 默认右边
-     * @param bannerTitlePosition          title显示位置 默认不显示
-     * @param isVisibleRound               是否显示小圆点，默认显示
-     * @param isVisibleTitle               是否显示title,默认不显示
+     * @param isBackgroundColor            Whether to display the background color
+     * @param bannerRoundContainerPosition The control displays the default bottom position
+     * @param bannerRoundPosition          Small dots display position default to the right
+     * @param bannerTitlePosition          The title display is not displayed by default
+     * @param isVisibleRound               Whether to display small dots, the default display
+     * @param isVisibleTitle               Whether to display title, the default is not displayed
      */
     public BannerLayout initRound(boolean isBackgroundColor, boolean isVisibleRound, boolean isVisibleTitle, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, BANNER_ROUND_POSITION bannerRoundPosition, BANNER_TITLE_POSITION bannerTitlePosition) {
         if (promptBarView != null) {
@@ -191,7 +195,7 @@ public class BannerLayout extends RelativeLayout
         this.isVisibleRound = isVisibleRound;
         this.isVisibleTitle = isVisibleTitle;
         if (bannerAdapterType == null) {
-            Toast.makeText(getContext(), "请在初始化图片资源之后再调用initRound()", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getContext().getString(R.string.banner_adapterType_null), Toast.LENGTH_SHORT).show();
             return this;
         }
         if (bannerTipLayout != null) {
@@ -205,10 +209,19 @@ public class BannerLayout extends RelativeLayout
             }
             if (isVisibleTitle) {
                 bannerTipLayout.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
-                if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
-                    bannerTipLayout.setTitle(imageArrayTitle[0]);
-                } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                    bannerTipLayout.setTitle(imageList.get(0).getTitle());
+                switch (bannerAdapterType) {
+                    case ARRAY:
+                        if (imageArrayTitle != null) {
+                            bannerTipLayout.setTitle(imageArrayTitle[0]);
+                        }
+                        break;
+                    case LIST:
+                        if (onBannerTitleListener != null) {
+                            bannerTipLayout.setTitle(onBannerTitleListener.getTitle(0));
+                        } else {
+                            bannerTipLayout.setTitle(imageList.get(0).getTitle());
+                        }
+                        break;
                 }
             }
             bannerTipLayout.settingBannerRound(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
@@ -219,7 +232,7 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 初始化List图片资源
+     * Initializes a List image resource
      */
     public BannerLayout initImageListResources(List<? extends BannerModel> imageList) {
         if (imageList == null) {
@@ -231,7 +244,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化Array图片资源
+     * Initializes an Array image resource
      */
     public BannerLayout initImageArrayResources(Object[] imageArray) {
         if (imageArray == null) {
@@ -243,7 +256,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化Array图片资源
+     * Initializes an Array image resource
      */
     public BannerLayout initImageArrayResources(Object[] imageArray, String[] imageArrayTitle) {
         if (imageArray == null) {
@@ -257,7 +270,7 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 初始化轮播handler
+     * Initialize the rotation handler
      */
     public BannerLayout start(boolean isStartRotation) {
         bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
@@ -270,7 +283,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 初始化轮播handler
+     * Initialize the rotation handler
      */
     public BannerLayout start(boolean isStartRotation, long delayTime) {
         bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
@@ -285,21 +298,21 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 开始轮播
+     * Start rotation
      */
     public void startBanner() {
         bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_START);
     }
 
     /**
-     * 暂停轮播
+     * Paused rotation
      */
     public void stopBanner() {
         bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
     }
 
     /**
-     * 恢复轮播
+     * Resume rotation
      */
     public void restoreBanner() {
         bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
@@ -322,7 +335,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 获取小圆点个数，这里还可以获取图片数量
+     * Get the number of small dots, where you can also get the number of pictures
      */
     private int getRoundSize() {
         switch (bannerAdapterType) {
@@ -336,8 +349,8 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 初始化adapter
-     * 必须在init图片资源之后才能调用此方法
+     * init adapter();
+     * This method must be called after the init image resource
      */
     public BannerLayout initAdapter() {
         initViewPager();
@@ -401,10 +414,19 @@ public class BannerLayout extends RelativeLayout
                 }
                 if (isVisibleTitle) {
                     bannerTipLayout.clearText();
-                    if (bannerAdapterType == BANNER_ADAPTER_TYPE.ARRAY && imageArrayTitle != null) {
-                        bannerTipLayout.setTitle(imageArrayTitle[newPosition]);
-                    } else if (bannerAdapterType == BANNER_ADAPTER_TYPE.LIST) {
-                        bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
+                    switch (bannerAdapterType) {
+                        case ARRAY:
+                            if (imageArrayTitle != null) {
+                                bannerTipLayout.setTitle(imageArrayTitle[newPosition]);
+                            }
+                            break;
+                        case LIST:
+                            if (onBannerTitleListener != null) {
+                                bannerTipLayout.setTitle(onBannerTitleListener.getTitle(newPosition));
+                            } else {
+                                bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
+                            }
+                            break;
                     }
                 }
             }
@@ -453,8 +475,8 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置BannerRoundContainer背景色
-     * 在initRound()方法之前调用生效
+     * setting BannerRoundContainer background
+     * The call takes effect before the initRound () method
      */
     public BannerLayout setRoundContainerBackgroundColor(int colorId) {
         this.roundContainerBackgroundColor = colorId;
@@ -463,7 +485,7 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 设置BannerRoundHeight
+     * setting BannerRoundHeight
      */
     public BannerLayout setRoundContainerHeight(int height) {
         this.roundContainerHeight = height;
@@ -471,7 +493,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置BannerRoundWidth
+     * setting BannerRoundWidth
      */
     public BannerLayout setRoundContainerWidth(int width) {
         this.roundContainerWidth = width;
@@ -479,8 +501,8 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置小圆点selector
-     * 在initRound()方法之前调用生效
+     * Sets the status selector for small dots
+     * The call takes effect before the initRound () method
      */
     public BannerLayout initRoundSelector(int roundSelector) {
         this.roundSelector = roundSelector;
@@ -489,7 +511,7 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * 设置小圆点marginLeft，默认为10
+     * Set the dots marginLeft, the default is 10
      */
     public BannerLayout setRoundLeftMargin(int leftMargin) {
         this.roundLeftMargin = leftMargin;
@@ -497,7 +519,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置小圆点marginRight，默认为10
+     * Set the dots marginRight, the default is 10
      */
     public BannerLayout setRoundRightMargin(int rightMargin) {
         this.roundRightMargin = rightMargin;
@@ -505,7 +527,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置title marginLeft，默认为10
+     * Set the title marginLeft, the default is 10
      */
     public BannerLayout setTitleLeftMargin(int leftMargin) {
         this.titleLeftMargin = leftMargin;
@@ -513,7 +535,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置title marginRight，默认为10
+     * Set the title marginRight, the default is 10
      */
     public BannerLayout setTitleRightMargin(int rightMargin) {
         this.titleRightMargin = rightMargin;
@@ -521,7 +543,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置小圆点width，默认为15
+     * Set the dots width, the default is 15
      */
     public BannerLayout setRoundWidth(int width) {
         this.roundWidth = width;
@@ -529,7 +551,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置小圆点Height，默认为15
+     * Set the height of the small dot, the default is 15
      */
     public BannerLayout setRoundHeight(int height) {
         this.roundHeight = height;
@@ -537,14 +559,14 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 获取viewpager
+     * getViewPager
      */
     public BannerViewPager getViewPager() {
         return viewPager;
     }
 
     /**
-     * 设置title颜色,字体大小,不需要的设置-1
+     * Set the title color, font size, and unneeded setting of -1
      */
     public BannerLayout setTitleSetting(int titleColor, int titleSize) {
         if (titleSize != -1) {
@@ -557,7 +579,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置加载图片管理器
+     * Set the Load Picture Manager
      */
     public BannerLayout setImageLoaderManage(ImageLoaderManage loaderManage) {
         this.imageLoaderManage = loaderManage;
@@ -565,7 +587,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置是否显示title，在初始化initRound()之前调用
+     * Sets whether to display title, which is called before initRound () is initialized
      */
     public BannerLayout setVisibleTitle(boolean isVisibleTitle) {
         this.isVisibleTitle = isVisibleTitle;
@@ -573,7 +595,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置是否显示小圆点，在初始化initRound()之前调用
+     * Sets whether or not to display small dots, called before initRound () is initialized
      */
     public BannerLayout setVisibleRound(boolean isVisibleRound) {
         this.isVisibleRound = isVisibleRound;
@@ -581,7 +603,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * glide加载错误图片,在initAdapter之前调用
+     * Glide Loads an error image, called before initAdapter
      */
     public BannerLayout setErrorImageView(int errorImageView) {
         this.errorImageView = errorImageView;
@@ -589,7 +611,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * Glide加载中图片,在initAdapter之前调用
+     * Glide loads the image before the initAdapter is called
      */
     public BannerLayout setPlaceImageView(int placeImageView) {
         this.placeImageView = placeImageView;
@@ -597,7 +619,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置viewpager是否可以滑动，true禁止滑动
+     * Set whether the viewpager can be swiped, true to prevent sliding
      */
     public BannerLayout setViewPagerTouchMode(boolean b) {
         if (viewPager == null) {
@@ -609,7 +631,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置ViewPager切换速度
+     * Sets the ViewPager switching speed
      */
     public BannerLayout setDuration(int pace) {
         if (viewPager == null) {
@@ -620,8 +642,9 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
+
     /**
-     * 设置系统切换动画
+     * Sets the system to switch animation
      */
     public BannerLayout setBannerTransformer(BANNER_ANIMATION bannerAnimation) {
         if (viewPager == null || bannerAnimation == null) {
@@ -632,7 +655,15 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 设置自定义切换动画
+     * When the custom Bean class to get back to the title of the callback
+     */
+    public BannerLayout addOnBannerTitleListener(OnBannerTitleListener onBannerTitleListener) {
+        this.onBannerTitleListener = onBannerTitleListener;
+        return this;
+    }
+
+    /**
+     * Sets a custom toggle animation
      */
     public BannerLayout setBannerTransformer(BannerTransformer bannerTransformer) {
         if (viewPager == null || bannerTransformer == null) {
@@ -643,7 +674,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 自定义动画集合
+     * Customize the animation collection
      */
     public BannerLayout setBannerTransformerList(List<BannerTransformer> list) {
         if (list == null) {
@@ -658,7 +689,7 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * 系统动画集合
+     * A collection of system animations
      */
     public BannerLayout setBannerSystemTransformerList(List<BANNER_ANIMATION> list) {
         if (list == null) {

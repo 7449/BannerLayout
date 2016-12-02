@@ -1,0 +1,3 @@
+<resources>
+    <string name="banner_adapterType_null">请在初始化图片资源之后再调用initRound()</string>
+</resources>

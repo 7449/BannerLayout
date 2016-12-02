@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BannerLayout简单使用示例</string>
+    <string name="image_holder">自定义model类,提示栏在顶部</string>
+    <string name="local_model">本地资源</string>
+    <string name="system_network_model">网络数据,提示栏在底部</string>
+    <string name="array_model">数组资源</string>
+    <string name="customize_the_animation">自定义动画</string>
+    <string name="system_animation">系统动画</string>
+    <string name="customize_the_animation_collection">自定义动画集合</string>
+    <string name="collection_of_system_animations">系统动画集合</string>
+    <string name="customize_the_tip_bar">自定义提示栏</string>
+    <string name="customize_load_Picture_Manager">自定义加载图片管理器</string>
+</resources>

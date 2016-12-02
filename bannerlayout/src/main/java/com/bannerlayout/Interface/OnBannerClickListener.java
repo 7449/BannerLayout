@@ -3,7 +3,7 @@ package com.bannerlayout.Interface;
 /**
  * by y on 2016/11/11
  * <p>
- * banner点击事件，object为返回的数据
+ * Banner Click event, object for the return of data
  */
 
 public interface OnBannerClickListener {

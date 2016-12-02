@@ -64,7 +64,7 @@ public abstract class BannerBaseAdapter extends PagerAdapter {
         return img;
     }
 
-    public void imageLoader(Context context, Object url, ImageView imageView) {
+    void imageLoader(Context context, Object url, ImageView imageView) {
         if (place_image == -1 || error_image == -1) {
             throw new NullPointerException("glide placeImage or errorImage is null");
         }

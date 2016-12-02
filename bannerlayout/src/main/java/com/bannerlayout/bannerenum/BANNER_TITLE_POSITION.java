@@ -3,7 +3,7 @@ package com.bannerlayout.bannerenum;
 /**
  * by y on 2016/11/11
  * <p>
- * 提示栏title位置
+ * Tip column title position
  */
 
 public enum BANNER_TITLE_POSITION {

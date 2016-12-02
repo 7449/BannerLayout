@@ -3,7 +3,7 @@ package com.bannerlayout.bannerenum;
 /**
  * by y on 2016/11/11
  * <p>
- * bannerTipLayout在布局中显示的位置
+ * BannerTipLayout The position to display in the layout
  */
 
 public enum BANNER_TIP_LAYOUT_POSITION {

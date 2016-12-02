@@ -7,7 +7,7 @@ import android.widget.Scroller;
 /**
  * by y on 2016/11/11
  * <p>
- * 控制viewpager滑动速度，默认值1500，越大越慢
+ * Control viewpager sliding speed, the default value of 1500, the greater the slower
  */
 
 public class FixedSpeedScroller extends Scroller {

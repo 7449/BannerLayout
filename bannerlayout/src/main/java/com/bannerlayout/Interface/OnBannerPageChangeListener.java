@@ -3,7 +3,7 @@ package com.bannerlayout.Interface;
 /**
  * by y on 2016/11/11
  * <p>
- * 接管viewpager的OnPageChangeListener方法
+ * Take over the viewPager's OnPageChangeListener method
  */
 
 public interface OnBannerPageChangeListener {

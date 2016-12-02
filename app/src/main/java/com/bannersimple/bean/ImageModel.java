@@ -1,4 +1,4 @@
-package com.bannersimple;
+package com.bannersimple.bean;
 
 import com.bannerlayout.model.BannerModel;
 
