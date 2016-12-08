@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateInterpolator;
 
+import com.bannerlayout.animation.VerticalTransformer;
+
 import java.lang.reflect.Field;
 
 /**
@@ -17,6 +19,9 @@ public class BannerViewPager extends ViewPager {
 
     //true Viewpager Prevents swipe
     private boolean mViewTouchMode = false;
+
+    //Whether the vertical sliding ,The default is not
+    private boolean isVertical;
 
     public BannerViewPager(Context context) {
         super(context);
@@ -37,20 +42,42 @@ public class BannerViewPager extends ViewPager {
         mViewTouchMode = b;
     }
 
+    public void setVertical(boolean vertical) {
+        isVertical = vertical;
+        if (isVertical) {
+            setPageTransformer(true, new VerticalTransformer());
+        }
+    }
+
     /**
      * When mViewTouchMode is true, ViewPager does not intercept the click event, and the click event will be handled by the childView
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return !mViewTouchMode && super.onInterceptTouchEvent(event);
+        if (isVertical) {
+            return !mViewTouchMode && super.onInterceptTouchEvent(swapEvent(event));
+        } else {
+            return !mViewTouchMode && super.onInterceptTouchEvent(event);
+        }
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (isVertical) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+        } else {
+            return super.dispatchTouchEvent(ev);
+        }
+        return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        try {
+        if (isVertical) {
+            return super.onTouchEvent(swapEvent(ev));
+        } else {
             return super.onTouchEvent(ev);
-        } catch (Exception e) {
-            return false;
         }
     }
 
@@ -76,5 +103,14 @@ public class BannerViewPager extends ViewPager {
         } catch (Exception e) {
             Log.i(getClass().getSimpleName(), e.getMessage());
         }
+    }
+
+    private MotionEvent swapEvent(MotionEvent event) {
+        float width = getWidth();
+        float height = getHeight();
+        float swappedX = (event.getY() / height) * width;
+        float swappedY = (event.getX() / width) * height;
+        event.setLocation(swappedX, swappedY);
+        return event;
     }
 }

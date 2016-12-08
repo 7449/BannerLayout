@@ -10,4 +10,5 @@
     <string name="collection_of_system_animations">A collection of system animations</string>
     <string name="customize_the_tip_bar">Customize the tip bar</string>
     <string name="customize_load_Picture_Manager">Customize Load Picture Manager</string>
+    <string name="is_vertical">a vertical viewpager</string>
 </resources>

@@ -35,9 +35,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:0.0.7'
+		compile 'com.ydevelop:bannerlayout:0.0.8'
 
 >更新状态
+
+	0.0.8：添加垂直滚动的动画，代码逻辑优化
 
 	0.0.7：改善部分逻辑，解决自定义Bean类title问题
 
@@ -162,6 +164,10 @@
 
 7.切换动画以及速度
 
+>垂直滚动的动画
+
+viewpager的垂直这里用的是动画，所以只要选择了垂直滚动，设置动画无效
+
 	动画内置的 [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，多谢作者
 	
 	如果想自定义动画请继承 ABaseTransformer 或者 BannerTransformer 即可;
@@ -187,6 +193,7 @@
 	                .start();
 
 8.动画集合：
+
 
 >自定义动画集合
 
@@ -261,7 +268,8 @@ banner_title_size   				|字体大小					|默认12
 banner_title_color 					|字体颜色					|默认黄色
 banner_title_width 					|字体width					|默认自适应
 banner_title_height 				|字体height					|默认自适应
-banner_duration						|viewPager切换速度			|默认1500，越大越慢
+banner_duration						|viewPager切换速度			|默认800，越大越慢
+banner_isVertical					|viewPager垂直滚动			|默认不是垂直滚动，true开启
 
 #最后
 	

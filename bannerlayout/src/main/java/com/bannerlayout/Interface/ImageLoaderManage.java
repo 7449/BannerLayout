@@ -1,4 +1,4 @@
-package com.bannerlayout.util;
+package com.bannerlayout.Interface;
 
 import android.content.Context;
 import android.widget.ImageView;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bannerlayout.Interface.ImageLoaderManage;
 import com.bannerlayout.Interface.OnBannerClickListener;
 import com.bannerlayout.Interface.OnBannerImageClickListener;
 import com.bannerlayout.Interface.OnBannerPageChangeListener;
@@ -26,9 +27,9 @@ import com.bannerlayout.bannerenum.BANNER_ANIMATION;
 import com.bannerlayout.bannerenum.BANNER_ROUND_POSITION;
 import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
 import com.bannerlayout.bannerenum.BANNER_TITLE_POSITION;
+import com.bannerlayout.exception.BannerException;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.util.BannerHandlerUtils;
-import com.bannerlayout.util.ImageLoaderManage;
 import com.bannerlayout.util.TransformerUtils;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class BannerLayout extends RelativeLayout
     private int errorImageView;//Glide Load error placeholder
     private int placeImageView;//Placeholder in glide loading
     private int mDuration;//Viewpager switching speed
+    private boolean isVertical;//Whether the vertical sliding ,The default is not
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
@@ -111,6 +113,7 @@ public class BannerLayout extends RelativeLayout
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_banner_title_size, BannerDefaults.BANNER_TITLE_SIZE);
         isVisibleRound = typedArray.getBoolean(R.styleable.BannerLayout_banner_round_visible, BannerDefaults.IS_VISIBLE_ROUND);
         mDuration = typedArray.getInt(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION);
+        isVertical = typedArray.getBoolean(R.styleable.BannerLayout_banner_isVertical, BannerDefaults.BANNER_ISVERTICAL);
 
         typedArray.recycle();
     }
@@ -135,18 +138,6 @@ public class BannerLayout extends RelativeLayout
             return viewPager.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
-    }
-
-    /**
-     * Initialize the ViewPager
-     */
-    private void initViewPager() {
-        if (viewPager != null) {
-            removeView(viewPager);
-            viewPager = null;
-        }
-        viewPager = new BannerViewPager(getContext());
-        addView(viewPager);
     }
 
     /**
@@ -187,9 +178,14 @@ public class BannerLayout extends RelativeLayout
      * @param isVisibleRound               Whether to display small dots, the default display
      * @param isVisibleTitle               Whether to display title, the default is not displayed
      */
-    public BannerLayout initRound(boolean isBackgroundColor, boolean isVisibleRound, boolean isVisibleTitle, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, BANNER_ROUND_POSITION bannerRoundPosition, BANNER_TITLE_POSITION bannerTitlePosition) {
+    public BannerLayout initRound(boolean isBackgroundColor,
+                                  boolean isVisibleRound,
+                                  boolean isVisibleTitle,
+                                  BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition,
+                                  BANNER_ROUND_POSITION bannerRoundPosition,
+                                  BANNER_TITLE_POSITION bannerTitlePosition) {
         if (promptBarView != null) {
-            return this;
+            throw new BannerException("You can not initialize the round if the promptBarView is not null");
         }
         this.isRoundContainerBackground = isBackgroundColor;
         this.isVisibleRound = isVisibleRound;
@@ -200,33 +196,32 @@ public class BannerLayout extends RelativeLayout
         }
         if (bannerTipLayout != null) {
             removeView(bannerTipLayout);
+            bannerTipLayout = null;
         }
-        if (getRoundSize() > 1) {
-            bannerTipLayout = new BannerTipLayout(getContext());
-            bannerTipLayout.removeAllViews();
-            if (isVisibleRound) {
-                bannerTipLayout.addRound(getRoundSize(), roundSelector, roundWidth, roundHeight, roundLeftMargin, roundRightMargin, bannerRoundPosition);
-            }
-            if (isVisibleTitle) {
-                bannerTipLayout.addTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
-                switch (bannerAdapterType) {
-                    case ARRAY:
-                        if (imageArrayTitle != null) {
-                            bannerTipLayout.setTitle(imageArrayTitle[0]);
-                        }
-                        break;
-                    case LIST:
-                        if (onBannerTitleListener != null) {
-                            bannerTipLayout.setTitle(onBannerTitleListener.getTitle(0));
-                        } else {
-                            bannerTipLayout.setTitle(imageList.get(0).getTitle());
-                        }
-                        break;
-                }
-            }
-            bannerTipLayout.settingBannerRound(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
-            addView(bannerTipLayout);
+        bannerTipLayout = new BannerTipLayout(getContext());
+        bannerTipLayout.removeAllViews();
+        if (isVisibleRound) {
+            bannerTipLayout.setRound(getRoundSize(), roundSelector, roundWidth, roundHeight, roundLeftMargin, roundRightMargin, bannerRoundPosition);
         }
+        if (isVisibleTitle) {
+            bannerTipLayout.setTitle(titleColor, titleSize, titleLeftMargin, titleRightMargin, titleWidth, titleHeight, bannerTitlePosition);
+            switch (bannerAdapterType) {
+                case ARRAY:
+                    if (imageArrayTitle != null) {
+                        bannerTipLayout.setTitle(imageArrayTitle[0]);
+                    }
+                    break;
+                case LIST:
+                    if (onBannerTitleListener != null) {
+                        bannerTipLayout.setTitle(onBannerTitleListener.getTitle(0));
+                    } else {
+                        bannerTipLayout.setTitle(imageList.get(0).getTitle());
+                    }
+                    break;
+            }
+        }
+        bannerTipLayout.setBannerTip(roundContainerWidth, roundContainerHeight, bannerRoundContainerPosition, isBackgroundColor, roundContainerBackgroundColor);
+        addView(bannerTipLayout);
         return this;
     }
 
@@ -236,7 +231,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout initImageListResources(List<? extends BannerModel> imageList) {
         if (imageList == null) {
-            throw new NullPointerException("the imageList is null");
+            throw new BannerException("the imageList is null");
         }
         this.bannerAdapterType = BANNER_ADAPTER_TYPE.LIST;
         this.imageList = imageList;
@@ -248,7 +243,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout initImageArrayResources(Object[] imageArray) {
         if (imageArray == null) {
-            throw new NullPointerException("the imageArray is null");
+            throw new BannerException("the imageArray is null");
         }
         this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
         this.imageArray = imageArray;
@@ -260,7 +255,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout initImageArrayResources(Object[] imageArray, String[] imageArrayTitle) {
         if (imageArray == null) {
-            throw new NullPointerException("the imageArray is null");
+            throw new BannerException("the imageArray is null");
         }
         this.bannerAdapterType = BANNER_ADAPTER_TYPE.ARRAY;
         this.imageArray = imageArray;
@@ -273,12 +268,7 @@ public class BannerLayout extends RelativeLayout
      * Initialize the rotation handler
      */
     public BannerLayout start(boolean isStartRotation) {
-        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
-        bannerHandlerUtils.setDelayTime(delayTime);
-        this.isStartRotation = isStartRotation;
-        if (isStartRotation && getRoundSize() > 1) {
-            startBanner();
-        }
+        start(isStartRotation, delayTime);
         return this;
     }
 
@@ -321,7 +311,7 @@ public class BannerLayout extends RelativeLayout
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (isStartRotation && bannerHandlerUtils != null) {
+        if (isStartRotation && bannerHandlerUtils != null && getRoundSize() > 1) {
             restoreBanner();
         }
     }
@@ -329,7 +319,7 @@ public class BannerLayout extends RelativeLayout
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (isStartRotation && bannerHandlerUtils != null) {
+        if (isStartRotation && bannerHandlerUtils != null && getRoundSize() > 1) {
             stopBanner();
         }
     }
@@ -344,7 +334,7 @@ public class BannerLayout extends RelativeLayout
             case ARRAY:
                 return imageArray.length;
         }
-        throw new NullPointerException("getRoundSize error");
+        throw new BannerException("getRoundSize error");
     }
 
 
@@ -353,7 +343,14 @@ public class BannerLayout extends RelativeLayout
      * This method must be called after the init image resource
      */
     public BannerLayout initAdapter() {
-        initViewPager();
+        if (viewPager != null) {
+            removeView(viewPager);
+            viewPager = null;
+        }
+        viewPager = new BannerViewPager(getContext());
+        viewPager.setDuration(mDuration);
+        viewPager.setVertical(isVertical);
+        addView(viewPager);
         if (promptBarView != null) {
             removeView(promptBarView);
             addView(promptBarView);
@@ -387,53 +384,54 @@ public class BannerLayout extends RelativeLayout
     @Override
     public void setCurrentItem(int page) {
         if (viewPager == null) {
-            throw new NullPointerException("the viewPager is null");
+            throw new BannerException("the viewPager is null");
         }
         viewPager.setCurrentItem(page);
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (onBannerPageChangeListener != null) {
+        if (onBannerPageChangeListener != null && promptBarView != null) {
             onBannerPageChangeListener.onPageScrolled(position % getRoundSize(), positionOffset, positionOffsetPixels);
         }
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (transformerList != null && transformerList.size() > 1) {
+        if (transformerList != null && transformerList.size() > 1 && !isVertical) {
             viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
         }
         int newPosition = position % getRoundSize();
         if (onBannerPageChangeListener != null && promptBarView != null) {
             onBannerPageChangeListener.onPageSelected(newPosition);
-        } else {
-            if (bannerTipLayout != null) {
-                if (isVisibleRound) {
-                    bannerTipLayout.changeRoundPosition(preEnablePosition, newPosition);
-                }
-                if (isVisibleTitle) {
-                    bannerTipLayout.clearText();
-                    switch (bannerAdapterType) {
-                        case ARRAY:
-                            if (imageArrayTitle != null) {
-                                bannerTipLayout.setTitle(imageArrayTitle[newPosition]);
-                            }
-                            break;
-                        case LIST:
-                            if (onBannerTitleListener != null) {
-                                bannerTipLayout.setTitle(onBannerTitleListener.getTitle(newPosition));
-                            } else {
-                                bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
-                            }
-                            break;
-                    }
+            return;
+        }
+        if (bannerTipLayout != null) {
+            if (isVisibleRound) {
+                bannerTipLayout.changeRoundPosition(preEnablePosition, newPosition);
+            }
+            if (isVisibleTitle) {
+                bannerTipLayout.clearText();
+                switch (bannerAdapterType) {
+                    case ARRAY:
+                        if (imageArrayTitle == null) {
+                            return;
+                        }
+                        bannerTipLayout.setTitle(imageArrayTitle[newPosition]);
+                        break;
+                    case LIST:
+                        if (onBannerTitleListener != null) {
+                            bannerTipLayout.setTitle(onBannerTitleListener.getTitle(newPosition));
+                        } else {
+                            bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
+                        }
+                        break;
                 }
             }
-            preEnablePosition = newPosition;
-            if (bannerHandlerUtils != null && isStartRotation) {
-                bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
-            }
+        }
+        preEnablePosition = newPosition;
+        if (bannerHandlerUtils != null && isStartRotation) {
+            bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
         }
     }
 
@@ -623,7 +621,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setViewPagerTouchMode(boolean b) {
         if (viewPager == null) {
-            throw new NullPointerException("the viewpager is null");
+            throw new BannerException("the viewpager is null");
         }
         this.viePagerTouchMode = b;
         viewPager.setViewTouchMode(viePagerTouchMode);
@@ -635,7 +633,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setDuration(int pace) {
         if (viewPager == null) {
-            throw new NullPointerException("the viewpager is empty");
+            throw new BannerException("the viewpager is null");
         }
         this.mDuration = pace;
         viewPager.setDuration(mDuration);
@@ -648,7 +646,10 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerTransformer(BANNER_ANIMATION bannerAnimation) {
         if (viewPager == null || bannerAnimation == null) {
-            throw new NullPointerException("the viewpager or bannerAnimation is empty");
+            throw new BannerException("the viewpager or bannerAnimation is null");
+        }
+        if (isVertical) {
+            throw new BannerException("If it is a vertical slide can not set the animation");
         }
         viewPager.setPageTransformer(true, TransformerUtils.getTransformer(bannerAnimation));
         return this;
@@ -667,7 +668,10 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerTransformer(BannerTransformer bannerTransformer) {
         if (viewPager == null || bannerTransformer == null) {
-            throw new NullPointerException("the viewpager or bannertransformer is empty");
+            throw new BannerException("the viewpager or bannertransformer is null");
+        }
+        if (isVertical) {
+            throw new BannerException("If it is a vertical slide can not set the animation");
         }
         viewPager.setPageTransformer(true, bannerTransformer);
         return this;
@@ -678,7 +682,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerTransformerList(List<BannerTransformer> list) {
         if (list == null) {
-            throw new NullPointerException("the transformerlist is empty");
+            throw new BannerException("the transformerlist is null");
         }
         if (transformerList != null) {
             transformerList.clear();
@@ -693,7 +697,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerSystemTransformerList(List<BANNER_ANIMATION> list) {
         if (list == null) {
-            throw new NullPointerException("the BANNER_ANIMATION is empty");
+            throw new BannerException("the BANNER_ANIMATION is null");
         }
         if (transformerList != null) {
             transformerList.clear();
@@ -706,4 +710,11 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
+    /**
+     * Whether the vertical sliding ,The default is not
+     */
+    public BannerLayout setVertical(boolean vertical) {
+        isVertical = vertical;
+        return this;
+    }
 }

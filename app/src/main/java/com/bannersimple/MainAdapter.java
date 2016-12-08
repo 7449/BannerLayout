@@ -35,6 +35,7 @@ import com.bannersimple.holder.SystemTransformersHolder;
 import com.bannersimple.holder.SystemTransformersListHolder;
 import com.bannersimple.holder.TransformersHolder;
 import com.bannersimple.holder.TransformersListHolder;
+import com.bannersimple.holder.VerticalHolder;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -55,7 +56,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
     private static final int SYSTEM_TRANSFORMER_LIST = 7;//A collection of system animations
     private static final int PROMPT_BAR = 8; //Customize the tip bar
     private static final int IMAGE_LOADER_MANAGER = 9; //Customize Load Picture Manager
-
+    private static final int IS_VERTICAL = 10;// Whether the vertical sliding
 
     @Override
     public void onBindViewHolder(final BaseViewHolder holder, int position) {
@@ -157,6 +158,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                     .initAdapter()
                     .initRound(true, true, true);
         }
+        if (holder instanceof VerticalHolder) {
+            //if it is a vertical slide can not set the animation
+            holder.getTitle().setText(getString(holder.getContext(), R.string.is_vertical));
+            holder.getBannerLayout()
+                    .initImageListResources(initSystemModel())
+                    .setVertical(true)
+                    .initAdapter()
+                    .initRound(true, true, true)
+                    .start(true, 2000);
+        }
     }
 
 
@@ -181,6 +192,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                 return new SystemTransformersListHolder(getLayoutId(parent));
             case PROMPT_BAR:
                 return new PromptBarHolder(getLayoutId(parent));
+            case IS_VERTICAL:
+                return new VerticalHolder(getLayoutId(parent));
             default:
                 return new ImageManagerHolder(getLayoutId(parent));
         }
@@ -189,7 +202,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 11;
     }
 
     @Override
@@ -213,8 +226,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                 return SYSTEM_TRANSFORMER_LIST;
             case 8:
                 return PROMPT_BAR;
-            default:
+            case 9:
                 return IMAGE_LOADER_MANAGER;
+            default:
+                return IS_VERTICAL;
         }
     }
 

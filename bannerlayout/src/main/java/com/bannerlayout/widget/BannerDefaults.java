@@ -114,5 +114,9 @@ class BannerDefaults {
     /**
      * Default viewpager switching speed
      */
-    static final int BANNER_DURATION = 1500;
+    static final int BANNER_DURATION = 800;
+    /**
+     * Whether the vertical sliding ,The default is not
+     */
+    static final boolean BANNER_ISVERTICAL = false;
 }

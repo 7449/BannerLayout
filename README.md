@@ -37,9 +37,11 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-		compile 'com.ydevelop:bannerlayout:0.0.7'
+		compile 'com.ydevelop:bannerlayout:0.0.8'
 
 >Update log
+
+	0.0.8: add vertical scrolling animation, code logic optimization
 
 	0.0.7：Improve part of the logic, solve the problem of custom Bean class title
 
@@ -167,6 +169,11 @@ Custom model If you get the json picture is not named image, please realize your
 
 7.Toggle animation and speed
 
+>a vertical scrolling animation
+
+Viewpager vertical Here is the use of animation, so long as the choice of vertical scrolling, setting animation invalid
+
+
 	Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，Thank the author
 	
 	If you want to customize the animation, please inherit ABaseTransformer or BannerTransformer ;
@@ -266,7 +273,8 @@ banner_title_size   				|font size													|default 12
 banner_title_color 					|font color													|default yellow
 banner_title_width 					|font width													|default wrap_content
 banner_title_height 				|font height												|default wrap_content
-banner_duration						|ViewPager switch speed										|default 1500，The bigger the slower
+banner_duration						|ViewPager switch speed										|default 800，The bigger the slower
+banner_isVertical					|The viewPager scrolls vertically							|The default is not vertical scrolling, true on
 
 #At last
 	

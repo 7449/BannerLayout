@@ -46,7 +46,7 @@ public class BannerTipLayout extends RelativeLayout {
      * @param roundRightMargin    Small dots marginRight
      * @param bannerRoundPosition Small dot in what position, three optional, left in the right by default on the right
      */
-    public void addRound(int roundSize, int roundSelector, int roundWidth, int roundHeight, int roundLeftMargin, int roundRightMargin, BANNER_ROUND_POSITION bannerRoundPosition) {
+    public void setRound(int roundSize, int roundSelector, int roundWidth, int roundHeight, int roundLeftMargin, int roundRightMargin, BANNER_ROUND_POSITION bannerRoundPosition) {
         linearLayout = new LinearLayout(getContext());
         for (int i = 0; i < roundSize; i++) {
             View view = new View(getContext());
@@ -91,7 +91,7 @@ public class BannerTipLayout extends RelativeLayout {
      * @param isBackgroundColor             Whether to display background shadows
      * @param roundContainerBackgroundColor Background shadow color
      */
-    public void settingBannerRound(float roundContainerWidth, float roundContainerHeight, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
+    public void setBannerTip(float roundContainerWidth, float roundContainerHeight, BANNER_TIP_LAYOUT_POSITION bannerRoundContainerPosition, boolean isBackgroundColor, int roundContainerBackgroundColor) {
         LayoutParams roundContainerParams = new LayoutParams((int) roundContainerWidth, (int) roundContainerHeight);
         if (bannerRoundContainerPosition == null) {
             roundContainerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -127,7 +127,7 @@ public class BannerTipLayout extends RelativeLayout {
     /**
      * Update title, the default on the left
      */
-    public void addTitle(int textColor, float textSize, int leftMargin, int rightMargin, float titleWidth, float titleHeight, BANNER_TITLE_POSITION bannerTitlePosition) {
+    public void setTitle(int textColor, float textSize, int leftMargin, int rightMargin, float titleWidth, float titleHeight, BANNER_TITLE_POSITION bannerTitlePosition) {
         textView = new TextView(getContext());
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setTextColor(textColor);

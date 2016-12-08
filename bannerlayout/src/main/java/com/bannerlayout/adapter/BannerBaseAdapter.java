@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bannerlayout.Interface.OnBannerImageClickListener;
-import com.bannerlayout.util.ImageLoaderManage;
+import com.bannerlayout.Interface.ImageLoaderManage;
 import com.bumptech.glide.Glide;
 
 

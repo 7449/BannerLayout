@@ -3,7 +3,7 @@ package com.bannersimple;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bannerlayout.util.ImageLoaderManage;
+import com.bannerlayout.Interface.ImageLoaderManage;
 import com.bannersimple.bean.BannerBean;
 import com.squareup.picasso.Picasso;
 

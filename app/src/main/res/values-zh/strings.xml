@@ -10,4 +10,5 @@
     <string name="collection_of_system_animations">系统动画集合</string>
     <string name="customize_the_tip_bar">自定义提示栏</string>
     <string name="customize_load_Picture_Manager">自定义加载图片管理器</string>
+    <string name="is_vertical">垂直滑动的viewpager</string>
 </resources>
