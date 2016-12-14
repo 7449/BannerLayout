@@ -14,8 +14,7 @@ import java.lang.reflect.Field;
 /**
  * by y on 2016/10/25
  */
-
-public class BannerViewPager extends ViewPager {
+class BannerViewPager extends ViewPager {
 
     //true Viewpager Prevents swipe
     private boolean mViewTouchMode = false;

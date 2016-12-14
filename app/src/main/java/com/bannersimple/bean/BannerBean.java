@@ -8,6 +8,14 @@ import com.bannerlayout.model.BannerModel;
 
 public class BannerBean extends BannerModel {
 
+    private String imageUrl;
+    private String thisTitle;
+
+    public BannerBean(String imageUrl, String thisTitle) {
+        this.imageUrl = imageUrl;
+        this.thisTitle = thisTitle;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -23,15 +31,4 @@ public class BannerBean extends BannerModel {
     public void setThisTitle(String thisTitle) {
         this.thisTitle = thisTitle;
     }
-
-    private String imageUrl;
-    private String thisTitle;
-
-    public BannerBean(String imageUrl, String thisTitle) {
-        this.imageUrl = imageUrl;
-        this.thisTitle = thisTitle;
-    }
-
-
-
 }

@@ -18,7 +18,7 @@ import com.bannerlayout.animation.ZoomInTransformer;
 import com.bannerlayout.animation.ZoomOutPageTransformer;
 import com.bannerlayout.animation.ZoomOutSlideTransformer;
 import com.bannerlayout.animation.ZoomOutTranformer;
-import com.bannerlayout.bannerenum.BANNER_ANIMATION;
+import com.bannerlayout.bannerenum.BannerAnimationType;
 
 /**
  * by y on 2016/11/11
@@ -27,7 +27,7 @@ import com.bannerlayout.bannerenum.BANNER_ANIMATION;
 public class TransformerUtils {
 
 
-    public static BannerTransformer getTransformer(BANNER_ANIMATION bannerAnimation) {
+    public static BannerTransformer getTransformer(BannerAnimationType bannerAnimation) {
         BannerTransformer bannerTransformer = null;
         switch (bannerAnimation) {
             case ACCORDION:

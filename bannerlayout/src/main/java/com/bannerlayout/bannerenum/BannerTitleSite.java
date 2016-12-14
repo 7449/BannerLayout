@@ -3,9 +3,9 @@ package com.bannerlayout.bannerenum;
 /**
  * by y on 2016/11/11
  * <p>
- * Tip column small dot position
+ * Tip column title site
  */
 
-public enum BANNER_ROUND_POSITION {
+public enum BannerTitleSite {
     LEFT, CENTERED, RIGHT
 }

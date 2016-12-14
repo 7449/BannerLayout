@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">BannerLayout</string>
-    <string name="banner_adapterType_null">Please initialize the image resource after initRound ()</string>
+    <string name="banner_adapterType_null">Please initialize the image resource after initTips ()</string>
 </resources>

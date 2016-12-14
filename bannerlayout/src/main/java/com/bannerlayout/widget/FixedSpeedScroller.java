@@ -9,11 +9,10 @@ import android.widget.Scroller;
  * <p>
  * Control viewpager sliding speed, the default value of 1500, the greater the slower
  */
-
-public class FixedSpeedScroller extends Scroller {
+class FixedSpeedScroller extends Scroller {
     private int mDuration;
 
-    public FixedSpeedScroller(Context context, Interpolator interpolator) {
+    FixedSpeedScroller(Context context, Interpolator interpolator) {
         super(context, interpolator);
     }
 

@@ -8,16 +8,11 @@ public class BannerModel {
     private Object image;
     private String title;
 
-    public BannerModel(){
-
+    public BannerModel() {
     }
 
     public BannerModel(Object image) {
         this.image = image;
-    }
-
-    public BannerModel(String title) {
-        this.title = title;
     }
 
     public BannerModel(Object image, String title) {

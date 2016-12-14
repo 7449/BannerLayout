@@ -6,6 +6,6 @@ package com.bannerlayout.Interface;
  * Banner Click event, object for the return of data
  */
 
-public interface OnBannerClickListener {
-    void onBannerClick(int position, Object model);
+public interface OnBannerClickListener<T> {
+    void onBannerClick(int position, T model);
 }

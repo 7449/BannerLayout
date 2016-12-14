@@ -2,6 +2,8 @@
 
 BannerLayout for unlimited rotation of images
 
+1.x version compared to 0.x version changes larger
+
 [中文文档](https://github.com/7449/BannerLayout/blob/master/README-zh.md)
 
 ##Support function
@@ -25,7 +27,10 @@ BannerLayout for unlimited rotation of images
 
 - support animation (random animation needs List animation collection)
 
-- support for custom Bean class, if only simple to use, you can use the system default BannerBean
+- support for custom Bean class, if only simple to use, you can use the system default 
+BannerBean
+
+- support for vertical scrolling, using animation, so vertical scrolling can not be animated
 
 ####Effect
 
@@ -37,85 +42,70 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-		compile 'com.ydevelop:bannerlayout:0.0.8'
+    compile 'com.ydevelop:bannerlayout:1.0.0'
 
 >Update log
 
+	1.0.0 ： Bannerlayout refactoring, using the more simple than the 0.0.X version
 	0.0.8: add vertical scrolling animation, code logic optimization
-
-	0.0.7：Improve part of the logic, solve the problem of custom Bean class title
-
-	0.0.6：Modify part of the code, the array format from int to object, rewrite simple
+	...
 	
-	0.0.5：Add animation, support for custom animation, the system comes with dozens of animation, support for random animation
-
-	0.0.4： Support custom Model class, custom needs to inherit BaseModel, fix 0.0.3 can not click the bug
-		
-	0.0.3：Add the last forgot to add some methods to support the custom prompt bar, if the custom prompt column do not initialize initRound ()
-
-	0.0.2：Modify part of the code, loading pictures can choose to customize the load frame or use the default Glide
-
-	0.0.1：Submit the project
-
-
 >If the network is loading pictures remember to add
 
 	<uses-permission android:name="android.permission.INTERNET" />
 
-1.Array (from int to object, in order to adapt to different types)
+>Simple to use
 
-        BannerLayout bannerLayout = (BannerLayout) findViewById(R.id.bannerLayout);
-        Object[] mImage = new Object[]{"http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", R.drawable.banner2, R.drawable.banner3};
-        String[] mTitle = new String[]{"bannerl", "banner2", "banner3"};
-        bannerLayout
-                .initImageArrayResources(mImage, mTitle)
-                .initAdapter()
-                .initRound(true, true, true)
-                .start(true);
+        holder.getBannerLayout()
+                .initListResources(initImageModel())//initData
+                .initTips(true, true, true, BannerTipsSite.TOP, null, null)//settings tips
+                .start(true, 2000)
+
+>Details of the problem
+
+	Some TipsLayout settings such as font size, color and the like will be placed before initTips call,
+	1.x 0.x version of the manual removed on the basis of the call initAdapter (), on the initiative to call the data after the initialization,
+	Therefore, some methods of ViewPager will be placed before the initialization data call, such as sliding speed, whether the vertical sliding, custom prompt bar.
+
+1.Array 
+>Array is also used in the internal conversion into List data, click events and custom ImageLoaderManager are passed generic BannerModel
+
+    Object[] mImage = ;
+    String[] mTitle = ;
+    holder.getBannerLayout()
+            .initArrayResources(mImage, mTitle)
+            .initTips(true, true, true, BannerTipsSite.BOTTOM, BannerDotsSite.LEFT, BannerTitleSite.RIGHT);
 
 2.ArrayList
 
-        BannerLayout bannerLayout = (BannerLayout) findViewById(R.id.bannerLayout);
-        List<BannerModel> mDatas = new ArrayList<>();
-        mDatas.add(new BannerModel("http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", "那个时候刚恋爱，这个时候放分手"));
-        mDatas.add(new BannerModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6qyhzgj30dw07t75g.jpg", "羞羞呢～"));
-        mDatas.add(new BannerModel("http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg", "腿不长 但细"));
-        mDatas.add(new BannerModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg", "深夜了"));
+    List<BannerModel> mDatas = new ArrayList<>();
+    ...
+    bannerLayout
+            .initImageListResources(mDatas)
+            .initTips()
+            .start(true);
+
+3.Click the event
+
+>If you do not pass generics, the return model is the current Bean class, strong turn can be recommended to pass generics
+
         bannerLayout
-                .initImageListResources(mDatas)
-                .initAdapter()
-                .initRound()
-                .start(true);	
+                .initListResources(initImageModel())
+                .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
 
-3.Click the event, you can also write their own separate, if the list is the collection of the current return model object, if the array is returned to the current array of object is the object, the return of the object inside the network url
-Custom model If you get the json picture is not named image, please realize your ImageLoaderManage
-
-
-		bannerLayout
-                .initImageListResources(list) 
-                .initAdapter()
-                .initRound()
-                .start(true)
-                .setOnBannerClickListener(new OnBannerClickListener() {
                     @Override
-                    public void onBannerClick(int position, Object model) {
-                        ImageModel imageModel = (ImageModel) model;
-                        Toast.makeText(getApplicationContext(), imageModel.getTestText(), Toast.LENGTH_SHORT).show();
-                        //If the object is returned to the object array is passed into the object
-	//                        int[] image = (int[]) model;
-	//                        Toast.makeText(getApplicationContext(), image[position], Toast.LENGTH_SHORT).show();
-
+                    public void onBannerClick(int position, ImageModel model) {
+                        Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
                     }
-                })
                 });
 
 4.Tip column and small dots, title position changes
 
 	Want to change the position in the initRound () method to achieve several different states, do not need to pass directly to the null default parameters
 
-	BANNER_TIP_LAYOUT_POSITION 	 	The location of the tip bar in the layout，TOP,BUTTOM,CENTERED Three optional 
-	BANNER_ROUND_POSITION  			Small dots in the location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
-	BANNER_TITLE_POSITION  			Title The location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
+	BannerTipsSite               	 	The location of the tip bar in the layout，TOP,BUTTOM,CENTERED Three optional 
+	BannerDotsSite                		dots in the location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
+	BannerTitleSite               		Title The location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
 
 5.Customize the Bean class
 
@@ -127,45 +117,44 @@ Custom model If you get the json picture is not named image, please realize your
 
 	In both cases, custom Bean must inherit the BannerModel class, otherwise BannerLayout will not recognize it. As for custom ImageLoaderManage, see article 6
 
-	In the second case, ImageLoaderManage inside the url will be directly returned to null, please note that this, when loading, please use the model, because the model is your incoming Bean object
-
 	If the title bar text is not named title, then the realization of OnBannerTitleListener, can return to the specific title
 
 	A complete example of a custom Bean class：
 
-		 holder.getBannerLayout()
-                    .setImageLoaderManage(new ImageManager())
-                    .addOnBannerTitleListener(new OnBannerTitleListener() {
-                        @Override
-                        public String getTitle(int newPosition) {
-                            return initBannerBean().get(newPosition).getThisTitle();
-                        }
-                    })
-                    .initImageListResources(initBannerBean())
-                    .initAdapter()
-                    .initRound(true, true, true);
+     bannerLayout
+                .setImageLoaderManager(new ImageManager())
+                .addOnBannerTitleListener(new OnBannerTitleListener() {
+                    @Override
+                    public String getTitle(int newPosition) {
+                        return initBannerBean().get(newPosition).getThisTitle();
+                    }
+                })
+                .initImageListResources(initBannerBean())
+                .initTips(true, true, true);
 
 6.Use the Custom Load Picture frame
+
+>BannerLayout internal reference Glide3.7.0, if you do not want to use this version of your project, please exclude it with exclusion, and then use your version
 	  
 	The default is to use Glide to load the image if you do not like the inheritance of ImageLoaderManage and then setImageLoaderManage in the code.
 
 	 bannerLayout
                 .initImageListResources(mBanner)
                 .setImageLoaderManage(new ImageLoader()) //Own definition of loading pictures
-                .initAdapter()
-                .initRound(true, true, false)
+                .initTips(true, true, false)
                 .start(true);
 
-	Glide acquiescence even if the local resources can also load the document, but Picasso loading not, if you use Picasso loading pictures please strong url into int type, the other has not tried.
-
-	    public class ImageLoader implements ImageLoaderManage {
-
-	        @Override
-	        public void display(Context context, ImageView imageView, Object url, Object model) {
-				//If the list is set to return to the current model is the Model object, if it is an array, the return model is the current array of objects
-	            Picasso.with(context).load((int) url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imageView);
-	        }
+	public class ImageManager implements ImageLoaderManager<BannerBean> {
+	
+	    @Override
+	    public void display(Context context, ImageView imageView, BannerBean model) {
+	        Picasso.with(context)
+	                .load(model.getImageUrl())
+	                .placeholder(R.mipmap.ic_launcher)
+	                .error(R.mipmap.ic_launcher)
+	                .into(imageView);
 	    }
+	}
 
 7.Toggle animation and speed
 
@@ -174,14 +163,13 @@ Custom model If you get the json picture is not named image, please realize your
 Viewpager vertical Here is the use of animation, so long as the choice of vertical scrolling, setting animation invalid
 
 
-	Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，Thank the author
+Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，Thank the author
 	
 	If you want to customize the animation, please inherit ABaseTransformer or BannerTransformer ;
 	
 	        bannerLayout
 	                .initImageListResources(list) //Customize the model class
-	                .initAdapter()
-	                .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
+	                .initTips()
 	                .setBannerTransformer(new FlipVerticalTransformer())  //Toggle animations
 	                .setBannerTransformerList(transformers) //Open random animation, set here, then there is no need to set the switch animation, the need for a list of animation collection
 	                .setDuration(3000) //Switching speed
@@ -193,8 +181,7 @@ Viewpager vertical Here is the use of animation, so long as the choice of vertic
 	
 		   bannerLayout
 	                .initImageListResources(list) //Customize the model class
-	                .initAdapter()
-	                .initRound(true, true, true, null, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.CENTERED)
+	                .initTips()
 	                .setBannerTransformer(BANNER_ANIMATION.CUBE_IN)
 	                .start();
 	
@@ -214,14 +201,13 @@ Viewpager vertical Here is the use of animation, so long as the choice of vertic
 
 9.Customize the tip bar
 
->Custom tip bar is not recommended, for ease of packaging, if you use a custom prompt bar against the original intention, so there is no quick set of features please mention [lssues](https://github.com/7449/BannerLayout/issues) Unless it is a very wonderful demand, and then use the custom prompt bar
+>Custom tip bar is not recommended, so there is no quick set of features please mention [lssues](https://github.com/7449/BannerLayout/issues)
 
-        bannerLayout
-                .initImageListResources(mDatas)
-                .addOnBannerPageChangeListener(new BannerOnPage())
-				.addPromptBar(new PromptBarView(getBaseContext())) //The custom hint bar view takes effect before the initAdapter call
-                .initAdapter()
-                .start(true);
+    bannerLayout
+            .initImageListResources(mDatas)
+            .addOnBannerPageChangeListener(new BannerOnPage())
+            .addPromptBar(new PromptBarView(getBaseContext())) 
+            .start(true);
 
      /**
      * Take over the onPage method of the viewpager
@@ -243,7 +229,7 @@ Viewpager vertical Here is the use of animation, so long as the choice of vertic
 	    }
 	}
 
->BannerLayout already provides a method that can be used to determine whether rotation is enabled, whether in a fragment or in an activity, by choosing to pause or resume rotation in the appropriate lifecycle (if autoscroll is enabled) Users can directly call, if you use the List data, please use the BannerModel
+>BannerLayout has provided a method that can be used to determine whether a carousel is active or not in the appropriate lifecycle, either by pausing or resuming rotation (if autoplay is enabled) The user can directly call it
 
 
 
@@ -254,36 +240,28 @@ The property name					|Description  												|The attribute value
 delay_time   						|Rotation time												|default 2s
 start_rotation   					|Whether to turn on automatic rotation						|True on, the default is not open
 view_pager_touch_mode   			|Whether the viewpager can be manually swiped				|True to prohibit sliding, false can slide, the default can slide
-round_selector   					|Small Dot State Selector									|Can refer to their own
-round_container_background_switch   |Whether to display the background of the prompt control	|True display, the default is not displayed
-round_left_margin   				|The dots are marginLeft									|default 10	
-round_right_margin   				|The dots are marginRight									|default 10	
-title_left_margin   				|title marginLeft											|default 10	
-title_right_margin   				|title marginRight											|default 10	
-round_width   						|The width of the dots										|default 15
-round_height   						|The height of the dots										|default 15
-round_container_background   		|BannerRound Background color								|default translucent
-round_container_width   			|BannerRound width											|default wrap_content
-round_container_height 				|BannerRound height											|default 50
-glide_error_image  					|Glide Load error placeholder								|defaultandroid Comes with icons
-glide_place_image  					|Placeholder in Glide loading								|defaultandroid Comes with icons
-banner_round_visible  				|Whether to display small dots								|default display
-banner_title_visible  				|Whether title is displayed									|default not displayed
-banner_title_size   				|font size													|default 12
-banner_title_color 					|font color													|default yellow
-banner_title_width 					|font width													|default wrap_content
-banner_title_height 				|font height												|default wrap_content
 banner_duration						|ViewPager switch speed										|default 800，The bigger the slower
 banner_isVertical					|The viewPager scrolls vertically							|The default is not vertical scrolling, true on
+dots_visible		  				|Whether to display small dots								|default display
+dots_selector   					|Small Dot State Selector									|Can refer to their own
+dots_left_margin	   				|The dots are marginLeft									|default 10	
+dots_right_margin   				|The dots are marginRight									|default 10	
+dots_width   						|The width of the dots										|default 15
+dots_height   						|The height of the dots										|default 15
+is_tips_background				 	|Whether to display the background of the prompt control	|True display, the default is not displayed
+tips_background				   		|BannerRound Background color								|default translucent
+tips_width				   			|BannerRound width											|default wrap_content
+tips_height			 				|BannerRound height											|default 50
+glide_error_image  					|Glide Load error placeholder								|defaultandroid Comes with icons
+glide_place_image  					|Placeholder in Glide loading								|defaultandroid Comes with icons
+title_visible  						|Whether title is displayed									|default not displayed
+title_size   						|font size													|default 12
+title_color 						|font color													|default yellow
+title_width 						|font width													|default wrap_content
+title_height 						|font height												|default wrap_content
+title_left_margin   				|title marginLeft											|default 10	
+title_right_margin   				|title marginRight											|default 10	
 
-#At last
-	
-BannerLayout This category inside the Notes I feel very detailed, if the above settings do not know how to look at BannerLayout.
-
-I am sure a person can not measure all the bugs, so now I do not know where there are problems, the basic use of the time being found no problems
-
-If someone in the course of the use of unknown or inexplicable bug, welcome to mention [lssues](https://github.com/7449/BannerLayoutSimple/issues),
-As for the image loading I was directly built with Glide to load the images. Regardless of local or network images can be, but remember to add network permissions
 
 License
 --

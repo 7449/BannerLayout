@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    buildToolsVersion '24.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -29,13 +29,13 @@ publish {
     userOrg = 'ydevelop'    //bintray.com用户名
     groupId = 'com.ydevelop'    //jcenter上的路径
     artifactId = 'bannerlayout' //项目名称
-    publishVersion = '0.0.8'    //版本号
+    publishVersion = '1.0.0'    //版本号
     desc = 'this is bannerlayout'   //描述
-    website = 'https://github.com/7449/BannerLayoutSimple'//网站
+    website = 'https://github.com/7449/BannerLayout'//网站
 }
 
 dependencies {
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }

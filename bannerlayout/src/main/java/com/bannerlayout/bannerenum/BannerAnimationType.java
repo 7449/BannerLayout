@@ -4,7 +4,7 @@ package com.bannerlayout.bannerenum;
  * by y on 2016/11/11
  */
 
-public enum BANNER_ANIMATION {
+public enum BannerAnimationType {
     ACCORDION,
     BACKGROUND,
     CUBE_IN,

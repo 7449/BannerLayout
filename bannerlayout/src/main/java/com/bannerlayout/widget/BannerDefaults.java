@@ -12,22 +12,22 @@ import com.bannerlayout.R;
 class BannerDefaults {
 
     /**
-     * Default Small Dot State Selector
+     * Default  Dots State Selector
      */
-    static final int ROUND_SELECTOR = R.drawable.point_background;
+    static final int DOTS_SELECTOR = R.drawable.point_background;
     /**
-     * Default small dot background color
+     * Default BannerTipsLayout background color
      */
-    static final int ROUND_CONTAINER_BACKGROUND = R.color.colorBackground;
+    static final int TIPS_LAYOUT_BACKGROUND = R.color.colorBackground;
 
     /**
      * The default dots control width
      */
-    static final int ROUND_CONTAINER_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
+    static final int TIPS_LAYOUT_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
     /**
      * The default dots control height
      */
-    static final int ROUND_CONTAINER_HEIGHT = 50;
+    static final int TIPS_LAYOUT_HEIGHT = 50;
 
     /**
      * Default rotation time
@@ -37,35 +37,35 @@ class BannerDefaults {
     /**
      * The dots are displayed by default
      */
-    static final boolean IS_VISIBLE_ROUND = true;
+    static final boolean IS_VISIBLE_DOTS = true;
 
     /**
      * Auto rotation is not turned on by default
      */
     static final boolean IS_START_ROTATION = false;
     /**
-     * By default, small dot backgrounds are not displayed
+     * By default,  dots backgrounds are not displayed
      */
-    static final boolean ROUND_CONTAINER_BACKGROUND_SWITCH = false;
+    static final boolean IS_TIPS_LAYOUT_BACKGROUND = false;
 
     /**
      * The default dots are marginLeft
      */
-    static final int ROUND_LEFT_MARGIN = 10;
+    static final int DOTS_LEFT_MARGIN = 10;
     /**
      * The default dots are marginRight
      */
-    static final int ROUND_RIGHT_MARGIN = 10;
+    static final int DOTS_RIGHT_MARGIN = 10;
 
     /**
-     * The default dot width
+     * The default dotS width
      */
-    static final int ROUND_WIDth = 15;
+    static final int DOTS_WIDth = 15;
 
     /**
-     * The default dot height
+     * The default dotS height
      */
-    static final int ROUND_HEIGHT = 15;
+    static final int DOTS_HEIGHT = 15;
 
     /**
      * The default viewpager can be manually swiped
@@ -85,32 +85,32 @@ class BannerDefaults {
     /**
      * The title is not displayed by default
      */
-    static final boolean BANNER_TITLE_VISIBLE = false;
+    static final boolean TITLE_VISIBLE = false;
 
     /**
      * The default title font size
      */
-    static final float BANNER_TITLE_SIZE = 12;
+    static final float TITLE_SIZE = 12;
     /**
      * The default title font color
      */
-    static final int BANNER_TITLE_COLOR = Color.YELLOW;
+    static final int TITLE_COLOR = Color.YELLOW;
     /**
      * The default title of marginLeft
      */
-    static final int BANNER_TITLE_LEFT_MARGIN = 10;
+    static final int TITLE_LEFT_MARGIN = 10;
     /**
      * The default title of marginRight
      */
-    static final int BANNER_TITLE_RIGHT_MARGIN = 10;
+    static final int TITLE_RIGHT_MARGIN = 10;
     /**
      * The width of the default title
      */
-    static final int BANNER_TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
      * The height of the default title
      */
-    static final int BANNER_TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
      * Default viewpager switching speed
      */
@@ -118,5 +118,5 @@ class BannerDefaults {
     /**
      * Whether the vertical sliding ,The default is not
      */
-    static final boolean BANNER_ISVERTICAL = false;
+    static final boolean IS_VERTICAL = false;
 }

@@ -5,27 +5,31 @@
         <attr name="delay_time" format="integer" />
         <attr name="start_rotation" format="boolean" />
         <attr name="view_pager_touch_mode" format="boolean" />
-        <attr name="round_selector" format="reference" />
-        <attr name="round_container_background_switch" format="boolean" />
-        <attr name="round_left_margin" format="integer" />
-        <attr name="round_right_margin" format="integer" />
-        <attr name="title_left_margin" format="integer" />
-        <attr name="title_right_margin" format="integer" />
-        <attr name="round_width" format="integer" />
-        <attr name="round_height" format="integer" />
-        <attr name="round_container_background" format="reference" />
-        <attr name="round_container_width" format="dimension" />
-        <attr name="round_container_height" format="dimension" />
-        <attr name="glide_error_image" format="reference" />
-        <attr name="glide_place_image" format="reference" />
-        <attr name="banner_round_visible" format="boolean" />
-        <attr name="banner_title_visible" format="boolean" />
-        <attr name="banner_title_size" format="dimension" />
-        <attr name="banner_title_color" format="color" />
-        <attr name="banner_title_width" format="dimension" />
-        <attr name="banner_title_height" format="dimension" />
         <attr name="banner_duration" format="integer" />
         <attr name="banner_isVertical" format="boolean" />
+
+        <attr name="dots_visible" format="boolean" />
+        <attr name="dots_selector" format="reference" />
+        <attr name="dots_left_margin" format="integer" />
+        <attr name="dots_right_margin" format="integer" />
+        <attr name="dots_width" format="integer" />
+        <attr name="dots_height" format="integer" />
+
+        <attr name="is_tips_background" format="boolean" />
+        <attr name="tips_background" format="reference" />
+        <attr name="tips_width" format="dimension" />
+        <attr name="tips_height" format="dimension" />
+
+        <attr name="glide_error_image" format="reference" />
+        <attr name="glide_place_image" format="reference" />
+
+        <attr name="title_visible" format="boolean" />
+        <attr name="title_size" format="dimension" />
+        <attr name="title_color" format="color" />
+        <attr name="title_width" format="dimension" />
+        <attr name="title_height" format="dimension" />
+        <attr name="title_left_margin" format="integer" />
+        <attr name="title_right_margin" format="integer" />
     </declare-styleable>
 
 </resources>

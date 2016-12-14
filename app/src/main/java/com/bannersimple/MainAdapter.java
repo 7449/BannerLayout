@@ -17,10 +17,10 @@ import com.bannerlayout.animation.BannerTransformer;
 import com.bannerlayout.animation.CubeInTransformer;
 import com.bannerlayout.animation.CubeOutTransformer;
 import com.bannerlayout.animation.RotateDownTransformer;
-import com.bannerlayout.bannerenum.BANNER_ANIMATION;
-import com.bannerlayout.bannerenum.BANNER_ROUND_POSITION;
-import com.bannerlayout.bannerenum.BANNER_TIP_LAYOUT_POSITION;
-import com.bannerlayout.bannerenum.BANNER_TITLE_POSITION;
+import com.bannerlayout.bannerenum.BannerAnimationType;
+import com.bannerlayout.bannerenum.BannerDotsSite;
+import com.bannerlayout.bannerenum.BannerTipsSite;
+import com.bannerlayout.bannerenum.BannerTitleSite;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.bean.BannerBean;
@@ -63,77 +63,71 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
         if (holder instanceof ImageModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
             holder.getBannerLayout()
-                    .initImageListResources(initImageModel())
-                    .initAdapter()
+                    .initListResources(initImageModel())
                     .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
-                    .initRound(true, true, true, BANNER_TIP_LAYOUT_POSITION.TOP, null, null)
+                    .initTips(true, true, true, BannerTipsSite.TOP, null, null)
                     .start(true, 2000)
-                    .setOnBannerClickListener(new OnBannerClickListener() {
+                    .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
+
                         @Override
-                        public void onBannerClick(int position, Object model) {
-                            Toast.makeText(holder.getContext(), position + "", Toast.LENGTH_SHORT).show();
+                        public void onBannerClick(int position, ImageModel model) {
+                            Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
         if (holder instanceof SystemNetWorkModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.system_network_model));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
-                    .initAdapter()
-                    .initRound(true, true, true, BANNER_TIP_LAYOUT_POSITION.BOTTOM, null, null);
+                    .initListResources(initSystemNetWorkModel())
+                    .initTips(true, true, true, BannerTipsSite.BOTTOM, null, null);
         }
         if (holder instanceof SystemModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.local_model));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemModel())
-                    .initAdapter();
+                    .initListResources(initSystemModel());
         }
         if (holder instanceof ArrayBannerHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.array_model));
             initArray();
             holder.getBannerLayout()
-                    .initImageArrayResources(mImage, mTitle)
-                    .initAdapter()
-                    .initRound(true, true, true, BANNER_TIP_LAYOUT_POSITION.BOTTOM, BANNER_ROUND_POSITION.LEFT, BANNER_TITLE_POSITION.RIGHT);
+                    .initArrayResources(mImage, mTitle)
+                    .initTips(true, true, true, BannerTipsSite.BOTTOM, BannerDotsSite.LEFT, BannerTitleSite.RIGHT);
         }
         if (holder instanceof TransformersHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_the_animation));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
-                    .initAdapter()
-                    .initRound(true, true, true)
+                    .initListResources(initSystemNetWorkModel())
+                    .initTips(true, true, true)
                     .setBannerTransformer(new AccordionTransformer());
 
         }
         if (holder instanceof SystemTransformersHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.system_animation));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
-                    .initAdapter()
-                    .initRound(true, true, true)
-                    .setBannerTransformer(BANNER_ANIMATION.CUBE_IN);
+                    .initListResources(initSystemNetWorkModel())
+                    .initTips(true, true, true)
+                    .setBannerTransformer(BannerAnimationType.CUBE_IN);
         }
         if (holder instanceof TransformersListHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_the_animation_collection));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
-                    .initAdapter()
-                    .initRound(true, true, true)
+                    .initListResources(initSystemNetWorkModel())
+                    .initTips(true, true, true)
                     .setBannerTransformerList(initTransformers());
 
         }
         if (holder instanceof SystemTransformersListHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.collection_of_system_animations));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
-                    .initAdapter()
-                    .initRound(true, true, true)
+                    .initListResources(initSystemNetWorkModel())
+                    .initTips(true, true, true)
                     .setBannerSystemTransformerList(initSystemTransformer());
         }
         if (holder instanceof PromptBarHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_the_tip_bar));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemNetWorkModel())
+                    .addPromptBar(new PromptBarView(holder.getContext()))
+                    .initListResources(initSystemNetWorkModel())
                     .addOnBannerPageChangeListener(new BannerOnPage() {
                         @Override
                         public void onPageSelected(int position) {
@@ -141,8 +135,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                             Toast.makeText(holder.getContext(), position + "", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addPromptBar(new PromptBarView(holder.getContext())) //The custom hint bar view takes effect before the initAdapter call
-                    .initAdapter();
+            ;//The custom hint bar view takes effect before the initAdapter call;
         }
         if (holder instanceof ImageManagerHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_load_Picture_Manager));
@@ -154,18 +147,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                             return initBannerBean().get(newPosition).getThisTitle();
                         }
                     })
-                    .initImageListResources(initBannerBean())
-                    .initAdapter()
-                    .initRound(true, true, true);
+                    .initListResources(initBannerBean())
+                    .initTips(true, true, true);
         }
         if (holder instanceof VerticalHolder) {
             //if it is a vertical slide can not set the animation
             holder.getTitle().setText(getString(holder.getContext(), R.string.is_vertical));
             holder.getBannerLayout()
-                    .initImageListResources(initSystemModel())
                     .setVertical(true)
-                    .initAdapter()
-                    .initRound(true, true, true)
+                    .initListResources(initSystemModel())
+                    .initTips(true, true, false)
                     .start(true, 2000);
         }
     }
@@ -264,13 +255,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
     /**
      * A collection of system animations
      */
-    private List<BANNER_ANIMATION> initSystemTransformer() {
-        List<BANNER_ANIMATION> enumTransformer = new ArrayList<>();
-        enumTransformer.add(BANNER_ANIMATION.ACCORDION);
-        enumTransformer.add(BANNER_ANIMATION.CUBE_IN);
-        enumTransformer.add(BANNER_ANIMATION.CUBE_OUT);
-        enumTransformer.add(BANNER_ANIMATION.DEFAULT);
-        enumTransformer.add(BANNER_ANIMATION.DEPTH_PAGE);
+    private List<BannerAnimationType> initSystemTransformer() {
+        List<BannerAnimationType> enumTransformer = new ArrayList<>();
+        enumTransformer.add(BannerAnimationType.ACCORDION);
+        enumTransformer.add(BannerAnimationType.CUBE_IN);
+        enumTransformer.add(BannerAnimationType.CUBE_OUT);
+        enumTransformer.add(BannerAnimationType.DEFAULT);
+        enumTransformer.add(BannerAnimationType.DEPTH_PAGE);
         return enumTransformer;
     }
 
