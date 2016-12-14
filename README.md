@@ -42,10 +42,11 @@ BannerBean
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.0'
+    compile 'com.ydevelop:bannerlayout:1.0.1'
 
 >Update log
 
+	1.0.1 ： Modify the code logic
 	1.0.0 ： Bannerlayout refactoring, using the more simple than the 0.0.X version
 	0.0.8: add vertical scrolling animation, code logic optimization
 	...

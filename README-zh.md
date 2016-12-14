@@ -39,10 +39,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.0'
+		compile 'com.ydevelop:bannerlayout:1.0.1'
 
 >更新状态
 
+	1.0.1 : 修改部分代码逻辑
 	1.0.0 ： bannerlayout重构，使用相比0.0.X版本更简单
 	0.0.8：添加垂直滚动的动画，代码逻辑优化
 	...
