@@ -2,7 +2,7 @@
 
 BannerLayout for unlimited rotation of images
 
-1.x version compared to 0.x version changes larger
+1.x version compared to 0.x version changes larger，It is recommended to use version 1.x, if you are using version 0.x, see [0.x REAME](https://github.com/7449/BannerLayout/blob/master/0.x/README.md)
 
 [中文文档](https://github.com/7449/BannerLayout/blob/master/README-zh.md)
 

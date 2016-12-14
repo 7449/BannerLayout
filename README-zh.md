@@ -2,7 +2,7 @@
 
 支持图片无限轮播的BannerLayout
 
-1.x版本相比0.x版本修改幅度较大
+1.x版本相比0.x版本修改幅度较大,建议使用1.x版本，如果使用0.x版本，请看[0.x说明](https://github.com/7449/BannerLayout/blob/master/0.x/README.md)
 
 ##支持功能
 

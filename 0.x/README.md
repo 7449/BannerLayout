@@ -2,7 +2,7 @@
 
 BannerLayout for unlimited rotation of images
 
-[中文文档](https://github.com/7449/BannerLayout/blob/master/README-zh.md)
+[中文文档](https://github.com/7449/BannerLayout/blob/master/0.x/README-zh.md)
 
 ##Support function
 
