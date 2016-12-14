@@ -155,9 +155,6 @@ public class BannerLayout extends RelativeLayout
     public BannerLayout initTips(boolean isTipsBackground,
                                  boolean isVisibleDots,
                                  boolean isVisibleTitle) {
-        this.isVisibleDots = isVisibleDots;
-        this.isVisibleTitle = isVisibleTitle;
-        this.isTipsBackground = isTipsBackground;
         initTips(isTipsBackground, isVisibleDots, isVisibleTitle, null, null, null);
         return this;
     }
@@ -267,7 +264,6 @@ public class BannerLayout extends RelativeLayout
      * Initialize the rotation handler
      */
     public BannerLayout start(boolean isStartRotation) {
-        this.isStartRotation = isStartRotation;
         start(isStartRotation, delayTime);
         return this;
     }
@@ -520,7 +516,6 @@ public class BannerLayout extends RelativeLayout
             throw new BannerException("the viewpager is null");
         }
         this.mDuration = pace;
-        viewPager.setDuration(mDuration);
         return this;
     }
 
@@ -581,7 +576,7 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerSystemTransformerList(List<BannerAnimationType> list) {
         if (list == null) {
-            throw new BannerException("the BANNER_ANIMATION is null");
+            throw new BannerException("the BannerAnimationType is null");
         }
         if (transformerList != null) {
             transformerList.clear();
@@ -598,7 +593,7 @@ public class BannerLayout extends RelativeLayout
      * Whether the vertical sliding ,The default is not
      */
     public BannerLayout setVertical(boolean vertical) {
-        isVertical = vertical;
+        this.isVertical = vertical;
         return this;
     }
 
