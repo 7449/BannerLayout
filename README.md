@@ -99,7 +99,7 @@ BannerBean
 
 4.Tip column and small dots, title position changes
 
-	Want to change the position in the initRound () method to achieve several different states, do not need to pass directly to the null default parameters
+	Want to change the position in the initTips () method to achieve several different states, do not need to pass directly to the null default parameters
 
 	BannerTipsSite               	 	The location of the tip bar in the layout，TOP,BUTTOM,CENTERED Three optional 
 	BannerDotsSite                		dots in the location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
