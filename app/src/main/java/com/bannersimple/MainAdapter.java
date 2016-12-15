@@ -14,8 +14,6 @@ import com.bannerlayout.Interface.OnBannerTitleListener;
 import com.bannerlayout.animation.AccordionTransformer;
 import com.bannerlayout.animation.BackgroundToForegroundTransformer;
 import com.bannerlayout.animation.BannerTransformer;
-import com.bannerlayout.animation.CubeInTransformer;
-import com.bannerlayout.animation.CubeOutTransformer;
 import com.bannerlayout.animation.RotateDownTransformer;
 import com.bannerlayout.bannerenum.BannerAnimationType;
 import com.bannerlayout.bannerenum.BannerDotsSite;
@@ -65,21 +63,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
             holder.getBannerLayout()
                     .initListResources(initImageModel())
                     .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
-                    .initTips(true, true, true, BannerTipsSite.TOP, null, null)
-                    .start(true, 2000)
-                    .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
-
-                        @Override
-                        public void onBannerClick(int position, ImageModel model) {
-                            Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    .initTips(true, true, true, BannerTipsSite.TOP, null, null).start(true);
         }
         if (holder instanceof SystemNetWorkModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.system_network_model));
             holder.getBannerLayout()
                     .initListResources(initSystemNetWorkModel())
-                    .initTips(true, true, true, BannerTipsSite.BOTTOM, null, null);
+                    .initTips(true, true, true, BannerTipsSite.BOTTOM, null, null)
+                    .setBannerSystemTransformerList(AnimationList.getAnimationList());
         }
         if (holder instanceof SystemModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.local_model));
@@ -106,7 +97,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
             holder.getBannerLayout()
                     .initListResources(initSystemNetWorkModel())
                     .initTips(true, true, true)
-                    .setBannerTransformer(BannerAnimationType.CUBE_IN);
+                    .setBannerTransformer(BannerAnimationType.FLIPHORIZONTAL);
         }
         if (holder instanceof TransformersListHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_the_animation_collection));
@@ -157,7 +148,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                     .setVertical(true)
                     .initListResources(initSystemModel())
                     .initTips(true, true, false)
-                    .start(true, 2000);
+                    .start(true, 2000)
+                    .setOnBannerClickListener(new OnBannerClickListener() {
+                        @Override
+                        public void onBannerClick(int position, Object model) {
+                            Toast.makeText(holder.getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 
@@ -258,9 +255,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
     private List<BannerAnimationType> initSystemTransformer() {
         List<BannerAnimationType> enumTransformer = new ArrayList<>();
         enumTransformer.add(BannerAnimationType.ACCORDION);
-        enumTransformer.add(BannerAnimationType.CUBE_IN);
-        enumTransformer.add(BannerAnimationType.CUBE_OUT);
-        enumTransformer.add(BannerAnimationType.DEFAULT);
         enumTransformer.add(BannerAnimationType.DEPTH_PAGE);
         return enumTransformer;
     }
@@ -273,8 +267,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
         transformers.add(new RotateDownTransformer());
         transformers.add(new AccordionTransformer());
         transformers.add(new BackgroundToForegroundTransformer());
-        transformers.add(new CubeOutTransformer());
-        transformers.add(new CubeInTransformer());
         return transformers;
     }
 

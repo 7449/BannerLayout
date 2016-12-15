@@ -2,7 +2,6 @@
 
 支持图片无限轮播的BannerLayout
 
-1.x版本相比0.x版本修改幅度较大,建议使用1.x版本，如果使用0.x版本，请看[0.x说明](https://github.com/7449/BannerLayout/blob/master/0.x/README.md)
 
 ##支持功能
 
@@ -39,13 +38,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.1'
+		compile 'com.ydevelop:bannerlayout:1.0.2'
 
 >更新状态
 
-	1.0.1 : 修改部分代码逻辑
-	1.0.0 ： bannerlayout重构，使用相比0.0.X版本更简单
-	0.0.8：添加垂直滚动的动画，代码逻辑优化
+	1.0.2 : 修复动画点击bug
 	...
 
 

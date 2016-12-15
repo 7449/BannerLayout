@@ -341,9 +341,6 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public void onPageSelected(int position) {
-        if (transformerList != null && transformerList.size() > 1 && !isVertical) {
-            viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
-        }
         int newPosition = position % getDotsSize();
         if (onBannerPageChangeListener != null && promptBarView != null) {
             onBannerPageChangeListener.onPageSelected(newPosition);
@@ -364,12 +361,16 @@ public class BannerLayout extends RelativeLayout
         }
         preEnablePosition = newPosition;
         if (bannerHandlerUtils != null && isStartRotation) {
+            if (transformerList != null && transformerList.size() > 1 && !isVertical) {
+                viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
+            }
             bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+
         if (onBannerPageChangeListener != null && promptBarView != null) {
             onBannerPageChangeListener.onPageScrollStateChanged(state);
         } else {

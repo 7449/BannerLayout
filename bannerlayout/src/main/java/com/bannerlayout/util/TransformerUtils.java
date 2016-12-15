@@ -12,6 +12,7 @@ import com.bannerlayout.animation.FlipVerticalTransformer;
 import com.bannerlayout.animation.ForegroundToBackgroundTransformer;
 import com.bannerlayout.animation.RotateDownTransformer;
 import com.bannerlayout.animation.RotateUpTransformer;
+import com.bannerlayout.animation.ScaleInOutTransformer;
 import com.bannerlayout.animation.StackTransformer;
 import com.bannerlayout.animation.TabletTransformer;
 import com.bannerlayout.animation.ZoomInTransformer;
@@ -62,6 +63,9 @@ public class TransformerUtils {
                 break;
             case ROTATEUP:
                 bannerTransformer = new RotateUpTransformer();
+                break;
+            case SCALEINOUT:
+                bannerTransformer = new ScaleInOutTransformer();
                 break;
             case STACK:
                 bannerTransformer = new StackTransformer();

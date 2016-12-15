@@ -61,15 +61,15 @@ class BannerViewPager extends ViewPager {
     }
 
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (isVertical) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-        } else {
-            return super.dispatchTouchEvent(ev);
-        }
-        return false;
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (isVertical) {
+//            getParent().requestDisallowInterceptTouchEvent(true);
+//        } else {
+//            return super.dispatchTouchEvent(ev);
+//        }
+//        return false;
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

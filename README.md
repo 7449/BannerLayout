@@ -2,7 +2,6 @@
 
 BannerLayout for unlimited rotation of images
 
-1.x version compared to 0.x version changes larger，It is recommended to use version 1.x, if you are using version 0.x, see [0.x REAME](https://github.com/7449/BannerLayout/blob/master/0.x/README.md)
 
 [中文文档](https://github.com/7449/BannerLayout/blob/master/README-zh.md)
 
@@ -42,13 +41,11 @@ BannerBean
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.1'
+    compile 'com.ydevelop:bannerlayout:1.0.2'
 
 >Update log
 
-	1.0.1 ： Modify the code logic
-	1.0.0 ： Bannerlayout refactoring, using the more simple than the 0.0.X version
-	0.0.8: add vertical scrolling animation, code logic optimization
+	1.0.2 ： Fix the animation Click the bug
 	...
 	
 >If the network is loading pictures remember to add
