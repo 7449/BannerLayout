@@ -3,7 +3,6 @@ package com.bannerlayout.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -51,7 +50,7 @@ public class BannerLayout extends RelativeLayout
     private BannerHandlerUtils bannerHandlerUtils = null;
     private BannerTipsLayout bannerTipLayout = null;
     private ImageLoaderManager imageLoaderManage = null; //Image Load Manager
-    private View promptBarView = null; //The custom hint bar must take over viewpager's OnPageChangeListener method
+    private View tipsView = null; //The custom hint bar must take over viewpager's OnPageChangeListener method
     private OnBannerPageChangeListener onBannerPageChangeListener = null;
     private OnBannerTitleListener onBannerTitleListener = null;
 
@@ -176,7 +175,7 @@ public class BannerLayout extends RelativeLayout
                                  BannerTipsSite bannerTipsSite,
                                  BannerDotsSite bannerDotsSite,
                                  BannerTitleSite bannerTitleSite) {
-        if (promptBarView != null) {
+        if (tipsView != null) {
             throw new BannerException("You can not initialize the round if the promptBarView is not null");
         }
         this.isTipsBackground = isBackgroundColor;
@@ -313,12 +312,17 @@ public class BannerLayout extends RelativeLayout
         viewPager.setDuration(mDuration);
         viewPager.setVertical(isVertical);
         addView(viewPager);
-        if (promptBarView != null) {
-            removeView(promptBarView);
-            addView(promptBarView);
+        if (tipsView != null) {
+            removeView(tipsView);
+            addView(tipsView);
         }
         viewPager.addOnPageChangeListener(this);
-        viewPager.setAdapter(getBannerAdapter());
+        BannerAdapter adapter = new BannerAdapter(imageList);
+        adapter.setPlaceImage(placeImageView);
+        adapter.setErrorImage(errorImageView);
+        adapter.setImageLoaderManage(imageLoaderManage);
+        adapter.setImageClickListener(this);
+        viewPager.setAdapter(adapter);
         viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getDotsSize()));
         return this;
     }
@@ -334,7 +338,7 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (onBannerPageChangeListener != null && promptBarView != null) {
+        if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageScrolled(position % getDotsSize(), positionOffset, positionOffsetPixels);
         }
     }
@@ -342,13 +346,13 @@ public class BannerLayout extends RelativeLayout
     @Override
     public void onPageSelected(int position) {
         int newPosition = position % getDotsSize();
-        if (onBannerPageChangeListener != null && promptBarView != null) {
+        if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageSelected(newPosition);
             return;
         }
         if (bannerTipLayout != null) {
             if (isVisibleDots) {
-                bannerTipLayout.changeRoundPosition(preEnablePosition, newPosition);
+                bannerTipLayout.changeDotsPosition(preEnablePosition, newPosition);
             }
             if (isVisibleTitle) {
                 bannerTipLayout.clearText();
@@ -360,29 +364,28 @@ public class BannerLayout extends RelativeLayout
             }
         }
         preEnablePosition = newPosition;
+        if (transformerList != null && transformerList.size() > 1 && !isVertical) {
+            viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
+        }
         if (bannerHandlerUtils != null && isStartRotation) {
-            if (transformerList != null && transformerList.size() > 1 && !isVertical) {
-                viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
-            }
             bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
-        if (onBannerPageChangeListener != null && promptBarView != null) {
+        if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageScrollStateChanged(state);
-        } else {
-            if (bannerHandlerUtils != null && isStartRotation) {
-                switch (state) {
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-                        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-                        break;
-                    case ViewPager.SCROLL_STATE_IDLE:
-                        bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
-                        break;
-                }
+            return;
+        }
+        if (bannerHandlerUtils != null && isStartRotation) {
+            switch (state) {
+                case ViewPager.SCROLL_STATE_DRAGGING:
+                    bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+                    break;
+                case ViewPager.SCROLL_STATE_IDLE:
+                    bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
+                    break;
             }
         }
 
@@ -601,8 +604,8 @@ public class BannerLayout extends RelativeLayout
     /**
      * Initialize the custom hint column before calling initAdapter
      */
-    public BannerLayout addPromptBar(View view) {
-        this.promptBarView = view;
+    public BannerLayout setTipsView(View view) {
+        this.tipsView = view;
         return this;
     }
 
@@ -755,23 +758,18 @@ public class BannerLayout extends RelativeLayout
         bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
     }
 
+    public int getDuration() {
+        if (viewPager == null) {
+            throw new BannerException("the viewpager is null");
+        }
+        return viewPager.getDuration();
+    }
+
     /**
      * getViewPager
      */
     public BannerViewPager getViewPager() {
         return viewPager;
-    }
-
-    /**
-     * adapter
-     */
-    private PagerAdapter getBannerAdapter() {
-        BannerAdapter adapter = new BannerAdapter(imageList);
-        adapter.setPlaceImage(placeImageView);
-        adapter.setErrorImage(errorImageView);
-        adapter.setImageLoaderManage(imageLoaderManage);
-        adapter.setImageClickListener(this);
-        return adapter;
     }
 
     /**

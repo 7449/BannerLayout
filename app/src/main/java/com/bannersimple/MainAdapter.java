@@ -117,7 +117,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
         if (holder instanceof PromptBarHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.customize_the_tip_bar));
             holder.getBannerLayout()
-                    .addPromptBar(new PromptBarView(holder.getContext()))
+                    .setTipsView(new PromptBarView(holder.getContext()))
                     .initListResources(initSystemNetWorkModel())
                     .addOnBannerPageChangeListener(new BannerOnPage() {
                         @Override

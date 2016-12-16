@@ -112,7 +112,7 @@ class BannerTipsLayout extends RelativeLayout {
     /**
      * Update the dot position
      */
-    void changeRoundPosition(int position, int newPosition) {
+    void changeDotsPosition(int position, int newPosition) {
         if (linearLayout != null) {
             linearLayout.getChildAt(position).setEnabled(false);
             linearLayout.getChildAt(newPosition).setEnabled(true);

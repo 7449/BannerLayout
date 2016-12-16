@@ -21,6 +21,7 @@ class BannerViewPager extends ViewPager {
 
     //Whether the vertical sliding ,The default is not
     private boolean isVertical;
+    private FixedSpeedScroller scroller;
 
     public BannerViewPager(Context context) {
         super(context);
@@ -96,12 +97,19 @@ class BannerViewPager extends ViewPager {
         try {
             Field field = ViewPager.class.getDeclaredField("mScroller");
             field.setAccessible(true);
-            FixedSpeedScroller scroller = new FixedSpeedScroller(getContext(), new AccelerateInterpolator());
+            scroller = new FixedSpeedScroller(getContext(), new AccelerateInterpolator());
             field.set(this, scroller);
             scroller.setDuration(duration);
         } catch (Exception e) {
             Log.i(getClass().getSimpleName(), e.getMessage());
         }
+    }
+
+    public int getDuration() {
+        if (scroller != null) {
+          return  scroller.getmDuration();
+        }
+        return 0;
     }
 
     private MotionEvent swapEvent(MotionEvent event) {
