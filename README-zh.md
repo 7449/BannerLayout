@@ -6,11 +6,11 @@
 ##支持功能
 
 
-- 可自定义小圆点（左中右）,title（左中右）,提示栏（上中下）位置
+- 可自定义小圆点,title,提示栏位置
 
 - 可自定义小圆点，以及是否自动轮播，轮播时间
 
-- 支持List 、数组 两种数据格式（网络本地都支持）
+- 支持List 、数组 两种数据格式
 
 - 支持点击事件以及轮播速度及viewPager滑动切换速度
 
@@ -22,15 +22,9 @@
 
 - 支持自定义提示栏（不建议使用）
 
-- 支持动画(随机动画需要List动画集合)
-
-- 支持自定义Bean类，如果只是简单使用，可以使用系统默认的BannerBean
-
-- 支持垂直滚动，使用动画实现，所以垂直滚动不能使用动画
+- 支持动画以及垂直滚动
 
 ####使用效果
-
->simple只有第一个示例默认开启轮播，其余的示例不开启轮播,simple录制有点丢帧
 
 ![](http://i.imgur.com/yLQUFvQ.gif)
 
@@ -52,7 +46,7 @@
 
 >简单使用方式
 
-            holder.getBannerLayout()
+            bannerLayout
                     .initListResources(initImageModel())//初始化数据
                     .initTips(true, true, true, BannerTipsSite.TOP, null, null)//设置tips
                     .start(true, 2000)//轮播 轮播时间
@@ -63,17 +57,23 @@
 	1.x版本在0.x版本的基础上去掉了手动调用initAdapter()，放在了初始化数据之后主动调用，
 	所以ViewPager的一些方法就要放在初始化数据之前调用，例如滑动速度 是否竖直滑动 自定义提示栏。
 
-1.数组方式
+>调用start()的时候可以决定是否开启自动轮播，如果开启了自动轮播应该在合适的生命周期里选择暂停或者恢复轮播
+
+	startBanner(); //开启轮播
+	stopBanner(); //停止轮播
+	restoreBanner(); //恢复轮播
+
+1.数组
 
 >数组使用也是在内部转化成List数据，所以点击事件以及自定义ImageLoaderManager传递的泛型均为BannerModel
 
         Object[] mImage = ;
         String[] mTitle = ;
-        holder.getBannerLayout()
+      	bannerLayout
                 .initArrayResources(mImage, mTitle)
-                .initTips(true, true, true, BannerTipsSite.BOTTOM, BannerDotsSite.LEFT, BannerTitleSite.RIGHT);
+                .initTips();
 
-2.List集合
+2.List
 
         List<BannerModel> mDatas = new ArrayList<>();
 		...
@@ -86,14 +86,12 @@
 
 >如果不传递泛型，返回的model就是当前Bean类，强转即可，建议传递泛型
 
-
             bannerLayout
-                    .initListResources(initImageModel())
-                    .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
-
-                        @Override
-                        public void onBannerClick(int position, ImageModel model) {
-                            Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
+             .initListResources(initImageModel())
+             .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
+                 @Override
+                 public void onBannerClick(int position, ImageModel model) {
+                   Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -107,15 +105,13 @@
 
 5.使用自定义Bean类
 	
->因为内置的Bean类只是简单的加载image和title，如果点击事件要传递ID之类的参数，那么就只能自定义一个Bean类
+>简单的使用BannerModel就可以满足需求，如果点击要传递Id之类的参数，就自定义Model类
 
-	自定义Bean类大致分为二种情况：
-		1.后台的参数url和title刚好是内置Bean的image,title.命名方式一样，那么可以直接使用.
-		2.后台参数的imageUrl和Title只要有任何一个和内置Bean的命名不一样的，就必须要自定义ImageLoaderManage,因为BannerLayout默认的是获取BannerModel里面的image和title，除非你和后台协商好，让他把命名改一下
+	1.url和title和BannerModle的image,title.命名方式一样，那么直接继承BannerModel即可，其余的参数写在自定义Bean类.
+	2.url和BannerModle的image命名方式不同，就必须要自定义ImageLoaderManage,因为BannerLayout默认的是获取BannerModel里面的image
+	3.title和BannerModle的title命名方式不同，实现OnBannerTitleListener，返回title即可
 
-	这两种情况下自定义Bean都必须要继承BannerModel这个类，否则BannerLayout不会识别出来，至于自定义ImageLoaderManager请看第六条
-
-	如果提示栏的文字的命名不是title,那么请实现OnBannerTitleListener，返回具体的title即可
+	自定义ImageLoaderManager请看第六条
 
 	自定义Bean类完整示例：
 		 bannerLayout
@@ -226,9 +222,6 @@ viewpager的垂直这里用的是动画，所以只要选择了垂直滚动，�
 	
 	    }
 	}
-
->最后调用start()的时候可以决定是否开启自动轮播，不管在fragment还是activity里面，应该在合适的生命周期里选择暂停或者恢复轮播（如果开启了自动轮播），BannerLayout已经提供了方法，使用者直接调用就可以了
-
 
 
 ## 自定义参数详解

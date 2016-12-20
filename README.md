@@ -8,15 +8,15 @@ BannerLayout for unlimited rotation of images
 ##Support function
 
 
-- can be customized small dots (left center), title (left center), prompt bar (upper middle) position
+- can be customized  dots , title, prompt bar position
 
 - you can customize small dots, and whether to automatically rotate to the next page and rotation time
 
-- support List, array two data formats (network local support)
+- support List, array two data formats
 
 - support for click events and rotation speed and viewPager slide switch speed
 
-- whether to display a small dot, title, or the entire tip column
+- whether to display a dots, title, or the entire tip column
 
 - support for loading and loading fails to display custom pictures
 
@@ -24,16 +24,9 @@ BannerLayout for unlimited rotation of images
 
 - support for custom hints (not recommended)
 
-- support animation (random animation needs List animation collection)
-
-- support for custom Bean class, if only simple to use, you can use the system default 
-BannerBean
-
-- support for vertical scrolling, using animation, so vertical scrolling can not be animated
+- supports animation and vertical scrolling
 
 ####Effect
-
->Simple only the first example of the default open carousel, the rest of the examples do not open the carousel, simple recording a bit dropped frames
 
 ![](http://i.imgur.com/gCZhj2M.gif)
 
@@ -65,16 +58,22 @@ BannerBean
 	1.x 0.x version of the manual removed on the basis of the call initAdapter (), on the initiative to call the data after the initialization,
 	Therefore, some methods of ViewPager will be placed before the initialization data call, such as sliding speed, whether the vertical sliding, custom prompt bar.
 
+>Calling start () can decide whether to open automatic rotation, if you turn on the automatic rotation should be in the appropriate life cycle, choose to pause or resume rotation
+
+	startBanner(); //Start rotation
+	stopBanner(); //Paused rotation
+	restoreBanner(); //Resume rotation
+
 1.Array 
 >Array is also used in the internal conversion into List data, click events and custom ImageLoaderManager are passed generic BannerModel
 
-    Object[] mImage = ;
-    String[] mTitle = ;
-    holder.getBannerLayout()
-            .initArrayResources(mImage, mTitle)
-            .initTips(true, true, true, BannerTipsSite.BOTTOM, BannerDotsSite.LEFT, BannerTitleSite.RIGHT);
+        Object[] mImage = ;
+        String[] mTitle = ;
+      	bannerLayout
+                .initArrayResources(mImage, mTitle)
+                .initTips();
 
-2.ArrayList
+2.List
 
     List<BannerModel> mDatas = new ArrayList<>();
     ...
@@ -107,15 +106,15 @@ BannerBean
 
 5.Customize the Bean class
 
->Because the built-in Bean class simply loads image and title, if the click event to pass the ID and the like parameters, then you can only customize a Bean class
+>simple to use BannerModel to meet the demand, if you click to pass the Id class parameters, the definition of the Model class
 	
-	Custom Bean class can be broadly divided into two cases:：
-		1.The background parameters url and title is the built-in Bean's image, title. Named the same way, then you can directly use.
-		2.ImageUrl and Title of background parameters As long as any of the names and built-in Bean is not the same, you must customize the ImageLoaderManage, because BannerLayout acquiescence acquires BannerModel inside the image and title, unless you and the background consultation, let him name Change it
+	1.url and title and BannerModle the image, title. Named the same way, then the direct inheritance BannerModel can, the rest of the parameters written in the custom Bean class.
 
-	In both cases, custom Bean must inherit the BannerModel class, otherwise BannerLayout will not recognize it. As for custom ImageLoaderManage, see article 6
+	2.url and BannerModle image naming in different ways, you must customize the ImageLoaderManage, because BannerLayout acquiescence acquires BannerModel inside the image
 
-	If the title bar text is not named title, then the realization of OnBannerTitleListener, can return to the specific title
+	3.title and BannerModle the title naming different ways to achieve OnBannerTitleListener, title can be returned
+
+	Customize ImageLoaderManager See article 6
 
 	A complete example of a custom Bean class：
 
@@ -180,7 +179,7 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 		   bannerLayout
 	                .initImageListResources(list) //Customize the model class
 	                .initTips()
-	                .setBannerTransformer(BANNER_ANIMATION.CUBE_IN)
+	                .setBannerTransformer(BannerAnimationType.CUBE_IN)
 	                .start();
 	
 8.Animation collection：
@@ -226,10 +225,6 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	
 	    }
 	}
-
->BannerLayout has provided a method that can be used to determine whether a carousel is active or not in the appropriate lifecycle, either by pausing or resuming rotation (if autoplay is enabled) The user can directly call it
-
-
 
 ## Custom parameters explained in detail
 
