@@ -2,6 +2,7 @@ package com.bannerlayout.animation;
 
 import android.view.View;
 
+@SuppressWarnings("ALL")
 public class ZoomOutTranformer extends ABaseTransformer {
 
     @Override

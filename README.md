@@ -8,7 +8,7 @@ BannerLayout for unlimited rotation of images
 ##Support function
 
 
-- can be customized  dots , title, prompt bar position
+- can be customized  dots , title, prompt bar position，Support for custom selectors
 
 - you can customize small dots, and whether to automatically rotate to the next page and rotation time
 
@@ -34,11 +34,11 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.2'
+    compile 'com.ydevelop:bannerlayout:1.0.3'
 
 >Update log
 
-	1.0.2 ： Fix the animation Click the bug
+	1.0.3 ： Increase the small dot color settings and attr increase the location of the enumeration tips, respectively, tips_site, dots_site, title_site
 	...
 	
 >If the network is loading pictures remember to add
@@ -49,14 +49,8 @@ BannerLayout for unlimited rotation of images
 
         holder.getBannerLayout()
                 .initListResources(initImageModel())//initData
-                .initTips(true, true, true, BannerTipsSite.TOP, null, null)//settings tips
+                .initTips(true, true, true)//settings tips
                 .start(true, 2000)
-
->Details of the problem
-
-	Some TipsLayout settings such as font size, color and the like will be placed before initTips call,
-	1.x 0.x version of the manual removed on the basis of the call initAdapter (), on the initiative to call the data after the initialization,
-	Therefore, some methods of ViewPager will be placed before the initialization data call, such as sliding speed, whether the vertical sliding, custom prompt bar.
 
 >Calling start () can decide whether to open automatic rotation, if you turn on the automatic rotation should be in the appropriate life cycle, choose to pause or resume rotation
 
@@ -98,11 +92,14 @@ BannerLayout for unlimited rotation of images
 
 4.Tip column and small dots, title position changes
 
-	Want to change the position in the initTips () method to achieve several different states, do not need to pass directly to the null default parameters
+	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,centered Three optional 
+	setDotsSite()               		dots in the location of the prompt bar，left,centered,right Three optional
+	setTitleSite()               		Title The location of the prompt bar，left,centered,right Three optional
 
-	BannerTipsSite               	 	The location of the tip bar in the layout，TOP,BUTTOM,CENTERED Three optional 
-	BannerDotsSite                		dots in the location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
-	BannerTitleSite               		Title The location of the prompt bar，LEFT,CENTERED,RIGHT Three optional
+	xml:
+		    <com.bannerlayout.widget.BannerLayout
+		        ...
+		        app:tips_site="centered" />
 
 5.Customize the Bean class
 
@@ -200,11 +197,11 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 
 >Custom tip bar is not recommended, so there is no quick set of features please mention [lssues](https://github.com/7449/BannerLayout/issues)
 
-    bannerLayout
-            .initImageListResources(mDatas)
-            .addOnBannerPageChangeListener(new BannerOnPage())
-            .addPromptBar(new PromptBarView(getBaseContext())) 
-            .start(true);
+        bannerLayout
+                .initListResources(mDatas)
+                .addOnBannerPageChangeListener(new BannerOnPage())
+				.setTipsView(new PromptBarView(getBaseContext())) 
+                .start(true);
 
      /**
      * Take over the onPage method of the viewpager
@@ -254,7 +251,13 @@ title_width 						|font width													|default wrap_content
 title_height 						|font height												|default wrap_content
 title_left_margin   				|title marginLeft											|default 10	
 title_right_margin   				|title marginRight											|default 10	
-
+enabledRadius						|enabledDots Radius  										|default 0.5f
+normalRadius						|normalDots Radius  										|default 0.5f
+enabledColor						|enabledDots color											|default blue
+normalColor							|normalDots color											|default white
+tips_site							|Tips in the layout position    							|Default bottom, optional upper and lower
+dots_site							|The position of the dots in the layout    					|Default bottom, optional left center
+title_site							|Title The position in the layout    						|Default bottom, optional left center
 
 License
 --

@@ -6,9 +6,9 @@
 ##支持功能
 
 
-- 可自定义小圆点,title,提示栏位置
+- 可自定义小圆点,title,提示栏位置，支持自定义selector选择器
 
-- 可自定义小圆点，以及是否自动轮播，轮播时间
+- 可自定义是否自动轮播，轮播时间
 
 - 支持List 、数组 两种数据格式
 
@@ -32,11 +32,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.2'
+		compile 'com.ydevelop:bannerlayout:1.0.3'
 
 >更新状态
 
-	1.0.2 : 修复动画点击bug
+	1.0.3 : 增加小圆点颜色的设置以及attr增加tips位置的枚举，分别为 tips_site，dots_site，title_site
 	...
 
 
@@ -48,14 +48,8 @@
 
             bannerLayout
                     .initListResources(initImageModel())//初始化数据
-                    .initTips(true, true, true, BannerTipsSite.TOP, null, null)//设置tips
+                    .initTips(true, true, true)//设置tips
                     .start(true, 2000)//轮播 轮播时间
-
->细节问题
-
-	一些TipsLayout设置  比如字体大小 颜色之类的就要放在initTips之前调用，
-	1.x版本在0.x版本的基础上去掉了手动调用initAdapter()，放在了初始化数据之后主动调用，
-	所以ViewPager的一些方法就要放在初始化数据之前调用，例如滑动速度 是否竖直滑动 自定义提示栏。
 
 >调用start()的时候可以决定是否开启自动轮播，如果开启了自动轮播应该在合适的生命周期里选择暂停或者恢复轮播
 
@@ -97,11 +91,14 @@
 
 4.提示栏及小圆点、title位置的改变
 
-	想要改变位置在initTips()方法中实现几种不同的状态，不需要的可以直接传null 有默认的参数
+	setTipsSite() 	 			提示栏在布局中的位置，top,bottom,centered三种可选 
+	setDotsSite()	  			小圆点在提示栏的位置，left,centered,right三种可选 
+	setTitleSite()  			title在提示栏的位置，left,centered,right三种可选 
 
-	BannerTipsSite 	 			提示栏在布局中的位置，TOP,BUTTOM,CENTERED三种可选 
-	BannerDotsSite  			小圆点在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
-	BannerTitleSite  			title在提示栏的位置，LEFT,CENTERED,RIGHT三种可选 
+	xml:
+		    <com.bannerlayout.widget.BannerLayout
+		        ...
+		        app:tips_site="centered" />
 
 5.使用自定义Bean类
 	
@@ -198,9 +195,9 @@ viewpager的垂直这里用的是动画，所以只要选择了垂直滚动，�
 >自定义提示栏不建议使用，没有什么能快速设置的功能请尽量提[lssues](https://github.com/7449/BannerLayoutSimple/issues)
 
         bannerLayout
-                .initImageListResources(mDatas)
+                .initListResources(mDatas)
                 .addOnBannerPageChangeListener(new BannerOnPage())
-				.addPromptBar(new PromptBarView(getBaseContext())) 
+				.setTipsView(new PromptBarView(getBaseContext())) 
                 .start(true);
 
      /**
@@ -252,7 +249,13 @@ title_width		 					|字体width					|默认自适应
 title_height		 				|字体height					|默认自适应
 title_left_margin   				|title marginLeft			|默认10	
 title_right_margin   				|title marginRight			|默认10	
-
+enabledRadius						|未选中小圆点Radius  			|默认0.5f
+normalRadius						|选中小圆点Radius  			|默认0.5f
+enabledColor						|未选中小圆点颜色				|默认蓝色
+normalColor							|选中小圆点颜色				|默认白色
+tips_site							|tips在布局中位置    			|默认底部，可选上中下
+dots_site							|小圆点在布局中位置    		|默认底部，可选左中右
+title_site							|title在布局中位置    		|默认底部，可选左中右
 
 License
 --

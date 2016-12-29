@@ -12,9 +12,9 @@ import com.bannerlayout.R;
 class BannerDefaults {
 
     /**
-     * Default  Dots State Selector
+     * customize  dots State Selector
      */
-    static final int DOTS_SELECTOR = R.drawable.point_background;
+    static final int DOTS_SELECTOR = -1;
     /**
      * Default BannerTipsLayout background color
      */
@@ -119,4 +119,9 @@ class BannerDefaults {
      * Whether the vertical sliding ,The default is not
      */
     static final boolean IS_VERTICAL = false;
+
+    static final float ENABLED_RADIUS = 0.5f;
+    static final float NORMAL_RADIUS = 0.5f;
+    static final int ENABLED_COLOR = R.color.colorPrimary;
+    static final int NORMAL_COLOR = R.color.colorWhite;
 }

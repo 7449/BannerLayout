@@ -1,6 +1,7 @@
 package com.bannerlayout.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -10,17 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bannerlayout.bannerenum.BannerDotsSite;
-import com.bannerlayout.bannerenum.BannerTipsSite;
-import com.bannerlayout.bannerenum.BannerTitleSite;
-
 /**
  * by y on 2016/10/25
  */
 class BannerTipsLayout extends RelativeLayout {
 
-    private TextView textView;
-    private LinearLayout linearLayout;
+    private TextView textView = null;
+    private LinearLayout linearLayout = null;
 
     public BannerTipsLayout(Context context) {
         super(context);
@@ -37,17 +34,17 @@ class BannerTipsLayout extends RelativeLayout {
 
     /**
      * Initialize the dots
-     *
-     * @param bannerDotsSite dot in what site, three optional, left in the right by default on the right
      */
-    void setDots(
-            BannerDotsSite bannerDotsSite,
-            DotsInterface dotsInterface) {
-
+    void setDots(DotsInterface dotsInterface) {
+        if (linearLayout != null) {
+            removeView(linearLayout);
+            linearLayout = null;
+        }
         linearLayout = new LinearLayout(getContext());
+        linearLayout.removeAllViews();
         for (int i = 0; i < dotsInterface.dotsCount(); i++) {
             View view = new View(getContext());
-            view.setBackgroundResource(dotsInterface.dotsSelector());
+            view.setBackgroundDrawable(dotsInterface.dotsSelector());
             if (i == 0) {
                 view.setEnabled(true);
             } else {
@@ -61,51 +58,19 @@ class BannerTipsLayout extends RelativeLayout {
         }
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_VERTICAL);
-        if (bannerDotsSite == null) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        } else {
-            switch (bannerDotsSite) {
-                case CENTERED:
-                    params.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    break;
-                case LEFT:
-                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    break;
-                case RIGHT:
-                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    break;
-            }
-        }
+        params.addRule(dotsInterface.dotsSite());
         addView(linearLayout, params);
     }
 
     /**
      * Initialize  this
-     *
-     * @param bannerTipsSite this In what site, three optional, on the bottom of the default for the bottom
      */
-    void setBannerTips(
-            BannerTipsSite bannerTipsSite,
-            TipsInterface tipsInterface) {
+    void setBannerTips(TipsInterface tipsInterface) {
         LayoutParams tipsParams = new LayoutParams((int) tipsInterface.tipsWidth(), (int) tipsInterface.tipsHeight());
-        if (bannerTipsSite == null) {
-            tipsParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        } else {
-            switch (bannerTipsSite) {
-                case BOTTOM:
-                    tipsParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    break;
-                case TOP:
-                    tipsParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    break;
-                case CENTERED:
-                    tipsParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    break;
-            }
-        }
+        tipsParams.addRule(tipsInterface.tipsSite());
         setLayoutParams(tipsParams);
         if (tipsInterface.isBackgroundColor()) {
-            setBackgroundResource(tipsInterface.tipsLayoutBackgroundColor());
+            setBackgroundColor(tipsInterface.tipsLayoutBackgroundColor());
         }
     }
 
@@ -123,9 +88,11 @@ class BannerTipsLayout extends RelativeLayout {
     /**
      * Update title, the default on the left
      */
-    void setTitle(
-            BannerTitleSite bannerTitleSite,
-            TitleInterface titleInterface) {
+    void setTitle(TitleInterface titleInterface) {
+        if (textView != null) {
+            removeView(textView);
+            textView = null;
+        }
         textView = new TextView(getContext());
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setTextColor(titleInterface.titleColor());
@@ -136,26 +103,12 @@ class BannerTipsLayout extends RelativeLayout {
         params.addRule(RelativeLayout.CENTER_VERTICAL);
         params.leftMargin = titleInterface.titleLeftMargin();
         params.rightMargin = titleInterface.titleRightMargin();
-        if (bannerTitleSite == null) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        } else {
-            switch (bannerTitleSite) {
-                case CENTERED:
-                    params.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    break;
-                case LEFT:
-                    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    break;
-                case RIGHT:
-                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    break;
-            }
-        }
+        params.addRule(titleInterface.titleSite());
         addView(textView, params);
     }
 
     void setTitle(String title) {
-        if (textView != null && title != null) {
+        if (textView != null && !TextUtils.isEmpty(title)) {
             textView.setText(title);
         }
     }
@@ -167,6 +120,9 @@ class BannerTipsLayout extends RelativeLayout {
     }
 
     interface TipsInterface {
+
+        int tipsSite();
+
         float tipsWidth();
 
         float tipsHeight();
@@ -188,12 +144,15 @@ class BannerTipsLayout extends RelativeLayout {
         float titleWidth();
 
         float titleHeight();
+
+        int titleSite();
+
     }
 
     interface DotsInterface {
         int dotsCount();
 
-        int dotsSelector();
+        Drawable dotsSelector();
 
         int dotsHeight();
 
@@ -202,5 +161,8 @@ class BannerTipsLayout extends RelativeLayout {
         int dotsLeftMargin();
 
         int dotsRightMargin();
+
+        int dotsSite();
+
     }
 }

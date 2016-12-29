@@ -15,8 +15,13 @@
         <attr name="dots_width" format="integer" />
         <attr name="dots_height" format="integer" />
 
+        <attr name="enabledRadius" format="float" />
+        <attr name="normalRadius" format="float" />
+        <attr name="enabledColor" format="color" />
+        <attr name="normalColor" format="color" />
+
         <attr name="is_tips_background" format="boolean" />
-        <attr name="tips_background" format="reference" />
+        <attr name="tips_background" format="color" />
         <attr name="tips_width" format="dimension" />
         <attr name="tips_height" format="dimension" />
 
@@ -30,6 +35,22 @@
         <attr name="title_height" format="dimension" />
         <attr name="title_left_margin" format="integer" />
         <attr name="title_right_margin" format="integer" />
+
+        <attr name="tips_site">
+            <enum name="top" value="10" />
+            <enum name="bottom" value="12" />
+            <enum name="centered" value="13" />
+        </attr>
+        <attr name="dots_site">
+            <enum name="left" value="9" />
+            <enum name="centered" value="13" />
+            <enum name="right" value="11" />
+        </attr>
+        <attr name="title_site">
+            <enum name="left" value="9" />
+            <enum name="centered" value="13" />
+            <enum name="right" value="11" />
+        </attr>
     </declare-styleable>
 
 </resources>

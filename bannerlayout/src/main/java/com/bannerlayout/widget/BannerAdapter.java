@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bannerlayout.Interface.ImageLoaderManager;
+import com.bannerlayout.R;
+import com.bannerlayout.exception.BannerException;
 import com.bannerlayout.model.BannerModel;
 import com.bumptech.glide.Glide;
 
@@ -66,6 +68,7 @@ class BannerAdapter extends PagerAdapter {
         if (imageLoaderManage == null) {
             imageLoader(img.getContext(), imageList.get(getPosition(position)).getImage(), img);
         } else {
+            //noinspection unchecked
             imageLoaderManage.display(img.getContext(), img, imageList.get(getPosition(position)));
         }
         img.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +85,7 @@ class BannerAdapter extends PagerAdapter {
 
     private void imageLoader(Context context, Object url, ImageView imageView) {
         if (place_image == -1 || error_image == -1) {
-            throw new NullPointerException("glide placeImage or errorImage is null");
+            throw new BannerException(context.getString(R.string.glide_excpetion));
         }
         Glide.with(context).load(url).placeholder(place_image)
                 .error(error_image).centerCrop().into(imageView);

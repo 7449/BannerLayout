@@ -1,3 +1,14 @@
 <resources>
     <string name="banner_adapterType_null">请在初始化图片资源之后再调用initTips()</string>
+    <string name="tipsView_no_null">tipsView不为null,如果决定自定义tipsView请不要初始化此方法</string>
+    <string name="list_null">List集合未检测到数据</string>
+    <string name="array_null">数组未检测到数据</string>
+    <string name="array_size_lnconsistent">数组的title和url个数不一致,请检查数据</string>
+    <string name="array_null_">imageArray 或者 imageArrayTitle 为null</string>
+    <string name="viewpager_null">检测到ViewPager为null</string>
+    <string name="animationList_null">检测到动画集合为null</string>
+    <string name="viewpager_or_transformer_null">viewpager 或者 bannertransformer 为null</string>
+    <string name="vertical">竖直滚动使用动画实现,因此禁止使用动画</string>
+    <string name="glide_excpetion">Glide加载中图片或者加载异常图片设置出现异常</string>
+    <string name="bannerTransformer_null">检测到动画为null</string>
 </resources>

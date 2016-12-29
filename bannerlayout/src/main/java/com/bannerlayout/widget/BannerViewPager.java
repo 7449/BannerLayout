@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 class BannerViewPager extends ViewPager {
 
     //true Viewpager Prevents swipe
-    private boolean mViewTouchMode = false;
+    private boolean mViewTouchMode;
 
     //Whether the vertical sliding ,The default is not
     private boolean isVertical;
@@ -107,7 +107,7 @@ class BannerViewPager extends ViewPager {
 
     public int getDuration() {
         if (scroller != null) {
-          return  scroller.getmDuration();
+            return scroller.getmDuration();
         }
         return 0;
     }

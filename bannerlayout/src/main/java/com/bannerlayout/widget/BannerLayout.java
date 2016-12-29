@@ -2,13 +2,14 @@ package com.bannerlayout.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Message;
+import android.support.annotation.IntDef;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bannerlayout.Interface.ImageLoaderManager;
 import com.bannerlayout.Interface.OnBannerClickListener;
@@ -18,15 +19,15 @@ import com.bannerlayout.Interface.ViewPagerCurrent;
 import com.bannerlayout.R;
 import com.bannerlayout.animation.BannerTransformer;
 import com.bannerlayout.bannerenum.BannerAnimationType;
-import com.bannerlayout.bannerenum.BannerDotsSite;
-import com.bannerlayout.bannerenum.BannerTipsSite;
-import com.bannerlayout.bannerenum.BannerTitleSite;
 import com.bannerlayout.exception.BannerException;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.util.BannerHandlerUtils;
+import com.bannerlayout.util.BannerSelectorUtils;
 import com.bannerlayout.util.TransformerUtils;
 import com.bannerlayout.widget.BannerTipsLayout.DotsInterface;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,16 @@ public class BannerLayout extends RelativeLayout
         BannerTipsLayout.TitleInterface,
         BannerTipsLayout.TipsInterface {
 
+
+    /**
+     * tipsLayout location marker
+     */
+    public static final int ALIGN_PARENT_LEFT = 9;
+    public static final int ALIGN_PARENT_TOP = 10;
+    public static final int ALIGN_PARENT_RIGHT = 11;
+    public static final int ALIGN_PARENT_BOTTOM = 12;
+    public static final int CENTER_IN_PARENT = 13;
+
     private List<BannerTransformer> transformerList = null; //Animation collection
     private OnBannerClickListener onBannerClickListener = null;
     private List<? extends BannerModel> imageList = null;
@@ -53,6 +64,7 @@ public class BannerLayout extends RelativeLayout
     private View tipsView = null; //The custom hint bar must take over viewpager's OnPageChangeListener method
     private OnBannerPageChangeListener onBannerPageChangeListener = null;
     private OnBannerTitleListener onBannerTitleListener = null;
+    private BannerAdapter adapter = null;//viewpager adapter
 
     private int preEnablePosition = 0;
 
@@ -74,12 +86,29 @@ public class BannerLayout extends RelativeLayout
     private float titleHeight;// title height
     private float tipsLayoutHeight; //BannerTipsLayout height
     private float tipsLayoutWidth; // BannerTipsLayout width
-    private int tipsLayoutBackgroundColor; //BannerTipsLayout BackgroundColor
+    private int tipsBackgroundColor; //BannerTipsLayout BackgroundColor
     private int dotsSelector; //Dots State Selector
     private int errorImageView;//Glide Load error placeholder
     private int placeImageView;//Placeholder in glide loading
     private int mDuration;//Viewpager switching speed
     private boolean isVertical;//Whether the vertical sliding ,The default is not
+    private float enabledRadius;
+    private float normalRadius;
+    private int enabledColor; //dots enabledColor
+    private int normalColor;//dots normalColor
+    private int tipsSite;
+    private int dotsSite;
+    private int titleSite;
+
+    @IntDef({ALIGN_PARENT_BOTTOM, ALIGN_PARENT_TOP, CENTER_IN_PARENT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TipsSiteMode {
+    }
+
+    @IntDef({CENTER_IN_PARENT, ALIGN_PARENT_LEFT, ALIGN_PARENT_RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DotsAndTitleSiteMode {
+    }
 
     private void init(AttributeSet attrs) {
         if (attrs == null) {
@@ -88,7 +117,7 @@ public class BannerLayout extends RelativeLayout
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
 
         isTipsBackground = typedArray.getBoolean(R.styleable.BannerLayout_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND);
-        tipsLayoutBackgroundColor = typedArray.getResourceId(R.styleable.BannerLayout_tips_background, BannerDefaults.TIPS_LAYOUT_BACKGROUND);
+        tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_tips_background, ContextCompat.getColor(getContext(), BannerDefaults.TIPS_LAYOUT_BACKGROUND));
         tipsLayoutWidth = typedArray.getDimension(R.styleable.BannerLayout_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH);
         tipsLayoutHeight = typedArray.getDimension(R.styleable.BannerLayout_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT);
 
@@ -98,6 +127,10 @@ public class BannerLayout extends RelativeLayout
         dotsWidth = typedArray.getInt(R.styleable.BannerLayout_dots_width, BannerDefaults.DOTS_WIDth);
         dotsHeight = typedArray.getInt(R.styleable.BannerLayout_dots_height, BannerDefaults.DOTS_HEIGHT);
         dotsSelector = typedArray.getResourceId(R.styleable.BannerLayout_dots_selector, BannerDefaults.DOTS_SELECTOR);
+        enabledRadius = typedArray.getFloat(R.styleable.BannerLayout_enabledRadius, BannerDefaults.ENABLED_RADIUS);
+        enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, ContextCompat.getColor(getContext(), BannerDefaults.ENABLED_COLOR));
+        normalRadius = typedArray.getFloat(R.styleable.BannerLayout_normalRadius, BannerDefaults.NORMAL_RADIUS);
+        normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, ContextCompat.getColor(getContext(), BannerDefaults.NORMAL_COLOR));
 
         delayTime = typedArray.getInt(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_start_rotation, BannerDefaults.IS_START_ROTATION);
@@ -115,6 +148,10 @@ public class BannerLayout extends RelativeLayout
         titleWidth = typedArray.getDimension(R.styleable.BannerLayout_title_width, BannerDefaults.TITLE_WIDTH);
         titleHeight = typedArray.getDimension(R.styleable.BannerLayout_title_height, BannerDefaults.TITLE_HEIGHT);
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_title_size, BannerDefaults.TITLE_SIZE);
+
+        tipsSite = typedArray.getInt(R.styleable.BannerLayout_tips_site, ALIGN_PARENT_BOTTOM);
+        dotsSite = typedArray.getInt(R.styleable.BannerLayout_dots_site, ALIGN_PARENT_RIGHT);
+        titleSite = typedArray.getInt(R.styleable.BannerLayout_title_site, ALIGN_PARENT_LEFT);
         typedArray.recycle();
     }
 
@@ -132,29 +169,19 @@ public class BannerLayout extends RelativeLayout
         init(attrs);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (viewPager != null) {
-            return viewPager.onTouchEvent(event);
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (viewPager != null) {
+//            return viewPager.onTouchEvent(event);
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
     /**
      * Initialize the dots using the default parameters
      */
     public BannerLayout initTips() {
-        initTips(isTipsBackground, isVisibleDots, isVisibleTitle, null, null, null);
-        return this;
-    }
-
-    /**
-     * Initialize dots, whether to open the background title dots
-     */
-    public BannerLayout initTips(boolean isTipsBackground,
-                                 boolean isVisibleDots,
-                                 boolean isVisibleTitle) {
-        initTips(isTipsBackground, isVisibleDots, isVisibleTitle, null, null, null);
+        initTips(isTipsBackground, isVisibleDots, isVisibleTitle);
         return this;
     }
 
@@ -163,28 +190,22 @@ public class BannerLayout extends RelativeLayout
      * Initialize the dots control, do not initialize this method if you select custom hint bar
      *
      * @param isBackgroundColor Whether to display the background color
-     * @param bannerTipsSite    The control displays the default bottom position
-     * @param bannerDotsSite    Small dots display position default to the right
-     * @param bannerTitleSite   The title display is not displayed by default
      * @param isVisibleDots     Whether to display small dots, the default display
      * @param isVisibleTitle    Whether to display title, the default is not displayed
      */
     public BannerLayout initTips(boolean isBackgroundColor,
                                  boolean isVisibleDots,
-                                 boolean isVisibleTitle,
-                                 BannerTipsSite bannerTipsSite,
-                                 BannerDotsSite bannerDotsSite,
-                                 BannerTitleSite bannerTitleSite) {
+                                 boolean isVisibleTitle) {
+
         if (tipsView != null) {
-            throw new BannerException("You can not initialize the round if the promptBarView is not null");
+            throw new BannerException(getString(R.string.tipsView_no_null));
+        }
+        if (imageList == null) {
+            throw new BannerException(getString(R.string.banner_adapterType_null));
         }
         this.isTipsBackground = isBackgroundColor;
         this.isVisibleDots = isVisibleDots;
         this.isVisibleTitle = isVisibleTitle;
-        if (imageList == null) {
-            Toast.makeText(getContext(), getContext().getString(R.string.banner_adapterType_null), Toast.LENGTH_SHORT).show();
-            return this;
-        }
         if (bannerTipLayout != null) {
             removeView(bannerTipLayout);
             bannerTipLayout = null;
@@ -192,17 +213,17 @@ public class BannerLayout extends RelativeLayout
         bannerTipLayout = new BannerTipsLayout(getContext());
         bannerTipLayout.removeAllViews();
         if (isVisibleDots) {
-            bannerTipLayout.setDots(bannerDotsSite, this);
+            bannerTipLayout.setDots(this);
         }
         if (isVisibleTitle) {
-            bannerTipLayout.setTitle(bannerTitleSite, this);
+            bannerTipLayout.setTitle(this);
             if (onBannerTitleListener != null) {
-                bannerTipLayout.setTitle(onBannerTitleListener.getTitle(0) + "");
+                bannerTipLayout.setTitle(onBannerTitleListener.getTitle(0));
             } else {
-                bannerTipLayout.setTitle(imageList.get(0).getTitle() + "");
+                bannerTipLayout.setTitle(imageList.get(0).getTitle());
             }
         }
-        bannerTipLayout.setBannerTips(bannerTipsSite, this);
+        bannerTipLayout.setBannerTips(this);
         addView(bannerTipLayout);
         return this;
     }
@@ -213,20 +234,23 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout initListResources(List<? extends BannerModel> imageList) {
         if (imageList == null) {
-            throw new BannerException("the imageList is null");
+            throw new BannerException(getString(R.string.list_null));
         }
+        clearList(this.imageList);
         this.imageList = imageList;
         initAdapter();
         return this;
     }
+
 
     /**
      * Initializes an Array image resource
      */
     public BannerLayout initArrayResources(Object[] imageArray) {
         if (imageArray == null) {
-            throw new BannerException("the imageArray is null");
+            throw new BannerException(getString(R.string.array_null));
         }
+        clearList(imageArrayList);
         imageArrayList = new ArrayList<>();
         for (Object url : Arrays.asList(imageArray)) {
             imageArrayList.add(new BannerModel(url));
@@ -239,14 +263,15 @@ public class BannerLayout extends RelativeLayout
      * Initializes an Array image resource
      */
     public BannerLayout initArrayResources(Object[] imageArray, String[] imageArrayTitle) {
-        if (imageArray == null) {
-            throw new BannerException("the imageArray is null");
+        if (imageArray == null || imageArrayTitle == null) {
+            throw new BannerException(getString(R.string.array_null_));
         }
+        clearList(imageArrayList);
         imageArrayList = new ArrayList<>();
         List<Object> url = Arrays.asList(imageArray);
         List<String> title = Arrays.asList(imageArrayTitle);
         if (url.size() != title.size()) {
-            throw new BannerException("Check the url and title number inconsistencies, please confirm the data");
+            throw new BannerException(getString(R.string.array_size_lnconsistent));
         }
         BannerModel bannerModel;
         for (int i = 0; i < url.size(); i++) {
@@ -303,7 +328,7 @@ public class BannerLayout extends RelativeLayout
      * init adapter();
      * This method must be called after the init image resource
      */
-    private BannerLayout initAdapter() {
+    private void initAdapter() {
         if (viewPager != null) {
             removeView(viewPager);
             viewPager = null;
@@ -311,29 +336,24 @@ public class BannerLayout extends RelativeLayout
         viewPager = new BannerViewPager(getContext());
         viewPager.setDuration(mDuration);
         viewPager.setVertical(isVertical);
+        viewPager.setViewTouchMode(viePagerTouchMode);
         addView(viewPager);
-        if (tipsView != null) {
-            removeView(tipsView);
-            addView(tipsView);
-        }
         viewPager.addOnPageChangeListener(this);
-        BannerAdapter adapter = new BannerAdapter(imageList);
+        adapter = new BannerAdapter(imageList);
         adapter.setPlaceImage(placeImageView);
         adapter.setErrorImage(errorImageView);
         adapter.setImageLoaderManage(imageLoaderManage);
         adapter.setImageClickListener(this);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getDotsSize()));
-        return this;
     }
 
 
     @Override
     public void setCurrentItem(int page) {
-        if (viewPager == null) {
-            throw new BannerException("the viewPager is null");
+        if (viewPager != null) {
+            viewPager.setCurrentItem(page);
         }
-        viewPager.setCurrentItem(page);
     }
 
     @Override
@@ -348,27 +368,27 @@ public class BannerLayout extends RelativeLayout
         int newPosition = position % getDotsSize();
         if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageSelected(newPosition);
-            return;
-        }
-        if (bannerTipLayout != null) {
-            if (isVisibleDots) {
-                bannerTipLayout.changeDotsPosition(preEnablePosition, newPosition);
-            }
-            if (isVisibleTitle) {
-                bannerTipLayout.clearText();
-                if (onBannerTitleListener != null) {
-                    bannerTipLayout.setTitle(onBannerTitleListener.getTitle(newPosition) + "");
-                } else {
-                    bannerTipLayout.setTitle(imageList.get(newPosition).getTitle() + "");
+        } else {
+            if (bannerTipLayout != null) {
+                if (isVisibleDots) {
+                    bannerTipLayout.changeDotsPosition(preEnablePosition, newPosition);
+                }
+                if (isVisibleTitle) {
+                    bannerTipLayout.clearText();
+                    if (onBannerTitleListener != null) {
+                        bannerTipLayout.setTitle(onBannerTitleListener.getTitle(newPosition));
+                    } else {
+                        bannerTipLayout.setTitle(imageList.get(newPosition).getTitle());
+                    }
                 }
             }
-        }
-        preEnablePosition = newPosition;
-        if (transformerList != null && transformerList.size() > 1 && !isVertical) {
-            viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
-        }
-        if (bannerHandlerUtils != null && isStartRotation) {
-            bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
+            preEnablePosition = newPosition;
+            if (transformerList != null && transformerList.size() > 1 && !isVertical) {
+                viewPager.setPageTransformer(true, transformerList.get((int) (Math.random() * transformerList.size())));
+            }
+            if (bannerHandlerUtils != null && isStartRotation) {
+                bannerHandlerUtils.sendMessage(Message.obtain(bannerHandlerUtils, BannerHandlerUtils.MSG_PAGE, viewPager.getCurrentItem(), 0));
+            }
         }
     }
 
@@ -376,25 +396,25 @@ public class BannerLayout extends RelativeLayout
     public void onPageScrollStateChanged(int state) {
         if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageScrollStateChanged(state);
-            return;
-        }
-        if (bannerHandlerUtils != null && isStartRotation) {
-            switch (state) {
-                case ViewPager.SCROLL_STATE_DRAGGING:
-                    bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-                    break;
-                case ViewPager.SCROLL_STATE_IDLE:
-                    bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
-                    break;
+        } else {
+            if (bannerHandlerUtils != null && isStartRotation) {
+                switch (state) {
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+                        break;
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        bannerHandlerUtils.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime);
+                        break;
+                }
             }
         }
-
     }
 
 
     @Override
     public void onBannerClick(int position, Object model) {
         if (onBannerClickListener != null) {
+            //noinspection unchecked
             onBannerClickListener.onBannerClick(position, model);
         }
     }
@@ -416,8 +436,12 @@ public class BannerLayout extends RelativeLayout
     }
 
     @Override
-    public int dotsSelector() {
-        return dotsSelector;
+    public Drawable dotsSelector() {
+        if (dotsSelector == -1) {
+            return BannerSelectorUtils.getDrawableSelector(enabledRadius, enabledColor, normalRadius, normalColor);
+        } else {
+            return ContextCompat.getDrawable(getContext(), dotsSelector);
+        }
     }
 
     @Override
@@ -438,6 +462,11 @@ public class BannerLayout extends RelativeLayout
     @Override
     public int dotsRightMargin() {
         return dotsRightMargin;
+    }
+
+    @Override
+    public int dotsSite() {
+        return dotsSite;
     }
 
     @Override
@@ -471,6 +500,16 @@ public class BannerLayout extends RelativeLayout
     }
 
     @Override
+    public int titleSite() {
+        return titleSite;
+    }
+
+    @Override
+    public int tipsSite() {
+        return tipsSite;
+    }
+
+    @Override
     public float tipsWidth() {
         return tipsLayoutWidth;
     }
@@ -482,7 +521,7 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public int tipsLayoutBackgroundColor() {
-        return tipsLayoutBackgroundColor;
+        return tipsBackgroundColor;
     }
 
     @Override
@@ -503,36 +542,82 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    /**
-     * Set the Load Picture Manager
-     */
-    public BannerLayout setImageLoaderManage(ImageLoaderManager loaderManage) {
-        this.imageLoaderManage = loaderManage;
-        return this;
-    }
-
 
     /**
      * Sets the ViewPager switching speed
      */
     public BannerLayout setDuration(int pace) {
-        if (viewPager == null) {
-            throw new BannerException("the viewpager is null");
-        }
         this.mDuration = pace;
+        if (viewPager != null) {
+            viewPager.setDuration(pace);
+        }
         return this;
     }
 
+    /**
+     * Set whether the viewpager can be swiped, true to prevent sliding
+     */
+    public BannerLayout setViewPagerTouchMode(boolean b) {
+        this.viePagerTouchMode = b;
+        if (viewPager != null) {
+            viewPager.setViewTouchMode(b);
+        }
+        return this;
+    }
+
+    /**
+     * Whether the vertical sliding ,The default is not
+     */
+    public BannerLayout setVertical(boolean vertical) {
+        this.isVertical = vertical;
+        if (viewPager != null) {
+            viewPager.setVertical(vertical);
+        }
+        return this;
+    }
+
+    /**
+     * Set the Load Picture Manager
+     */
+    public BannerLayout setImageLoaderManage(ImageLoaderManager loaderManage) {
+        this.imageLoaderManage = loaderManage;
+        if (adapter != null) {
+            adapter.setImageLoaderManage(loaderManage);
+        }
+        return this;
+    }
+
+    /**
+     * Glide Loads an error image, called before initAdapter
+     */
+    public BannerLayout setErrorImageView(int errorImageView) {
+        this.errorImageView = errorImageView;
+        if (adapter != null) {
+            adapter.setErrorImage(errorImageView);
+        }
+        return this;
+    }
+
+    /**
+     * Glide loads the image before the initAdapter is called
+     */
+    public BannerLayout setPlaceImageView(int placeImageView) {
+        this.placeImageView = placeImageView;
+        if (adapter != null) {
+            adapter.setPlaceImage(placeImageView);
+        }
+        return this;
+    }
 
     /**
      * Sets the system to switch animation
      */
     public BannerLayout setBannerTransformer(BannerAnimationType bannerAnimation) {
         if (viewPager == null || bannerAnimation == null) {
-            throw new BannerException("the viewpager or bannerAnimation is null");
+            throw new BannerException(getString(R.string.viewpager_or_transformer_null));
         }
         if (isVertical) {
-            throw new BannerException("If it is a vertical slide can not set the animation");
+            throw new BannerException(getString(R.string.vertical));
         }
         viewPager.setPageTransformer(true, TransformerUtils.getTransformer(bannerAnimation));
         return this;
@@ -551,10 +636,10 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerTransformer(BannerTransformer bannerTransformer) {
         if (viewPager == null || bannerTransformer == null) {
-            throw new BannerException("the viewpager or bannertransformer is null");
+            throw new BannerException(getString(R.string.viewpager_or_transformer_null));
         }
         if (isVertical) {
-            throw new BannerException("If it is a vertical slide can not set the animation");
+            throw new BannerException(getString(R.string.vertical));
         }
         viewPager.setPageTransformer(true, bannerTransformer);
         return this;
@@ -565,12 +650,9 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerTransformerList(List<BannerTransformer> list) {
         if (list == null) {
-            throw new BannerException("the transformerlist is null");
+            throw new BannerException(getString(R.string.bannerTransformer_null));
         }
-        if (transformerList != null) {
-            transformerList.clear();
-            transformerList = null;
-        }
+        clearList(transformerList);
         this.transformerList = list;
         return this;
     }
@@ -580,12 +662,9 @@ public class BannerLayout extends RelativeLayout
      */
     public BannerLayout setBannerSystemTransformerList(List<BannerAnimationType> list) {
         if (list == null) {
-            throw new BannerException("the BannerAnimationType is null");
+            throw new BannerException(getString(R.string.animationList_null));
         }
-        if (transformerList != null) {
-            transformerList.clear();
-            transformerList = null;
-        }
+        clearList(transformerList);
         transformerList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             transformerList.add(TransformerUtils.getTransformer(list.get(i)));
@@ -593,19 +672,17 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    /**
-     * Whether the vertical sliding ,The default is not
-     */
-    public BannerLayout setVertical(boolean vertical) {
-        this.isVertical = vertical;
-        return this;
-    }
 
     /**
      * Initialize the custom hint column before calling initAdapter
      */
     public BannerLayout setTipsView(View view) {
+        if (tipsView != null) {
+            removeView(tipsView);
+            tipsView = null;
+        }
         this.tipsView = view;
+        addView(tipsView);
         return this;
     }
 
@@ -613,8 +690,8 @@ public class BannerLayout extends RelativeLayout
      * setting BannerTipsLayout background
      * The call takes effect before the initTips () method
      */
-    public BannerLayout setTipsLayoutBackgroundColor(int colorId) {
-        this.tipsLayoutBackgroundColor = colorId;
+    public BannerLayout setTipsBackgroundColor(int colorId) {
+        this.tipsBackgroundColor = colorId;
         return this;
     }
 
@@ -709,58 +786,83 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    /**
-     * Glide Loads an error image, called before initAdapter
-     */
-    public BannerLayout setErrorImageView(int errorImageView) {
-        this.errorImageView = errorImageView;
+    public BannerLayout setNormalRadius(float normalRadius) {
+        this.normalRadius = normalRadius;
+        return this;
+    }
+
+    public BannerLayout setNormalColor(int normalColor) {
+        this.normalColor = normalColor;
+        return this;
+    }
+
+    public BannerLayout setEnabledColor(int enabledColor) {
+        this.enabledColor = enabledColor;
+        return this;
+    }
+
+    public BannerLayout setEnabledRadius(float enabledRadius) {
+        this.enabledRadius = enabledRadius;
         return this;
     }
 
     /**
-     * Glide loads the image before the initAdapter is called
+     * Set the position of the tips in the layout
      */
-    public BannerLayout setPlaceImageView(int placeImageView) {
-        this.placeImageView = placeImageView;
+    public BannerLayout setTipsSite(@TipsSiteMode int tipsSite) {
+        this.tipsSite = tipsSite;
         return this;
     }
 
     /**
-     * Set whether the viewpager can be swiped, true to prevent sliding
+     * Set the position of the dots in the layout
      */
-    public BannerLayout setViewPagerTouchMode(boolean b) {
-        if (viewPager == null) {
-            throw new BannerException("the viewpager is null");
-        }
-        this.viePagerTouchMode = b;
-        viewPager.setViewTouchMode(viePagerTouchMode);
+    public BannerLayout setDotsSite(@DotsAndTitleSiteMode int dotsSite) {
+        this.dotsSite = dotsSite;
+        return this;
+    }
+
+    /**
+     * Set the position of the title in the layout
+     */
+    public BannerLayout setTitleSite(@DotsAndTitleSiteMode int titleSite) {
+        this.titleSite = titleSite;
         return this;
     }
 
     /**
      * Start rotation
      */
+    @SuppressWarnings("WeakerAccess")
     public void startBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_START);
+        if (bannerHandlerUtils != null) {
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_START);
+        }
     }
 
     /**
      * Paused rotation
      */
+    @SuppressWarnings("WeakerAccess")
     public void stopBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+        if (bannerHandlerUtils != null) {
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+        }
     }
 
     /**
      * Resume rotation
      */
+    @SuppressWarnings("WeakerAccess")
     public void restoreBanner() {
-        bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
+        if (bannerHandlerUtils != null) {
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
+        }
     }
 
     public int getDuration() {
         if (viewPager == null) {
-            throw new BannerException("the viewpager is null");
+            throw new BannerException(getString(R.string.viewpager_null));
         }
         return viewPager.getDuration();
     }
@@ -779,7 +881,16 @@ public class BannerLayout extends RelativeLayout
         if (imageList != null) {
             return imageList.size();
         }
-        throw new BannerException("the imageList is null");
+        throw new BannerException(getString(R.string.list_null));
     }
 
+    private String getString(int id) {
+        return getContext().getString(id);
+    }
+
+    private void clearList(List list) {
+        if (list != null) {
+            list.clear();
+        }
+    }
 }

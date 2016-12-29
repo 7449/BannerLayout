@@ -18,6 +18,7 @@ package com.bannerlayout.animation;
 
 import android.view.View;
 
+@SuppressWarnings("ALL")
 public abstract class ABaseTransformer extends BannerTransformer {
 
     /**
@@ -37,6 +38,7 @@ public abstract class ABaseTransformer extends BannerTransformer {
      * @param position Position of page relative to the current front-and-center position of the pager. 0 is front and
      *                 center. 1 is one full page position to the right, and -1 is one page position to the left.
      */
+    @SuppressWarnings("JavaDoc")
     @Override
     public void transformPage(View page, float position) {
         onPreTransform(page, position);
@@ -50,6 +52,7 @@ public abstract class ABaseTransformer extends BannerTransformer {
      *
      * @return
      */
+    @SuppressWarnings("JavaDoc")
     protected boolean hideOffscreenPages() {
         return true;
     }
@@ -59,6 +62,7 @@ public abstract class ABaseTransformer extends BannerTransformer {
      *
      * @return
      */
+    @SuppressWarnings("JavaDoc")
     protected boolean isPagingEnabled() {
         return false;
     }
@@ -114,7 +118,8 @@ public abstract class ABaseTransformer extends BannerTransformer {
      * @param min
      * @return
      */
-    protected static final float min(float val, float min) {
+    @SuppressWarnings("JavaDoc")
+    protected static float min(float val, float min) {
         return val < min ? min : val;
     }
 
