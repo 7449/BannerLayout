@@ -124,4 +124,23 @@ class BannerDefaults {
     static final float NORMAL_RADIUS = 0.5f;
     static final int ENABLED_COLOR = R.color.colorPrimary;
     static final int NORMAL_COLOR = R.color.colorWhite;
+
+
+    /**
+     * this is pageNumberTextView setting
+     */
+    static final float PAGE_NUM_VIEW_RADIUS = 25f;
+    static final int PAGE_NUM_VIEW_RIGHT_MARGIN = 0;
+    static final int PAGE_NUM_VIEW_TOP_MARGIN = 0;
+    static final int PAGE_NUM_VIEW_LEFT_MARGIN = 0;
+    static final int PAGE_NUM_VIEW_BOTTOM_MARGIN = 0;
+    static final int PAGE_NUM_VIEW_SIZE = 10;
+    static final int PAGE_NUM_VIEW_PADDING_LEFT = 20;
+    static final int PAGE_NUM_VIEW_PADDING_TOP = 5;
+    static final int PAGE_NUM_VIEW_PADDING_RIGHT = 20;
+    static final int PAGE_NUM_VIEW_PADDING_BOTTOM = 5;
+    static final int PAGE_NUM_VIEW_BACKGROUND = R.color.colorBackground;
+    static final int PAGE_NUL_VIEW_TEXT_COLOR = R.color.colorWhite;
+
+
 }

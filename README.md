@@ -28,17 +28,17 @@ BannerLayout for unlimited rotation of images
 
 ####Effect
 
-![](http://i.imgur.com/gCZhj2M.gif)
+![](http://i.imgur.com/WnrNvI4.gif)
 
 ##Basic Usage
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.3'
+    compile 'com.ydevelop:bannerlayout:1.0.4'
 
 >Update log
 
-	1.0.3 ： Increase the small dot color settings and attr increase the location of the enumeration tips, respectively, tips_site, dots_site, title_site
+	1.0.4 ： Add a page number to show View, fix sliding Caton problem
 	...
 	
 >If the network is loading pictures remember to add
@@ -57,6 +57,17 @@ BannerLayout for unlimited rotation of images
 	startBanner(); //Start rotation
 	stopBanner(); //Paused rotation
 	restoreBanner(); //Resume rotation
+
+0. pageNumberView:
+
+           bannerLayout
+                    .initListResources(initImageModel())
+                    .setPageNumViewMargin(10, 0, 0, 10)
+                    .setPageNumViewTextColor(R.color.colorAccent)
+                    .setPageNumViewBackgroundColor(R.color.colorWhite)
+                    .initPageNumView()
+                    .initTips(true, true, true)
+                    .start(true);
 
 1.Array 
 >Array is also used in the internal conversion into List data, click events and custom ImageLoaderManager are passed generic BannerModel

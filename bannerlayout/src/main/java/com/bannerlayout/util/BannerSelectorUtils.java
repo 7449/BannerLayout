@@ -17,6 +17,13 @@ public class BannerSelectorUtils {
         return drawable;
     }
 
+    public static GradientDrawable getPageView(float radius, int color) {
+        GradientDrawable gd = new GradientDrawable();
+        gd.setCornerRadius(radius);
+        gd.setColor(color);
+        return gd;
+    }
+
 
     private static GradientDrawable getShape(float radius, int color) {
         GradientDrawable gd = new GradientDrawable();

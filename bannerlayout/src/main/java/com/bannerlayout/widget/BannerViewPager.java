@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.animation.AccelerateInterpolator;
 
 import com.bannerlayout.animation.VerticalTransformer;
 
@@ -97,7 +96,7 @@ class BannerViewPager extends ViewPager {
         try {
             Field field = ViewPager.class.getDeclaredField("mScroller");
             field.setAccessible(true);
-            scroller = new FixedSpeedScroller(getContext(), new AccelerateInterpolator());
+            scroller = new FixedSpeedScroller(getContext());
             field.set(this, scroller);
             scroller.setDuration(duration);
         } catch (Exception e) {

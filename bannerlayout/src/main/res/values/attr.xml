@@ -36,6 +36,30 @@
         <attr name="title_left_margin" format="integer" />
         <attr name="title_right_margin" format="integer" />
 
+
+        <attr name="page_num_view_radius" format="float" />
+        <attr name="page_num_view_paddingTop" format="integer" />
+        <attr name="page_num_view_paddingLeft" format="integer" />
+        <attr name="page_num_view_paddingRight" format="integer" />
+        <attr name="page_num_view_paddingBottom" format="integer" />
+        <attr name="page_num_view_marginTop" format="integer" />
+        <attr name="page_num_view_marginLeft" format="integer" />
+        <attr name="page_num_view_marginRight" format="integer" />
+        <attr name="page_num_view_marginBottom" format="integer" />
+        <attr name="page_num_view_textColor" format="integer" />
+        <attr name="page_num_view_BackgroundColor" format="integer" />
+        <attr name="page_num_view_textSize" format="integer" />
+
+        <attr name="pageNumView_site">
+            <enum name="topLeft" value="0" />
+            <enum name="topRight" value="1" />
+            <enum name="bottomLeft" value="2" />
+            <enum name="bottomRight" value="3" />
+            <enum name="centeredLeft" value="4" />
+            <enum name="centeredRight" value="5" />
+            <enum name="topCentered" value="6" />
+            <enum name="bottomCentered" value="7" />
+        </attr>
         <attr name="tips_site">
             <enum name="top" value="10" />
             <enum name="bottom" value="12" />

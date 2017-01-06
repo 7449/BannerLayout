@@ -40,14 +40,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
             holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
             holder.getBannerLayout()
                     .initListResources(initImageModel())
-                    .setTipsSite(BannerLayout.ALIGN_PARENT_TOP)
                     .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
-                    .initTips(true, true, true).start(true);
+                    .setPageNumViewMargin(10, 0, 0, 10)
+                    .setPageNumViewTextColor(R.color.colorAccent)
+                    .setPageNumViewBackgroundColor(R.color.colorWhite)
+                    .initPageNumView()
+                    .initTips(true, true, true)
+                    .start(true);
         }
         if (holder instanceof SystemNetWorkModelHolder) {
             holder.getTitle().setText(getString(holder.getContext(), R.string.system_network_model));
             holder.getBannerLayout()
                     .initListResources(initSystemNetWorkModel())
+                    .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
+                    .setPageNumViewMargin(10, 0, 10, 0)
+                    .setPageNumViewTextColor(R.color.colorAccent)
+                    .initPageNumView()
                     .setTipsSite(BannerLayout.ALIGN_PARENT_BOTTOM)
                     .initTips(true, true, true);
         }

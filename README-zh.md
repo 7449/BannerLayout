@@ -26,17 +26,17 @@
 
 ####使用效果
 
-![](http://i.imgur.com/yLQUFvQ.gif)
+![](http://i.imgur.com/gCZhj2M.gif)
 
 ##基础使用方法
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.3'
+		compile 'com.ydevelop:bannerlayout:1.0.4'
 
 >更新状态
 
-	1.0.3 : 增加小圆点颜色的设置以及attr增加tips位置的枚举，分别为 tips_site，dots_site，title_site
+	1.0.4 : 新增页码展示View，修复滑动卡顿问题
 	...
 
 
@@ -56,6 +56,17 @@
 	startBanner(); //开启轮播
 	stopBanner(); //停止轮播
 	restoreBanner(); //恢复轮播
+
+0.页码展示：
+
+           bannerLayout
+                    .initListResources(initImageModel())
+                    .setPageNumViewMargin(10, 0, 0, 10)
+                    .setPageNumViewTextColor(R.color.colorAccent)
+                    .setPageNumViewBackgroundColor(R.color.colorWhite)
+                    .initPageNumView()
+                    .initTips(true, true, true)
+                    .start(true);
 
 1.数组
 

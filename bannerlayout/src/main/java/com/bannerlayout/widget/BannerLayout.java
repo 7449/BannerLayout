@@ -41,9 +41,20 @@ public class BannerLayout extends RelativeLayout
         BannerAdapter.OnBannerImageClickListener,
         DotsInterface,
         BannerTipsLayout.TitleInterface,
-        BannerTipsLayout.TipsInterface {
+        BannerTipsLayout.TipsInterface,
+        BannerPageView.PageNumViewInterface {
 
-
+    /**
+     * pageNumberView site type
+     */
+    public static final int PAGE_NUM_VIEW_SITE_TOP_LEFT = 0;
+    public static final int PAGE_NUM_VIEW_SITE_TOP_RIGHT = 1;
+    public static final int PAGE_NUM_VIEW_SITE_BOTTOM_LEFT = 2;
+    public static final int PAGE_NUM_VIEW_SITE_BOTTOM_RIGHT = 3;
+    public static final int PAGE_NUM_VIEW_SITE_CENTER_LEFT = 4;
+    public static final int PAGE_NUM_VIEW_SITE_CENTER_RIGHT = 5;
+    public static final int PAGE_NUM_VIEW_SITE_TOP_CENTER = 6;
+    public static final int PAGE_NUM_VIEW_SITE_BOTTOM_CENTER = 7;
     /**
      * tipsLayout location marker
      */
@@ -65,6 +76,7 @@ public class BannerLayout extends RelativeLayout
     private OnBannerPageChangeListener onBannerPageChangeListener = null;
     private OnBannerTitleListener onBannerTitleListener = null;
     private BannerAdapter adapter = null;//viewpager adapter
+    private BannerPageView pageView = null; // viewpager page count textView
 
     private int preEnablePosition = 0;
 
@@ -100,6 +112,23 @@ public class BannerLayout extends RelativeLayout
     private int dotsSite;
     private int titleSite;
 
+    /**
+     * pageNumView parameter
+     */
+    private float pageNumViewRadius;
+    private int pageNumViewPaddingTop;
+    private int pageNumViewPaddingLeft;
+    private int pageNumViewPaddingBottom;
+    private int pageNumViewPaddingRight;
+    private int pageNumViewTopMargin;
+    private int pageNumViewRightMargin;
+    private int pageNumViewBottomMargin;
+    private int pageNumViewLeftMargin;
+    private int pageNumViewSite;
+    private int pageNumViewTextColor;
+    private int pageNumViewBackgroundColor;
+    private int pageNumViewTextSize;
+
     @IntDef({ALIGN_PARENT_BOTTOM, ALIGN_PARENT_TOP, CENTER_IN_PARENT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TipsSiteMode {
@@ -108,6 +137,19 @@ public class BannerLayout extends RelativeLayout
     @IntDef({CENTER_IN_PARENT, ALIGN_PARENT_LEFT, ALIGN_PARENT_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DotsAndTitleSiteMode {
+    }
+
+
+    @IntDef({PAGE_NUM_VIEW_SITE_TOP_LEFT,
+            PAGE_NUM_VIEW_SITE_TOP_RIGHT,
+            PAGE_NUM_VIEW_SITE_BOTTOM_LEFT,
+            PAGE_NUM_VIEW_SITE_BOTTOM_RIGHT,
+            PAGE_NUM_VIEW_SITE_CENTER_LEFT,
+            PAGE_NUM_VIEW_SITE_CENTER_RIGHT,
+            PAGE_NUM_VIEW_SITE_TOP_CENTER,
+            PAGE_NUM_VIEW_SITE_BOTTOM_CENTER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PageNumViewSiteMode {
     }
 
     private void init(AttributeSet attrs) {
@@ -122,38 +164,55 @@ public class BannerLayout extends RelativeLayout
         tipsLayoutHeight = typedArray.getDimension(R.styleable.BannerLayout_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT);
 
         isVisibleDots = typedArray.getBoolean(R.styleable.BannerLayout_dots_visible, BannerDefaults.IS_VISIBLE_DOTS);
-        dotsLeftMargin = typedArray.getInt(R.styleable.BannerLayout_dots_left_margin, BannerDefaults.DOTS_LEFT_MARGIN);
-        dotsRightMargin = typedArray.getInt(R.styleable.BannerLayout_dots_right_margin, BannerDefaults.DOTS_RIGHT_MARGIN);
-        dotsWidth = typedArray.getInt(R.styleable.BannerLayout_dots_width, BannerDefaults.DOTS_WIDth);
-        dotsHeight = typedArray.getInt(R.styleable.BannerLayout_dots_height, BannerDefaults.DOTS_HEIGHT);
+        dotsLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_dots_left_margin, BannerDefaults.DOTS_LEFT_MARGIN);
+        dotsRightMargin = typedArray.getInteger(R.styleable.BannerLayout_dots_right_margin, BannerDefaults.DOTS_RIGHT_MARGIN);
+        dotsWidth = typedArray.getInteger(R.styleable.BannerLayout_dots_width, BannerDefaults.DOTS_WIDth);
+        dotsHeight = typedArray.getInteger(R.styleable.BannerLayout_dots_height, BannerDefaults.DOTS_HEIGHT);
         dotsSelector = typedArray.getResourceId(R.styleable.BannerLayout_dots_selector, BannerDefaults.DOTS_SELECTOR);
         enabledRadius = typedArray.getFloat(R.styleable.BannerLayout_enabledRadius, BannerDefaults.ENABLED_RADIUS);
         enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, ContextCompat.getColor(getContext(), BannerDefaults.ENABLED_COLOR));
         normalRadius = typedArray.getFloat(R.styleable.BannerLayout_normalRadius, BannerDefaults.NORMAL_RADIUS);
         normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, ContextCompat.getColor(getContext(), BannerDefaults.NORMAL_COLOR));
 
-        delayTime = typedArray.getInt(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
+        delayTime = typedArray.getInteger(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_start_rotation, BannerDefaults.IS_START_ROTATION);
         viePagerTouchMode = typedArray.getBoolean(R.styleable.BannerLayout_view_pager_touch_mode, BannerDefaults.VIEW_PAGER_TOUCH_MODE);
         errorImageView = typedArray.getResourceId(R.styleable.BannerLayout_glide_error_image, BannerDefaults.GLIDE_ERROR_IMAGE);
         placeImageView = typedArray.getResourceId(R.styleable.BannerLayout_glide_place_image, BannerDefaults.GLIDE_PIACE_IMAGE);
-        mDuration = typedArray.getInt(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION);
+        mDuration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION);
         isVertical = typedArray.getBoolean(R.styleable.BannerLayout_banner_isVertical, BannerDefaults.IS_VERTICAL);
 
         isVisibleTitle = typedArray.getBoolean(R.styleable.BannerLayout_title_visible, BannerDefaults.TITLE_VISIBLE);
         titleColor = typedArray.getColor(R.styleable.BannerLayout_title_color, BannerDefaults.TITLE_COLOR);
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_title_size, BannerDefaults.TITLE_SIZE);
-        titleRightMargin = typedArray.getInt(R.styleable.BannerLayout_title_right_margin, BannerDefaults.TITLE_RIGHT_MARGIN);
-        titleLeftMargin = typedArray.getInt(R.styleable.BannerLayout_title_left_margin, BannerDefaults.TITLE_LEFT_MARGIN);
+        titleRightMargin = typedArray.getInteger(R.styleable.BannerLayout_title_right_margin, BannerDefaults.TITLE_RIGHT_MARGIN);
+        titleLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_title_left_margin, BannerDefaults.TITLE_LEFT_MARGIN);
         titleWidth = typedArray.getDimension(R.styleable.BannerLayout_title_width, BannerDefaults.TITLE_WIDTH);
         titleHeight = typedArray.getDimension(R.styleable.BannerLayout_title_height, BannerDefaults.TITLE_HEIGHT);
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_title_size, BannerDefaults.TITLE_SIZE);
 
-        tipsSite = typedArray.getInt(R.styleable.BannerLayout_tips_site, ALIGN_PARENT_BOTTOM);
-        dotsSite = typedArray.getInt(R.styleable.BannerLayout_dots_site, ALIGN_PARENT_RIGHT);
-        titleSite = typedArray.getInt(R.styleable.BannerLayout_title_site, ALIGN_PARENT_LEFT);
+        tipsSite = typedArray.getInteger(R.styleable.BannerLayout_tips_site, ALIGN_PARENT_BOTTOM);
+        dotsSite = typedArray.getInteger(R.styleable.BannerLayout_dots_site, ALIGN_PARENT_RIGHT);
+        titleSite = typedArray.getInteger(R.styleable.BannerLayout_title_site, ALIGN_PARENT_LEFT);
+        pageNumViewSite = typedArray.getInteger(R.styleable.BannerLayout_pageNumView_site, PAGE_NUM_VIEW_SITE_TOP_RIGHT);
+
+        pageNumViewRadius = typedArray.getFloat(R.styleable.BannerLayout_page_num_view_radius, BannerDefaults.PAGE_NUM_VIEW_RADIUS);
+        pageNumViewPaddingTop = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_paddingTop, BannerDefaults.PAGE_NUM_VIEW_PADDING_TOP);
+        pageNumViewPaddingLeft = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_paddingLeft, BannerDefaults.PAGE_NUM_VIEW_PADDING_LEFT);
+        pageNumViewPaddingBottom = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_paddingBottom, BannerDefaults.PAGE_NUM_VIEW_PADDING_BOTTOM);
+        pageNumViewPaddingRight = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_paddingRight, BannerDefaults.PAGE_NUM_VIEW_PADDING_RIGHT);
+        pageNumViewTopMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginTop, BannerDefaults.PAGE_NUM_VIEW_TOP_MARGIN);
+        pageNumViewRightMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginRight, BannerDefaults.PAGE_NUM_VIEW_RIGHT_MARGIN);
+        pageNumViewBottomMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginBottom, BannerDefaults.PAGE_NUM_VIEW_BOTTOM_MARGIN);
+        pageNumViewLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginLeft, BannerDefaults.PAGE_NUM_VIEW_LEFT_MARGIN);
+        pageNumViewTextColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textColor, BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR);
+        pageNumViewBackgroundColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_BackgroundColor, BannerDefaults.PAGE_NUM_VIEW_BACKGROUND);
+        pageNumViewTextSize = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
+
         typedArray.recycle();
+
     }
+
 
     public BannerLayout(Context context) {
         super(context);
@@ -176,6 +235,19 @@ public class BannerLayout extends RelativeLayout
 //        }
 //        return super.onTouchEvent(event);
 //    }
+
+
+    public BannerLayout initPageNumView() {
+        if (pageView != null) {
+            removeView(pageView);
+            pageView = null;
+        }
+        pageView = new BannerPageView(getContext());
+        pageView.setText(1 + " / " + getDotsSize());
+        addView(pageView, pageView.initPageView(this));
+        return this;
+    }
+
 
     /**
      * Initialize the dots using the default parameters
@@ -236,7 +308,6 @@ public class BannerLayout extends RelativeLayout
         if (imageList == null) {
             throw new BannerException(getString(R.string.list_null));
         }
-        clearList(this.imageList);
         this.imageList = imageList;
         initAdapter();
         return this;
@@ -250,7 +321,6 @@ public class BannerLayout extends RelativeLayout
         if (imageArray == null) {
             throw new BannerException(getString(R.string.array_null));
         }
-        clearList(imageArrayList);
         imageArrayList = new ArrayList<>();
         for (Object url : Arrays.asList(imageArray)) {
             imageArrayList.add(new BannerModel(url));
@@ -266,7 +336,6 @@ public class BannerLayout extends RelativeLayout
         if (imageArray == null || imageArrayTitle == null) {
             throw new BannerException(getString(R.string.array_null_));
         }
-        clearList(imageArrayList);
         imageArrayList = new ArrayList<>();
         List<Object> url = Arrays.asList(imageArray);
         List<String> title = Arrays.asList(imageArrayTitle);
@@ -337,6 +406,17 @@ public class BannerLayout extends RelativeLayout
         viewPager.setDuration(mDuration);
         viewPager.setVertical(isVertical);
         viewPager.setViewTouchMode(viePagerTouchMode);
+
+        //Gallery ? See google play home page, a simple test
+
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        viewPager.setOffscreenPageLimit(3);
+//        viewPager.setPageMargin(10);
+//        setClipChildren(false);
+//        viewPager.setClipChildren(false);
+//        params.rightMargin = 60;
+//        params.leftMargin = 60;
+//        addView(viewPager, params);
         addView(viewPager);
         viewPager.addOnPageChangeListener(this);
         adapter = new BannerAdapter(imageList);
@@ -366,6 +446,9 @@ public class BannerLayout extends RelativeLayout
     @Override
     public void onPageSelected(int position) {
         int newPosition = position % getDotsSize();
+        if (pageView != null) {
+            pageView.setText(newPosition + 1 + " / " + getDotsSize());
+        }
         if (onBannerPageChangeListener != null && tipsView != null) {
             onBannerPageChangeListener.onPageSelected(newPosition);
         } else {
@@ -529,6 +612,72 @@ public class BannerLayout extends RelativeLayout
         return isTipsBackground;
     }
 
+    @Override
+    public int getPageNumViewTopMargin() {
+        return pageNumViewTopMargin;
+    }
+
+    @Override
+    public int getPageNumViewRightMargin() {
+        return pageNumViewRightMargin;
+    }
+
+    @Override
+    public int getPageNumViewBottomMargin() {
+        return pageNumViewBottomMargin;
+    }
+
+    @Override
+    public int getPageNumViewLeftMargin() {
+        return pageNumViewLeftMargin;
+    }
+
+    @Override
+    public int pageNumViewSite() {
+        return pageNumViewSite;
+    }
+
+    @Override
+    public int getPageNumViewTextColor() {
+        return pageNumViewTextColor;
+    }
+
+    @Override
+    public float getPageNumViewTextSize() {
+        return pageNumViewTextSize;
+    }
+
+    @Override
+    public int getPageNumViewPaddingTop() {
+        return pageNumViewPaddingTop;
+    }
+
+    @Override
+    public int getPageNumViewPaddingLeft() {
+        return pageNumViewPaddingLeft;
+    }
+
+    @Override
+    public int getPageNumViewPaddingBottom() {
+        return pageNumViewPaddingBottom;
+    }
+
+    @Override
+    public int getPageNumViewPaddingRight() {
+        return pageNumViewPaddingRight;
+    }
+
+    @Override
+    public float getPageNumViewRadius() {
+        return pageNumViewRadius;
+    }
+
+
+    @Override
+    public int getPageNumViewBackgroundColor() {
+        return pageNumViewBackgroundColor;
+    }
+
     /**
      * Set the title color, font size, and unneeded setting of -1
      */
@@ -652,7 +801,6 @@ public class BannerLayout extends RelativeLayout
         if (list == null) {
             throw new BannerException(getString(R.string.bannerTransformer_null));
         }
-        clearList(transformerList);
         this.transformerList = list;
         return this;
     }
@@ -664,7 +812,6 @@ public class BannerLayout extends RelativeLayout
         if (list == null) {
             throw new BannerException(getString(R.string.animationList_null));
         }
-        clearList(transformerList);
         transformerList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             transformerList.add(TransformerUtils.getTransformer(list.get(i)));
@@ -723,33 +870,20 @@ public class BannerLayout extends RelativeLayout
 
 
     /**
-     * Set the dots marginLeft, the default is 10
+     * Set the dots marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setDotsLeftMargin(int leftMargin) {
+    public BannerLayout setDotsMargin(int leftMargin, int rightMargin) {
         this.dotsLeftMargin = leftMargin;
-        return this;
-    }
-
-    /**
-     * Set the dots marginRight, the default is 10
-     */
-    public BannerLayout setDotsRightMargin(int rightMargin) {
         this.dotsRightMargin = rightMargin;
         return this;
     }
 
-    /**
-     * Set the title marginLeft, the default is 10
-     */
-    public BannerLayout setTitleLeftMargin(int leftMargin) {
-        this.titleLeftMargin = leftMargin;
-        return this;
-    }
 
     /**
-     * Set the title marginRight, the default is 10
+     * Set the title marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setTitleRightMargin(int rightMargin) {
+    public BannerLayout setTitleMargin(int leftMargin, int rightMargin) {
+        this.titleLeftMargin = leftMargin;
         this.titleRightMargin = rightMargin;
         return this;
     }
@@ -803,6 +937,47 @@ public class BannerLayout extends RelativeLayout
 
     public BannerLayout setEnabledRadius(float enabledRadius) {
         this.enabledRadius = enabledRadius;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewRadius(float pageNumViewRadius) {
+        this.pageNumViewRadius = pageNumViewRadius;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewPadding(int top, int bottom, int left, int right) {
+        this.pageNumViewPaddingTop = top;
+        this.pageNumViewPaddingBottom = bottom;
+        this.pageNumViewPaddingLeft = left;
+        this.pageNumViewPaddingRight = right;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewMargin(int top, int bottom, int left, int right) {
+        this.pageNumViewTopMargin = top;
+        this.pageNumViewBottomMargin = bottom;
+        this.pageNumViewLeftMargin = left;
+        this.pageNumViewRightMargin = right;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewSite(@PageNumViewSiteMode int pageNumViewSite) {
+        this.pageNumViewSite = pageNumViewSite;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewTextColor(int pageNumViewTextColor) {
+        this.pageNumViewTextColor = pageNumViewTextColor;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewBackgroundColor(int pageNumViewBackgroundColor) {
+        this.pageNumViewBackgroundColor = pageNumViewBackgroundColor;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewTextSize(int pageNumViewTextSize) {
+        this.pageNumViewTextSize = pageNumViewTextSize;
         return this;
     }
 
@@ -878,7 +1053,7 @@ public class BannerLayout extends RelativeLayout
      * Get the number of dots, where you can also get the number of pictures
      */
     private int getDotsSize() {
-        if (imageList != null) {
+        if (imageList != null && imageList.size() > 0) {
             return imageList.size();
         }
         throw new BannerException(getString(R.string.list_null));
@@ -886,11 +1061,5 @@ public class BannerLayout extends RelativeLayout
 
     private String getString(int id) {
         return getContext().getString(id);
-    }
-
-    private void clearList(List list) {
-        if (list != null) {
-            list.clear();
-        }
     }
 }
