@@ -269,6 +269,30 @@ normalColor							|normalDots color											|default white
 tips_site							|Tips in the layout position    							|Default bottom, optional upper and lower
 dots_site							|The position of the dots in the layout    					|Default bottom, optional left center
 title_site							|Title The position in the layout    						|Default bottom, optional left center
+page_num_view_radius				|pageNumView shape radius  		 							|Default 25f
+page_num_view_paddingTop			|pageNumView padding Top									|Default 5
+page_num_view_paddingLeft			|pageNumView padding Left									|Default 20
+page_num_view_paddingRight			|pageNumView padding Right									|Default 20
+page_num_view_paddingBottom			|pageNumView padding Bottom									|Default 5
+page_num_view_marginTop				|pageNumView margin 	 									|Default 0
+page_num_view_marginLeft			|pageNumView margin		  									|Default 0
+page_num_view_marginRight			|pageNumView margin  										|Default 0
+page_num_view_marginBottom			|pageNumView margin  										|Default 0
+page_num_view_textColor				|pageNumView textColor	 									|Default white
+page_num_view_BackgroundColor		|pageNumView BackgroundColor								|Default translucent
+page_num_view_textSize				|pageNumView textSize	  									|Default 10
+pageNumView_site					|pageNumView site											|Default topRight
+
+        <attr name="pageNumView_site">
+            <enum name="topLeft" value="0" />
+            <enum name="topRight" value="1" />
+            <enum name="bottomLeft" value="2" />
+            <enum name="bottomRight" value="3" />
+            <enum name="centeredLeft" value="4" />
+            <enum name="centeredRight" value="5" />
+            <enum name="topCentered" value="6" />
+            <enum name="bottomCentered" value="7" />
+        </attr>
 
 License
 --

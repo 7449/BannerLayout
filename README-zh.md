@@ -26,7 +26,7 @@
 
 ####使用效果
 
-![](http://i.imgur.com/gCZhj2M.gif)
+![](http://i.imgur.com/WnrNvI4.gif)
 
 ##基础使用方法
 
@@ -267,6 +267,32 @@ normalColor							|选中小圆点颜色				|默认白色
 tips_site							|tips在布局中位置    			|默认底部，可选上中下
 dots_site							|小圆点在布局中位置    		|默认底部，可选左中右
 title_site							|title在布局中位置    		|默认底部，可选左中右
+page_num_view_radius				|pageNumView shape radius   |默认25f
+page_num_view_paddingTop			|pageNumView padding Top	|默认5
+page_num_view_paddingLeft			|pageNumView padding Left	|默认20
+page_num_view_paddingRight			|pageNumView padding Right	|默认20
+page_num_view_paddingBottom			|pageNumView padding Bottom	|默认5
+page_num_view_marginTop				|pageNumView margin 	 	|默认0
+page_num_view_marginLeft			|pageNumView margin		  	|默认0
+page_num_view_marginRight			|pageNumView margin  		|默认0
+page_num_view_marginBottom			|pageNumView margin  		|默认0
+page_num_view_textColor				|pageNumView textColor	 	|默认白色
+page_num_view_BackgroundColor		|pageNumView BackgroundColor|默认半透明
+page_num_view_textSize				|pageNumView textSize	  	|默认10
+pageNumView_site					|pageNumView 位置			|默认初始化之后在左上角
+
+        <attr name="pageNumView_site">
+            <enum name="topLeft" value="0" />
+            <enum name="topRight" value="1" />
+            <enum name="bottomLeft" value="2" />
+            <enum name="bottomRight" value="3" />
+            <enum name="centeredLeft" value="4" />
+            <enum name="centeredRight" value="5" />
+            <enum name="topCentered" value="6" />
+            <enum name="bottomCentered" value="7" />
+        </attr>
+
+
 
 License
 --
