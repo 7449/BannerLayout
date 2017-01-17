@@ -1,5 +1,7 @@
 package com.bannerlayout.Interface;
 
+import android.view.View;
+
 /**
  * by y on 2016/11/11
  * <p>
@@ -7,5 +9,5 @@ package com.bannerlayout.Interface;
  */
 
 public interface OnBannerClickListener<T> {
-    void onBannerClick(int position, T model);
+    void onBannerClick(View view,int position, T model);
 }

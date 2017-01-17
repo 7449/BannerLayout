@@ -10,6 +10,8 @@ import com.bannerlayout.Interface.ViewPagerCurrent;
  */
 public class BannerHandlerUtils extends Handler {
 
+    public  int MSG_STATUS = -1;
+
     public static final int MSG_START = 0;
     public static final int MSG_UPDATE = 1;
     public static final int MSG_KEEP = 2;
@@ -28,6 +30,10 @@ public class BannerHandlerUtils extends Handler {
         this.delayTime = time;
     }
 
+    public int getBannerStatus(){
+        return MSG_STATUS;
+    }
+
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
@@ -37,7 +43,11 @@ public class BannerHandlerUtils extends Handler {
         if (null == mCurrent) {
             return;
         }
-        switch (msg.what) {
+        int what = msg.what;
+        if (MSG_STATUS != what) {
+            MSG_STATUS = what;
+        }
+        switch (what) {
             case MSG_START:
                 sendEmptyMessageDelayed(MSG_UPDATE, delayTime);
                 break;

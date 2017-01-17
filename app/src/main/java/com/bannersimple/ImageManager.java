@@ -1,6 +1,5 @@
 package com.bannersimple;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.bannerlayout.Interface.ImageLoaderManager;
@@ -14,8 +13,8 @@ import com.squareup.picasso.Picasso;
 public class ImageManager implements ImageLoaderManager<BannerBean> {
 
     @Override
-    public void display(Context context, ImageView imageView, BannerBean model) {
-        Picasso.with(context)
+    public void display(ImageView imageView, BannerBean model) {
+        Picasso.with(imageView.getContext())
                 .load(model.getImageUrl())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)

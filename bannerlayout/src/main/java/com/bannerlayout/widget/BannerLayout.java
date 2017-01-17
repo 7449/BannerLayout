@@ -18,7 +18,7 @@ import com.bannerlayout.Interface.OnBannerTitleListener;
 import com.bannerlayout.Interface.ViewPagerCurrent;
 import com.bannerlayout.R;
 import com.bannerlayout.animation.BannerTransformer;
-import com.bannerlayout.bannerenum.BannerAnimationType;
+import com.bannerlayout.bannerenum.BannerAnimation;
 import com.bannerlayout.exception.BannerException;
 import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.util.BannerHandlerUtils;
@@ -129,6 +129,7 @@ public class BannerLayout extends RelativeLayout
     private int pageNumViewBackgroundColor;
     private int pageNumViewTextSize;
 
+
     @IntDef({ALIGN_PARENT_BOTTOM, ALIGN_PARENT_TOP, CENTER_IN_PARENT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TipsSiteMode {
@@ -210,7 +211,6 @@ public class BannerLayout extends RelativeLayout
         pageNumViewTextSize = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
 
         typedArray.recycle();
-
     }
 
 
@@ -495,10 +495,10 @@ public class BannerLayout extends RelativeLayout
 
 
     @Override
-    public void onBannerClick(int position, Object model) {
+    public void onBannerClick(View view, int position, Object model) {
         if (onBannerClickListener != null) {
             //noinspection unchecked
-            onBannerClickListener.onBannerClick(position, model);
+            onBannerClickListener.onBannerClick(view, position, model);
         }
     }
 
@@ -520,7 +520,7 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public Drawable dotsSelector() {
-        if (dotsSelector == -1) {
+        if (dotsSelector == BannerDefaults.DOTS_SELECTOR) {
             return BannerSelectorUtils.getDrawableSelector(enabledRadius, enabledColor, normalRadius, normalColor);
         } else {
             return ContextCompat.getDrawable(getContext(), dotsSelector);
@@ -761,7 +761,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * Sets the system to switch animation
      */
-    public BannerLayout setBannerTransformer(BannerAnimationType bannerAnimation) {
+    public BannerLayout setBannerTransformer(BannerAnimation bannerAnimation) {
         if (viewPager == null || bannerAnimation == null) {
             throw new BannerException(getString(R.string.viewpager_or_transformer_null));
         }
@@ -808,7 +808,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * A collection of system animations
      */
-    public BannerLayout setBannerSystemTransformerList(List<BannerAnimationType> list) {
+    public BannerLayout setBannerSystemTransformerList(List<BannerAnimation> list) {
         if (list == null) {
             throw new BannerException(getString(R.string.animationList_null));
         }
@@ -1048,6 +1048,15 @@ public class BannerLayout extends RelativeLayout
     public BannerViewPager getViewPager() {
         return viewPager;
     }
+
+
+    public int getBannerStatus() {
+        if (bannerHandlerUtils == null) {
+            throw new BannerException(getString(R.string.banner_handler_erro));
+        }
+        return bannerHandlerUtils.getBannerStatus();
+    }
+
 
     /**
      * Get the number of dots, where you can also get the number of pictures

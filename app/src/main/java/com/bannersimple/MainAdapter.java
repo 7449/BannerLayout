@@ -15,13 +15,8 @@ import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.bean.BannerBean;
 import com.bannersimple.bean.ImageModel;
-import com.bannersimple.holder.ImageManagerHolder;
-import com.bannersimple.holder.ImageModelHolder;
-import com.bannersimple.holder.SystemNetWorkModelHolder;
-import com.bannersimple.holder.VerticalHolder;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,72 +31,71 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
 
     @Override
     public void onBindViewHolder(final BaseViewHolder holder, int position) {
-        if (holder instanceof ImageModelHolder) {
-            holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
-            holder.getBannerLayout()
-                    .initListResources(initImageModel())
-                    .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
-                    .setPageNumViewMargin(10, 0, 0, 10)
-                    .setPageNumViewTextColor(R.color.colorAccent)
-                    .setPageNumViewBackgroundColor(R.color.colorWhite)
-                    .initPageNumView()
-                    .initTips(true, true, true)
-                    .start(true);
-        }
-        if (holder instanceof SystemNetWorkModelHolder) {
-            holder.getTitle().setText(getString(holder.getContext(), R.string.system_network_model));
-            holder.getBannerLayout()
-                    .initListResources(initSystemNetWorkModel())
-                    .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
-                    .setPageNumViewMargin(10, 0, 10, 0)
-                    .setPageNumViewTextColor(R.color.colorAccent)
-                    .initPageNumView()
-                    .setTipsSite(BannerLayout.ALIGN_PARENT_BOTTOM)
-                    .initTips(true, true, true);
-        }
-        if (holder instanceof ImageManagerHolder) {
-            holder.getTitle().setText(getString(holder.getContext(), R.string.customize_load_Picture_Manager));
-            holder.getBannerLayout()
-                    .initListResources(initBannerBean())
-                    .setImageLoaderManage(new ImageManager())
-                    .addOnBannerTitleListener(new OnBannerTitleListener() {
-                        @Override
-                        public String getTitle(int newPosition) {
-                            return initBannerBean().get(newPosition).getThisTitle();
-                        }
-                    })
-                    .initTips(true, true, true);
-        }
-        if (holder instanceof VerticalHolder) {
-            //if it is a vertical slide can not set the animation
-            holder.getTitle().setText(getString(holder.getContext(), R.string.is_vertical));
-            holder.getBannerLayout()
-                    .setVertical(true)
-                    .initListResources(initSystemNetWorkModel())
-                    .initTips(true, true, false)
-                    .start(true, 2000)
-                    .setOnBannerClickListener(new OnBannerClickListener() {
-                        @Override
-                        public void onBannerClick(int position, Object model) {
-                            Toast.makeText(holder.getContext(), "" + position, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        switch (getItemViewType(position)) {
+
+            case IMAGE_MODEL:
+
+                holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
+                holder.getBannerLayout()
+                        .initListResources(initImageModel())
+                        .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
+                        .setPageNumViewMargin(10, 0, 0, 10)
+                        .setPageNumViewTextColor(R.color.colorAccent)
+                        .setPageNumViewBackgroundColor(R.color.colorWhite)
+                        .initPageNumView()
+                        .initTips(true, true, true)
+                        .start(true);
+                break;
+            case SYSTEM_NETWORK_MODEL:
+
+                holder.getTitle().setText(getString(holder.getContext(), R.string.system_network_model));
+                holder.getBannerLayout()
+                        .initListResources(initSystemNetWorkModel())
+                        .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
+                        .setPageNumViewMargin(10, 0, 10, 0)
+                        .setPageNumViewTextColor(R.color.colorAccent)
+                        .initPageNumView()
+                        .setTipsSite(BannerLayout.ALIGN_PARENT_BOTTOM)
+                        .initTips(true, true, true);
+                break;
+            case IS_VERTICAL:
+
+                //if it is a vertical slide can not set the animation
+                holder.getTitle().setText(getString(holder.getContext(), R.string.is_vertical));
+                holder.getBannerLayout()
+                        .setVertical(true)
+                        .initListResources(initSystemNetWorkModel())
+                        .initTips(true, true, false)
+                        .start(true, 2000)
+                        .setOnBannerClickListener(new OnBannerClickListener() {
+                            @Override
+                            public void onBannerClick(View view, int position, Object model) {
+                                Toast.makeText(holder.getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+                break;
+            default:
+
+                holder.getTitle().setText(getString(holder.getContext(), R.string.customize_load_Picture_Manager));
+                holder.getBannerLayout()
+                        .initListResources(initBannerBean())
+                        .setImageLoaderManage(new ImageManager())
+                        .addOnBannerTitleListener(new OnBannerTitleListener() {
+                            @Override
+                            public String getTitle(int newPosition) {
+                                return initBannerBean().get(newPosition).getThisTitle();
+                            }
+                        })
+                        .initTips(true, true, true);
+                break;
         }
     }
 
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case IMAGE_MODEL:
-                return new ImageModelHolder(getLayoutId(parent));
-            case SYSTEM_NETWORK_MODEL:
-                return new SystemNetWorkModelHolder(getLayoutId(parent));
-            case IS_VERTICAL:
-                return new VerticalHolder(getLayoutId(parent));
-            default:
-                return new ImageManagerHolder(getLayoutId(parent));
-        }
+        return new BaseViewHolder(getLayoutId(parent));
     }
 
 
@@ -168,7 +162,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
      * Customize the model class
      */
     private List<ImageModel> initImageModel() {
-        List<ImageModel> list = new LinkedList<>();
+        List<ImageModel> list = new ArrayList<>();
         list.add(new ImageModel("http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", "那个时候刚恋爱，这个时候放分手", "banner1"));
         list.add(new ImageModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6qyhzgj30dw07t75g.jpg", "羞羞呢～", "banner2"));
         list.add(new ImageModel("http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg", "腿不长 但细", "banner3"));

@@ -69,13 +69,13 @@ class BannerAdapter extends PagerAdapter {
             imageLoader(img.getContext(), imageList.get(getPosition(position)).getImage(), img);
         } else {
             //noinspection unchecked
-            imageLoaderManage.display(img.getContext(), img, imageList.get(getPosition(position)));
+            imageLoaderManage.display(img, imageList.get(getPosition(position)));
         }
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (imageClickListener != null) {
-                    imageClickListener.onBannerClick(getPosition(position), imageList.get(getPosition(position)));
+                    imageClickListener.onBannerClick(v,getPosition(position), imageList.get(getPosition(position)));
                 }
             }
         });
@@ -97,6 +97,6 @@ class BannerAdapter extends PagerAdapter {
     }
 
     interface OnBannerImageClickListener {
-        void onBannerClick(int position, Object model);
+        void onBannerClick(View view,int position, Object model);
     }
 }

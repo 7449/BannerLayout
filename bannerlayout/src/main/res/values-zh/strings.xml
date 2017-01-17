@@ -11,4 +11,5 @@
     <string name="vertical">竖直滚动使用动画实现,因此禁止使用动画</string>
     <string name="glide_excpetion">Glide加载中图片或者加载异常图片设置出现异常</string>
     <string name="bannerTransformer_null">检测到动画为null</string>
+    <string name="banner_handler_erro">BannerHandlerUtils为null</string>
 </resources>

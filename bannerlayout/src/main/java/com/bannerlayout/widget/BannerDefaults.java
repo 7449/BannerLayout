@@ -14,7 +14,7 @@ class BannerDefaults {
     /**
      * customize  dots State Selector
      */
-    static final int DOTS_SELECTOR = -1;
+    static final int DOTS_SELECTOR = 0x0;
     /**
      * Default BannerTipsLayout background color
      */

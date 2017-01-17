@@ -1,6 +1,5 @@
 package com.bannerlayout.Interface;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 /**
@@ -8,5 +7,5 @@ import android.widget.ImageView;
  */
 
 public interface ImageLoaderManager<T> {
-    void display(Context context, ImageView imageView, T model);
+    void display( ImageView imageView, T model);
 }

@@ -12,4 +12,5 @@
     <string name="vertical">If it is a vertical slide can not set the animation</string>
     <string name="glide_excpetion">glide placeImage or errorImage is null</string>
     <string name="bannerTransformer_null">the BannerAnimation is null</string>
+    <string name="banner_handler_erro">BannerHandlerUtils is null</string>
 </resources>
