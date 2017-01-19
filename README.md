@@ -34,11 +34,11 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.4'
+    compile 'com.ydevelop:bannerlayout:1.0.5'
 
 >Update log
 
-	1.0.4 ： Add a page number to show View, fix sliding Caton problem
+	1.0.5 ：  code refactoring to increase the method of capturing rotation status
 	...
 	
 >If the network is loading pictures remember to add
@@ -58,7 +58,7 @@ BannerLayout for unlimited rotation of images
 	stopBanner(); //Paused rotation
 	restoreBanner(); //Resume rotation
 
-0. pageNumberView:
+ 0 . pageNumberView:
 
            bannerLayout
                     .initListResources(initImageModel())
@@ -96,8 +96,8 @@ BannerLayout for unlimited rotation of images
                 .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
 
                     @Override
-                    public void onBannerClick(int position, ImageModel model) {
-                        Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
+                    public void onBannerClick(View view, int position, ImageModel model) {
+                        Toast.makeText(view.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -152,8 +152,8 @@ BannerLayout for unlimited rotation of images
 	public class ImageManager implements ImageLoaderManager<BannerBean> {
 	
 	    @Override
-	    public void display(Context context, ImageView imageView, BannerBean model) {
-	        Picasso.with(context)
+	    public void display(ImageView imageView, BannerBean model) {
+	        Picasso.with(imageView.getContext())
 	                .load(model.getImageUrl())
 	                .placeholder(R.mipmap.ic_launcher)
 	                .error(R.mipmap.ic_launcher)
@@ -180,14 +180,14 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	                .setDuration(3000) //Switching speed
 	                .start();
 	
-	If you only want to use the built-in animation can use BANNER_ANIMATION to choose
+	If you only want to use the built-in animation can use BannerAnimation to choose
 	
 	simple：
 	
 		   bannerLayout
 	                .initImageListResources(list) //Customize the model class
 	                .initTips()
-	                .setBannerTransformer(BannerAnimationType.CUBE_IN)
+	                .setBannerTransformer(BannerAnimation.CUBE_IN)
 	                .start();
 	
 8.Animation collection：
@@ -200,7 +200,7 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	
 	>A collection of system animations
 	
-			 List<BANNER_ANIMATION> enumTransformer = new ArrayList<>();
+			 List<BannerAnimation> enumTransformer = new ArrayList<>();
 	
 			bannerLayout..setBannerSystemTransformerList(enumTransformer);
 

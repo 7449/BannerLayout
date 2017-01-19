@@ -44,6 +44,7 @@ class BannerTipsLayout extends RelativeLayout {
         linearLayout.removeAllViews();
         for (int i = 0; i < dotsInterface.dotsCount(); i++) {
             View view = new View(getContext());
+            //noinspection deprecation
             view.setBackgroundDrawable(dotsInterface.dotsSelector());
             if (i == 0) {
                 view.setEnabled(true);

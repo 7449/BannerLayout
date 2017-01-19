@@ -80,7 +80,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                 holder.getTitle().setText(getString(holder.getContext(), R.string.customize_load_Picture_Manager));
                 holder.getBannerLayout()
                         .initListResources(initBannerBean())
-                        .setImageLoaderManage(new ImageManager())
+                        .setImageLoaderManager(new ImageManager())
                         .addOnBannerTitleListener(new OnBannerTitleListener() {
                             @Override
                             public String getTitle(int newPosition) {

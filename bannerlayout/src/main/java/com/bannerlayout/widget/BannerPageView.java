@@ -70,6 +70,7 @@ public class BannerPageView extends TextView {
                 pageNumViewInterface.getPageNumViewPaddingTop(),
                 pageNumViewInterface.getPageNumViewPaddingRight(),
                 pageNumViewInterface.getPageNumViewPaddingBottom());
+        //noinspection deprecation
         setBackgroundDrawable(BannerSelectorUtils.getPageView(pageNumViewInterface.getPageNumViewRadius(),
                 ContextCompat.getColor(getContext(), pageNumViewInterface.getPageNumViewBackgroundColor())));
         return pageParams;

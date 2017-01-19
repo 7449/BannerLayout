@@ -32,11 +32,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.4'
+		compile 'com.ydevelop:bannerlayout:1.0.5'
 
 >更新状态
 
-	1.0.4 : 新增页码展示View，修复滑动卡顿问题
+	1.0.5 : 代码重构，增加获取轮播状态的方法
 	...
 
 
@@ -95,7 +95,7 @@
              .initListResources(initImageModel())
              .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
                  @Override
-                 public void onBannerClick(int position, ImageModel model) {
+                 public void onBannerClick(View view, int position, ImageModel model) {
                    Toast.makeText(holder.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -148,8 +148,8 @@
 	public class ImageManager implements ImageLoaderManager<BannerBean> {
 	
 	    @Override
-	    public void display(Context context, ImageView imageView, BannerBean model) {
-	        Picasso.with(context)
+	    public void display(ImageView imageView, BannerBean model) {
+	        Picasso.with(imageView.getContext())
 	                .load(model.getImageUrl())
 	                .placeholder(R.mipmap.ic_launcher)
 	                .error(R.mipmap.ic_launcher)
@@ -176,14 +176,14 @@ viewpager的垂直这里用的是动画，所以只要选择了垂直滚动，�
 	                .setDuration(3000) //切换速度
 	                .start();
 	
-	如果只想使用内置的动画可以用 BannerAnimationType 进行选择
+	如果只想使用内置的动画可以用 BannerAnimation 进行选择
 	
 	例：
 	
 		   bannerLayout
 	                .initImageListResources(list) //自定义model类
 	                .initTips()
-	                .setBannerTransformer(BannerAnimationType.CUBE_IN)
+	                .setBannerTransformer(BannerAnimation.CUBE_IN)
 	                .start();
 
 8.动画集合：
@@ -197,7 +197,7 @@ viewpager的垂直这里用的是动画，所以只要选择了垂直滚动，�
 
 >系统动画集合
 
-		 List<BannerAnimationType> enumTransformer = new ArrayList<>();
+		 List<BannerAnimation> enumTransformer = new ArrayList<>();
 
 		bannerLayout.setBannerSystemTransformerList(enumTransformer);
 

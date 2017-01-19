@@ -1,14 +1,11 @@
 package com.bannerlayout.widget;
 
-import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bannerlayout.Interface.ImageLoaderManager;
-import com.bannerlayout.R;
-import com.bannerlayout.exception.BannerException;
 import com.bannerlayout.model.BannerModel;
 import com.bumptech.glide.Glide;
 
@@ -21,30 +18,13 @@ import java.util.List;
 
 class BannerAdapter extends PagerAdapter {
     private List<? extends BannerModel> imageList = null;
-    private int error_image = -1;
-    private int place_image = -1;
+    private int error_image;
+    private int place_image;
     private ImageLoaderManager imageLoaderManage = null;
     private OnBannerImageClickListener imageClickListener = null;
 
     BannerAdapter(List<? extends BannerModel> imageList) {
         this.imageList = imageList;
-    }
-
-    void setErrorImage(int error_image) {
-        this.error_image = error_image;
-    }
-
-    void setPlaceImage(int place_image) {
-        this.place_image = place_image;
-    }
-
-    void setImageClickListener(OnBannerImageClickListener imageClickListener) {
-        this.imageClickListener = imageClickListener;
-    }
-
-
-    void setImageLoaderManage(ImageLoaderManager imageLoaderManage) {
-        this.imageLoaderManage = imageLoaderManage;
     }
 
     @Override
@@ -66,7 +46,13 @@ class BannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView img = new ImageView(container.getContext());
         if (imageLoaderManage == null) {
-            imageLoader(img.getContext(), imageList.get(getPosition(position)).getImage(), img);
+            Glide
+                    .with(img.getContext())
+                    .load(imageList.get(getPosition(position)).getImage())
+                    .placeholder(place_image)
+                    .error(error_image)
+                    .centerCrop()
+                    .into(img);
         } else {
             //noinspection unchecked
             imageLoaderManage.display(img, imageList.get(getPosition(position)));
@@ -75,20 +61,12 @@ class BannerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (imageClickListener != null) {
-                    imageClickListener.onBannerClick(v,getPosition(position), imageList.get(getPosition(position)));
+                    imageClickListener.onBannerClick(v, getPosition(position), imageList.get(getPosition(position)));
                 }
             }
         });
         container.addView(img);
         return img;
-    }
-
-    private void imageLoader(Context context, Object url, ImageView imageView) {
-        if (place_image == -1 || error_image == -1) {
-            throw new BannerException(context.getString(R.string.glide_excpetion));
-        }
-        Glide.with(context).load(url).placeholder(place_image)
-                .error(error_image).centerCrop().into(imageView);
     }
 
 
@@ -97,6 +75,23 @@ class BannerAdapter extends PagerAdapter {
     }
 
     interface OnBannerImageClickListener {
-        void onBannerClick(View view,int position, Object model);
+        void onBannerClick(View view, int position, Object model);
+    }
+
+    void setErrorImage(int error_image) {
+        this.error_image = error_image;
+    }
+
+    void setPlaceImage(int place_image) {
+        this.place_image = place_image;
+    }
+
+    void setImageClickListener(OnBannerImageClickListener imageClickListener) {
+        this.imageClickListener = imageClickListener;
+    }
+
+
+    void setImageLoaderManage(ImageLoaderManager imageLoaderManage) {
+        this.imageLoaderManage = imageLoaderManage;
     }
 }

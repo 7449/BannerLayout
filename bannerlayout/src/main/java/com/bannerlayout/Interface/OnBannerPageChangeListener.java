@@ -6,6 +6,7 @@ package com.bannerlayout.Interface;
  * Take over the viewPager's OnPageChangeListener method
  */
 
+@SuppressWarnings("unused")
 public interface OnBannerPageChangeListener {
 
     void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);

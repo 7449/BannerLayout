@@ -10,7 +10,7 @@ import com.bannerlayout.Interface.ViewPagerCurrent;
  */
 public class BannerHandlerUtils extends Handler {
 
-    public  int MSG_STATUS = -1;
+    private int MSG_STATUS = -1;
 
     public static final int MSG_START = 0;
     public static final int MSG_UPDATE = 1;
