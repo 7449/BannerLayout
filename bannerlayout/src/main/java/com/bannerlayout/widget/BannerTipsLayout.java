@@ -2,6 +2,7 @@ package com.bannerlayout.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -71,7 +72,7 @@ class BannerTipsLayout extends RelativeLayout {
         tipsParams.addRule(tipsInterface.tipsSite());
         setLayoutParams(tipsParams);
         if (tipsInterface.isBackgroundColor()) {
-            setBackgroundColor(tipsInterface.tipsLayoutBackgroundColor());
+            setBackgroundColor(ContextCompat.getColor(getContext(), tipsInterface.tipsLayoutBackgroundColor()));
         }
     }
 
@@ -96,7 +97,7 @@ class BannerTipsLayout extends RelativeLayout {
         }
         textView = new TextView(getContext());
         textView.setGravity(Gravity.CENTER_VERTICAL);
-        textView.setTextColor(titleInterface.titleColor());
+        textView.setTextColor(ContextCompat.getColor(getContext(), titleInterface.titleColor()));
         textView.setTextSize(titleInterface.titleSize());
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);

@@ -138,7 +138,7 @@ public class BannerLayout extends RelativeLayout
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
 
         isTipsBackground = typedArray.getBoolean(R.styleable.BannerLayout_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND);
-        tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_tips_background, ContextCompat.getColor(getContext(), BannerDefaults.TIPS_LAYOUT_BACKGROUND));
+        tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_tips_background, BannerDefaults.TIPS_LAYOUT_BACKGROUND);
         tipsLayoutWidth = typedArray.getDimension(R.styleable.BannerLayout_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH);
         tipsLayoutHeight = typedArray.getDimension(R.styleable.BannerLayout_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT);
 
@@ -149,9 +149,9 @@ public class BannerLayout extends RelativeLayout
         dotsHeight = typedArray.getInteger(R.styleable.BannerLayout_dots_height, BannerDefaults.DOTS_HEIGHT);
         dotsSelector = typedArray.getResourceId(R.styleable.BannerLayout_dots_selector, BannerDefaults.DOTS_SELECTOR);
         enabledRadius = typedArray.getFloat(R.styleable.BannerLayout_enabledRadius, BannerDefaults.ENABLED_RADIUS);
-        enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, ContextCompat.getColor(getContext(), BannerDefaults.ENABLED_COLOR));
+        enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, BannerDefaults.ENABLED_COLOR);
         normalRadius = typedArray.getFloat(R.styleable.BannerLayout_normalRadius, BannerDefaults.NORMAL_RADIUS);
-        normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, ContextCompat.getColor(getContext(), BannerDefaults.NORMAL_COLOR));
+        normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, BannerDefaults.NORMAL_COLOR);
 
         delayTime = typedArray.getInteger(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_start_rotation, BannerDefaults.IS_START_ROTATION);
@@ -168,7 +168,7 @@ public class BannerLayout extends RelativeLayout
         titleLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_title_left_margin, BannerDefaults.TITLE_LEFT_MARGIN);
         titleWidth = typedArray.getDimension(R.styleable.BannerLayout_title_width, BannerDefaults.TITLE_WIDTH);
         titleHeight = typedArray.getDimension(R.styleable.BannerLayout_title_height, BannerDefaults.TITLE_HEIGHT);
-        titleSize = typedArray.getDimension(R.styleable.BannerLayout_title_size, BannerDefaults.TITLE_SIZE);
+
 
         tipsSite = typedArray.getInteger(R.styleable.BannerLayout_tips_site, ALIGN_PARENT_BOTTOM);
         dotsSite = typedArray.getInteger(R.styleable.BannerLayout_dots_site, ALIGN_PARENT_RIGHT);
@@ -566,7 +566,7 @@ public class BannerLayout extends RelativeLayout
      *************************************************************************************************************/
 
 
-    public BannerLayout setTitleSetting(int titleColor, int titleSize) {
+    public BannerLayout setTitleSetting(int titleColor, float titleSize) {
         if (titleSize != -1) {
             this.titleSize = titleSize;
         }
@@ -851,7 +851,14 @@ public class BannerLayout extends RelativeLayout
 
     @Override
     public Drawable dotsSelector() {
-        return dotsSelector == BannerDefaults.DOTS_SELECTOR ? BannerSelectorUtils.getDrawableSelector(enabledRadius, enabledColor, normalRadius, normalColor) : ContextCompat.getDrawable(getContext(), dotsSelector);
+        return dotsSelector == BannerDefaults.DOTS_SELECTOR ?
+                BannerSelectorUtils.getDrawableSelector(
+                        enabledRadius,
+                        ContextCompat.getColor(getContext(), enabledColor),
+                        normalRadius,
+                        ContextCompat.getColor(getContext(), normalColor))
+                :
+                ContextCompat.getDrawable(getContext(), dotsSelector);
     }
 
     @Override
