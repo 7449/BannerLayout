@@ -34,11 +34,11 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.5'
+    compile 'com.ydevelop:bannerlayout:1.0.6'
 
 >Update log
 
-	1.0.5 ：  code refactoring to increase the method of capturing rotation status
+	1.0.6 ：  repair Meizu phone can not get the default color
 	...
 	
 >If the network is loading pictures remember to add

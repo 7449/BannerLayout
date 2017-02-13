@@ -1,6 +1,5 @@
 package com.bannerlayout.widget;
 
-import android.graphics.Color;
 import android.view.ViewGroup;
 
 import com.bannerlayout.R;
@@ -94,7 +93,7 @@ class BannerDefaults {
     /**
      * The default title font color
      */
-    static final int TITLE_COLOR = Color.YELLOW;
+    static final int TITLE_COLOR = R.color.colorYellow;
     /**
      * The default title of marginLeft
      */

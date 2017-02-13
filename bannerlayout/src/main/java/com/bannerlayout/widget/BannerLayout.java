@@ -132,9 +132,6 @@ public class BannerLayout extends RelativeLayout
     private int pageNumViewTextSize;
 
     private void init(AttributeSet attrs) {
-        if (isNull(attrs)) {
-            return;
-        }
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
 
         isTipsBackground = typedArray.getBoolean(R.styleable.BannerLayout_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND);
@@ -187,13 +184,13 @@ public class BannerLayout extends RelativeLayout
         pageNumViewTextColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textColor, BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR);
         pageNumViewBackgroundColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_BackgroundColor, BannerDefaults.PAGE_NUM_VIEW_BACKGROUND);
         pageNumViewTextSize = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
-
         typedArray.recycle();
     }
 
 
     public BannerLayout(Context context) {
         super(context);
+        init(null);
     }
 
     public BannerLayout(Context context, AttributeSet attrs) {

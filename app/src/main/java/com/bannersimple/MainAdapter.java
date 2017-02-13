@@ -3,9 +3,9 @@ package com.bannersimple;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                 holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
                 holder.getBannerLayout()
                         .initListResources(initImageModel())
-                        .setTitleSetting(ContextCompat.getColor(holder.getContext(), R.color.colorAccent), -1)
+                        .setTitleSetting(R.color.colorAccent, -1)
                         .setPageNumViewMargin(10, 0, 0, 10)
                         .setPageNumViewTextColor(R.color.colorAccent)
                         .setPageNumViewBackgroundColor(R.color.colorWhite)
@@ -95,7 +95,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BaseViewHolder(getLayoutId(parent));
+        LinearLayout linearLayout = new LinearLayout(parent.getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        return new BaseViewHolder(linearLayout);
     }
 
 
@@ -121,11 +123,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
     public static class BaseViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private BannerLayout bannerLayout;
+        private LinearLayout rootView;
 
         public BaseViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
-            bannerLayout = (BannerLayout) itemView.findViewById(R.id.banner_layout);
+            rootView = (LinearLayout) itemView;
+            title = new TextView(rootView.getContext());
+            title.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorBackground));
+            title.setTextSize(14);
+            title.setPadding(10, 10, 10, 10);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 450);
+            bannerLayout = new BannerLayout(rootView.getContext());
+
+            rootView.addView(title);
+            rootView.addView(bannerLayout, params);
         }
 
         public TextView getTitle() {
@@ -140,11 +152,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
             return itemView.getContext();
         }
     }
-
-    private View getLayoutId(ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-    }
-
 
     /**
      * Comes with the Model class, the use of network data

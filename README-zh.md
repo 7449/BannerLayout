@@ -32,11 +32,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.5'
+		compile 'com.ydevelop:bannerlayout:1.0.6'
 
 >更新状态
 
-	1.0.5 : 代码重构，增加获取轮播状态的方法
+	1.0.6 : 修复魅族手机无法获取默认颜色
 	...
 
 
