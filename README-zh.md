@@ -280,8 +280,10 @@ page_num_view_textColor				|pageNumView textColor	 	|默认白色
 page_num_view_BackgroundColor		|pageNumView BackgroundColor|默认半透明
 page_num_view_textSize				|pageNumView textSize	  	|默认10
 pageNumView_site					|pageNumView 位置			|默认初始化之后在左上角
+page_num_view_mark				|pageNumView 符号 		|默认为 /
 
-        <attr name="pageNumView_site">
+
+        <attr name="pageNumView_site">
             <enum name="topLeft" value="0" />
             <enum name="topRight" value="1" />
             <enum name="bottomLeft" value="2" />
