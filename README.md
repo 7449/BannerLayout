@@ -282,6 +282,7 @@ page_num_view_textColor				|pageNumView textColor	 									|Default white
 page_num_view_BackgroundColor		|pageNumView BackgroundColor								|Default translucent
 page_num_view_textSize				|pageNumView textSize	  									|Default 10
 pageNumView_site					|pageNumView site											|Default topRight
+page_num_view_mark				|pageNumView mark |Default /
 
         <attr name="pageNumView_site">
             <enum name="topLeft" value="0" />
