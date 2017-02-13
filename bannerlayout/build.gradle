@@ -4,7 +4,7 @@ apply plugin: 'com.novoda.bintray-release'
 //noinspection GroovyMissingReturnStatement
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 14
@@ -38,6 +38,6 @@ publish {
 
 dependencies {
     //noinspection GradleDependency,GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }

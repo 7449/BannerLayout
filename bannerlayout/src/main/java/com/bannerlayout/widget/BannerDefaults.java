@@ -140,6 +140,6 @@ class BannerDefaults {
     static final int PAGE_NUM_VIEW_PADDING_BOTTOM = 5;
     static final int PAGE_NUM_VIEW_BACKGROUND = R.color.colorBackground;
     static final int PAGE_NUL_VIEW_TEXT_COLOR = R.color.colorWhite;
-
+    static final String PAGE_NUM_VIEW_MARK = " / ";
 
 }

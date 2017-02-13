@@ -42,6 +42,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                         .setPageNumViewMargin(10, 0, 0, 10)
                         .setPageNumViewTextColor(R.color.colorAccent)
                         .setPageNumViewBackgroundColor(R.color.colorWhite)
+                        .setPageNumViewMark(" * ")
                         .initPageNumView()
                         .initTips(true, true, true)
                         .start(true);

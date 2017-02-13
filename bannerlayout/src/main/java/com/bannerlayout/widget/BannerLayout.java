@@ -130,6 +130,8 @@ public class BannerLayout extends RelativeLayout
     private int pageNumViewTextColor;
     private int pageNumViewBackgroundColor;
     private int pageNumViewTextSize;
+    private String pageNumViewMark;
+
 
     private void init(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
@@ -184,6 +186,10 @@ public class BannerLayout extends RelativeLayout
         pageNumViewTextColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textColor, BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR);
         pageNumViewBackgroundColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_BackgroundColor, BannerDefaults.PAGE_NUM_VIEW_BACKGROUND);
         pageNumViewTextSize = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
+        pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_page_num_view_mark);
+        if (isNull(pageNumViewMark)) {
+            pageNumViewMark = BannerDefaults.PAGE_NUM_VIEW_MARK;
+        }
         typedArray.recycle();
     }
 
@@ -239,7 +245,7 @@ public class BannerLayout extends RelativeLayout
     public void onPageSelected(int position) {
         int newPosition = position % getDotsSize();
         if (!isNull(pageView)) {
-            pageView.setText(newPosition + 1 + " / " + getDotsSize());
+            pageView.setText(newPosition + 1 + pageNumViewMark + getDotsSize());
         }
         if (!isNull(onBannerPageChangeListener, tipsView)) {
             onBannerPageChangeListener.onPageSelected(newPosition);
@@ -295,6 +301,7 @@ public class BannerLayout extends RelativeLayout
         }
     }
 
+
     /************************************************************************************************************
      * <p>
      * <p>                          BannerLayout method start
@@ -308,7 +315,7 @@ public class BannerLayout extends RelativeLayout
             pageView = null;
         }
         pageView = new BannerPageView(getContext());
-        pageView.setText(1 + " / " + getDotsSize());
+        pageView.setText(1 + pageNumViewMark + getDotsSize());
         addView(pageView, pageView.initPageView(this));
         return this;
     }
@@ -792,6 +799,15 @@ public class BannerLayout extends RelativeLayout
 
     public BannerLayout setPageNumViewSite(@PageNumViewSiteMode int pageNumViewSite) {
         this.pageNumViewSite = pageNumViewSite;
+        return this;
+    }
+
+    public String getPageNumViewMark() {
+        return pageNumViewMark;
+    }
+
+    public BannerLayout setPageNumViewMark(String pageNumViewMark) {
+        this.pageNumViewMark = pageNumViewMark;
         return this;
     }
 
