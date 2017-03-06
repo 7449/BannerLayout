@@ -36,16 +36,26 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
             case IMAGE_MODEL:
 
                 holder.getTitle().setText(getString(holder.getContext(), R.string.image_holder));
+//                holder.getBannerLayout()
+//                        .initListResources(initImageModel())
+//                        .setTitleSetting(R.color.colorAccent, -1)
+//                        .setPageNumViewMargin(10, 0, 0, 10)
+//                        .setPageNumViewTextColor(R.color.colorAccent)
+//                        .setPageNumViewBackgroundColor(R.color.colorWhite)
+//                        .setPageNumViewMark(" * ")
+//                        .initPageNumView()
+//                        .initTips(true, true, true)
+//                        .start(true);
                 holder.getBannerLayout()
                         .initListResources(initImageModel())
-                        .setTitleSetting(R.color.colorAccent, -1)
-                        .setPageNumViewMargin(10, 0, 0, 10)
-                        .setPageNumViewTextColor(R.color.colorAccent)
-                        .setPageNumViewBackgroundColor(R.color.colorWhite)
-                        .setPageNumViewMark(" * ")
-                        .initPageNumView()
-                        .initTips(true, true, true)
-                        .start(true);
+                        .initTips(true, true, false)
+                        .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
+                            @Override
+                            public void onBannerClick(View view, int position, ImageModel model) {
+
+                            }
+                        })
+                        .start(true, 4000);
                 break;
             case SYSTEM_NETWORK_MODEL:
 
