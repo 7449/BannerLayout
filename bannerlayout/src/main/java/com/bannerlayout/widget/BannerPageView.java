@@ -68,8 +68,7 @@ class BannerPageView extends AppCompatTextView {
                 pageNumViewInterface.getPageNumViewPaddingTop(),
                 pageNumViewInterface.getPageNumViewPaddingRight(),
                 pageNumViewInterface.getPageNumViewPaddingBottom());
-        //noinspection deprecation
-        setBackgroundDrawable(BannerSelectorUtils.getPageView(pageNumViewInterface.getPageNumViewRadius(),
+        setBackgroundDrawable(BannerSelectorUtils.getShape(pageNumViewInterface.getPageNumViewRadius(),
                 pageNumViewInterface.getPageNumViewBackgroundColor()));
         return pageParams;
     }

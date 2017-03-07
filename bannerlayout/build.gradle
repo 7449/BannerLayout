@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
-//noinspection GroovyMissingReturnStatement
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 14
-        //noinspection GradleDependency
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -31,13 +29,12 @@ publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'bannerlayout'
-    publishVersion = '1.0.6'
+    publishVersion = '1.0.7'
     desc = 'this is bannerlayout'
     website = 'https://github.com/7449/BannerLayout'
 }
 
 dependencies {
-    //noinspection GradleDependency,GradleCompatible
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }

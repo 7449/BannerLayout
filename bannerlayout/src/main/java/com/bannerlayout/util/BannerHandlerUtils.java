@@ -30,7 +30,7 @@ public class BannerHandlerUtils extends Handler {
         this.delayTime = time;
     }
 
-    public int getBannerStatus(){
+    public int getBannerStatus() {
         return MSG_STATUS;
     }
 

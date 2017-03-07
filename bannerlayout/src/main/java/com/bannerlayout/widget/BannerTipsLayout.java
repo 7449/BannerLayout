@@ -67,7 +67,7 @@ class BannerTipsLayout extends RelativeLayout {
      * Initialize  this
      */
     void setBannerTips(TipsInterface tipsInterface) {
-        LayoutParams tipsParams = new LayoutParams((int) tipsInterface.tipsWidth(), (int) tipsInterface.tipsHeight());
+        LayoutParams tipsParams = new LayoutParams(tipsInterface.tipsWidth(), tipsInterface.tipsHeight());
         tipsParams.addRule(tipsInterface.tipsSite());
         setLayoutParams(tipsParams);
         if (tipsInterface.isBackgroundColor()) {
@@ -100,7 +100,7 @@ class BannerTipsLayout extends RelativeLayout {
         textView.setTextSize(titleInterface.titleSize());
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        LayoutParams params = new LayoutParams((int) titleInterface.titleWidth(), (int) titleInterface.titleHeight());
+        LayoutParams params = new LayoutParams(titleInterface.titleWidth(), titleInterface.titleHeight());
         params.addRule(RelativeLayout.CENTER_VERTICAL);
         params.leftMargin = titleInterface.titleLeftMargin();
         params.rightMargin = titleInterface.titleRightMargin();
@@ -124,9 +124,9 @@ class BannerTipsLayout extends RelativeLayout {
 
         int tipsSite();
 
-        float tipsWidth();
+        int tipsWidth();
 
-        float tipsHeight();
+        int tipsHeight();
 
         int tipsLayoutBackgroundColor();
 
@@ -142,9 +142,9 @@ class BannerTipsLayout extends RelativeLayout {
 
         int titleRightMargin();
 
-        float titleWidth();
+        int titleWidth();
 
-        float titleHeight();
+        int titleHeight();
 
         int titleSite();
 

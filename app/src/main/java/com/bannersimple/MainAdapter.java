@@ -63,8 +63,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
                 holder.getBannerLayout()
                         .initListResources(initSystemNetWorkModel())
                         .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
-                        .setPageNumViewMargin(10, 0, 10, 0)
-                        .setPageNumViewTextColor(R.color.colorAccent)
+                        .setPageNumViewMargin(12, 0, 12, 0)
+                        .setPageNumViewTextColor(holder.getContext().getColor(R.color.colorAccent))
                         .initPageNumView()
                         .setTipsSite(BannerLayout.ALIGN_PARENT_BOTTOM)
                         .initTips(true, true, true);

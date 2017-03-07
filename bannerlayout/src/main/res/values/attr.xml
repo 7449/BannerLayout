@@ -22,8 +22,14 @@
 
         <attr name="is_tips_background" format="boolean" />
         <attr name="tips_background" format="color" />
-        <attr name="tips_width" format="dimension" />
-        <attr name="tips_height" format="dimension" />
+        <attr name="tips_width" format="integer">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="tips_height" format="integer">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
 
         <attr name="glide_error_image" format="reference" />
         <attr name="glide_place_image" format="reference" />
@@ -31,8 +37,8 @@
         <attr name="title_visible" format="boolean" />
         <attr name="title_size" format="dimension" />
         <attr name="title_color" format="color" />
-        <attr name="title_width" format="dimension" />
-        <attr name="title_height" format="dimension" />
+        <attr name="title_width" format="integer" />
+        <attr name="title_height" format="integer" />
         <attr name="title_left_margin" format="integer" />
         <attr name="title_right_margin" format="integer" />
 
@@ -46,8 +52,8 @@
         <attr name="page_num_view_marginLeft" format="integer" />
         <attr name="page_num_view_marginRight" format="integer" />
         <attr name="page_num_view_marginBottom" format="integer" />
-        <attr name="page_num_view_textColor" format="integer" />
-        <attr name="page_num_view_BackgroundColor" format="integer" />
+        <attr name="page_num_view_textColor" format="color" />
+        <attr name="page_num_view_BackgroundColor" format="color" />
         <attr name="page_num_view_textSize" format="dimension" />
         <attr name="page_num_view_mark" format="string" />
 
@@ -58,22 +64,22 @@
             <enum name="bottomRight" value="3" />
             <enum name="centeredLeft" value="4" />
             <enum name="centeredRight" value="5" />
-            <enum name="topCentered" value="6" />
-            <enum name="bottomCentered" value="7" />
+            <enum name="topCenter" value="6" />
+            <enum name="bottomCenter" value="7" />
         </attr>
         <attr name="tips_site">
             <enum name="top" value="10" />
             <enum name="bottom" value="12" />
-            <enum name="centered" value="13" />
+            <enum name="center" value="13" />
         </attr>
         <attr name="dots_site">
             <enum name="left" value="9" />
-            <enum name="centered" value="13" />
+            <enum name="center" value="13" />
             <enum name="right" value="11" />
         </attr>
         <attr name="title_site">
             <enum name="left" value="9" />
-            <enum name="centered" value="13" />
+            <enum name="center" value="13" />
             <enum name="right" value="11" />
         </attr>
     </declare-styleable>

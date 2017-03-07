@@ -1,7 +1,5 @@
 package com.bannerlayout.widget;
 
-import android.view.ViewGroup;
-
 import com.bannerlayout.R;
 
 /**
@@ -22,7 +20,7 @@ class BannerDefaults {
     /**
      * The default dots control width
      */
-    static final int TIPS_LAYOUT_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
+    static final int TIPS_LAYOUT_WIDTH = BannerLayout.MATCH_PARENT;
     /**
      * The default dots control height
      */
@@ -105,11 +103,11 @@ class BannerDefaults {
     /**
      * The width of the default title
      */
-    static final int TITLE_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int TITLE_WIDTH = BannerLayout.WRAP_CONTENT;
     /**
      * The height of the default title
      */
-    static final int TITLE_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT;
+    static final int TITLE_HEIGHT = BannerLayout.WRAP_CONTENT;
     /**
      * Default viewpager switching speed
      */
@@ -119,8 +117,8 @@ class BannerDefaults {
      */
     static final boolean IS_VERTICAL = false;
 
-    static final float ENABLED_RADIUS = 0.5f;
-    static final float NORMAL_RADIUS = 0.5f;
+    static final float ENABLED_RADIUS = 20f;
+    static final float NORMAL_RADIUS = 20f;
     static final int ENABLED_COLOR = R.color.colorPrimary;
     static final int NORMAL_COLOR = R.color.colorWhite;
 

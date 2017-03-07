@@ -5,13 +5,15 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.support.annotation.BoolRes;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IntegerRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.bannerlayout.Interface.ImageLoaderManager;
@@ -47,6 +49,9 @@ public class BannerLayout extends RelativeLayout
         BannerTipsLayout.TitleInterface,
         BannerTipsLayout.TipsInterface,
         BannerPageView.PageNumViewInterface {
+
+    public static final int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
+    public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
      * pageNumberView site type
@@ -84,7 +89,6 @@ public class BannerLayout extends RelativeLayout
 
     private int preEnablePosition = 0;
 
-
     private boolean isStartRotation;//Whether auto rotation is enabled or not is not enabled by default
     private boolean isTipsBackground;//Whether to display a  dots background
     private boolean viePagerTouchMode; //Viewpager can manually slide, the default can
@@ -111,12 +115,12 @@ public class BannerLayout extends RelativeLayout
     private int titleColor;//font color
     private int titleLeftMargin;//title marginLeft
     private int titleRightMargin;//title marginRight
-    private float titleWidth;//title width
-    private float titleHeight;// title height
+    private int titleWidth;//title width
+    private int titleHeight;// title height
     private int titleSite;
 
-    private float tipsLayoutHeight; //BannerTipsLayout height
-    private float tipsLayoutWidth; // BannerTipsLayout width
+    private int tipsLayoutHeight; //BannerTipsLayout height
+    private int tipsLayoutWidth; // BannerTipsLayout width
     private int tipsBackgroundColor; //BannerTipsLayout BackgroundColor
     private int tipsSite;
 
@@ -140,9 +144,9 @@ public class BannerLayout extends RelativeLayout
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
 
         isTipsBackground = typedArray.getBoolean(R.styleable.BannerLayout_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND);
-        tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_tips_background, BannerDefaults.TIPS_LAYOUT_BACKGROUND);
-        tipsLayoutWidth = typedArray.getDimension(R.styleable.BannerLayout_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH);
-        tipsLayoutHeight = typedArray.getDimension(R.styleable.BannerLayout_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT);
+        tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_tips_background, ContextCompat.getColor(getContext(), BannerDefaults.TIPS_LAYOUT_BACKGROUND));
+        tipsLayoutWidth = typedArray.getInteger(R.styleable.BannerLayout_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH);
+        tipsLayoutHeight = typedArray.getInteger(R.styleable.BannerLayout_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT);
 
         isVisibleDots = typedArray.getBoolean(R.styleable.BannerLayout_dots_visible, BannerDefaults.IS_VISIBLE_DOTS);
         dotsLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_dots_left_margin, BannerDefaults.DOTS_LEFT_MARGIN);
@@ -151,9 +155,9 @@ public class BannerLayout extends RelativeLayout
         dotsHeight = typedArray.getInteger(R.styleable.BannerLayout_dots_height, BannerDefaults.DOTS_HEIGHT);
         dotsSelector = typedArray.getResourceId(R.styleable.BannerLayout_dots_selector, BannerDefaults.DOTS_SELECTOR);
         enabledRadius = typedArray.getFloat(R.styleable.BannerLayout_enabledRadius, BannerDefaults.ENABLED_RADIUS);
-        enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, BannerDefaults.ENABLED_COLOR);
+        enabledColor = typedArray.getColor(R.styleable.BannerLayout_enabledColor, ContextCompat.getColor(getContext(), BannerDefaults.ENABLED_COLOR));
         normalRadius = typedArray.getFloat(R.styleable.BannerLayout_normalRadius, BannerDefaults.NORMAL_RADIUS);
-        normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, BannerDefaults.NORMAL_COLOR);
+        normalColor = typedArray.getColor(R.styleable.BannerLayout_normalColor, ContextCompat.getColor(getContext(), BannerDefaults.NORMAL_COLOR));
 
         delayTime = typedArray.getInteger(R.styleable.BannerLayout_delay_time, BannerDefaults.DELAY_TIME);
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_start_rotation, BannerDefaults.IS_START_ROTATION);
@@ -164,12 +168,12 @@ public class BannerLayout extends RelativeLayout
         isVertical = typedArray.getBoolean(R.styleable.BannerLayout_banner_isVertical, BannerDefaults.IS_VERTICAL);
 
         isVisibleTitle = typedArray.getBoolean(R.styleable.BannerLayout_title_visible, BannerDefaults.TITLE_VISIBLE);
-        titleColor = typedArray.getColor(R.styleable.BannerLayout_title_color, BannerDefaults.TITLE_COLOR);
+        titleColor = typedArray.getColor(R.styleable.BannerLayout_title_color, ContextCompat.getColor(getContext(), BannerDefaults.TITLE_COLOR));
         titleSize = typedArray.getDimension(R.styleable.BannerLayout_title_size, BannerDefaults.TITLE_SIZE);
         titleRightMargin = typedArray.getInteger(R.styleable.BannerLayout_title_right_margin, BannerDefaults.TITLE_RIGHT_MARGIN);
         titleLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_title_left_margin, BannerDefaults.TITLE_LEFT_MARGIN);
-        titleWidth = typedArray.getDimension(R.styleable.BannerLayout_title_width, BannerDefaults.TITLE_WIDTH);
-        titleHeight = typedArray.getDimension(R.styleable.BannerLayout_title_height, BannerDefaults.TITLE_HEIGHT);
+        titleWidth = typedArray.getInteger(R.styleable.BannerLayout_title_width, BannerDefaults.TITLE_WIDTH);
+        titleHeight = typedArray.getInteger(R.styleable.BannerLayout_title_height, BannerDefaults.TITLE_HEIGHT);
 
 
         tipsSite = typedArray.getInteger(R.styleable.BannerLayout_tips_site, ALIGN_PARENT_BOTTOM);
@@ -186,8 +190,8 @@ public class BannerLayout extends RelativeLayout
         pageNumViewRightMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginRight, BannerDefaults.PAGE_NUM_VIEW_RIGHT_MARGIN);
         pageNumViewBottomMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginBottom, BannerDefaults.PAGE_NUM_VIEW_BOTTOM_MARGIN);
         pageNumViewLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginLeft, BannerDefaults.PAGE_NUM_VIEW_LEFT_MARGIN);
-        pageNumViewTextColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textColor, BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR);
-        pageNumViewBackgroundColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_BackgroundColor, BannerDefaults.PAGE_NUM_VIEW_BACKGROUND);
+        pageNumViewTextColor = typedArray.getColor(R.styleable.BannerLayout_page_num_view_textColor, ContextCompat.getColor(getContext(), BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR));
+        pageNumViewBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_page_num_view_BackgroundColor, ContextCompat.getColor(getContext(), BannerDefaults.PAGE_NUM_VIEW_BACKGROUND));
         pageNumViewTextSize = typedArray.getDimension(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
         pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_page_num_view_mark);
         if (isNull(pageNumViewMark)) {
@@ -453,7 +457,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * glide Loads an error image, called before initAdapter
      */
-    public BannerLayout setErrorImageView(int errorImageView) {
+    public BannerLayout setErrorImageView(@DrawableRes int errorImageView) {
         this.errorImageView = errorImageView;
         if (!isNull(adapter)) {
             adapter.setErrorImage(errorImageView);
@@ -464,7 +468,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * glide loads the image before the initAdapter is called
      */
-    public BannerLayout setPlaceImageView(int placeImageView) {
+    public BannerLayout setPlaceImageView(@DrawableRes int placeImageView) {
         this.placeImageView = placeImageView;
         if (!isNull(adapter)) {
             adapter.setPlaceImage(placeImageView);
@@ -475,7 +479,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets the ViewPager switching speed
      */
-    public BannerLayout setDuration(@IntegerRes int pace) {
+    public BannerLayout setDuration(int pace) {
         this.mDuration = pace;
         if (!isNull(viewPager)) {
             viewPager.setDuration(pace);
@@ -573,7 +577,7 @@ public class BannerLayout extends RelativeLayout
      *************************************************************************************************************/
 
 
-    public BannerLayout setTitleSetting(@ColorRes int titleColor, float titleSize) {
+    public BannerLayout setTitleSetting(@ColorInt int titleColor, float titleSize) {
         if (titleSize != -1) {
             this.titleSize = titleSize;
         }
@@ -588,7 +592,7 @@ public class BannerLayout extends RelativeLayout
      * setting BannerTipsLayout background
      * The call takes effect before the initTips () method
      */
-    public BannerLayout setTipsBackgroundColor(@ColorRes int colorId) {
+    public BannerLayout setTipsBackgroundColor(@ColorInt int colorId) {
         this.tipsBackgroundColor = colorId;
         return this;
     }
@@ -598,7 +602,7 @@ public class BannerLayout extends RelativeLayout
      * sets the status selector for small dots
      * The call takes effect before the initTips () method
      */
-    public BannerLayout initTipsDotsSelector(int dotsSelector) {
+    public BannerLayout initTipsDotsSelector(@DrawableRes int dotsSelector) {
         this.dotsSelector = dotsSelector;
         return this;
     }
@@ -606,7 +610,8 @@ public class BannerLayout extends RelativeLayout
     /**
      * setting BannerTipsLayoutHeight
      */
-    public BannerLayout setTipsWidthAndHeight(@IntegerRes int width, @IntegerRes int height) {
+    public BannerLayout setTipsWidthAndHeight(int width,
+                                              int height) {
         this.tipsLayoutHeight = height;
         this.tipsLayoutWidth = width;
         return this;
@@ -622,17 +627,10 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * sets whether to display title, which is called before initTips () is initialized
-     */
-    public BannerLayout setVisibleTitle(@BoolRes boolean isVisibleTitle) {
-        this.isVisibleTitle = isVisibleTitle;
-        return this;
-    }
-
-    /**
      * sets the title marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setTitleMargin(@IntegerRes int leftMargin, @IntegerRes int rightMargin) {
+    public BannerLayout setTitleMargin(int leftMargin,
+                                       int rightMargin) {
         this.titleLeftMargin = leftMargin;
         this.titleRightMargin = rightMargin;
         return this;
@@ -648,17 +646,10 @@ public class BannerLayout extends RelativeLayout
     }
 
     /**
-     * sets whether or not to display small dots, called before initTips () is initialized
-     */
-    public BannerLayout setVisibleDots(@BoolRes boolean isVisibleDots) {
-        this.isVisibleDots = isVisibleDots;
-        return this;
-    }
-
-    /**
      * set the dots width and height, the default is 15
      */
-    public BannerLayout setDotsWidthAndHeight(@IntegerRes int width, @IntegerRes int height) {
+    public BannerLayout setDotsWidthAndHeight(int width,
+                                              int height) {
         this.dotsWidth = width;
         this.dotsHeight = height;
         return this;
@@ -675,7 +666,8 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets the dots marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setDotsMargin(@IntegerRes int leftMargin, @IntegerRes int rightMargin) {
+    public BannerLayout setDotsMargin(int leftMargin,
+                                      int rightMargin) {
         this.dotsLeftMargin = leftMargin;
         this.dotsRightMargin = rightMargin;
         return this;
@@ -686,12 +678,12 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setNormalColor(@ColorRes int normalColor) {
+    public BannerLayout setNormalColor(@ColorInt int normalColor) {
         this.normalColor = normalColor;
         return this;
     }
 
-    public BannerLayout setEnabledColor(@ColorRes int enabledColor) {
+    public BannerLayout setEnabledColor(@ColorInt int enabledColor) {
         this.enabledColor = enabledColor;
         return this;
     }
@@ -769,10 +761,10 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewPadding(@IntegerRes int top,
-                                              @IntegerRes int bottom,
-                                              @IntegerRes int left,
-                                              @IntegerRes int right) {
+    public BannerLayout setPageNumViewPadding(int top,
+                                              int bottom,
+                                              int left,
+                                              int right) {
         this.pageNumViewPaddingTop = top;
         this.pageNumViewPaddingBottom = bottom;
         this.pageNumViewPaddingLeft = left;
@@ -780,10 +772,10 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewMargin(@IntegerRes int top,
-                                             @IntegerRes int bottom,
-                                             @IntegerRes int left,
-                                             @IntegerRes int right) {
+    public BannerLayout setPageNumViewMargin(int top,
+                                             int bottom,
+                                             int left,
+                                             int right) {
         this.pageNumViewTopMargin = top;
         this.pageNumViewBottomMargin = bottom;
         this.pageNumViewLeftMargin = left;
@@ -791,12 +783,12 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewTextColor(@ColorRes int pageNumViewTextColor) {
+    public BannerLayout setPageNumViewTextColor(@ColorInt int pageNumViewTextColor) {
         this.pageNumViewTextColor = pageNumViewTextColor;
         return this;
     }
 
-    public BannerLayout setPageNumViewBackgroundColor(@ColorRes int pageNumViewBackgroundColor) {
+    public BannerLayout setPageNumViewBackgroundColor(@ColorInt int pageNumViewBackgroundColor) {
         this.pageNumViewBackgroundColor = pageNumViewBackgroundColor;
         return this;
     }
@@ -811,12 +803,13 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public String getPageNumViewMark() {
-        return pageNumViewMark;
-    }
-
     public BannerLayout setPageNumViewMark(@NonNull String pageNumViewMark) {
         this.pageNumViewMark = pageNumViewMark;
+        return this;
+    }
+
+    public BannerLayout setPageNumViewMark(@StringRes int pageNumViewMark) {
+        this.pageNumViewMark = getString(pageNumViewMark);
         return this;
     }
 
@@ -876,9 +869,9 @@ public class BannerLayout extends RelativeLayout
         return dotsSelector == BannerDefaults.DOTS_SELECTOR ?
                 BannerSelectorUtils.getDrawableSelector(
                         enabledRadius,
-                        ContextCompat.getColor(getContext(), enabledColor),
+                        enabledColor,
                         normalRadius,
-                        ContextCompat.getColor(getContext(), normalColor))
+                        normalColor)
                 :
                 ContextCompat.getDrawable(getContext(), dotsSelector);
     }
@@ -941,12 +934,12 @@ public class BannerLayout extends RelativeLayout
     }
 
     @Override
-    public float titleWidth() {
+    public int titleWidth() {
         return titleWidth;
     }
 
     @Override
-    public float titleHeight() {
+    public int titleHeight() {
         return titleHeight;
     }
 
@@ -973,12 +966,12 @@ public class BannerLayout extends RelativeLayout
     }
 
     @Override
-    public float tipsWidth() {
+    public int tipsWidth() {
         return tipsLayoutWidth;
     }
 
     @Override
-    public float tipsHeight() {
+    public int tipsHeight() {
         return tipsLayoutHeight;
     }
 
@@ -1092,6 +1085,7 @@ public class BannerLayout extends RelativeLayout
         adapter.setImageClickListener(this);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem((Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getDotsSize()));
+        start(isStartRotation);
     }
 
     private int getDotsSize() {

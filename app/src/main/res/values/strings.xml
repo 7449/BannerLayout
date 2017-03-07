@@ -4,4 +4,5 @@
     <string name="system_network_model">Network data, the prompt bar at the bottom</string>
     <string name="customize_load_Picture_Manager">Customize Load Picture Manager</string>
     <string name="is_vertical">a vertical viewpager</string>
+    <string name="mark">\@</string>
 </resources>

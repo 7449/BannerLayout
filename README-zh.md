@@ -32,11 +32,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.6'
+		compile 'com.ydevelop:bannerlayout:1.0.7'
 
 >更新状态
 
-	1.0.6 : 修复魅族手机无法获取默认颜色
+	1.0.7 : 修复若干bug,sample增加完整示例
 	...
 
 
@@ -60,13 +60,7 @@
 0.页码展示：
 
            bannerLayout
-                    .initListResources(initImageModel())
-                    .setPageNumViewMargin(10, 0, 0, 10)
-                    .setPageNumViewTextColor(R.color.colorAccent)
-                    .setPageNumViewBackgroundColor(R.color.colorWhite)
-                    .initPageNumView()
-                    .initTips(true, true, true)
-                    .start(true);
+                    .initPageNumView();
 
 1.数组
 
@@ -102,14 +96,14 @@
 
 4.提示栏及小圆点、title位置的改变
 
-	setTipsSite() 	 			提示栏在布局中的位置，top,bottom,centered三种可选 
-	setDotsSite()	  			小圆点在提示栏的位置，left,centered,right三种可选 
-	setTitleSite()  			title在提示栏的位置，left,centered,right三种可选 
+	setTipsSite() 	 			提示栏在布局中的位置，top,bottom,center三种可选 
+	setDotsSite()	  			小圆点在提示栏的位置，left,center,right三种可选 
+	setTitleSite()  			title在提示栏的位置，left,center,right三种可选 
 
 	xml:
 		    <com.bannerlayout.widget.BannerLayout
 		        ...
-		        app:tips_site="centered" />
+		        app:tips_site="center" />
 
 5.使用自定义Bean类
 	
@@ -260,8 +254,8 @@ title_width		 					|字体width					|默认自适应
 title_height		 				|字体height					|默认自适应
 title_left_margin   				|title marginLeft			|默认10	
 title_right_margin   				|title marginRight			|默认10	
-enabledRadius						|未选中小圆点Radius  			|默认0.5f
-normalRadius						|选中小圆点Radius  			|默认0.5f
+enabledRadius						|未选中小圆点Radius  			|默认20f
+normalRadius						|选中小圆点Radius  			|默认20f
 enabledColor						|未选中小圆点颜色				|默认蓝色
 normalColor							|选中小圆点颜色				|默认白色
 tips_site							|tips在布局中位置    			|默认底部，可选上中下
@@ -289,8 +283,8 @@ page_num_view_mark				|pageNumView 符号 |默认 /
             <enum name="bottomRight" value="3" />
             <enum name="centeredLeft" value="4" />
             <enum name="centeredRight" value="5" />
-            <enum name="topCentered" value="6" />
-            <enum name="bottomCentered" value="7" />
+            <enum name="topCenter" value="6" />
+            <enum name="bottomCenter" value="7" />
         </attr>
 
 

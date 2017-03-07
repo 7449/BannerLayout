@@ -34,11 +34,11 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.6'
+    compile 'com.ydevelop:bannerlayout:1.0.7'
 
 >Update log
 
-	1.0.6 ：  repair Meizu phone can not get the default color
+	1.0.7 ：  fix some bugs, sample add a complete example
 	...
 	
 >If the network is loading pictures remember to add
@@ -61,13 +61,7 @@ BannerLayout for unlimited rotation of images
  0 . pageNumberView:
 
            bannerLayout
-                    .initListResources(initImageModel())
-                    .setPageNumViewMargin(10, 0, 0, 10)
-                    .setPageNumViewTextColor(R.color.colorAccent)
-                    .setPageNumViewBackgroundColor(R.color.colorWhite)
-                    .initPageNumView()
-                    .initTips(true, true, true)
-                    .start(true);
+                    .initPageNumView();
 
 1.Array 
 >Array is also used in the internal conversion into List data, click events and custom ImageLoaderManager are passed generic BannerModel
@@ -103,14 +97,14 @@ BannerLayout for unlimited rotation of images
 
 4.Tip column and small dots, title position changes
 
-	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,centered Three optional 
-	setDotsSite()               		dots in the location of the prompt bar，left,centered,right Three optional
-	setTitleSite()               		Title The location of the prompt bar，left,centered,right Three optional
+	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,center Three optional 
+	setDotsSite()               		dots in the location of the prompt bar，left,center,right Three optional
+	setTitleSite()               		Title The location of the prompt bar，left,center,right Three optional
 
 	xml:
 		    <com.bannerlayout.widget.BannerLayout
 		        ...
-		        app:tips_site="centered" />
+		        app:tips_site="center" />
 
 5.Customize the Bean class
 
@@ -262,8 +256,8 @@ title_width 						|font width													|default wrap_content
 title_height 						|font height												|default wrap_content
 title_left_margin   				|title marginLeft											|default 10	
 title_right_margin   				|title marginRight											|default 10	
-enabledRadius						|enabledDots Radius  										|default 0.5f
-normalRadius						|normalDots Radius  										|default 0.5f
+enabledRadius						|enabledDots Radius  										|default 20f
+normalRadius						|normalDots Radius  										|default 20f
 enabledColor						|enabledDots color											|default blue
 normalColor							|normalDots color											|default white
 tips_site							|Tips in the layout position    							|Default bottom, optional upper and lower
@@ -291,8 +285,8 @@ page_num_view_mark				|pageNumView mark |Default /
             <enum name="bottomRight" value="3" />
             <enum name="centeredLeft" value="4" />
             <enum name="centeredRight" value="5" />
-            <enum name="topCentered" value="6" />
-            <enum name="bottomCentered" value="7" />
+            <enum name="topCenter" value="6" />
+            <enum name="bottomCenter" value="7" />
         </attr>
 
 License

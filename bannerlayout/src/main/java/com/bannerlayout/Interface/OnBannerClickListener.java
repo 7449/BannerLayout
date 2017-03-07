@@ -9,5 +9,5 @@ import android.view.View;
  */
 
 public interface OnBannerClickListener<T> {
-    void onBannerClick(View view,int position, T model);
+    void onBannerClick(View view, int position, T model);
 }
