@@ -1,19 +1,17 @@
 package com.bannerlayout.widget;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bannerlayout.util.BannerSelectorUtils;
 
 /**
  * by y on 2017/1/6
  */
-
-public class BannerPageView extends TextView {
+class BannerPageView extends AppCompatTextView {
     public BannerPageView(Context context) {
         super(context);
     }
@@ -64,18 +62,19 @@ public class BannerPageView extends TextView {
                 pageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 break;
         }
-        setTextColor(ContextCompat.getColor(getContext(), pageNumViewInterface.getPageNumViewTextColor()));
+        setTextColor(pageNumViewInterface.getPageNumViewTextColor());
         setTextSize(pageNumViewInterface.getPageNumViewTextSize());
         setPadding(pageNumViewInterface.getPageNumViewPaddingLeft(),
                 pageNumViewInterface.getPageNumViewPaddingTop(),
                 pageNumViewInterface.getPageNumViewPaddingRight(),
                 pageNumViewInterface.getPageNumViewPaddingBottom());
         //noinspection deprecation
-        setBackgroundDrawable(BannerSelectorUtils.getPageView(pageNumViewInterface.getPageNumViewRadius(), ContextCompat.getColor(getContext(), pageNumViewInterface.getPageNumViewBackgroundColor())));
+        setBackgroundDrawable(BannerSelectorUtils.getPageView(pageNumViewInterface.getPageNumViewRadius(),
+                pageNumViewInterface.getPageNumViewBackgroundColor()));
         return pageParams;
     }
 
-    public interface PageNumViewInterface {
+    interface PageNumViewInterface {
 
         int getPageNumViewTopMargin();
 

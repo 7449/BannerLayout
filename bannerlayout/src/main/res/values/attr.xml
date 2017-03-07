@@ -48,7 +48,7 @@
         <attr name="page_num_view_marginBottom" format="integer" />
         <attr name="page_num_view_textColor" format="integer" />
         <attr name="page_num_view_BackgroundColor" format="integer" />
-        <attr name="page_num_view_textSize" format="integer" />
+        <attr name="page_num_view_textSize" format="dimension" />
         <attr name="page_num_view_mark" format="string" />
 
         <attr name="pageNumView_site">

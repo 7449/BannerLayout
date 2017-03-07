@@ -28,12 +28,12 @@ android {
 }
 
 publish {
-    userOrg = 'ydevelop'    //bintray.com用户名
-    groupId = 'com.ydevelop'    //jcenter上的路径
-    artifactId = 'bannerlayout' //项目名称
-    publishVersion = '1.0.6'    //版本号
-    desc = 'this is bannerlayout'   //描述
-    website = 'https://github.com/7449/BannerLayout'//网站
+    userOrg = 'ydevelop'
+    groupId = 'com.ydevelop'
+    artifactId = 'bannerlayout'
+    publishVersion = '1.0.6'
+    desc = 'this is bannerlayout'
+    website = 'https://github.com/7449/BannerLayout'
 }
 
 dependencies {

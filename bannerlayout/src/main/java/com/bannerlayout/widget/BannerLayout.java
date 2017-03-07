@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
+import android.support.annotation.BoolRes;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -129,7 +132,7 @@ public class BannerLayout extends RelativeLayout
     private int pageNumViewSite;
     private int pageNumViewTextColor;
     private int pageNumViewBackgroundColor;
-    private int pageNumViewTextSize;
+    private float pageNumViewTextSize;
     private String pageNumViewMark;
 
 
@@ -185,7 +188,7 @@ public class BannerLayout extends RelativeLayout
         pageNumViewLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_marginLeft, BannerDefaults.PAGE_NUM_VIEW_LEFT_MARGIN);
         pageNumViewTextColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textColor, BannerDefaults.PAGE_NUL_VIEW_TEXT_COLOR);
         pageNumViewBackgroundColor = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_BackgroundColor, BannerDefaults.PAGE_NUM_VIEW_BACKGROUND);
-        pageNumViewTextSize = typedArray.getInteger(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
+        pageNumViewTextSize = typedArray.getDimension(R.styleable.BannerLayout_page_num_view_textSize, BannerDefaults.PAGE_NUM_VIEW_SIZE);
         pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_page_num_view_mark);
         if (isNull(pageNumViewMark)) {
             pageNumViewMark = BannerDefaults.PAGE_NUM_VIEW_MARK;
@@ -337,9 +340,9 @@ public class BannerLayout extends RelativeLayout
      * @param isVisibleDots     Whether to display small dots, the default display
      * @param isVisibleTitle    Whether to display title, the default is not displayed
      */
-    public BannerLayout initTips(boolean isBackgroundColor,
-                                 boolean isVisibleDots,
-                                 boolean isVisibleTitle) {
+    public BannerLayout initTips(@BoolRes boolean isBackgroundColor,
+                                 @BoolRes boolean isVisibleDots,
+                                 @BoolRes boolean isVisibleTitle) {
         if (!isNull(tipsView)) {
             error(R.string.tipsView_no_null);
         }
@@ -427,7 +430,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * Initialize the rotation handler
      */
-    public BannerLayout start(boolean isStartRotation) {
+    public BannerLayout start(@BoolRes boolean isStartRotation) {
         start(isStartRotation, delayTime);
         return this;
     }
@@ -435,7 +438,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * Initialize the rotation handler
      */
-    public BannerLayout start(boolean isStartRotation, long delayTime) {
+    public BannerLayout start(@BoolRes boolean isStartRotation, long delayTime) {
         bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
         bannerHandlerUtils.setDelayTime(delayTime);
         this.delayTime = delayTime;
@@ -472,7 +475,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets the ViewPager switching speed
      */
-    public BannerLayout setDuration(int pace) {
+    public BannerLayout setDuration(@IntegerRes int pace) {
         this.mDuration = pace;
         if (!isNull(viewPager)) {
             viewPager.setDuration(pace);
@@ -483,7 +486,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets whether the viewpager can be swiped, true to prevent sliding
      */
-    public BannerLayout setViewPagerTouchMode(boolean b) {
+    public BannerLayout setViewPagerTouchMode(@BoolRes boolean b) {
         this.viePagerTouchMode = b;
         if (!isNull(viewPager)) {
             viewPager.setViewTouchMode(b);
@@ -494,7 +497,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * Whether the vertical sliding ,The default is not
      */
-    public BannerLayout setVertical(boolean vertical) {
+    public BannerLayout setVertical(@BoolRes boolean vertical) {
         this.isVertical = vertical;
         if (!isNull(viewPager)) {
             viewPager.setVertical(vertical);
@@ -570,7 +573,7 @@ public class BannerLayout extends RelativeLayout
      *************************************************************************************************************/
 
 
-    public BannerLayout setTitleSetting(int titleColor, float titleSize) {
+    public BannerLayout setTitleSetting(@ColorRes int titleColor, float titleSize) {
         if (titleSize != -1) {
             this.titleSize = titleSize;
         }
@@ -585,7 +588,7 @@ public class BannerLayout extends RelativeLayout
      * setting BannerTipsLayout background
      * The call takes effect before the initTips () method
      */
-    public BannerLayout setTipsBackgroundColor(int colorId) {
+    public BannerLayout setTipsBackgroundColor(@ColorRes int colorId) {
         this.tipsBackgroundColor = colorId;
         return this;
     }
@@ -603,7 +606,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * setting BannerTipsLayoutHeight
      */
-    public BannerLayout setTipsWidthAndHeight(int width, int height) {
+    public BannerLayout setTipsWidthAndHeight(@IntegerRes int width, @IntegerRes int height) {
         this.tipsLayoutHeight = height;
         this.tipsLayoutWidth = width;
         return this;
@@ -621,7 +624,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets whether to display title, which is called before initTips () is initialized
      */
-    public BannerLayout setVisibleTitle(boolean isVisibleTitle) {
+    public BannerLayout setVisibleTitle(@BoolRes boolean isVisibleTitle) {
         this.isVisibleTitle = isVisibleTitle;
         return this;
     }
@@ -629,7 +632,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets the title marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setTitleMargin(int leftMargin, int rightMargin) {
+    public BannerLayout setTitleMargin(@IntegerRes int leftMargin, @IntegerRes int rightMargin) {
         this.titleLeftMargin = leftMargin;
         this.titleRightMargin = rightMargin;
         return this;
@@ -647,7 +650,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets whether or not to display small dots, called before initTips () is initialized
      */
-    public BannerLayout setVisibleDots(boolean isVisibleDots) {
+    public BannerLayout setVisibleDots(@BoolRes boolean isVisibleDots) {
         this.isVisibleDots = isVisibleDots;
         return this;
     }
@@ -655,7 +658,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * set the dots width and height, the default is 15
      */
-    public BannerLayout setDotsWidthAndHeight(int width, int height) {
+    public BannerLayout setDotsWidthAndHeight(@IntegerRes int width, @IntegerRes int height) {
         this.dotsWidth = width;
         this.dotsHeight = height;
         return this;
@@ -672,7 +675,7 @@ public class BannerLayout extends RelativeLayout
     /**
      * sets the dots marginLeft and marginRight, the default is 10
      */
-    public BannerLayout setDotsMargin(int leftMargin, int rightMargin) {
+    public BannerLayout setDotsMargin(@IntegerRes int leftMargin, @IntegerRes int rightMargin) {
         this.dotsLeftMargin = leftMargin;
         this.dotsRightMargin = rightMargin;
         return this;
@@ -683,12 +686,12 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setNormalColor(int normalColor) {
+    public BannerLayout setNormalColor(@ColorRes int normalColor) {
         this.normalColor = normalColor;
         return this;
     }
 
-    public BannerLayout setEnabledColor(int enabledColor) {
+    public BannerLayout setEnabledColor(@ColorRes int enabledColor) {
         this.enabledColor = enabledColor;
         return this;
     }
@@ -766,7 +769,10 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewPadding(int top, int bottom, int left, int right) {
+    public BannerLayout setPageNumViewPadding(@IntegerRes int top,
+                                              @IntegerRes int bottom,
+                                              @IntegerRes int left,
+                                              @IntegerRes int right) {
         this.pageNumViewPaddingTop = top;
         this.pageNumViewPaddingBottom = bottom;
         this.pageNumViewPaddingLeft = left;
@@ -774,7 +780,10 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewMargin(int top, int bottom, int left, int right) {
+    public BannerLayout setPageNumViewMargin(@IntegerRes int top,
+                                             @IntegerRes int bottom,
+                                             @IntegerRes int left,
+                                             @IntegerRes int right) {
         this.pageNumViewTopMargin = top;
         this.pageNumViewBottomMargin = bottom;
         this.pageNumViewLeftMargin = left;
@@ -782,17 +791,17 @@ public class BannerLayout extends RelativeLayout
         return this;
     }
 
-    public BannerLayout setPageNumViewTextColor(int pageNumViewTextColor) {
+    public BannerLayout setPageNumViewTextColor(@ColorRes int pageNumViewTextColor) {
         this.pageNumViewTextColor = pageNumViewTextColor;
         return this;
     }
 
-    public BannerLayout setPageNumViewBackgroundColor(int pageNumViewBackgroundColor) {
+    public BannerLayout setPageNumViewBackgroundColor(@ColorRes int pageNumViewBackgroundColor) {
         this.pageNumViewBackgroundColor = pageNumViewBackgroundColor;
         return this;
     }
 
-    public BannerLayout setPageNumViewTextSize(int pageNumViewTextSize) {
+    public BannerLayout setPageNumViewTextSize(float pageNumViewTextSize) {
         this.pageNumViewTextSize = pageNumViewTextSize;
         return this;
     }
@@ -806,7 +815,7 @@ public class BannerLayout extends RelativeLayout
         return pageNumViewMark;
     }
 
-    public BannerLayout setPageNumViewMark(String pageNumViewMark) {
+    public BannerLayout setPageNumViewMark(@NonNull String pageNumViewMark) {
         this.pageNumViewMark = pageNumViewMark;
         return this;
     }

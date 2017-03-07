@@ -133,7 +133,7 @@ class BannerDefaults {
     static final int PAGE_NUM_VIEW_TOP_MARGIN = 0;
     static final int PAGE_NUM_VIEW_LEFT_MARGIN = 0;
     static final int PAGE_NUM_VIEW_BOTTOM_MARGIN = 0;
-    static final int PAGE_NUM_VIEW_SIZE = 10;
+    static final float PAGE_NUM_VIEW_SIZE = 10;
     static final int PAGE_NUM_VIEW_PADDING_LEFT = 20;
     static final int PAGE_NUM_VIEW_PADDING_TOP = 5;
     static final int PAGE_NUM_VIEW_PADDING_RIGHT = 20;
