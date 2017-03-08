@@ -32,12 +32,11 @@
 
 >项目中引用 
 
-		compile 'com.ydevelop:bannerlayout:1.0.7'
+		compile 'com.ydevelop:bannerlayout:1.0.8'
 
 >更新状态
 
-	1.0.7 : 修复若干bug,sample增加完整示例
-	...
+	1.0.8 : 修改部分逻辑，由BannerLayout接管避免下拉刷新时概率性的ANR，增加部分getXXX属性
 
 
 >如果是网络加载图片 记得添加

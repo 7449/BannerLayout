@@ -34,12 +34,12 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.7'
+    compile 'com.ydevelop:bannerlayout:1.0.8'
 
 >Update log
 
-	1.0.7 ：  fix some bugs, sample add a complete example
-	...
+	1.0.8 ：  modify part of the logic by BannerLayout take over to avoid drop-down probabilities when the ANR, add some getXXX properties, Sample add drop-down refresh example
+	
 	
 >If the network is loading pictures remember to add
 

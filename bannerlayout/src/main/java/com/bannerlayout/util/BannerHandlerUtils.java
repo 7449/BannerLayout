@@ -12,7 +12,6 @@ public class BannerHandlerUtils extends Handler {
 
     private int MSG_STATUS = -1;
 
-    public static final int MSG_START = 0;
     public static final int MSG_UPDATE = 1;
     public static final int MSG_KEEP = 2;
     public static final int MSG_BREAK = 3;
@@ -34,23 +33,24 @@ public class BannerHandlerUtils extends Handler {
         return MSG_STATUS;
     }
 
+    public void setBannerStatus(int status) {
+        this.MSG_STATUS = status;
+    }
+
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
-        if (hasMessages(MSG_UPDATE)) {
-            removeMessages(MSG_UPDATE);
-        }
         if (null == mCurrent) {
             return;
+        }
+        if (hasMessages(MSG_UPDATE)) {
+            removeMessages(MSG_UPDATE);
         }
         int what = msg.what;
         if (MSG_STATUS != what) {
             MSG_STATUS = what;
         }
         switch (what) {
-            case MSG_START:
-                sendEmptyMessageDelayed(MSG_UPDATE, delayTime);
-                break;
             case MSG_UPDATE:
                 mCurrent.setCurrentItem(++page);
                 sendEmptyMessageDelayed(MSG_UPDATE, delayTime);
