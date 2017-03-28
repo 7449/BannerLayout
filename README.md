@@ -3,9 +3,9 @@
 BannerLayout for unlimited rotation of images
 
 
-[中文文档](https://github.com/7449/BannerLayout/blob/master/README-zh.md)
+[中文文档](https://7449.github.io/2016/10/26/Android_BannerLayout/)
 
-##Support function
+## Support function
 
 
 - can be customized  dots , title, prompt bar position，Support for custom selectors
@@ -26,11 +26,11 @@ BannerLayout for unlimited rotation of images
 
 - supports animation and vertical scrolling
 
-####Effect
+#### Effect
 
 ![](http://i.imgur.com/WnrNvI4.gif)
 
-##Basic Usage
+## Basic Usage
 
 >gradle
 
