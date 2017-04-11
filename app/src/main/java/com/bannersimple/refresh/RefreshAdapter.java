@@ -3,16 +3,18 @@ package com.bannersimple.refresh;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bannerlayout.Interface.BannerModelCallBack;
 import com.bannerlayout.Interface.OnBannerClickListener;
-import com.bannerlayout.model.BannerModel;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
+import com.bannersimple.bean.SimpleBannerModel;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_ITEM = 1;
 
     private List<ListModel> listModels = null;
-    private List<BannerModel> bannerModels = null;
+    private List<SimpleBannerModel> bannerModels = null;
 
     private Object[] image = new Object[]{
             "http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg",
@@ -67,11 +69,23 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (bannerModels == null) {
                     return;
                 }
+                List<SimpleBannerModel> simpleBannerModels = ArrayUtils.initArrayResources(image, title);
                 final BannerViewHolder viewHolder = (BannerViewHolder) holder;
+
+                List<? extends BannerModelCallBack> imageList = viewHolder.bannerLayout.getImageList();
+
+                //Here is only a simple judgment, more judgments need to users to achieve their own
+
+                //RecyclerView scrolling prevents BannerLayout from being reinitialized
+
+                if (imageList != null && imageList.size() == simpleBannerModels.size()) {
+                    Log.i(getClass().getSimpleName(), "return");
+                    return;
+                }
+
                 viewHolder.bannerLayout
                         .clearHandler()
-                        .initArrayResources(image, title)
-//                        .initListResources(bannerModels)
+                        .initListResources(simpleBannerModels)
                         .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
                         .setPageNumViewMargin(12, 0, 12, 0)
                         .setPageNumViewTextColor(holder.itemView.getContext().getResources().getColor(R.color.colorAccent))
@@ -88,7 +102,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        viewHolder.bannerLayout.startBanner();
+                        viewHolder.bannerLayout.start(true);
                     }
                 });
                 viewHolder.stop.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +165,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public void addBanner(List<BannerModel> bannerModels) {
+    public void addBanner(List<SimpleBannerModel> bannerModels) {
         this.bannerModels = bannerModels;
     }
 

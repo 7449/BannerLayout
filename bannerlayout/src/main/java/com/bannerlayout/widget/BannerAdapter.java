@@ -5,8 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bannerlayout.Interface.BannerModelCallBack;
 import com.bannerlayout.Interface.ImageLoaderManager;
-import com.bannerlayout.model.BannerModel;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.List;
  */
 
 class BannerAdapter extends PagerAdapter {
-    private List<? extends BannerModel> imageList = null;
+    private List<? extends BannerModelCallBack> imageList = null;
     private int error_image;
     private int place_image;
     private ImageLoaderManager imageLoaderManage = null;
     private OnBannerImageClickListener imageClickListener = null;
 
-    BannerAdapter(List<? extends BannerModel> imageList) {
+    BannerAdapter(List<? extends BannerModelCallBack> imageList) {
         this.imageList = imageList;
     }
 
@@ -48,7 +48,7 @@ class BannerAdapter extends PagerAdapter {
         if (imageLoaderManage == null) {
             Glide
                     .with(img.getContext())
-                    .load(imageList.get(getPosition(position)).getImage())
+                    .load(imageList.get(getPosition(position)).getBannerUrl())
                     .placeholder(place_image)
                     .error(error_image)
                     .centerCrop()

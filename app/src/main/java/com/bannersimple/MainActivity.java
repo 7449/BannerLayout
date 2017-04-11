@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.bannerlayout.model.BannerModel;
+import com.bannersimple.bean.SimpleBannerModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Comes with the Model class, the use of network data
      */
-    private List<BannerModel> initSystemNetWorkModel() {
-        List<BannerModel> mDatas = new ArrayList<>();
-        mDatas.add(new BannerModel("http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", "At that time just love, this time to break up"));
-        mDatas.add(new BannerModel("error image test", "Shame it ~"));
-        mDatas.add(new BannerModel("http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg", "The legs are not long but thin"));
-        mDatas.add(new BannerModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg", "Late at night"));
+    private List<SimpleBannerModel> initSystemNetWorkModel() {
+        List<SimpleBannerModel> mDatas = new ArrayList<>();
+        mDatas.add(new SimpleBannerModel("http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", "At that time just love, this time to break up"));
+        mDatas.add(new SimpleBannerModel("error image test", "Shame it ~"));
+        mDatas.add(new SimpleBannerModel("http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg", "The legs are not long but thin"));
+        mDatas.add(new SimpleBannerModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg", "Late at night"));
         return mDatas;
     }
 

@@ -29,12 +29,12 @@ publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'bannerlayout'
-    publishVersion = '1.0.8'
+    publishVersion = '1.0.9'
     desc = 'this is bannerlayout'
     website = 'https://github.com/7449/BannerLayout'
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    provided 'com.github.bumptech.glide:glide:3.7.0'
 }

@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">BannerLayout</string>
     <string name="banner_adapterType_null">Please initialize the image resource after initTips ()</string>
-    <string name="tipsView_no_null">You can not initialize the round if the tipView is not null</string>
     <string name="list_null">the imageList is null or imageList.Size zero</string>
     <string name="array_null">the imageArray is null</string>
     <string name="array_size_lnconsistent">Check the url and title number inconsistencies, please confirm the data</string>

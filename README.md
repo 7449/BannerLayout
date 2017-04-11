@@ -12,8 +12,6 @@ BannerLayout for unlimited rotation of images
 
 - you can customize small dots, and whether to automatically rotate to the next page and rotation time
 
-- support List, array two data formats
-
 - support for click events and rotation speed and viewPager slide switch speed
 
 - whether to display a dots, title, or the entire tip column
@@ -21,8 +19,6 @@ BannerLayout for unlimited rotation of images
 - support for loading and loading fails to display custom pictures
 
 - supports pause to resume the rotation status
-
-- support for custom hints (not recommended)
 
 - supports animation and vertical scrolling
 
@@ -34,12 +30,7 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.0.8'
-
->Update log
-
-	1.0.8 ：  modify part of the logic by BannerLayout take over to avoid drop-down probabilities when the ANR, add some getXXX properties, Sample add drop-down refresh example
-	
+    compile 'com.ydevelop:bannerlayout:1.1'
 	
 >If the network is loading pictures remember to add
 
@@ -47,10 +38,21 @@ BannerLayout for unlimited rotation of images
 
 >Simple to use
 
+
+Bean class please implement `BannerModelCallBack`
+
+Specific reference `SimpleBannerModel`
+
         holder.getBannerLayout()
                 .initListResources(initImageModel())//initData
                 .initTips(true, true, true)//settings tips
                 .start(true, 2000)
+
+If you use the built-in frame, please rely on Glide
+
+Because in the frame
+
+    provided 'com.github.bumptech.glide:glide:3.7.0'
 
 >Calling start () can decide whether to open automatic rotation, if you turn on the automatic rotation should be in the appropriate life cycle, choose to pause or resume rotation
 
@@ -62,17 +64,7 @@ BannerLayout for unlimited rotation of images
 
            bannerLayout
                     .initPageNumView();
-
-1.Array 
->Array is also used in the internal conversion into List data, click events and custom ImageLoaderManager are passed generic BannerModel
-
-        Object[] mImage = ;
-        String[] mTitle = ;
-      	bannerLayout
-                .initArrayResources(mImage, mTitle)
-                .initTips();
-
-2.List
+1.List
 
     List<BannerModel> mDatas = new ArrayList<>();
     ...
@@ -106,34 +98,7 @@ BannerLayout for unlimited rotation of images
 		        ...
 		        app:tips_site="center" />
 
-5.Customize the Bean class
-
->simple to use BannerModel to meet the demand, if you click to pass the Id class parameters, the definition of the Model class
-	
-	1.url and title and BannerModle the image, title. Named the same way, then the direct inheritance BannerModel can, the rest of the parameters written in the custom Bean class.
-
-	2.url and BannerModle image naming in different ways, you must customize the ImageLoaderManage, because BannerLayout acquiescence acquires BannerModel inside the image
-
-	3.title and BannerModle the title naming different ways to achieve OnBannerTitleListener, title can be returned
-
-	Customize ImageLoaderManager See article 6
-
-	A complete example of a custom Bean class：
-
-     bannerLayout
-                .setImageLoaderManager(new ImageManager())
-                .addOnBannerTitleListener(new OnBannerTitleListener() {
-                    @Override
-                    public String getTitle(int newPosition) {
-                        return initBannerBean().get(newPosition).getThisTitle();
-                    }
-                })
-                .initImageListResources(initBannerBean())
-                .initTips(true, true, true);
-
-6.Use the Custom Load Picture frame
-
->BannerLayout internal reference Glide3.7.0, if you do not want to use this version of your project, please exclude it with exclusion, and then use your version
+5.Use the Custom Load Picture frame
 	  
 	The default is to use Glide to load the image if you do not like the inheritance of ImageLoaderManage and then setImageLoaderManage in the code.
 
@@ -155,7 +120,7 @@ BannerLayout for unlimited rotation of images
 	    }
 	}
 
-7.Toggle animation and speed
+6.Toggle animation and speed
 
 >a vertical scrolling animation
 
@@ -184,7 +149,7 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	                .setBannerTransformer(BannerAnimation.CUBE_IN)
 	                .start();
 	
-8.Animation collection：
+7.Animation collection：
 	
 	>Customize the animation collection
 	
@@ -197,36 +162,6 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 			 List<BannerAnimation> enumTransformer = new ArrayList<>();
 	
 			bannerLayout..setBannerSystemTransformerList(enumTransformer);
-
-9.Customize the tip bar
-
->Custom tip bar is not recommended, so there is no quick set of features please mention [lssues](https://github.com/7449/BannerLayout/issues)
-
-        bannerLayout
-                .initListResources(mDatas)
-                .addOnBannerPageChangeListener(new BannerOnPage())
-				.setTipsView(new PromptBarView(getBaseContext())) 
-                .start(true);
-
-     /**
-     * Take over the onPage method of the viewpager
-     */
-    public class BannerOnPage implements OnBannerPageChangeListener {
-
-	    @Override
-	    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-	
-	    }
-	
-	    @Override
-	    public void onPageSelected(int position) {
-	    }
-	
-	    @Override
-	    public void onPageScrollStateChanged(int state) {
-	
-	    }
-	}
 
 ## Custom parameters explained in detail
 
