@@ -108,16 +108,9 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 viewHolder.stop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        viewHolder.bannerLayout.stopBanner();
+                        viewHolder.bannerLayout.start(false);
                     }
                 });
-                viewHolder.restore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewHolder.bannerLayout.restoreBanner();
-                    }
-                });
-
 
                 break;
             case TYPE_ITEM:
@@ -174,14 +167,12 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private BannerLayout bannerLayout;
         private Button start;
         private Button stop;
-        private Button restore;
 
         public BannerViewHolder(View itemView) {
             super(itemView);
             bannerLayout = (BannerLayout) itemView.findViewById(R.id.banner);
             start = (Button) itemView.findViewById(R.id.start);
             stop = (Button) itemView.findViewById(R.id.stop);
-            restore = (Button) itemView.findViewById(R.id.restore);
         }
     }
 

@@ -39,9 +39,9 @@ BannerLayout for unlimited rotation of images
 >Simple to use
 
 
-Bean class please implement `BannerModelCallBack`
+Bean class please implement [BannerModelCallBack](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/Interface/BannerModelCallBack.java)
 
-Specific reference `SimpleBannerModel`
+Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/bean/SimpleBannerModel.java)
 
         holder.getBannerLayout()
                 .initListResources(initImageModel())//initData
@@ -56,11 +56,9 @@ Because in the frame
 
 >Calling start () can decide whether to open automatic rotation, if you turn on the automatic rotation should be in the appropriate life cycle, choose to pause or resume rotation
 
-	startBanner(); //Start rotation
-	stopBanner(); //Paused rotation
-	restoreBanner(); //Resume rotation
+	start(true/false);
 
- 0 . pageNumberView:
+0 . pageNumberView:
 
            bannerLayout
                     .initPageNumView();
@@ -73,7 +71,7 @@ Because in the frame
             .initTips()
             .start(true);
 
-3.Click the event
+2.Click the event
 
 >If you do not pass generics, the return model is the current Bean class, strong turn can be recommended to pass generics
 
@@ -87,7 +85,7 @@ Because in the frame
                     }
                 });
 
-4.Tip column and small dots, title position changes
+3.Tip column and small dots, title position changes
 
 	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,center Three optional 
 	setDotsSite()               		dots in the location of the prompt bar，left,center,right Three optional
@@ -98,7 +96,7 @@ Because in the frame
 		        ...
 		        app:tips_site="center" />
 
-5.Use the Custom Load Picture frame
+4.Use the Custom Load Picture frame
 	  
 	The default is to use Glide to load the image if you do not like the inheritance of ImageLoaderManage and then setImageLoaderManage in the code.
 
@@ -120,7 +118,7 @@ Because in the frame
 	    }
 	}
 
-6.Toggle animation and speed
+5.Toggle animation and speed
 
 >a vertical scrolling animation
 
@@ -149,7 +147,7 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	                .setBannerTransformer(BannerAnimation.CUBE_IN)
 	                .start();
 	
-7.Animation collection：
+6.Animation collection：
 	
 	>Customize the animation collection
 	

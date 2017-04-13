@@ -29,7 +29,7 @@ publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'bannerlayout'
-    publishVersion = '1.0.9'
+    publishVersion = '1.1'
     desc = 'this is bannerlayout'
     website = 'https://github.com/7449/BannerLayout'
 }

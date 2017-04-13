@@ -10,12 +10,13 @@ import com.bannerlayout.Interface.ViewPagerCurrent;
  */
 public class BannerHandlerUtils extends Handler {
 
-    private int MSG_STATUS = -1;
+    private int mStatus = -1;
 
     public static final int MSG_UPDATE = 1;
     public static final int MSG_KEEP = 2;
     public static final int MSG_BREAK = 3;
     public static final int MSG_PAGE = 4;
+
     private long delayTime = 2000;
     private ViewPagerCurrent mCurrent = null;
     private int page = 0;
@@ -29,12 +30,12 @@ public class BannerHandlerUtils extends Handler {
         this.delayTime = time;
     }
 
-    public int getBannerStatus() {
-        return MSG_STATUS;
+    public void setStatus(int mStatus) {
+        this.mStatus = mStatus;
     }
 
-    public void setBannerStatus(int status) {
-        this.MSG_STATUS = status;
+    public int getStatus() {
+        return mStatus;
     }
 
     @Override
@@ -47,8 +48,8 @@ public class BannerHandlerUtils extends Handler {
             removeMessages(MSG_UPDATE);
         }
         int what = msg.what;
-        if (MSG_STATUS != what) {
-            MSG_STATUS = what;
+        if (mStatus != what) {
+            mStatus = what;
         }
         switch (what) {
             case MSG_UPDATE:

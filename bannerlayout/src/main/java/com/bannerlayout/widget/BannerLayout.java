@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -280,7 +281,6 @@ public class BannerLayout extends RelativeLayout
         clearHandler();
         clearBannerTipLayout();
         clearTransformerList();
-        clearBannerClickListener();
         clearImageList();
         clearPageView();
         return this;
@@ -328,6 +328,9 @@ public class BannerLayout extends RelativeLayout
             bannerTipLayout.setDots(this);
         }
         if (isVisibleTitle) {
+            if (TextUtils.isEmpty(imageList.get(0).getBannerTitle())) {
+                error(R.string.banner_title_null);
+            }
             bannerTipLayout.setTitle(this);
             bannerTipLayout.setTitle(imageList.get(0).getBannerTitle());
         }
@@ -361,15 +364,50 @@ public class BannerLayout extends RelativeLayout
      * Initialize the rotation handler
      */
     public BannerLayout start(@BoolRes boolean isStartRotation, long delayTime) {
-        clearHandler();
         this.delayTime = delayTime;
         this.isStartRotation = isStartRotation;
-        bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
-        if (isStartRotation && getDotsSize() > 1) {
-            bannerHandlerUtils.setDelayTime(delayTime);
-            restoreBanner();
+        if (isNull(bannerHandlerUtils)) {
+            bannerHandlerUtils = new BannerHandlerUtils(this, viewPager.getCurrentItem());
+        }
+        bannerHandlerUtils.setDelayTime(delayTime);
+        if (isStartRotation) {
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
+        } else {
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+            bannerHandlerUtils.removeCallbacksAndMessages(null);
+            bannerHandlerUtils.setStatus(-1);
         }
         return this;
+    }
+
+
+    /**
+     * get banner rotation status
+     */
+    public int getBannerStatus() {
+        if (isNull(bannerHandlerUtils)) {
+            error(R.string.banner_handler_erro);
+        }
+        return bannerHandlerUtils.getStatus();
+    }
+
+    @Deprecated
+    public void stopBanner() {
+        if (!isNull(bannerHandlerUtils)) {
+            isStartRotation = false;
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
+            bannerHandlerUtils.removeCallbacksAndMessages(null);
+            bannerHandlerUtils.setStatus(-1);
+        }
+    }
+
+    @Deprecated
+    public void restoreBanner() {
+        if (!isNull(bannerHandlerUtils)) {
+            stopBanner();
+            isStartRotation = true;
+            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
+        }
     }
 
 
@@ -457,13 +495,6 @@ public class BannerLayout extends RelativeLayout
     }
 
 
-    public BannerLayout clearBannerClickListener() {
-        if (!isNull(onBannerClickListener)) {
-            onBannerClickListener = null;
-        }
-        return this;
-    }
-
     public List<? extends BannerModelCallBack> getImageList() {
         return imageList;
     }
@@ -478,7 +509,7 @@ public class BannerLayout extends RelativeLayout
 
     public BannerLayout clearHandler() {
         if (!isNull(bannerHandlerUtils)) {
-            bannerHandlerUtils.setBannerStatus(-1);
+            bannerHandlerUtils.setStatus(-1);
             bannerHandlerUtils.removeCallbacksAndMessages(null);
             bannerHandlerUtils = null;
         }
@@ -498,33 +529,6 @@ public class BannerLayout extends RelativeLayout
             pageView = null;
         }
         return this;
-    }
-
-    /**
-     * get banner rotation status
-     */
-    public int getBannerStatus() {
-        if (isNull(bannerHandlerUtils)) {
-            error(R.string.banner_handler_erro);
-        }
-        return bannerHandlerUtils.getBannerStatus();
-    }
-
-    public void stopBanner() {
-        if (!isNull(bannerHandlerUtils)) {
-            isStartRotation = false;
-            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP);
-            bannerHandlerUtils.removeCallbacksAndMessages(null);
-            bannerHandlerUtils.setBannerStatus(-1);
-        }
-    }
-
-    public void restoreBanner() {
-        if (!isNull(bannerHandlerUtils)) {
-            stopBanner();
-            isStartRotation = true;
-            bannerHandlerUtils.sendEmptyMessage(BannerHandlerUtils.MSG_BREAK);
-        }
     }
 
     /************************************************************************************************************
@@ -682,7 +686,8 @@ public class BannerLayout extends RelativeLayout
             error(R.string.animationList_null);
         }
         transformerList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
             transformerList.add(TransformerUtils.getTransformer(list.get(i)));
         }
         return this;

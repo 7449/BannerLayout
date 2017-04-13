@@ -12,4 +12,5 @@
     <string name="glide_excpetion">glide placeImage or errorImage is null</string>
     <string name="bannerTransformer_null">the BannerAnimation is null</string>
     <string name="banner_handler_erro">BannerHandlerUtils is null</string>
+    <string name="banner_title_null">Please return the correct title</string>
 </resources>
