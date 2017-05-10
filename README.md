@@ -1,6 +1,11 @@
-# BannerLayoutSimple
+# BannerLayout
 
 BannerLayout for unlimited rotation of images
+
+
+> RecyclerView Banner
+
+[RecyclerBanner](https://github.com/7449/BannerLayout/tree/RecyclerBanner)
 
 
 [中文文档](https://7449.github.io/2016/10/26/Android_BannerLayout/)
