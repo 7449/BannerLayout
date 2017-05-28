@@ -225,7 +225,7 @@ see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/s
 
 > xml default parameter see:
 
-[activity_method_test.xml](https://github.com/7449/BannerLayout/blob/master/app/src/main/res/layout/activity_method_test.xml)
+[BannerDefaults.java](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/widget/BannerDefaults.java)
 
         app:banner_dots_visible="true"                              
         app:banner_page_num_radius="2"                              
