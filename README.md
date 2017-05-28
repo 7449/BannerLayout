@@ -35,62 +35,104 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.1'
+    compile 'com.ydevelop:bannerlayout:1.1.1'
+    
+>maven
+
+	<dependency>
+	  <groupId>com.ydevelop</groupId>
+	  <artifactId>bannerlayout</artifactId>
+	  <version>1.1.1</version>
+	  <type>pom</type>
+	</dependency>
+	
+	
+recommended to look at Sample ： []()
 	
 >If the network is loading pictures remember to add
 
 	<uses-permission android:name="android.permission.INTERNET" />
 
->Simple to use
+>simple to use
 
 
 Bean class please implement [BannerModelCallBack](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/Interface/BannerModelCallBack.java)
 
 Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/bean/SimpleBannerModel.java)
 
-        holder.getBannerLayout()
-                .initListResources(initImageModel())//initData
-                .initTips(true, true, true)//settings tips
-                .start(true, 2000)
 
-If you use the built-in frame, please rely on Glide
+If you use the built-in frame, please rely on glide
 
-Because in the frame
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    
+or
 
-    provided 'com.github.bumptech.glide:glide:3.7.0'
+	public class SimpleManager implements ImageLoaderManager<SimpleBannerModel> {
+	
+	    @NonNull
+	    @Override
+	    public ImageView display(@NonNull ViewGroup container, SimpleBannerModel model) {
+	        ImageView imageView = new ImageView(container.getContext());
+	        // picasso or fresco or universalimageloader
+	        return imageView;
+	    }
+	}
+	
 
->Calling start () can decide whether to open automatic rotation, if you turn on the automatic rotation should be in the appropriate life cycle, choose to pause or resume rotation
+see :[]()
 
-	start(true/false);
 
-0 . pageNumberView:
+#### simple:
 
-           bannerLayout
-                    .initPageNumView();
-1.List
+        banner
+                .initListResources(data)
+               	//if you use glide this step is not necessary
+                .setImageLoaderManager(new SimpleImageManager()) 
+                .switchBanner(true/false);
+                
+                
+#### Vertical scrolling
 
-    List<BannerModel> mDatas = new ArrayList<>();
-    ...
-    bannerLayout
-            .initImageListResources(mDatas)
-            .initTips()
-            .start(true);
+        banner
+                .setVertical(true)
+                
+                
+#### PageChangeListener
 
-2.Click the event
+        banner
+                .addOnPageChangeListener(
+                        new OnBannerChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
+
+
+#### Click the event
 
 >If you do not pass generics, the return model is the current Bean class, strong turn can be recommended to pass generics
 
-        bannerLayout
-                .initListResources(initImageModel())
-                .setOnBannerClickListener(new OnBannerClickListener<ImageModel>() {
+        banner
+                .setOnClickListener(
+                        new OnBannerClickListener<SimpleBannerModel>() {
+                            @Override
+                            public void onBannerClick(View view, int position, SimpleBannerModel model) {
 
-                    @Override
-                    public void onBannerClick(View view, int position, ImageModel model) {
-                        Toast.makeText(view.getContext(), model.getTestText(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            }
+                        });
 
-3.Tip column and small dots, title position changes
+#### Tip column and small dots, title position changes
 
 	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,center Three optional 
 	setDotsSite()               		dots in the location of the prompt bar，left,center,right Three optional
@@ -101,131 +143,133 @@ Because in the frame
 		        ...
 		        app:tips_site="center" />
 
-4.Use the Custom Load Picture frame
-	  
-	The default is to use Glide to load the image if you do not like the inheritance of ImageLoaderManage and then setImageLoaderManage in the code.
-
-	 bannerLayout
-                .initImageListResources(mBanner)
-                .setImageLoaderManage(new ImageLoader()) //Own definition of loading pictures
-                .initTips(true, true, false)
-                .start(true);
-
-	public class ImageManager implements ImageLoaderManager<BannerBean> {
-	
-	    @Override
-	    public void display(ImageView imageView, BannerBean model) {
-	        Picasso.with(imageView.getContext())
-	                .load(model.getImageUrl())
-	                .placeholder(R.mipmap.ic_launcher)
-	                .error(R.mipmap.ic_launcher)
-	                .into(imageView);
-	    }
-	}
-
-5.Toggle animation and speed
-
->a vertical scrolling animation
+#### Toggle animation and speed
 
 Viewpager vertical Here is the use of animation, so long as the choice of vertical scrolling, setting animation invalid
 
-
 Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)，Thank the author
 	
-	If you want to customize the animation, please inherit ABaseTransformer or BannerTransformer ;
+If you want to customize the animation, please inherit ABaseTransformer or BannerTransformer ;
 	
-	        bannerLayout
-	                .initImageListResources(list) //Customize the model class
-	                .initTips()
-	                .setBannerTransformer(new FlipVerticalTransformer())  //Toggle animations
-	                .setBannerTransformerList(transformers) //Open random animation, set here, then there is no need to set the switch animation, the need for a list of animation collection
-	                .setDuration(3000) //Switching speed
-	                .start();
+	setBannerTransformer(BannerLayout.ANIMATION_CUBE_IN)
 	
-	If you only want to use the built-in animation can use BannerAnimation to choose
+	or
 	
-	simple：
+	setBannerTransformer(new ZoomOutSlideTransformer())
+
 	
-		   bannerLayout
-	                .initImageListResources(list) //Customize the model class
-	                .initTips()
-	                .setBannerTransformer(BannerAnimation.CUBE_IN)
-	                .start();
+#### Animation collection：
 	
-6.Animation collection：
+	Customize the animation collection
 	
-	>Customize the animation collection
-	
-	        List<BannerTransformer> transformers = new ArrayList<>();
+			 Integer: 0 ~ 17
+	         List<Integer> integerList = new ArrayList<>();
 	       
-			bannerLayout.setBannerTransformerList(transformers);
+			 setBannerSystemTransformerList(transformers);
 	
-	>A collection of system animations
+	A collection of system animations
 	
-			 List<BannerAnimation> enumTransformer = new ArrayList<>();
-	
-			bannerLayout..setBannerSystemTransformerList(enumTransformer);
+			List<BannerTransformer> bannerTransformer = new ArrayList<>();
+			
+			etBannerSystemTransformerList(bannerTransformer);
+			
+#### java method
 
-## Custom parameters explained in detail
+see: []()
 
-The property name					|Description  												|The attribute value
----    								|---   														|---
-delay_time   						|Rotation time												|default 2s
-start_rotation   					|Whether to turn on automatic rotation						|True on, the default is not open
-view_pager_touch_mode   			|Whether the viewpager can be manually swiped				|True to prohibit sliding, false can slide, the default can slide
-banner_duration						|ViewPager switch speed										|default 800，The bigger the slower
-banner_isVertical					|The viewPager scrolls vertically							|The default is not vertical scrolling, true on
-dots_visible		  				|Whether to display small dots								|default display
-dots_selector   					|Small Dot State Selector									|Can refer to their own
-dots_left_margin	   				|The dots are marginLeft									|default 10	
-dots_right_margin   				|The dots are marginRight									|default 10	
-dots_width   						|The width of the dots										|default 15
-dots_height   						|The height of the dots										|default 15
-is_tips_background				 	|Whether to display the background of the prompt control	|True display, the default is not displayed
-tips_background				   		|BannerRound Background color								|default translucent
-tips_width				   			|BannerRound width											|default wrap_content
-tips_height			 				|BannerRound height											|default 50
-glide_error_image  					|Glide Load error placeholder								|defaultandroid Comes with icons
-glide_place_image  					|Placeholder in Glide loading								|defaultandroid Comes with icons
-title_visible  						|Whether title is displayed									|default not displayed
-title_size   						|font size													|default 12
-title_color 						|font color													|default yellow
-title_width 						|font width													|default wrap_content
-title_height 						|font height												|default wrap_content
-title_left_margin   				|title marginLeft											|default 10	
-title_right_margin   				|title marginRight											|default 10	
-enabledRadius						|enabledDots Radius  										|default 20f
-normalRadius						|normalDots Radius  										|default 20f
-enabledColor						|enabledDots color											|default blue
-normalColor							|normalDots color											|default white
-tips_site							|Tips in the layout position    							|Default bottom, optional upper and lower
-dots_site							|The position of the dots in the layout    					|Default bottom, optional left center
-title_site							|Title The position in the layout    						|Default bottom, optional left center
-page_num_view_radius				|pageNumView shape radius  		 							|Default 25f
-page_num_view_paddingTop			|pageNumView padding Top									|Default 5
-page_num_view_paddingLeft			|pageNumView padding Left									|Default 20
-page_num_view_paddingRight			|pageNumView padding Right									|Default 20
-page_num_view_paddingBottom			|pageNumView padding Bottom									|Default 5
-page_num_view_marginTop				|pageNumView margin 	 									|Default 0
-page_num_view_marginLeft			|pageNumView margin		  									|Default 0
-page_num_view_marginRight			|pageNumView margin  										|Default 0
-page_num_view_marginBottom			|pageNumView margin  										|Default 0
-page_num_view_textColor				|pageNumView textColor	 									|Default white
-page_num_view_BackgroundColor		|pageNumView BackgroundColor								|Default translucent
-page_num_view_textSize				|pageNumView textSize	  									|Default 10
-pageNumView_site					|pageNumView site											|Default topRight
-page_num_view_mark				|pageNumView mark |Default /
+        newBannerLayout
+                .setDelayTime(3000)
+                .setErrorImageView(R.mipmap.ic_launcher)
+                .setPlaceImageView(R.mipmap.ic_launcher)
+                .setDuration(3000)
+                .setViewPagerTouchMode(true)
+                .setVertical(true)
+                .setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
+                .setTitleTextSize(23)
+                .setTipsBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
+                .setTipsDotsSelector(R.drawable.banner)
+                .setTipsWidthAndHeight(BannerLayout.MATCH_PARENT, 300)
+                .setTipsSite(BannerLayout.TOP)
+                .setTitleMargin(60, 20)
+                .setTitleSite(BannerLayout.LEFT)
+                .setDotsWidthAndHeight(30, 30)
+                .setDotsSite(BannerLayout.RIGHT)
+                .setNormalRadius(2)
+                .setNormalColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
+                .setEnabledRadius(2)
+                .setEnabledColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
+                .setDotsMargin(60, 60)
+                .setBannerTransformer(BannerLayout.ANIMATION_ZOOMOUT)
+                .setBannerTransformer(new ZoomOutSlideTransformer())
+                .setPageNumViewRadius(1)
+                .setPageNumViewMargin(10, 10, 10, 10)
+                .setPageNumViewPadding(10, 10, 10, 10)
+                .setPageNumViewMargin(10)
+                .setPageNumViewPadding(10)
+                .setPageNumViewTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
+                .setPageNumViewBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
+                .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER)
+                .setPageNumViewTextSize(22)
+                .setPageNumViewMark(" & ")
+                .initPageNumView()
+                .initTips(true, true, true)
+                .setOnBannerClickListener(this)
+                .addOnPageChangeListener(this)
+                .initListResources(SimpleData.initModel())
+                .switchBanner(true);
+                
+#### xml method
 
-        <attr name="pageNumView_site">
-            <enum name="topLeft" value="0" />
-            <enum name="topRight" value="1" />
-            <enum name="bottomLeft" value="2" />
-            <enum name="bottomRight" value="3" />
-            <enum name="centeredLeft" value="4" />
-            <enum name="centeredRight" value="5" />
-            <enum name="topCenter" value="6" />
-            <enum name="bottomCenter" value="7" />
-        </attr>
+> xml default parameter see:
+
+[]()
+
+        app:banner_dots_visible="true"                              
+        app:banner_page_num_radius="2"                              
+        app:banner_page_num_paddingLeft="10"                        
+        app:banner_page_num_paddingTop="10"                         
+        app:banner_page_num_paddingRight="10"                       
+        app:banner_page_num_paddingBottom="10"                      
+        app:banner_page_num_marginTop="10"                          
+        app:banner_page_num_marginLeft="10"                         
+        app:banner_page_num_marginRight="10"                        
+        app:banner_page_num_marginBottom="10"                       
+        app:banner_page_num_textColor="@color/colorYellow"          
+        app:banner_page_num_textSize="22sp"                         
+        app:banner_page_num_BackgroundColor="@color/colorYellow"    
+        app:banner_page_num_mark="@string/app_name"                 
+        app:banner_pageNum_site="bottomRight"                       
+        app:banner_tips_site="bottom"                               
+        app:banner_dots_site="center"                               
+        app:banner_title_site="center"                              
+        app:banner_start_rotation="true"                            
+        app:banner_title_visible="true"                             
+        app:banner_title_size="10sp"                                
+        app:banner_title_color="@color/colorYellow"                 
+        app:banner_title_width="200"                                
+        app:banner_title_height="60"                                
+        app:banner_title_left_margin="60"                           
+        app:banner_title_right_margin="60"                          
+        app:banner_dots_left_margin="40"                            
+        app:banner_dots_right_margin="40"                           
+        app:banner_dots_width="30"                                  
+        app:banner_dots_height="30"                                 
+        app:banner_enabledRadius="2"                                
+        app:banner_enabledColor="@color/colorAccent"                
+        app:banner_normalRadius="2"                                 
+        app:banner_normalColor="@color/colorBackground"             
+        app:banner_glide_error_image="@mipmap/ic_launcher"          
+        app:banner_glide_place_image="@mipmap/ic_launcher"          
+        app:banner_is_tips_background="true"                        
+        app:banner_tips_background="@color/colorAccent"             
+        app:banner_tips_width="match_parent"                        
+        app:banner_tips_height="300"                                
+        app:banner_dots_selector="@drawable/banner"                 
+        app:banner_start_rotation="true"                            
+        app:banner_delay_time="300"                                 
+        app:banner_duration="3000"                                  
+        app:banner_view_pager_touch_mode="true"      
+
 
 License
 --

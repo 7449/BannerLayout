@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="default setting" />
+
+        <com.bannerlayout.widget.BannerLayout
+            android:id="@+id/default_banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="customize setting" />
+
+        <com.bannerlayout.widget.BannerLayout
+            android:id="@+id/customize_banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="vertical setting" />
+
+        <com.bannerlayout.widget.BannerLayout
+            android:id="@+id/vertical_banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

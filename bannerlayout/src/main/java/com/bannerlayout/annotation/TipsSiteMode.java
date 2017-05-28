@@ -11,9 +11,9 @@ import java.lang.annotation.RetentionPolicy;
  * by y on 2017/1/19.
  */
 
-@IntDef({BannerLayout.ALIGN_PARENT_BOTTOM,
-        BannerLayout.ALIGN_PARENT_TOP,
-        BannerLayout.CENTER_IN_PARENT})
+@IntDef({BannerLayout.BOTTOM,
+        BannerLayout.TOP,
+        BannerLayout.CENTER})
 @Retention(RetentionPolicy.SOURCE)
 public @interface TipsSiteMode {
 }

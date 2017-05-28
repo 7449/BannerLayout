@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ class BannerTipsLayout extends RelativeLayout {
 
     private TextView textView = null;
     private LinearLayout linearLayout = null;
+
+
 
     public BannerTipsLayout(Context context) {
         super(context);
@@ -63,16 +66,23 @@ class BannerTipsLayout extends RelativeLayout {
         addView(linearLayout, params);
     }
 
-    /**
-     * Initialize  this
-     */
-    void setBannerTips(TipsInterface tipsInterface) {
-        LayoutParams tipsParams = new LayoutParams(tipsInterface.tipsWidth(), tipsInterface.tipsHeight());
-        tipsParams.addRule(tipsInterface.tipsSite());
-        setLayoutParams(tipsParams);
+    FrameLayout.LayoutParams setBannerTips(TipsInterface tipsInterface) {
+        FrameLayout.LayoutParams tipsParams = new FrameLayout.LayoutParams(tipsInterface.tipsWidth(), tipsInterface.tipsHeight());
+        switch (tipsInterface.tipsSite()) {
+            case BannerLayout.BOTTOM:
+                tipsParams.gravity = Gravity.BOTTOM;
+                break;
+            case BannerLayout.TOP:
+                tipsParams.gravity = Gravity.TOP;
+                break;
+            case BannerLayout.CENTER:
+                tipsParams.gravity = Gravity.CENTER;
+                break;
+        }
         if (tipsInterface.isBackgroundColor()) {
             setBackgroundColor(tipsInterface.tipsLayoutBackgroundColor());
         }
+        return tipsParams;
     }
 
     /**
@@ -109,6 +119,7 @@ class BannerTipsLayout extends RelativeLayout {
     }
 
     void setTitle(String title) {
+        clearText();
         if (textView != null && !TextUtils.isEmpty(title)) {
             textView.setText(title);
         }

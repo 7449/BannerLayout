@@ -19,7 +19,8 @@ import com.bannerlayout.animation.ZoomInTransformer;
 import com.bannerlayout.animation.ZoomOutPageTransformer;
 import com.bannerlayout.animation.ZoomOutSlideTransformer;
 import com.bannerlayout.animation.ZoomOutTranformer;
-import com.bannerlayout.bannerenum.BannerAnimation;
+import com.bannerlayout.annotation.AnimationMode;
+import com.bannerlayout.widget.BannerLayout;
 
 /**
  * by y on 2016/11/11
@@ -28,61 +29,61 @@ import com.bannerlayout.bannerenum.BannerAnimation;
 public class TransformerUtils {
 
 
-    public static BannerTransformer getTransformer(BannerAnimation bannerAnimation) {
+    public static BannerTransformer getTransformer(@AnimationMode int type) {
         BannerTransformer bannerTransformer = null;
-        switch (bannerAnimation) {
-            case ACCORDION:
+        switch (type) {
+            case BannerLayout.ANIMATION_ACCORDION:
                 bannerTransformer = new AccordionTransformer();
                 break;
-            case BACKGROUND:
+            case BannerLayout.ANIMATION_BACKGROUND:
                 bannerTransformer = new BackgroundToForegroundTransformer();
                 break;
-            case CUBE_IN:
+            case BannerLayout.ANIMATION_CUBE_IN:
                 bannerTransformer = new CubeInTransformer();
                 break;
-            case CUBE_OUT:
+            case BannerLayout.ANIMATION_CUBE_OUT:
                 bannerTransformer = new CubeOutTransformer();
                 break;
-            case DEFAULT:
+            case BannerLayout.ANIMATION_DEFAULT:
                 bannerTransformer = new DefaultTransformer();
                 break;
-            case DEPTH_PAGE:
+            case BannerLayout.ANIMATION_DEPTH_PAGE:
                 bannerTransformer = new DepthPageTransformer();
                 break;
-            case FLIPHORIZONTAL:
+            case BannerLayout.ANIMATION_FLIPHORIZONTAL:
                 bannerTransformer = new FlipHorizontalTransformer();
                 break;
-            case FLIPVERTICAL:
+            case BannerLayout.ANIMATION_FLIPVERTICAL:
                 bannerTransformer = new FlipVerticalTransformer();
                 break;
-            case FOREGROUND:
+            case BannerLayout.ANIMATION_FOREGROUND:
                 bannerTransformer = new ForegroundToBackgroundTransformer();
                 break;
-            case ROTATEDOWN:
+            case BannerLayout.ANIMATION_ROTATEDOWN:
                 bannerTransformer = new RotateDownTransformer();
                 break;
-            case ROTATEUP:
+            case BannerLayout.ANIMATION_ROTATEUP:
                 bannerTransformer = new RotateUpTransformer();
                 break;
-            case SCALEINOUT:
+            case BannerLayout.ANIMATION_SCALEINOUT:
                 bannerTransformer = new ScaleInOutTransformer();
                 break;
-            case STACK:
+            case BannerLayout.ANIMATION_STACK:
                 bannerTransformer = new StackTransformer();
                 break;
-            case TABLET:
+            case BannerLayout.ANIMATION_TABLET:
                 bannerTransformer = new TabletTransformer();
                 break;
-            case ZOOMIN:
+            case BannerLayout.ANIMATION_ZOOMIN:
                 bannerTransformer = new ZoomInTransformer();
                 break;
-            case ZOOMOUTPAGE:
+            case BannerLayout.ANIMATION_ZOOMOUTPAGE:
                 bannerTransformer = new ZoomOutPageTransformer();
                 break;
-            case ZOOMOUTSLIDE:
+            case BannerLayout.ANIMATION_ZOOMOUTSLIDE:
                 bannerTransformer = new ZoomOutSlideTransformer();
                 break;
-            case ZOOMOUT:
+            case BannerLayout.ANIMATION_ZOOMOUT:
                 bannerTransformer = new ZoomOutTranformer();
                 break;
         }

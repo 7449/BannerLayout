@@ -6,7 +6,7 @@ import com.bannerlayout.Interface.BannerModelCallBack;
  * by y on 2016/10/24
  */
 
-public class SimpleBannerModel implements BannerModelCallBack {
+public class SimpleBannerModel implements BannerModelCallBack<String> {
     private Object image;
     private String title;
 
@@ -40,8 +40,8 @@ public class SimpleBannerModel implements BannerModelCallBack {
     }
 
     @Override
-    public Object getBannerUrl() {
-        return getImage();
+    public String getBannerUrl() {
+        return String.valueOf(getImage());
     }
 
     @Override

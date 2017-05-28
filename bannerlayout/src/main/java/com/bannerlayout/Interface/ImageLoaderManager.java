@@ -1,5 +1,7 @@
 package com.bannerlayout.Interface;
 
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
@@ -7,5 +9,6 @@ import android.widget.ImageView;
  */
 
 public interface ImageLoaderManager<T> {
-    void display(ImageView imageView, T model);
+    @NonNull
+    ImageView display(@NonNull ViewGroup container, T model);
 }

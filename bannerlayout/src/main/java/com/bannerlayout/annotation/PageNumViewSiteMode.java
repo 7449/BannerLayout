@@ -10,14 +10,14 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * by y on 2017/1/19.
  */
-@IntDef({BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_TOP_RIGHT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_LEFT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_RIGHT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_CENTER_LEFT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_CENTER_RIGHT,
-        BannerLayout.PAGE_NUM_VIEW_SITE_TOP_CENTER,
-        BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_CENTER})
+@IntDef({BannerLayout.PAGE_NUM_VIEW_TOP_LEFT,
+        BannerLayout.PAGE_NUM_VIEW_TOP_RIGHT,
+        BannerLayout.PAGE_NUM_VIEW_BOTTOM_LEFT,
+        BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT,
+        BannerLayout.PAGE_NUM_VIEW_CENTER_LEFT,
+        BannerLayout.PAGE_NUM_VIEW_CENTER_RIGHT,
+        BannerLayout.PAGE_NUM_VIEW_TOP_CENTER,
+        BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER})
 @Retention(RetentionPolicy.SOURCE)
 public @interface PageNumViewSiteMode {
 }

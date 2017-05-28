@@ -4,9 +4,9 @@ package com.bannerlayout.Interface;
  * by y on 2017/4/11
  */
 
-public interface BannerModelCallBack {
+public interface BannerModelCallBack<T> {
 
-    Object getBannerUrl();
+    T getBannerUrl();
 
     String getBannerTitle();
 }

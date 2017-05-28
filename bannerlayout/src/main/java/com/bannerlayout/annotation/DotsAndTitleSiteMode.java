@@ -11,9 +11,9 @@ import java.lang.annotation.RetentionPolicy;
  * by y on 2017/1/19.
  */
 
-@IntDef({BannerLayout.CENTER_IN_PARENT,
-        BannerLayout.ALIGN_PARENT_LEFT,
-        BannerLayout.ALIGN_PARENT_RIGHT})
+@IntDef({BannerLayout.CENTER,
+        BannerLayout.LEFT,
+        BannerLayout.RIGHT})
 @Retention(RetentionPolicy.SOURCE)
 public @interface DotsAndTitleSiteMode {
 }

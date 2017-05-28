@@ -3,8 +3,9 @@ package com.bannerlayout.widget;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.bannerlayout.util.BannerSelectorUtils;
 
@@ -24,42 +25,40 @@ class BannerPageView extends AppCompatTextView {
         super(context, attrs, defStyleAttr);
     }
 
-    RelativeLayout.LayoutParams initPageView(PageNumViewInterface pageNumViewInterface) {
-        RelativeLayout.LayoutParams pageParams = new RelativeLayout.LayoutParams(
+    FrameLayout.LayoutParams initPageView(PageNumViewInterface pageNumViewInterface) {
+        FrameLayout.LayoutParams pageParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        pageParams.rightMargin = pageNumViewInterface.getPageNumViewRightMargin();
-        pageParams.topMargin = pageNumViewInterface.getPageNumViewTopMargin();
-        pageParams.leftMargin = pageNumViewInterface.getPageNumViewLeftMargin();
-        pageParams.bottomMargin = pageNumViewInterface.getPageNumViewBottomMargin();
+
+        pageParams.setMargins(
+                pageNumViewInterface.getPageNumViewLeftMargin(),
+                pageNumViewInterface.getPageNumViewTopMargin(),
+                pageNumViewInterface.getPageNumViewRightMargin(),
+                pageNumViewInterface.getPageNumViewBottomMargin()
+        );
         switch (pageNumViewInterface.pageNumViewSite()) {
-            case BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT:
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            case BannerLayout.PAGE_NUM_VIEW_TOP_LEFT:
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_TOP_RIGHT:
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            case BannerLayout.PAGE_NUM_VIEW_TOP_RIGHT:
+                pageParams.gravity = Gravity.RIGHT | Gravity.TOP;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_LEFT:
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            case BannerLayout.PAGE_NUM_VIEW_BOTTOM_LEFT:
+                pageParams.gravity = Gravity.LEFT | Gravity.BOTTOM;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_RIGHT:
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            case BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT:
+                pageParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_CENTER_LEFT:
-                pageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            case BannerLayout.PAGE_NUM_VIEW_CENTER_LEFT:
+                pageParams.gravity = Gravity.LEFT | Gravity.CENTER;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_CENTER_RIGHT:
-                pageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            case BannerLayout.PAGE_NUM_VIEW_CENTER_RIGHT:
+                pageParams.gravity = Gravity.RIGHT | Gravity.CENTER;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_TOP_CENTER:
-                pageParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            case BannerLayout.PAGE_NUM_VIEW_TOP_CENTER:
+                pageParams.gravity = Gravity.TOP | Gravity.CENTER;
                 break;
-            case BannerLayout.PAGE_NUM_VIEW_SITE_BOTTOM_CENTER:
-                pageParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                pageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            case BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER:
+                pageParams.gravity = Gravity.BOTTOM | Gravity.CENTER;
                 break;
         }
         setTextColor(pageNumViewInterface.getPageNumViewTextColor());

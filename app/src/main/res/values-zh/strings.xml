@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">BannerLayout简单使用示例</string>
-    <string name="image_holder">自定义model类,提示栏在顶部</string>
-    <string name="system_network_model">网络数据,提示栏在底部</string>
-    <string name="customize_load_Picture_Manager">自定义加载图片管理器</string>
-    <string name="is_vertical">垂直滑动的viewpager</string>
-</resources>

@@ -1,5 +1,6 @@
 package com.bannerlayout.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -48,6 +49,25 @@ class BannerViewPager extends ViewPager {
         }
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        try {
+            Field mFirstLayout = ViewPager.class.getDeclaredField("mFirstLayout");
+            mFirstLayout.setAccessible(true);
+            mFirstLayout.set(this, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (((Activity) getContext()).isFinishing()) {
+            super.onDetachedFromWindow();
+        }
+    }
+
     /**
      * When mViewTouchMode is true, ViewPager does not intercept the click event, and the click event will be handled by the childView
      */
@@ -60,16 +80,6 @@ class BannerViewPager extends ViewPager {
         }
     }
 
-
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        if (isVertical) {
-//            getParent().requestDisallowInterceptTouchEvent(true);
-//        } else {
-//            return super.dispatchTouchEvent(ev);
-//        }
-//        return false;
-//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
@@ -89,18 +99,21 @@ class BannerViewPager extends ViewPager {
         return !mViewTouchMode && !(direction != FOCUS_LEFT && direction != FOCUS_RIGHT) && super.arrowScroll(direction);
     }
 
+
     /**
      * Set the switching speed
      */
-    public void setDuration(int duration) {
+    public boolean setDuration(int duration) {
         try {
             Field field = ViewPager.class.getDeclaredField("mScroller");
             field.setAccessible(true);
             scroller = new FixedSpeedScroller(getContext());
             field.set(this, scroller);
             scroller.setDuration(duration);
+            return true;
         } catch (Exception e) {
             Log.i(getClass().getSimpleName(), e.getMessage());
+            return false;
         }
     }
 

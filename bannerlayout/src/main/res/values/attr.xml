@@ -2,82 +2,82 @@
 <resources>
 
     <declare-styleable name="BannerLayout">
-        <attr name="delay_time" format="integer" />
-        <attr name="start_rotation" format="boolean" />
-        <attr name="view_pager_touch_mode" format="boolean" />
+        <attr name="banner_delay_time" format="integer" />
+        <attr name="banner_start_rotation" format="boolean" />
+        <attr name="banner_view_pager_touch_mode" format="boolean" />
         <attr name="banner_duration" format="integer" />
         <attr name="banner_isVertical" format="boolean" />
 
-        <attr name="dots_visible" format="boolean" />
-        <attr name="dots_selector" format="reference" />
-        <attr name="dots_left_margin" format="integer" />
-        <attr name="dots_right_margin" format="integer" />
-        <attr name="dots_width" format="integer" />
-        <attr name="dots_height" format="integer" />
+        <attr name="banner_dots_visible" format="boolean" />
+        <attr name="banner_dots_selector" format="reference" />
+        <attr name="banner_dots_left_margin" format="integer" />
+        <attr name="banner_dots_right_margin" format="integer" />
+        <attr name="banner_dots_width" format="integer" />
+        <attr name="banner_dots_height" format="integer" />
 
-        <attr name="enabledRadius" format="float" />
-        <attr name="normalRadius" format="float" />
-        <attr name="enabledColor" format="color" />
-        <attr name="normalColor" format="color" />
+        <attr name="banner_enabledRadius" format="float" />
+        <attr name="banner_normalRadius" format="float" />
+        <attr name="banner_enabledColor" format="color" />
+        <attr name="banner_normalColor" format="color" />
 
-        <attr name="is_tips_background" format="boolean" />
-        <attr name="tips_background" format="color" />
-        <attr name="tips_width" format="integer">
+        <attr name="banner_is_tips_background" format="boolean" />
+        <attr name="banner_tips_background" format="color" />
+        <attr name="banner_tips_width" format="integer">
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="tips_height" format="integer">
+        <attr name="banner_tips_height" format="integer">
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
 
-        <attr name="glide_error_image" format="reference" />
-        <attr name="glide_place_image" format="reference" />
+        <attr name="banner_glide_error_image" format="reference" />
+        <attr name="banner_glide_place_image" format="reference" />
 
-        <attr name="title_visible" format="boolean" />
-        <attr name="title_size" format="dimension" />
-        <attr name="title_color" format="color" />
-        <attr name="title_width" format="integer" />
-        <attr name="title_height" format="integer" />
-        <attr name="title_left_margin" format="integer" />
-        <attr name="title_right_margin" format="integer" />
+        <attr name="banner_title_visible" format="boolean" />
+        <attr name="banner_title_size" format="dimension" />
+        <attr name="banner_title_color" format="color" />
+        <attr name="banner_title_width" format="integer" />
+        <attr name="banner_title_height" format="integer" />
+        <attr name="banner_title_left_margin" format="integer" />
+        <attr name="banner_title_right_margin" format="integer" />
 
 
-        <attr name="page_num_view_radius" format="float" />
-        <attr name="page_num_view_paddingTop" format="integer" />
-        <attr name="page_num_view_paddingLeft" format="integer" />
-        <attr name="page_num_view_paddingRight" format="integer" />
-        <attr name="page_num_view_paddingBottom" format="integer" />
-        <attr name="page_num_view_marginTop" format="integer" />
-        <attr name="page_num_view_marginLeft" format="integer" />
-        <attr name="page_num_view_marginRight" format="integer" />
-        <attr name="page_num_view_marginBottom" format="integer" />
-        <attr name="page_num_view_textColor" format="color" />
-        <attr name="page_num_view_BackgroundColor" format="color" />
-        <attr name="page_num_view_textSize" format="dimension" />
-        <attr name="page_num_view_mark" format="string" />
+        <attr name="banner_page_num_radius" format="float" />
+        <attr name="banner_page_num_paddingTop" format="integer" />
+        <attr name="banner_page_num_paddingLeft" format="integer" />
+        <attr name="banner_page_num_paddingRight" format="integer" />
+        <attr name="banner_page_num_paddingBottom" format="integer" />
+        <attr name="banner_page_num_marginTop" format="integer" />
+        <attr name="banner_page_num_marginLeft" format="integer" />
+        <attr name="banner_page_num_marginRight" format="integer" />
+        <attr name="banner_page_num_marginBottom" format="integer" />
+        <attr name="banner_page_num_textColor" format="color" />
+        <attr name="banner_page_num_BackgroundColor" format="color" />
+        <attr name="banner_page_num_textSize" format="dimension" />
+        <attr name="banner_page_num_mark" format="string" />
 
-        <attr name="pageNumView_site">
+        <attr name="banner_pageNum_site">
             <enum name="topLeft" value="0" />
             <enum name="topRight" value="1" />
             <enum name="bottomLeft" value="2" />
             <enum name="bottomRight" value="3" />
-            <enum name="centeredLeft" value="4" />
-            <enum name="centeredRight" value="5" />
+            <enum name="centerLeft" value="4" />
+            <enum name="centerRight" value="5" />
             <enum name="topCenter" value="6" />
             <enum name="bottomCenter" value="7" />
         </attr>
-        <attr name="tips_site">
+        <attr name="banner_tips_site">
             <enum name="top" value="10" />
             <enum name="bottom" value="12" />
             <enum name="center" value="13" />
         </attr>
-        <attr name="dots_site">
+        <attr name="banner_dots_site">
             <enum name="left" value="9" />
             <enum name="center" value="13" />
             <enum name="right" value="11" />
         </attr>
-        <attr name="title_site">
+        <attr name="banner_title_site">
             <enum name="left" value="9" />
             <enum name="center" value="13" />
             <enum name="right" value="11" />

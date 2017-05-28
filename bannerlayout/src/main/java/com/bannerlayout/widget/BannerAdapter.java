@@ -23,8 +23,7 @@ class BannerAdapter extends PagerAdapter {
     private ImageLoaderManager imageLoaderManage = null;
     private OnBannerImageClickListener imageClickListener = null;
 
-    BannerAdapter(List<? extends BannerModelCallBack> imageList) {
-        this.imageList = imageList;
+    BannerAdapter() {
     }
 
     @Override
@@ -44,18 +43,18 @@ class BannerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        ImageView img = new ImageView(container.getContext());
+        View img;
         if (imageLoaderManage == null) {
+            img = new ImageView(container.getContext());
             Glide
                     .with(img.getContext())
                     .load(imageList.get(getPosition(position)).getBannerUrl())
                     .placeholder(place_image)
                     .error(error_image)
                     .centerCrop()
-                    .into(img);
+                    .into((ImageView) img);
         } else {
-            //noinspection unchecked
-            imageLoaderManage.display(img, imageList.get(getPosition(position)));
+            img = imageLoaderManage.display(container, imageList.get(getPosition(position)));
         }
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +68,10 @@ class BannerAdapter extends PagerAdapter {
         return img;
     }
 
+
+    void addAll(List<? extends BannerModelCallBack> list) {
+        imageList = list;
+    }
 
     private int getPosition(int position) {
         return position % imageList.size();

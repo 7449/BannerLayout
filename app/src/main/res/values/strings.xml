@@ -1,8 +1,24 @@
 <resources>
-    <string name="app_name">BannerSimple</string>
-    <string name="image_holder">Custom model class, tip bar at the top</string>
-    <string name="system_network_model">Network data, the prompt bar at the bottom</string>
-    <string name="customize_load_Picture_Manager">Customize Load Picture Manager</string>
-    <string name="is_vertical">a vertical viewpager</string>
-    <string name="mark">\@</string>
+    <string name="app_name">BannerLayoutSimple</string>
+
+    <string-array name="transformer">
+        <item>ACCORDION</item>
+        <item>BACKGROUND</item>
+        <item>CUBE_IN</item>
+        <item>CUBE_OUT</item>
+        <item>DEFAULT</item>
+        <item>DEPTH_PAGE</item>
+        <item>FLIPHORIZONTAL</item>
+        <item>FLIPVERTICAL</item>
+        <item>FOREGROUND</item>
+        <item>ROTATEDOWN</item>
+        <item>ROTATEUP</item>
+        <item>STACK</item>
+        <item>SCALEINOUT</item>
+        <item>TABLET</item>
+        <item>ZOOMIN</item>
+        <item>ZOOMOUTPAGE</item>
+        <item>ZOOMOUTSLIDE</item>
+        <item>ZOOMOUT</item>
+    </string-array>
 </resources>

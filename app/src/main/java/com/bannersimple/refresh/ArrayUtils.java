@@ -15,9 +15,6 @@ import java.util.List;
 public class ArrayUtils {
 
 
-    /**
-     * Initializes an Array image resource
-     */
     public static List<SimpleBannerModel> initArrayResources(@NonNull Object[] imageArray) {
         List<SimpleBannerModel> imageArrayList = new ArrayList<>();
         for (Object url : Arrays.asList(imageArray)) {
@@ -26,9 +23,6 @@ public class ArrayUtils {
         return imageArrayList;
     }
 
-    /**
-     * Initializes an Array image resource
-     */
     public static List<SimpleBannerModel> initArrayResources(
             @NonNull Object[] imageArray,
             @NonNull String[] imageArrayTitle) {

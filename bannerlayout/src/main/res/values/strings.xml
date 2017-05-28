@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">BannerLayout</string>
-    <string name="banner_adapterType_null">Please initialize the image resource after initTips ()</string>
     <string name="list_null">the imageList is null or imageList.Size zero</string>
     <string name="array_null">the imageArray is null</string>
     <string name="array_size_lnconsistent">Check the url and title number inconsistencies, please confirm the data</string>
-    <string name="array_null_">the imageArray or imageArrayTitle is null</string>
-    <string name="viewpager_null">the viewPager is null</string>
-    <string name="animationList_null">the BannerAnimationType is null</string>
-    <string name="viewpager_or_transformer_null">the viewpager or bannertransformer is null</string>
+    <string name="array_null_">the imageArrayTitle is null</string>
     <string name="vertical">If it is a vertical slide can not set the animation</string>
     <string name="glide_excpetion">glide placeImage or errorImage is null</string>
     <string name="bannerTransformer_null">the BannerAnimation is null</string>
-    <string name="banner_handler_erro">BannerHandlerUtils is null</string>
-    <string name="banner_title_null">Please return the correct title</string>
 </resources>

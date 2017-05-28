@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bannerlayout.Interface.BannerModelCallBack;
 import com.bannerlayout.Interface.OnBannerClickListener;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 import com.bannersimple.bean.SimpleBannerModel;
+import com.bannersimple.bean.SimpleData;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -32,22 +32,11 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<ListModel> listModels = null;
     private List<SimpleBannerModel> bannerModels = null;
 
-    private Object[] image = new Object[]{
-            "http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg",
-            "http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6qyhzgj30dw07t75g.jpg",
-            "http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg",
-            "http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg"
-    };
-    private String[] title = new String[]{
-            "At that time just love, this time to break up",
-            "Shame it ~",
-            "The legs are not long but thin",
-            "Late at night"};
+    private BannerLayout bannerLayout = null;
 
     public RefreshAdapter(List<ListModel> listModels) {
         this.listModels = listModels;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,51 +55,46 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (getItemViewType(position)) {
 
             case TYPE_BANNER:
-                if (bannerModels == null) {
+                if (bannerModels == null || bannerLayout != null) {
                     return;
                 }
-                List<SimpleBannerModel> simpleBannerModels = ArrayUtils.initArrayResources(image, title);
                 final BannerViewHolder viewHolder = (BannerViewHolder) holder;
-
-                List<? extends BannerModelCallBack> imageList = viewHolder.bannerLayout.getImageList();
-
-                //Here is only a simple judgment, more judgments need to users to achieve their own
-
-                //RecyclerView scrolling prevents BannerLayout from being reinitialized
-
-                if (imageList != null && imageList.size() == simpleBannerModels.size()) {
-                    Log.i(getClass().getSimpleName(), "return");
-                    return;
-                }
-
-                viewHolder.bannerLayout
-                        .clearHandler()
-                        .initListResources(simpleBannerModels)
-                        .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_SITE_TOP_LEFT)
-                        .setPageNumViewMargin(12, 0, 12, 0)
-                        .setPageNumViewTextColor(holder.itemView.getContext().getResources().getColor(R.color.colorAccent))
-                        .initPageNumView()
-                        .setTipsSite(BannerLayout.ALIGN_PARENT_BOTTOM)
+                bannerLayout = viewHolder.bannerLayout;
+                Log.i(getClass().getSimpleName(), "RecyclerViewAdapter TYPE-banner");
+                bannerLayout
                         .initTips(true, true, true)
-                        .setOnBannerClickListener(new OnBannerClickListener() {
+                        .initListResources(bannerModels)
+                        .setDelayTime(1000)
+                        .switchBanner(true)
+                        .setOnBannerClickListener(
+                                new OnBannerClickListener() {
+                                    @Override
+                                    public void onBannerClick(View view, int position, Object model) {
+                                        Toast.makeText(view.getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                viewHolder.start.setOnClickListener(
+                        new View.OnClickListener() {
                             @Override
-                            public void onBannerClick(View view, int position, Object model) {
-                                Toast.makeText(view.getContext(), position + "", Toast.LENGTH_SHORT).show();
+                            public void onClick(View v) {
+                                viewHolder.bannerLayout.switchBanner(true);
                             }
                         });
-
-                viewHolder.start.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewHolder.bannerLayout.start(true);
-                    }
-                });
-                viewHolder.stop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewHolder.bannerLayout.start(false);
-                    }
-                });
+                viewHolder.stop.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                viewHolder.bannerLayout.switchBanner(false);
+                            }
+                        });
+                viewHolder.update.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bannerLayout.initListResources(bannerModels = SimpleData.update());
+                            }
+                        });
 
                 break;
             case TYPE_ITEM:
@@ -162,17 +146,25 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.bannerModels = bannerModels;
     }
 
+    public void clearBanner() {
+        if (bannerLayout != null) {
+            bannerLayout.clearBanner();
+        }
+    }
+
     private class BannerViewHolder extends RecyclerView.ViewHolder {
 
         private BannerLayout bannerLayout;
         private Button start;
         private Button stop;
+        private Button update;
 
-        public BannerViewHolder(View itemView) {
+        BannerViewHolder(View itemView) {
             super(itemView);
             bannerLayout = (BannerLayout) itemView.findViewById(R.id.banner);
             start = (Button) itemView.findViewById(R.id.start);
             stop = (Button) itemView.findViewById(R.id.stop);
+            update = (Button) itemView.findViewById(R.id.update);
         }
     }
 

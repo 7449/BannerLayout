@@ -20,11 +20,11 @@ class FixedSpeedScroller extends Scroller {
         super.startScroll(startX, startY, dx, dy, mDuration);
     }
 
-    public void setDuration(int time) {
+    void setDuration(int time) {
         mDuration = time;
     }
 
-    public int getmDuration() {
+    int getmDuration() {
         return mDuration;
     }
 }
