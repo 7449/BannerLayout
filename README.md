@@ -29,7 +29,10 @@ BannerLayout for unlimited rotation of images
 
 #### Effect
 
-![](http://i.imgur.com/WnrNvI4.gif)
+![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_simple.gif)
+![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_transformer.gif)
+![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_refresh.gif)
+![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_imagemanager.gif)
 
 ## Basic Usage
 
@@ -47,7 +50,7 @@ BannerLayout for unlimited rotation of images
 	</dependency>
 	
 	
-recommended to look at Sample ： []()
+recommended to look at Sample ： [SimpleActivity](https://github.com/7449/BannerLayout/tree/master/app/src/main/java/com/bannersimple/simple)
 	
 >If the network is loading pictures remember to add
 
@@ -79,7 +82,7 @@ or
 	}
 	
 
-see :[]()
+see :[ImageManagerSimple](https://github.com/7449/BannerLayout/tree/master/app/src/main/java/com/bannersimple/imagemanager)
 
 
 #### simple:
@@ -175,7 +178,7 @@ If you want to customize the animation, please inherit ABaseTransformer or Banne
 			
 #### java method
 
-see: []()
+see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/simple/MethodTestActivity.java)
 
         newBannerLayout
                 .setDelayTime(3000)
@@ -222,7 +225,7 @@ see: []()
 
 > xml default parameter see:
 
-[]()
+[activity_method_test.xml](https://github.com/7449/BannerLayout/blob/master/app/src/main/res/layout/activity_method_test.xml)
 
         app:banner_dots_visible="true"                              
         app:banner_page_num_radius="2"                              
