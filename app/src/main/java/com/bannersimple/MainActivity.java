@@ -10,6 +10,7 @@ import com.bannersimple.simple.MethodTestActivity;
 import com.bannersimple.simple.RefreshActivity;
 import com.bannersimple.simple.SimpleActivity;
 import com.bannersimple.simple.TransformerActivity;
+import com.bannersimple.simple.issues.Issues10Activity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MethodTestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btn_issues_10).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Issues10Activity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

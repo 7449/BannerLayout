@@ -23,6 +23,7 @@
         <activity android:name=".simple.ImageManagerActivity" />
         <activity android:name=".simple.TransformerActivity" />
         <activity android:name=".simple.MethodTestActivity" />
+        <activity android:name=".simple.issues.Issues10Activity" />
     </application>
 
 </manifest>
