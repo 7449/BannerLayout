@@ -75,4 +75,15 @@ public class SimpleData {
         return mDatas;
     }
 
+
+    public static List<SimpleBannerModel> getlnstagramData() {
+        List<SimpleBannerModel> mDatas = new ArrayList<>();
+        mDatas.add(new SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"));
+        mDatas.add(new SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"));
+        mDatas.add(new SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"));
+        mDatas.add(new SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"));
+        mDatas.add(new SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"));
+        mDatas.add(new SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"));
+        return mDatas;
+    }
 }
