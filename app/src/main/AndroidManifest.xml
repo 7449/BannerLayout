@@ -24,6 +24,7 @@
         <activity android:name=".simple.TransformerActivity" />
         <activity android:name=".simple.MethodTestActivity" />
         <activity android:name=".simple.issues.Issues10Activity" />
+        <activity android:name=".simple.issues.Issues12Activity" />
     </application>
 
 </manifest>

@@ -35,6 +35,12 @@
         android:text="issues 10" />
 
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_issues_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="issues 12" />
+
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_method_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

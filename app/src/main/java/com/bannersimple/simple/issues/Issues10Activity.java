@@ -54,7 +54,7 @@ public class Issues10Activity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_issues);
+        setContentView(R.layout.activity_issues_10);
         bannerLayout = (BannerLayout) findViewById(R.id.banner);
         bannerlnstagram = (BannerLayout) findViewById(R.id.banner_lnstagram);
         linearLayout = (LinearLayout) findViewById(R.id.ll_view);

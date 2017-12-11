@@ -11,6 +11,7 @@ import com.bannersimple.simple.RefreshActivity;
 import com.bannersimple.simple.SimpleActivity;
 import com.bannersimple.simple.TransformerActivity;
 import com.bannersimple.simple.issues.Issues10Activity;
+import com.bannersimple.simple.issues.Issues12Activity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Issues10Activity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.btn_issues_12).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Issues12Activity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
