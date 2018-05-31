@@ -17,8 +17,9 @@ import com.bannersimple.refresh.RefreshAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.network.manager.RxNetWork;
-import io.reactivex.network.manager.RxNetWorkListener;
+import io.reactivex.network.RxNetWork;
+import io.reactivex.network.RxNetWorkListener;
+
 
 /**
  * by y on 2017/3/8.
@@ -36,8 +37,8 @@ public class RefreshActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refresh);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        swipeRefreshLayout = findViewById(R.id.refresh_layout);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.post(this);

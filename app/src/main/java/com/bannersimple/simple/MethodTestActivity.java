@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.bannerlayout.Interface.OnBannerChangeListener;
-import com.bannerlayout.Interface.OnBannerClickListener;
+import com.bannerlayout.listener.OnBannerChangeListener;
+import com.bannerlayout.listener.OnBannerClickListener;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 import com.bannersimple.bean.SimpleBannerModel;
@@ -26,7 +26,7 @@ public class MethodTestActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_method_test);
-        xmlBannerLayout = (BannerLayout) findViewById(R.id.method_banner);
+        xmlBannerLayout = findViewById(R.id.method_banner);
 
         xmlBannerLayout
                 .initListResources(SimpleData.initModel());

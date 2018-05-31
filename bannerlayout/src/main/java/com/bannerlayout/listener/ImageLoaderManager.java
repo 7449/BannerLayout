@@ -1,4 +1,4 @@
-package com.bannerlayout.Interface;
+package com.bannerlayout.listener;
 
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;

@@ -1,13 +1,15 @@
 package com.bannerlayout.widget;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bannerlayout.Interface.BannerModelCallBack;
-import com.bannerlayout.Interface.ImageLoaderManager;
+import com.bannerlayout.listener.BannerModelCallBack;
+import com.bannerlayout.listener.ImageLoaderManager;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -18,40 +20,42 @@ import java.util.List;
 
 class BannerAdapter extends PagerAdapter {
     private List<? extends BannerModelCallBack> imageList = null;
+
+    private boolean isGuide = false;
     private int error_image;
     private int place_image;
     private ImageLoaderManager imageLoaderManage = null;
     private OnBannerImageClickListener imageClickListener = null;
+    private RequestOptions requestOptions = null;
 
     BannerAdapter() {
     }
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return isGuide ? imageList.size() : Integer.MAX_VALUE;
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         View img;
         if (imageLoaderManage == null) {
             img = new ImageView(container.getContext());
             Glide
                     .with(img.getContext())
                     .load(imageList.get(getPosition(position)).getBannerUrl())
-                    .placeholder(place_image)
-                    .error(error_image)
-                    .centerCrop()
+                    .apply(getRequestOptions())
                     .into((ImageView) img);
         } else {
             img = imageLoaderManage.display(container, imageList.get(getPosition(position)));
@@ -68,6 +72,21 @@ class BannerAdapter extends PagerAdapter {
         return img;
     }
 
+
+    private RequestOptions getRequestOptions() {
+        if (requestOptions == null) {
+            requestOptions = new RequestOptions()
+                    .placeholder(place_image)
+                    .error(error_image)
+                    .centerCrop();
+        }
+        return requestOptions;
+    }
+
+
+    void setGuide(boolean guide) {
+        this.isGuide = guide;
+    }
 
     void addAll(List<? extends BannerModelCallBack> list) {
         imageList = list;

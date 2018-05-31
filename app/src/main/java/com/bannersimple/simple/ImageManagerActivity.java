@@ -23,9 +23,9 @@ public class ImageManagerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagemanager);
-        frescoBanner = (BannerLayout) findViewById(R.id.fresco_banner);
-        imageLoaderBanner = (BannerLayout) findViewById(R.id.imageloader_banner);
-        picassoBanner = (BannerLayout) findViewById(R.id.picasso_banner);
+        frescoBanner = findViewById(R.id.fresco_banner);
+        imageLoaderBanner = findViewById(R.id.imageloader_banner);
+        picassoBanner = findViewById(R.id.picasso_banner);
 
 
         frescoBanner

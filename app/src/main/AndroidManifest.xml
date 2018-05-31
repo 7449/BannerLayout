@@ -20,6 +20,9 @@
         </activity>
         <activity android:name=".simple.RefreshActivity" />
         <activity android:name=".simple.SimpleActivity" />
+        <activity
+            android:name=".simple.SimpleGuideActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".simple.ImageManagerActivity" />
         <activity android:name=".simple.TransformerActivity" />
         <activity android:name=".simple.MethodTestActivity" />

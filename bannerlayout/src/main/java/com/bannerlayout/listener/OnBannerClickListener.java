@@ -1,4 +1,4 @@
-package com.bannerlayout.Interface;
+package com.bannerlayout.listener;
 
 import android.view.View;
 

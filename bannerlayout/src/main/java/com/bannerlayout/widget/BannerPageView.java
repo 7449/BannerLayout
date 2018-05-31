@@ -1,5 +1,6 @@
 package com.bannerlayout.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
@@ -25,6 +26,7 @@ class BannerPageView extends AppCompatTextView {
         super(context, attrs, defStyleAttr);
     }
 
+    @SuppressLint("RtlHardcoded")
     FrameLayout.LayoutParams initPageView(PageNumViewInterface pageNumViewInterface) {
         FrameLayout.LayoutParams pageParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

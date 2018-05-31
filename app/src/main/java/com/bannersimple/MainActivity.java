@@ -9,6 +9,7 @@ import com.bannersimple.simple.ImageManagerActivity;
 import com.bannersimple.simple.MethodTestActivity;
 import com.bannersimple.simple.RefreshActivity;
 import com.bannersimple.simple.SimpleActivity;
+import com.bannersimple.simple.SimpleGuideActivity;
 import com.bannersimple.simple.TransformerActivity;
 import com.bannersimple.simple.issues.Issues10Activity;
 import com.bannersimple.simple.issues.Issues12Activity;
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SimpleActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btn_guide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SimpleGuideActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

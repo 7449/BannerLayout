@@ -113,8 +113,8 @@ class BannerViewPager extends ViewPager {
             return true;
         } catch (Exception e) {
             Log.i(getClass().getSimpleName(), e.getMessage());
-            return false;
         }
+        return false;
     }
 
     public int getDuration() {

@@ -16,17 +16,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.bannerlayout.Interface.BannerModelCallBack;
-import com.bannerlayout.Interface.ImageLoaderManager;
-import com.bannerlayout.Interface.OnBannerChangeListener;
-import com.bannerlayout.Interface.OnBannerClickListener;
-import com.bannerlayout.Interface.ViewPagerCurrent;
 import com.bannerlayout.R;
 import com.bannerlayout.animation.BannerTransformer;
 import com.bannerlayout.annotation.AnimationMode;
 import com.bannerlayout.annotation.DotsAndTitleSiteMode;
 import com.bannerlayout.annotation.PageNumViewSiteMode;
 import com.bannerlayout.annotation.TipsSiteMode;
+import com.bannerlayout.listener.BannerModelCallBack;
+import com.bannerlayout.listener.ImageLoaderManager;
+import com.bannerlayout.listener.OnBannerChangeListener;
+import com.bannerlayout.listener.OnBannerClickListener;
+import com.bannerlayout.listener.ViewPagerCurrent;
 import com.bannerlayout.util.BannerHandlerUtils;
 import com.bannerlayout.util.BannerSelectorUtils;
 import com.bannerlayout.util.TransformerUtils;
@@ -107,7 +107,7 @@ public class BannerLayout extends FrameLayout
     private BannerTransformer bannerTransformer = null;
 
     private int preEnablePosition = 0;
-
+    private boolean isGuide;//Whether auto rotation is enabled or not is not enabled by default
     private boolean isStartRotation;//Whether auto rotation is enabled or not is not enabled by default
     private boolean isTipsBackground;//Whether to display a  dots background
     private boolean viePagerTouchMode; //Viewpager can manually slide, the default can
@@ -162,6 +162,7 @@ public class BannerLayout extends FrameLayout
     private void init(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayout);
 
+        isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, BannerDefaults.IS_GUIDE);
         isTipsBackground = typedArray.getBoolean(R.styleable.BannerLayout_banner_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND);
         tipsBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_banner_tips_background, ContextCompat.getColor(getContext(), BannerDefaults.TIPS_LAYOUT_BACKGROUND));
         tipsLayoutWidth = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH);
@@ -308,6 +309,11 @@ public class BannerLayout extends FrameLayout
 
     public BannerLayout addOnPageChangeListener(@NonNull OnBannerChangeListener onBannerChangeListener) {
         this.onBannerChangeListener = onBannerChangeListener;
+        return this;
+    }
+
+    public BannerLayout setGuide(boolean guide) {
+        this.isGuide = guide;
         return this;
     }
 
@@ -650,6 +656,7 @@ public class BannerLayout extends FrameLayout
             adapter = new BannerAdapter();
         }
         adapter.addAll(imageList);
+        adapter.setGuide(isGuide);
         adapter.setPlaceImage(placeImageView);
         adapter.setErrorImage(errorImageView);
         adapter.setImageLoaderManage(imageLoaderManage);
@@ -667,8 +674,7 @@ public class BannerLayout extends FrameLayout
             viewPager.setPageTransformer(true, bannerTransformer);
         }
         addView(viewPager);
-
-        int currentItem = (Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getDotsSize());
+        int currentItem = isGuide ? 0 : (Integer.MAX_VALUE / 2) - ((Integer.MAX_VALUE / 2) % getDotsSize());
         viewPager.setCurrentItem(currentItem);
         bannerHandlerUtils = new BannerHandlerUtils(this, currentItem);
         bannerHandlerUtils.setDelayTime(delayTime);

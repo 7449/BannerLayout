@@ -1,4 +1,4 @@
-package com.bannerlayout.Interface;
+package com.bannerlayout.listener;
 
 /**
  * by y on 2017/4/11

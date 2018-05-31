@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bannerlayout.Interface.OnBannerChangeListener;
-import com.bannerlayout.Interface.OnBannerClickListener;
+import com.bannerlayout.listener.OnBannerChangeListener;
+import com.bannerlayout.listener.OnBannerClickListener;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 import com.bannersimple.bean.SimpleBannerModel;
+import com.bannersimple.imagemanager.GlideAppSimpleImageManager;
 import com.bannersimple.refresh.ArrayUtils;
 
 import static com.bannersimple.bean.SimpleData.initModel;
@@ -26,14 +27,15 @@ public class SimpleActivity extends AppCompatActivity implements OnBannerClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple);
 
-        defaultBanner = (BannerLayout) findViewById(R.id.default_banner);
-        customizeBanner = (BannerLayout) findViewById(R.id.customize_banner);
-        verticalBanner = (BannerLayout) findViewById(R.id.vertical_banner);
+        defaultBanner = findViewById(R.id.default_banner);
+        customizeBanner = findViewById(R.id.customize_banner);
+        verticalBanner = findViewById(R.id.vertical_banner);
 
 
         defaultBanner
                 .initPageNumView()
                 .initTips()
+                .setImageLoaderManager(new GlideAppSimpleImageManager())
                 .setTipsDotsSelector(R.drawable.banner)
                 .setPageNumViewMargin(12, 12, 12, 12)
                 .initListResources(initModel())

@@ -3,7 +3,7 @@ package com.bannerlayout.util;
 import android.os.Handler;
 import android.os.Message;
 
-import com.bannerlayout.Interface.ViewPagerCurrent;
+import com.bannerlayout.listener.ViewPagerCurrent;
 
 /**
  * by y on 2016/9/15.
@@ -17,8 +17,8 @@ public class BannerHandlerUtils extends Handler {
     public static final int MSG_PAGE = 3;
 
     private long delayTime = 2000;
-    private ViewPagerCurrent mCurrent = null;
-    private int page = -1;
+    private ViewPagerCurrent mCurrent;
+    private int page;
 
     public BannerHandlerUtils(ViewPagerCurrent viewPager, int currentItem) {
         this.page = currentItem;

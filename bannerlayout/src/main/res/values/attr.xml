@@ -7,6 +7,7 @@
         <attr name="banner_view_pager_touch_mode" format="boolean" />
         <attr name="banner_duration" format="integer" />
         <attr name="banner_isVertical" format="boolean" />
+        <attr name="banner_guide" format="boolean" />
 
         <attr name="banner_dots_visible" format="boolean" />
         <attr name="banner_dots_selector" format="reference" />

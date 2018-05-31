@@ -7,7 +7,10 @@ import com.bannerlayout.R;
  */
 
 class BannerDefaults {
-
+    /**
+     * By default,  isGuide
+     */
+    static final boolean IS_GUIDE = false;
     /**
      * customize  dots State Selector
      */

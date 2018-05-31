@@ -1,6 +1,6 @@
 package com.bannersimple;
 
-import com.bannerlayout.Interface.OnBannerChangeListener;
+import com.bannerlayout.listener.OnBannerChangeListener;
 
 /**
  * by y on 26/07/2017.

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.bannerlayout.Interface.OnBannerChangeListener;
+import com.bannerlayout.listener.OnBannerChangeListener;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 import com.bannersimple.bean.SimpleData;
@@ -26,9 +26,9 @@ public class TransformerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transformer);
-        transformerBanner = (BannerLayout) findViewById(R.id.transformer_banner);
-        Spinner spinner = (Spinner) findViewById(R.id.transformer_spinner);
-        positionTv = (AppCompatTextView) findViewById(R.id.banner_position);
+        transformerBanner = findViewById(R.id.transformer_banner);
+        Spinner spinner = findViewById(R.id.transformer_spinner);
+        positionTv = findViewById(R.id.banner_position);
         positionTv.setText("select position:" + 0);
         transformerBanner
                 .setBannerTransformer(BannerLayout.ANIMATION_ACCORDION)

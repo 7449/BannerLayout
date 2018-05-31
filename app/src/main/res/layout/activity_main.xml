@@ -11,6 +11,12 @@
         android:text="SIMPLE" />
 
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GUIDE" />
+
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_refresh_simple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
