@@ -38,14 +38,14 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    compile 'com.ydevelop:bannerlayout:1.1.2'
+    api 'com.ydevelop:bannerlayout:1.1.3'
     
 >maven
 
 	<dependency>
 	  <groupId>com.ydevelop</groupId>
 	  <artifactId>bannerlayout</artifactId>
-	  <version>1.1.2</version>
+	  <version>1.1.3</version>
 	  <type>pom</type>
 	</dependency>
 	
@@ -59,15 +59,15 @@ recommended to look at Sample ： [SimpleActivity](https://github.com/7449/Banne
 >simple to use
 
 
-Bean class please implement [BannerModelCallBack](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/Interface/BannerModelCallBack.java)
+Bean class please implement [BannerModelCallBack](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/listener/BannerModelCallBack.kt)
 
-Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/bean/SimpleBannerModel.java)
+Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/bean/SimpleBannerModel.kt)
 
 
 If you use the built-in frame, please rely on glide
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     
 or
 
@@ -179,7 +179,7 @@ If you want to customize the animation, please inherit ABaseTransformer or Banne
 			
 #### java method
 
-see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/simple/MethodTestActivity.java)
+see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/simple/MethodTestActivity.kt)
 
         newBannerLayout
                 .setGuide(true)
@@ -227,7 +227,7 @@ see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/s
 
 > xml default parameter see:
 
-[BannerDefaults.java](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/widget/BannerDefaults.java)
+[BannerDefaults.java](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/widget/BannerDefaults.kt)
 
         app:banner_guide="true"
         app:banner_dots_visible="true"                              

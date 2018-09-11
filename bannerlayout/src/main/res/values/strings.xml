@@ -1,10 +1,3 @@
 <resources>
-    <string name="app_name">BannerLayout</string>
-    <string name="list_null">the imageList is null or imageList.Size zero</string>
-    <string name="array_null">the imageArray is null</string>
-    <string name="array_size_lnconsistent">Check the url and title number inconsistencies, please confirm the data</string>
-    <string name="array_null_">the imageArrayTitle is null</string>
     <string name="vertical">If it is a vertical slide can not set the animation</string>
-    <string name="glide_excpetion">glide placeImage or errorImage is null</string>
-    <string name="bannerTransformer_null">the BannerAnimation is null</string>
 </resources>

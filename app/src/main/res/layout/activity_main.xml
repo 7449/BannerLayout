@@ -1,55 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_simple"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SIMPLE" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_guide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="GUIDE" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIMPLE" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_refresh_simple"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="REFRESH" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_guide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GUIDE" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_image_manager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="IMAGE_MANAGER" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_refresh_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFRESH" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_transformer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Transformer" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_image_manager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IMAGE_MANAGER" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_issues_10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="issues 10" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_transformer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transformer" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_issues_12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="issues 12" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_issues_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="issues 10" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_method_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="METHOD TEST" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_issues_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="issues 12" />
 
-</LinearLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_method_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="METHOD TEST" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_java"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JAVA" />
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

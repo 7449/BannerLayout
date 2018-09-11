@@ -20,5 +20,6 @@
         <item>ZOOMOUTPAGE</item>
         <item>ZOOMOUTSLIDE</item>
         <item>ZOOMOUT</item>
+        <item>DRAWER</item>
     </string-array>
 </resources>

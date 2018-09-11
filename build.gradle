@@ -1,20 +1,24 @@
 buildscript {
+    ext.kotlin_version = '1.2.51'
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.novoda:bintray-release:0.8.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+tasks.getByPath(":bannerlayout:releaseAndroidJavadocs").enabled = false
