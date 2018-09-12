@@ -6,7 +6,7 @@ import com.bannerlayout.R
  * by y on 2016/10/25
  */
 
-internal object BannerDefaults {
+object BannerDefaults {
     /**
      * By default,  isGuide
      */

@@ -3,9 +3,6 @@ package com.bannerlayout.widget
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Message
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
@@ -16,15 +13,11 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.bannerlayout.R
 import com.bannerlayout.animation.BannerTransformer
-import com.bannerlayout.annotation.AnimationMode
-import com.bannerlayout.annotation.DotsAndTitleSiteMode
-import com.bannerlayout.annotation.PageNumViewSiteMode
-import com.bannerlayout.annotation.TipsSiteMode
+import com.bannerlayout.animation.VerticalTransformer
 import com.bannerlayout.listener.*
 import com.bannerlayout.util.BannerHandlerUtils
 import com.bannerlayout.util.BannerSelectorUtils
 import com.bannerlayout.util.TransformerUtils
-import com.bannerlayout.widget.BannerTipsLayout.DotsInterface
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -32,85 +25,97 @@ import com.bumptech.glide.request.RequestOptions
 /**
  * by y on 2016/10/24
  */
-class BannerLayout : FrameLayout,
-        ViewPagerCurrent,
-        ViewPager.OnPageChangeListener,
-        OnBannerImageClickListener<Any>,
-        DotsInterface,
-        BannerTipsLayout.TitleInterface,
-        BannerTipsLayout.TipsInterface,
-        BannerPageView.PageNumViewInterface {
+class BannerLayout : FrameLayout, ViewPagerCurrent, ViewPager.OnPageChangeListener, OnBannerImageClickListener<BannerModelCallBack> {
 
-    private lateinit var adapter: BannerAdapter
+    private var preEnablePosition = 0
     private var viewPager: BannerViewPager = BannerViewPager(context)
     private var handler: BannerHandlerUtils = BannerHandlerUtils(this)
-    private var imageLoaderManage: ImageLoaderManager<Any> = initImageLoaderManager()
-    private var imageList: List<BannerModelCallBack<Any>> = ArrayList()
-    private var transformerList: List<BannerTransformer> = ArrayList()
-    private var bannerTransformer: BannerTransformer? = null
-    private var onBannerChangeListener: OnBannerChangeListener? = null
-    private var onBannerClickListener: OnBannerClickListener<Any>? = null
+    private var imageList: List<BannerModelCallBack> = ArrayList()
 
     private var pageView: BannerPageView? = null
     private var tipLayout: BannerTipsLayout? = null
 
-    private var enabledRadius: Float = 0.toFloat()
-    private var normalRadius: Float = 0.toFloat()
-    private var enabledColor: Int = 0
-    private var normalColor: Int = 0
-    private var preEnablePosition = 0
-    private var isGuide: Boolean = false
-    private var isStartRotation: Boolean = false
-    private var viePagerTouchMode: Boolean = false
-    private var errorImageView: Int = 0
-    private var placeImageView: Int = 0
-    private var mDuration: Int = 0
-    private var isVertical: Boolean = false
+    var isStartRotation: Boolean = false
+        private set
 
-    private var isVisibleDots: Boolean = false
-    private var dotsWidth: Int = 0
-    private var dotsHeight: Int = 0
-    private var dotsSelector: Int = 0
-    private var delayTime: Long = 0
-    private var dotsLeftMargin: Int = 0
-    private var dotsRightMargin: Int = 0
-    private var dotsSite: Int = 0
+    var imageLoaderManager: ImageLoaderManager<*> = initImageLoaderManager()
 
+    var onBannerChangeListener: OnBannerChangeListener = SimpleOnBannerChangeListener()
 
-    override var tipsHeight: Int = 0
-    override var tipsWidth: Int = 0
-    override var tipsLayoutBackgroundColor: Int = 0
-    override var tipsSite: Int = 0
-    override var showBackgroundColor: Boolean = false
+    var onBannerClickListener: OnBannerClickListener<*>? = null
 
-    private var isVisibleTitle: Boolean = false
-    override var titleSize: Float = 0.toFloat()
-    override var titleColor: Int = 0
-    override var titleLeftMargin: Int = 0
-    override var titleRightMargin: Int = 0
-    override var titleWidth: Int = 0
-    override var titleHeight: Int = 0
-    override var titleSite: Int = 0
+    var transformerList: List<BannerTransformer> = ArrayList()
 
-    override var pageNumViewRadius: Float = 0.toFloat()
-    override var pageNumViewPaddingTop: Int = 0
-    override var pageNumViewPaddingLeft: Int = 0
-    override var pageNumViewPaddingBottom: Int = 0
-    override var pageNumViewPaddingRight: Int = 0
-    override var pageNumViewTopMargin: Int = 0
-    override var pageNumViewRightMargin: Int = 0
-    override var pageNumViewBottomMargin: Int = 0
-    override var pageNumViewLeftMargin: Int = 0
-    override var pageNumViewSite: Int = 0
-    override var pageNumViewTextColor: Int = 0
-    override var pageNumViewBackgroundColor: Int = 0
-    override var pageNumViewTextSize: Float = 0.toFloat()
-    private lateinit var pageNumViewMark: String
+    var bannerTransformer: BannerTransformer? = null
+        set(value) {
+            field = value
+            viewPager.setPageTransformer(true, value)
+        }
+
+    var bannerTransformerType = 0
+        set(value) {
+            field = value
+            bannerTransformer = TransformerUtils.getTransformer(value)
+        }
+
+    var enabledRadius: Float = 0F
+    var normalRadius: Float = 0F
+    var enabledColor: Int = 0
+    var normalColor: Int = 0
+    var isGuide: Boolean = false
+    var viewPagerTouchMode: Boolean = false
+    var errorImageView: Int = 0
+    var placeImageView: Int = 0
+    var bannerDuration: Int = 0
+    var isVertical: Boolean = false
+    var delayTime: Long = 0
+
+    /****  [BannerTipsLayout.initDots] ***/
+    var isVisibleDots: Boolean = false
+    var dotsWidth: Int = 0
+    var dotsHeight: Int = 0
+    var dotsSelector: Int = 0
+    var dotsLeftMargin: Int = 0
+    var dotsRightMargin: Int = 0
+    var dotsSite: Int = 0
+
+    /****  [BannerTipsLayout.initTips] ***/
+    var showTipsBackgroundColor: Boolean = false
+    var tipsHeight: Int = 0
+    var tipsWidth: Int = 0
+    var tipsLayoutBackgroundColor: Int = 0
+    var tipsSite: Int = 0
+
+    /****  [BannerTipsLayout.initTitle] ***/
+    var isVisibleTitle: Boolean = false
+    var titleSize: Float = 0.toFloat()
+    var titleColor: Int = 0
+    var titleLeftMargin: Int = 0
+    var titleRightMargin: Int = 0
+    var titleWidth: Int = 0
+    var titleHeight: Int = 0
+    var titleSite: Int = 0
+
+    /****  [BannerPageView] ***/
+    var pageNumViewRadius: Float = 0F
+    var pageNumViewPaddingTop: Int = 0
+    var pageNumViewPaddingLeft: Int = 0
+    var pageNumViewPaddingBottom: Int = 0
+    var pageNumViewPaddingRight: Int = 0
+    var pageNumViewTopMargin: Int = 0
+    var pageNumViewRightMargin: Int = 0
+    var pageNumViewBottomMargin: Int = 0
+    var pageNumViewLeftMargin: Int = 0
+    var pageNumViewSite: Int = 0
+    var pageNumViewTextColor: Int = 0
+    var pageNumViewBackgroundColor: Int = 0
+    var pageNumViewTextSize: Float = 0F
+    var pageNumViewMark: String = ""
 
     private fun init(attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
         isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, BannerDefaults.IS_GUIDE)
-        showBackgroundColor = typedArray.getBoolean(R.styleable.BannerLayout_banner_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND)
+        showTipsBackgroundColor = typedArray.getBoolean(R.styleable.BannerLayout_banner_is_tips_background, BannerDefaults.IS_TIPS_LAYOUT_BACKGROUND)
         tipsLayoutBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_banner_tips_background, ContextCompat.getColor(context, BannerDefaults.TIPS_LAYOUT_BACKGROUND))
         tipsWidth = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_width, BannerDefaults.TIPS_LAYOUT_WIDTH)
         tipsHeight = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_height, BannerDefaults.TIPS_LAYOUT_HEIGHT)
@@ -126,10 +131,10 @@ class BannerLayout : FrameLayout,
         normalColor = typedArray.getColor(R.styleable.BannerLayout_banner_normalColor, ContextCompat.getColor(context, BannerDefaults.NORMAL_COLOR))
         delayTime = typedArray.getInteger(R.styleable.BannerLayout_banner_delay_time, BannerDefaults.DELAY_TIME).toLong()
         isStartRotation = typedArray.getBoolean(R.styleable.BannerLayout_banner_start_rotation, BannerDefaults.IS_START_ROTATION)
-        viePagerTouchMode = typedArray.getBoolean(R.styleable.BannerLayout_banner_view_pager_touch_mode, BannerDefaults.VIEW_PAGER_TOUCH_MODE)
+        viewPagerTouchMode = typedArray.getBoolean(R.styleable.BannerLayout_banner_view_pager_touch_mode, BannerDefaults.VIEW_PAGER_TOUCH_MODE)
         errorImageView = typedArray.getResourceId(R.styleable.BannerLayout_banner_glide_error_image, BannerDefaults.GLIDE_ERROR_IMAGE)
         placeImageView = typedArray.getResourceId(R.styleable.BannerLayout_banner_glide_place_image, BannerDefaults.GLIDE_PIACE_IMAGE)
-        mDuration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION)
+        bannerDuration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, BannerDefaults.BANNER_DURATION)
         isVertical = typedArray.getBoolean(R.styleable.BannerLayout_banner_isVertical, BannerDefaults.IS_VERTICAL)
         isVisibleTitle = typedArray.getBoolean(R.styleable.BannerLayout_banner_title_visible, BannerDefaults.TITLE_VISIBLE)
         titleColor = typedArray.getColor(R.styleable.BannerLayout_banner_title_color, ContextCompat.getColor(context, BannerDefaults.TITLE_COLOR))
@@ -175,7 +180,7 @@ class BannerLayout : FrameLayout,
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        onBannerChangeListener?.onPageScrolled(position % dotsSize, positionOffset, positionOffsetPixels)
+        onBannerChangeListener.onPageScrolled(position % dotsSize, positionOffset, positionOffsetPixels)
     }
 
     override fun onPageSelected(position: Int) {
@@ -192,196 +197,127 @@ class BannerLayout : FrameLayout,
             viewPager.setPageTransformer(true, transformerList[(Math.random() * transformerList.size).toInt()])
         }
         handler.sendMessage(Message.obtain(handler, BannerHandlerUtils.MSG_PAGE, viewPager.currentItem, 0))
-        onBannerChangeListener?.onPageSelected(newPosition)
+        onBannerChangeListener.onPageSelected(newPosition)
     }
 
     override fun onPageScrollStateChanged(state: Int) {
         if (isStartRotation) {
-            handler.removeCallbacksAndMessages(null)
+            removeHandler()
             when (state) {
                 ViewPager.SCROLL_STATE_DRAGGING -> handler.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP)
                 ViewPager.SCROLL_STATE_IDLE -> handler.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime)
             }
         }
-        onBannerChangeListener?.onPageScrollStateChanged(state)
+        onBannerChangeListener.onPageScrollStateChanged(state)
     }
 
-    override fun onBannerClick(view: View, position: Int, model: Any) {
-        onBannerClickListener?.onBannerClick(view, position, model)
+    override fun onBannerClick(view: View, position: Int, model: BannerModelCallBack) {
+        if (onBannerClickListener == null) return
+        @Suppress("UNCHECKED_CAST")
+        (onBannerClickListener as OnBannerClickListener<BannerModelCallBack>).onBannerClick(view, position, model)
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun setOnBannerClickListener(onBannerClickListener: OnBannerClickListener<*>) = apply { this.onBannerClickListener = onBannerClickListener as? OnBannerClickListener<Any> }
-
-    fun addOnPageChangeListener(onBannerChangeListener: OnBannerChangeListener) = apply { this.onBannerChangeListener = onBannerChangeListener }
-    fun setGuide(guide: Boolean) = apply { this.isGuide = guide }
     fun initPageNumView() = apply { pageView = BannerPageView(context) }
-    fun initTips() = apply { initTips(showBackgroundColor, isVisibleDots, isVisibleTitle) }
-    fun initTips(isBackgroundColor: Boolean, isVisibleDots: Boolean, isVisibleTitle: Boolean) = apply {
-        this.showBackgroundColor = isBackgroundColor
-        this.isVisibleDots = isVisibleDots
-        this.isVisibleTitle = isVisibleTitle
-        tipLayout = BannerTipsLayout(context)
-    }
 
-    fun initListResources(imageList: MutableList<out BannerModelCallBack<Any>>) = apply {
+    fun initTips() = apply { tipLayout = BannerTipsLayout(context) }
+
+    fun resource(imageList: MutableList<out BannerModelCallBack>) = apply {
         this.imageList = imageList
         initBannerMethod()
     }
 
-    fun setDelayTime(time: Int) = apply { this.delayTime = time.toLong() }
     fun switchBanner(isStartRotation: Boolean) = apply {
         this.isStartRotation = isStartRotation
-        handler.removeCallbacksAndMessages(null)
+        removeHandler()
         if (isStartRotation) {
-            handler.setDelayTime(delayTime)
+            handler.handlerDelayTime = delayTime
             handler.sendEmptyMessageDelayed(BannerHandlerUtils.MSG_UPDATE, delayTime)
         } else {
             handler.sendEmptyMessage(BannerHandlerUtils.MSG_KEEP)
-            handler.removeCallbacksAndMessages(null)
+            removeHandler()
         }
     }
 
-    fun setErrorImageView(@DrawableRes errorImageView: Int) = apply { this.errorImageView = errorImageView }
-    fun setPlaceImageView(@DrawableRes placeImageView: Int) = apply { this.placeImageView = placeImageView }
-    fun setDuration(pace: Int) = apply { this.mDuration = pace }
-    fun setViewPagerTouchMode(b: Boolean) = apply { this.viePagerTouchMode = b }
-    fun setVertical(vertical: Boolean) = apply { this.isVertical = vertical }
-    fun setTipsBackgroundColor(@ColorInt colorId: Int) = apply { this.tipsLayoutBackgroundColor = colorId }
-    fun setTipsDotsSelector(@DrawableRes dotsSelector: Int) = apply { this.dotsSelector = dotsSelector }
-    fun setTipsWidthAndHeight(width: Int, height: Int) = apply {
-        this.tipsHeight = height
-        this.tipsWidth = width
-    }
-
-    fun setTipsSite(@TipsSiteMode tipsSite: Int) = apply { this.tipsSite = tipsSite }
-    fun setTitleTextColor(@ColorInt titleColor: Int) = apply { this.titleColor = titleColor }
-    fun setTitleTextSize(titleSize: Float) = apply { this.titleSize = titleSize }
-    fun setTitleMargin(leftMargin: Int, rightMargin: Int) = apply {
-        this.titleLeftMargin = leftMargin
-        this.titleRightMargin = rightMargin
-    }
-
-    fun setTitleMargin(margin: Int) = apply {
-        this.titleLeftMargin = margin
-        this.titleRightMargin = margin
-    }
-
-    fun setTitleSite(@DotsAndTitleSiteMode titleSite: Int) = apply { this.titleSite = titleSite }
-    fun setDotsWidthAndHeight(width: Int, height: Int) = apply {
-        this.dotsWidth = width
-        this.dotsHeight = height
-    }
-
-    fun setDotsSite(@DotsAndTitleSiteMode dotsSite: Int) = apply { this.dotsSite = dotsSite }
-    fun setDotsMargin(leftMargin: Int, rightMargin: Int) = apply {
-        this.dotsLeftMargin = leftMargin
-        this.dotsRightMargin = rightMargin
-    }
-
-    fun setDotsMargin(margin: Int) = apply {
-        this.dotsLeftMargin = margin
-        this.dotsRightMargin = margin
-    }
-
-    fun setNormalRadius(normalRadius: Float) = apply { this.normalRadius = normalRadius }
-    fun setNormalColor(@ColorInt normalColor: Int) = apply { this.normalColor = normalColor }
-    fun setEnabledColor(@ColorInt enabledColor: Int) = apply { this.enabledColor = enabledColor }
-    fun setEnabledRadius(enabledRadius: Float) = apply { this.enabledRadius = enabledRadius }
-    fun setBannerTransformer(@AnimationMode type: Int) = apply { setBannerTransformer(TransformerUtils.getTransformer(type)) }
-    fun setBannerTransformer(bannerTransformer: BannerTransformer) = apply {
-        this.bannerTransformer = bannerTransformer
-        viewPager.setPageTransformer(true, bannerTransformer)
-    }
-
-    fun setBannerSystemTransformerList(list: MutableList<Int>) = apply {
-        val bannerTransformers = ArrayList<BannerTransformer>()
-        val size = list.size
-        for (i in 0 until size) {
-            bannerTransformers.add(TransformerUtils.getTransformer(list[i]))
-        }
-        setBannerTransformerList(bannerTransformers)
-    }
-
-    fun setBannerTransformerList(list: MutableList<BannerTransformer>) = apply { this.transformerList = list }
-    fun setPageNumViewRadius(pageNumViewRadius: Float) = apply { this.pageNumViewRadius = pageNumViewRadius }
-    fun setPageNumViewPadding(top: Int, bottom: Int, left: Int, right: Int) = apply {
-        this.pageNumViewPaddingTop = top
-        this.pageNumViewPaddingBottom = bottom
-        this.pageNumViewPaddingLeft = left
-        this.pageNumViewPaddingRight = right
-    }
-
-    fun setPageNumViewPadding(padding: Int) = apply {
-        this.pageNumViewPaddingTop = padding
-        this.pageNumViewPaddingBottom = padding
-        this.pageNumViewPaddingLeft = padding
-        this.pageNumViewPaddingRight = padding
-    }
-
-    fun setPageNumViewMargin(top: Int, bottom: Int, left: Int, right: Int) = apply {
-        this.pageNumViewTopMargin = top
-        this.pageNumViewBottomMargin = bottom
-        this.pageNumViewLeftMargin = left
-        this.pageNumViewRightMargin = right
-    }
-
-    fun setPageNumViewMargin(margin: Int) = apply {
-        this.pageNumViewTopMargin = margin
-        this.pageNumViewBottomMargin = margin
-        this.pageNumViewLeftMargin = margin
-        this.pageNumViewRightMargin = margin
-    }
-
-    fun setPageNumViewTextColor(@ColorInt pageNumViewTextColor: Int) = apply { this.pageNumViewTextColor = pageNumViewTextColor }
-    fun setPageNumViewBackgroundColor(@ColorInt pageNumViewBackgroundColor: Int) = apply { this.pageNumViewBackgroundColor = pageNumViewBackgroundColor }
-    fun setPageNumViewTextSize(pageNumViewTextSize: Float) = apply { this.pageNumViewTextSize = pageNumViewTextSize }
-    fun setPageNumViewSite(@PageNumViewSiteMode pageNumViewSite: Int) = apply { this.pageNumViewSite = pageNumViewSite }
-    fun setPageNumViewMark(pageNumViewMark: String) = apply { this.pageNumViewMark = pageNumViewMark }
-    fun setPageNumViewMark(@StringRes pageNumViewMark: Int) = apply { this.pageNumViewMark = context.getString(pageNumViewMark) }
     @Suppress("UNCHECKED_CAST")
-    fun setImageLoaderManager(loaderManage: ImageLoaderManager<*>) = apply { this.imageLoaderManage = loaderManage as ImageLoaderManager<Any> }
-
     private fun initBannerMethod() = apply {
         removeAllViews()
         preEnablePosition = 0
-        adapter = BannerAdapter(imageList, imageLoaderManage, isGuide)
-        adapter.setImageClickListener(this)
-        viewPager.setDuration(mDuration).setViewTouchMode(viePagerTouchMode).addOnPageChangeListener(this)
-        viewPager.adapter = adapter
+        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize
+        viewPager.apply {
+            viewTouchMode = viewPagerTouchMode
+            addOnPageChangeListener(this@BannerLayout)
+            setDuration(bannerDuration)
+            adapter = BannerAdapter(imageList, imageLoaderManager as ImageLoaderManager<BannerModelCallBack>, isGuide).apply { imageClickListener = this@BannerLayout }
+        }.currentItem = currentItem
         if (isVertical) {
-            viewPager.setVertical(isVertical)
+            viewPager.isVertical = true
+            viewPager.setPageTransformer(true, VerticalTransformer())
         } else {
             viewPager.setPageTransformer(true, bannerTransformer)
         }
         addView(viewPager)
-        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize
-        viewPager.currentItem = currentItem
-        handler.setPage(currentItem)
-        handler.setDelayTime(delayTime)
+        handler.apply {
+            handlerPage = currentItem
+            handlerDelayTime = delayTime
+        }
         switchBanner(isStartRotation)
+        pageView?.text = TextUtils.concat(1.toString(), pageNumViewMark, dotsSize.toString())
         if (pageView != null) {
-            pageView?.text = TextUtils.concat(1.toString(), pageNumViewMark, dotsSize.toString())
-            addView(pageView, pageView?.initPageView(this))
+            addView(pageView, pageView?.run {
+                setTextColor(pageNumViewTextColor)
+                textSize = pageNumViewTextSize
+                viewTopMargin = pageNumViewTopMargin
+                viewRightMargin = pageNumViewRightMargin
+                viewBottomMargin = pageNumViewBottomMargin
+                viewLeftMargin = pageNumViewLeftMargin
+                viewPaddingTop = pageNumViewPaddingTop
+                viewPaddingBottom = pageNumViewPaddingBottom
+                viewPaddingLeft = pageNumViewPaddingLeft
+                viewPaddingRight = pageNumViewPaddingRight
+                viewRadius = pageNumViewRadius
+                viewBackgroundColor = pageNumViewBackgroundColor
+                viewSite = pageNumViewSite
+                initPageView()
+            })
         }
         if (tipLayout != null) {
-            tipLayout?.removeAllViews()
-            if (isVisibleDots) {
-                tipLayout?.setDots(this)
-            }
-            if (isVisibleTitle) {
-                tipLayout?.setTitle(this)
-                tipLayout?.setTitle(imageList[0].bannerTitle)
-            }
-            addView(tipLayout, tipLayout!!.setBannerTips(this))
+            addView(tipLayout, tipLayout?.run {
+                removeAllViews()
+
+                viewTitleColor = titleColor
+                viewTitleSize = titleSize
+                viewTitleLeftMargin = titleLeftMargin
+                viewTitleRightMargin = titleRightMargin
+                viewTitleWidth = titleWidth
+                viewTitleHeight = titleHeight
+                viewTitleSite = titleSite
+
+                showViewTipsBackgroundColor = showTipsBackgroundColor
+                viewTipsSite = tipsSite
+                viewTipsWidth = tipsWidth
+                viewTipsHeight = tipsHeight
+                viewTipsLayoutBackgroundColor = tipsLayoutBackgroundColor
+
+                viewDotsCount = dotsSize
+                viewDotsHeight = dotsHeight
+                viewDotsWidth = dotsWidth
+                viewDotsLeftMargin = dotsLeftMargin
+                viewDotsRightMargin = dotsRightMargin
+                viewDotsSite = dotsSite
+
+                if (isVisibleDots) {
+                    initDots(this@BannerLayout)
+                }
+                if (isVisibleTitle) {
+                    initTitle()
+                    setTitle(imageList[0].bannerTitle)
+                }
+                initTips()
+            })
         }
     }
 
-    override fun dotsCount(): Int {
-        return dotsSize
-    }
-
-    override fun dotsSelector(): Drawable {
+    fun dotsSelector(): Drawable {
         return if (dotsSelector == BannerDefaults.DOTS_SELECTOR)
             BannerSelectorUtils.getDrawableSelector(
                     enabledRadius,
@@ -397,44 +333,19 @@ class BannerLayout : FrameLayout,
                             normalColor)
     }
 
-    override fun dotsHeight(): Int {
-        return dotsHeight
-    }
+    fun removeHandler() = handler.removeCallbacksAndMessages(null)
 
-    override fun dotsWidth(): Int {
-        return dotsWidth
-    }
+    fun getImageList(): List<BannerModelCallBack> = imageList
 
-    override fun dotsLeftMargin(): Int {
-        return dotsLeftMargin
-    }
-
-    override fun dotsRightMargin(): Int {
-        return dotsRightMargin
-    }
-
-    override fun dotsSite(): Int {
-        return dotsSite
-    }
-
-    fun removeHandler() = apply {
-        handler.removeCallbacksAndMessages(null)
-    }
-
-    fun getImageList(): List<BannerModelCallBack<Any>> {
-        return imageList
-    }
-
-    private fun initImageLoaderManager(): ImageLoaderManager<Any> {
+    private fun initImageLoaderManager(): ImageLoaderManager<BannerModelCallBack> {
         val requestOptions = RequestOptions()
                 .placeholder(placeImageView)
                 .error(errorImageView)
                 .centerCrop()
-        return object : ImageLoaderManager<Any> {
-            override fun display(container: ViewGroup, model: Any): ImageView {
-                val bannerModelCallBack = model as BannerModelCallBack<*>
+        return object : ImageLoaderManager<BannerModelCallBack> {
+            override fun display(container: ViewGroup, model: BannerModelCallBack): ImageView {
                 val imageView = ImageView(container.context)
-                Glide.with(imageView.context).load(bannerModelCallBack.bannerUrl).apply(requestOptions).into(imageView)
+                Glide.with(imageView.context).load(model.bannerUrl).apply(requestOptions).into(imageView)
                 return imageView
             }
         }

@@ -6,7 +6,7 @@ import com.bannerlayout.listener.BannerModelCallBack
  * by y on 2016/10/24
  */
 
-class SimpleBannerModel : BannerModelCallBack<String> {
+class SimpleBannerModel : BannerModelCallBack {
     var image: Any? = null
     var title: String? = null
 

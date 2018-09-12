@@ -35,12 +35,12 @@ public class SimpleJavaActivity extends AppCompatActivity {
         bannerLayout
                 .initPageNumView()
                 .initTips()
-                .initListResources(list)
+                .resource(list)
                 .switchBanner(true);
     }
 
 
-    private static class SimpleJavaBean implements BannerModelCallBack<String> {
+    private static class SimpleJavaBean implements BannerModelCallBack {
 
         private String url;
         private String title;

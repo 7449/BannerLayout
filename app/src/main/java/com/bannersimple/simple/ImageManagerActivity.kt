@@ -29,18 +29,24 @@ class ImageManagerActivity : AppCompatActivity() {
 
 
         frescoBanner
-                .setImageLoaderManager(FrescoSimpleImageManager())
-                .initListResources(SimpleData.initModel())
+                .apply {
+                    imageLoaderManager = FrescoSimpleImageManager()
+                }
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
 
         imageLoaderBanner
-                .setImageLoaderManager(ImageLoaderSimpleManager())
-                .initListResources(SimpleData.initModel())
+                .apply {
+                    imageLoaderManager = ImageLoaderSimpleManager()
+                }
+                .resource(SimpleData.initModel())
                 .switchBanner(false)
 
         picassoBanner
-                .setImageLoaderManager(PicassoSimpleImageManager())
-                .initListResources(SimpleData.initModel())
+                .apply {
+                    imageLoaderManager = PicassoSimpleImageManager()
+                }
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
 
     }

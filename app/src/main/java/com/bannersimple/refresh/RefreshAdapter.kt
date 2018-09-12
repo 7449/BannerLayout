@@ -42,22 +42,27 @@ class RefreshAdapter(private val listModels: MutableList<ListModel>?) : Recycler
                 val viewHolder = holder as BannerViewHolder
                 bannerLayout = viewHolder.bannerLayout
                 bannerLayout
-                        .initTips(true, true, true)
-                        .initListResources(bannerModels!!)
-                        .setDelayTime(1000)
-                        .switchBanner(true)
-                        .setOnBannerClickListener(object : OnBannerClickListener<SimpleBannerModel> {
-                            override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
-                                Toast.makeText(view.context, model.title, Toast.LENGTH_LONG).show()
+                        .apply {
+                            delayTime = 1000
+                            showTipsBackgroundColor = true
+                            isVisibleDots = true
+                            isVisibleTitle = true
+                            onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
+                                override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
+                                    Toast.makeText(view.context, model.title, Toast.LENGTH_LONG).show()
+                                }
                             }
-                        })
+                        }
+                        .initTips()
+                        .resource(bannerModels!!)
+                        .switchBanner(true)
 
                 viewHolder.start.setOnClickListener { viewHolder.bannerLayout.switchBanner(true) }
                 viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.switchBanner(false) }
                 viewHolder.update.setOnClickListener {
                     val update = SimpleData.update()
                     bannerModels = update
-                    bannerLayout.initListResources(update)
+                    bannerLayout.resource(update)
                 }
             }
             TYPE_ITEM -> {

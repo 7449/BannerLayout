@@ -11,9 +11,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.bannerlayout.listener.SimpleOnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
-import com.bannersimple.SimpleOnBannerChangeListener
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
 
@@ -68,10 +68,15 @@ class Issues10Activity : AppCompatActivity() {
     private fun testlnstagram() {
         val data = SimpleData.lnstagramData()
         bannerlnstagram
-                .setPageNumViewMargin(10)
+                .apply {
+                    pageNumViewBottomMargin = 10
+                    pageNumViewLeftMargin = 10
+                    pageNumViewRightMargin = 10
+                    pageNumViewTopMargin = 10
+                    delayTime = 1000
+                }
                 .initPageNumView()
-                .initListResources(data)
-                .setDelayTime(1000)
+                .resource(data)
                 .switchBanner(false)
 
 
@@ -91,28 +96,28 @@ class Issues10Activity : AppCompatActivity() {
         }
 
         bannerlnstagram
-                .addOnPageChangeListener(
-                        object : SimpleOnBannerChangeListener() {
-                            override fun onPageSelected(position: Int) {
-                                super.onPageSelected(position)
-                                linearLayout.getChildAt(position).isEnabled = true
-                                linearLayout.getChildAt(preEnablePosition).isEnabled = false
-                                preEnablePosition = position
-                                val startView = linearLayout.getChildAt(0)
-                                val endView = linearLayout.getChildAt(sizelnstagram - 1)
-                                if (position == sizelnstagram - 1) {
-                                    startView.scaleX = 0.6f
-                                    startView.scaleY = 0.6f
-                                    endView.scaleX = 1f
-                                    endView.scaleY = 1f
-                                } else if (position == 0) {
-                                    startView.scaleX = 1f
-                                    startView.scaleY = 1f
-                                    endView.scaleX = 0.6f
-                                    endView.scaleY = 0.6f
-                                }
-                            }
-                        })
+                .onBannerChangeListener = (
+                object : SimpleOnBannerChangeListener() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        linearLayout.getChildAt(position).isEnabled = true
+                        linearLayout.getChildAt(preEnablePosition).isEnabled = false
+                        preEnablePosition = position
+                        val startView = linearLayout.getChildAt(0)
+                        val endView = linearLayout.getChildAt(sizelnstagram - 1)
+                        if (position == sizelnstagram - 1) {
+                            startView.scaleX = 0.6f
+                            startView.scaleY = 0.6f
+                            endView.scaleX = 1f
+                            endView.scaleY = 1f
+                        } else if (position == 0) {
+                            startView.scaleX = 1f
+                            startView.scaleY = 1f
+                            endView.scaleX = 0.6f
+                            endView.scaleY = 0.6f
+                        }
+                    }
+                })
     }
 
 
@@ -131,13 +136,20 @@ class Issues10Activity : AppCompatActivity() {
             dotMargin = 3
         }
         bannerLayout
-                .setPageNumViewMargin(10)
-                .setDotsSite(BannerLayout.CENTER)
-                .setDotsWidthAndHeight(dotWidthAndHeight, dotWidthAndHeight)
-                .setDotsMargin(dotMargin)
+                .apply {
+                    pageNumViewBottomMargin = 10
+                    pageNumViewLeftMargin = 10
+                    pageNumViewRightMargin = 10
+                    pageNumViewTopMargin = 10
+                    dotsSite = BannerLayout.CENTER
+                    dotsWidth = dotWidthAndHeight
+                    dotsHeight = dotWidthAndHeight
+                    dotsRightMargin = dotMargin
+                    dotsLeftMargin = dotMargin
+                }
                 .initTips()
                 .initPageNumView()
-                .initListResources(SimpleData.data())
+                .resource(SimpleData.data())
                 .switchBanner(true)
         findViewById<View>(R.id.btn_alter_count)
                 .setOnClickListener { alterBannerCount() }
@@ -153,14 +165,22 @@ class Issues10Activity : AppCompatActivity() {
         val size = alterData.size
         if (size <= 1) {
             bannerLayout
-                    .initTips(false, false, false)
-                    .initListResources(alterData)
+                    .apply {
+                        showTipsBackgroundColor = false
+                        isVisibleDots = false
+                        isVisibleTitle = false
+                    }
+                    .resource(alterData)
                     .switchBanner(false)
             Toast.makeText(this, "size <=1 , stopBanner , not show tipsLayout", Toast.LENGTH_SHORT).show()
         } else {
             bannerLayout
-                    .initTips(true, true, true)
-                    .initListResources(alterData)
+                    .apply {
+                        showTipsBackgroundColor = true
+                        isVisibleDots = true
+                        isVisibleTitle = true
+                    }
+                    .resource(alterData)
                     .switchBanner(true)
             Toast.makeText(this, "size >1 , startBanner , show tipsLayout", Toast.LENGTH_SHORT).show()
         }

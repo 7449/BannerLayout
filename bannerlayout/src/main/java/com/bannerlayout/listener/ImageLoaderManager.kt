@@ -7,6 +7,6 @@ import android.widget.ImageView
  * by y on 2016/10/27
  */
 
-interface ImageLoaderManager<in T> {
+interface ImageLoaderManager<in T : BannerModelCallBack> {
     fun display(container: ViewGroup, model: T): ImageView
 }

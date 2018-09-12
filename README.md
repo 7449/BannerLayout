@@ -67,20 +67,18 @@ Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob
 If you use the built-in frame, please rely on glide
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     
 or
 
-	public class SimpleManager implements ImageLoaderManager<SimpleBannerModel> {
-	
-	    @NonNull
-	    @Override
-	    public ImageView display(@NonNull ViewGroup container, SimpleBannerModel model) {
-	        ImageView imageView = new ImageView(container.getContext());
-	        // picasso or fresco or universalimageloader
-	        return imageView;
-	    }
-	}
+    class ImageLoaderSimpleManager : ImageLoaderManager<SimpleBannerModel> {
+    
+        override fun display(container: ViewGroup, model: SimpleBannerModel): ImageView {
+            val imageView = ImageView(container.context)
+            val imageLoader = ImageLoader.getInstance()
+            imageLoader.displayImage(model.bannerUrl, imageView)
+            return imageView
+        }
+    }
 	
 
 see :[ImageManagerSimple](https://github.com/7449/BannerLayout/tree/master/app/src/main/java/com/bannersimple/imagemanager)
@@ -88,59 +86,40 @@ see :[ImageManagerSimple](https://github.com/7449/BannerLayout/tree/master/app/s
 
 #### simple:
 
-        banner
-                .initListResources(data)
-               	//if you use glide this step is not necessary
-                .setImageLoaderManager(new SimpleImageManager()) 
-                .switchBanner(true/false);
-                
+    banner.resource(data).switchBanner(true/false);
                 
 #### Vertical scrolling
 
-        banner
-                .setVertical(true)
-                
+    banner.setVertical(true)
                 
 #### PageChangeListener
 
-        banner
-                .addOnPageChangeListener(
-                        new OnBannerChangeListener() {
-                            @Override
-                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    bannerLayout.onBannerChangeListener = object : OnBannerChangeListener {
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        }
 
-                            }
+        override fun onPageSelected(position: Int) {
+        }
 
-                            @Override
-                            public void onPageSelected(int position) {
-
-                            }
-
-                            @Override
-                            public void onPageScrollStateChanged(int state) {
-
-                            }
-                        });
+        override fun onPageScrollStateChanged(state: Int) {
+        }
+    }
 
 
 #### Click the event
 
 >If you do not pass generics, the return model is the current Bean class, strong turn can be recommended to pass generics
 
-        banner
-                .setOnClickListener(
-                        new OnBannerClickListener<SimpleBannerModel>() {
-                            @Override
-                            public void onBannerClick(View view, int position, SimpleBannerModel model) {
-
-                            }
-                        });
-
+    bannerLayout.onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
+        override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
+        }
+    }
+    
 #### Tip column and small dots, title position changes
 
-	setTipsSite()               	 	The location of the tip bar in the layout，top,bottom,center Three optional 
-	setDotsSite()               		dots in the location of the prompt bar，left,center,right Three optional
-	setTitleSite()               		Title The location of the prompt bar，left,center,right Three optional
+	tipsSite               	 	The location of the tip bar in the layout，top,bottom,center Three optional 
+	dotsSite               		dots in the location of the prompt bar，left,center,right Three optional
+	titleSite               	Title The location of the prompt bar，left,center,right Three optional
 
 	xml:
 		    <com.bannerlayout.widget.BannerLayout
@@ -155,73 +134,43 @@ Animation built-in [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPage
 	
 If you want to customize the animation, please inherit ABaseTransformer or BannerTransformer ;
 	
-	setBannerTransformer(BannerLayout.ANIMATION_CUBE_IN)
+	banner.bannerTransformerType = BannerLayout.ANIMATION_CUBE_IN
 	
 	or
 	
-	setBannerTransformer(new ZoomOutSlideTransformer())
+	banner.bannerTransformer = ZoomOutSlideTransformer()
 
-	
 #### Animation collection：
 	
-	Customize the animation collection
-	
-			 Integer: 0 ~ 17
-	         List<Integer> integerList = new ArrayList<>();
-	       
-			 setBannerSystemTransformerList(transformers);
-	
-	A collection of system animations
-	
-			List<BannerTransformer> bannerTransformer = new ArrayList<>();
-			
-			etBannerSystemTransformerList(bannerTransformer);
+    List<BannerTransformer> bannerTransformer = new ArrayList<>();
+    
+    etBannerSystemTransformerList(bannerTransformer);
 			
 #### java method
 
 see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/simple/MethodTestActivity.kt)
 
-        newBannerLayout
-                .setGuide(true)
-                .setDelayTime(3000)
-                .setErrorImageView(R.mipmap.ic_launcher)
-                .setPlaceImageView(R.mipmap.ic_launcher)
-                .setDuration(3000)
-                .setViewPagerTouchMode(true)
-                .setVertical(true)
-                .setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark))
-                .setTitleTextSize(23)
-                .setTipsBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
-                .setTipsDotsSelector(R.drawable.banner)
-                .setTipsWidthAndHeight(BannerLayout.MATCH_PARENT, 300)
-                .setTipsSite(BannerLayout.TOP)
-                .setTitleMargin(60, 20)
-                .setTitleSite(BannerLayout.LEFT)
-                .setDotsWidthAndHeight(30, 30)
-                .setDotsSite(BannerLayout.RIGHT)
-                .setNormalRadius(2)
-                .setNormalColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
-                .setEnabledRadius(2)
-                .setEnabledColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
-                .setDotsMargin(60, 60)
-                .setBannerTransformer(BannerLayout.ANIMATION_ZOOMOUT)
-                .setBannerTransformer(new ZoomOutSlideTransformer())
-                .setPageNumViewRadius(1)
-                .setPageNumViewMargin(10, 10, 10, 10)
-                .setPageNumViewPadding(10, 10, 10, 10)
-                .setPageNumViewMargin(10)
-                .setPageNumViewPadding(10)
-                .setPageNumViewTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorYellow))
-                .setPageNumViewBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent))
-                .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER)
-                .setPageNumViewTextSize(22)
-                .setPageNumViewMark(" & ")
-                .initPageNumView()
-                .initTips(true, true, true)
-                .setOnBannerClickListener(this)
-                .addOnPageChangeListener(this)
-                .initListResources(SimpleData.initModel())
-                .switchBanner(true);
+    bannerLayout
+            .apply {
+                delayTime = 3000
+                errorImageView = R.mipmap.ic_launcher
+                placeImageView = R.mipmap.ic_launcher
+                bannerDuration = 3000
+                viewPagerTouchMode = true
+                isVertical = true
+                titleColor = ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark)
+                titleSize = 23F
+                tipsLayoutBackgroundColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
+                dotsSelector = R.drawable.banner
+                tipsWidth = BannerLayout.MATCH_PARENT
+                tipsHeight = 300
+                tipsSite = BannerLayout.TOP
+                ...
+            }
+            .initPageNumView()
+            .initTips()
+            .resource(SimpleData.initModel())
+            .switchBanner(true)
                 
 #### xml method
 

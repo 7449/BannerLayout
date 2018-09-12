@@ -8,38 +8,31 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import com.bannerlayout.animation.VerticalTransformer
 
 /**
  * by y on 2016/10/25
  */
 class BannerViewPager : ViewPager {
 
-    private var mViewTouchMode: Boolean = false
-    private var isVertical: Boolean = false
+    var viewTouchMode: Boolean = false
+        set(value) {
+            field = value
+            if (value && !isFakeDragging) {
+                beginFakeDrag()
+            } else if (!value && isFakeDragging) {
+                endFakeDrag()
+            }
+        }
+
+    var isVertical: Boolean = false
+
     private lateinit var scroller: FixedSpeedScroller
+
     val duration: Int get() = scroller.fixDuration
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    fun setViewTouchMode(b: Boolean) = apply {
-        if (b && !isFakeDragging) {
-            beginFakeDrag()
-        } else if (!b && isFakeDragging) {
-            endFakeDrag()
-        }
-        mViewTouchMode = b
-        return this
-    }
-
-    fun setVertical(vertical: Boolean) = apply {
-        isVertical = vertical
-        if (isVertical) {
-            setPageTransformer(true, VerticalTransformer())
-        }
-    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -64,9 +57,9 @@ class BannerViewPager : ViewPager {
      */
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         return if (isVertical) {
-            !mViewTouchMode && super.onInterceptTouchEvent(swapEvent(event))
+            !viewTouchMode && super.onInterceptTouchEvent(swapEvent(event))
         } else {
-            !mViewTouchMode && super.onInterceptTouchEvent(event)
+            !viewTouchMode && super.onInterceptTouchEvent(event)
         }
     }
 
@@ -85,7 +78,7 @@ class BannerViewPager : ViewPager {
      * This is conducive to the ListView in the ListView can be added, such as sliding control, or sliding between the two will have a conflict
      */
     override fun arrowScroll(direction: Int): Boolean {
-        return !mViewTouchMode && !(direction != View.FOCUS_LEFT && direction != View.FOCUS_RIGHT) && super.arrowScroll(direction)
+        return !viewTouchMode && !(direction != View.FOCUS_LEFT && direction != View.FOCUS_RIGHT) && super.arrowScroll(direction)
     }
 
 
@@ -98,7 +91,7 @@ class BannerViewPager : ViewPager {
             mScroller.isAccessible = true
             scroller = FixedSpeedScroller(context)
             mScroller.set(this, scroller)
-            scroller.duration = duration
+            scroller.fixDuration = duration
         } catch (e: Exception) {
             Log.i(javaClass.simpleName, e.message)
         }

@@ -4,9 +4,9 @@ package com.bannerlayout.listener
  * by y on 2017/4/11
  */
 
-interface BannerModelCallBack<out T> {
+interface BannerModelCallBack {
 
-    val bannerUrl: T
+    val bannerUrl: Any
 
     val bannerTitle: String
 }

@@ -24,11 +24,16 @@ class Issues12Activity : AppCompatActivity() {
         bannerLayout = findViewById(R.id.issues_12_banner)
 
         bannerLayout
-                .initPageNumView()
+                .apply {
+                    dotsSelector = R.drawable.banner
+                    pageNumViewBottomMargin = 12
+                    pageNumViewLeftMargin = 12
+                    pageNumViewRightMargin = 12
+                    pageNumViewTopMargin = 12
+                }
                 .initTips()
-                .setTipsDotsSelector(R.drawable.banner)
-                .setPageNumViewMargin(12, 12, 12, 12)
-                .initListResources(SimpleData.initModel())
+                .initPageNumView()
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
     }
 

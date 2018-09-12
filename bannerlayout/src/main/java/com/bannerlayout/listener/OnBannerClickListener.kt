@@ -9,6 +9,6 @@ import android.view.View
  * Banner Click event, object for the return of data
  */
 
-interface OnBannerClickListener<in T> {
+interface OnBannerClickListener<in T : BannerModelCallBack> {
     fun onBannerClick(view: View, position: Int, model: T)
 }

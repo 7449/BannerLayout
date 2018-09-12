@@ -11,15 +11,13 @@ import com.bannerlayout.listener.OnBannerImageClickListener
 /**
  * by y on 2016/10/24.
  */
-internal class BannerAdapter(private val imageList: List<BannerModelCallBack<Any>>,
-                             private val imageLoaderManage: ImageLoaderManager<Any>,
+internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
+                             private val imageLoaderManage: ImageLoaderManager<BannerModelCallBack>,
                              private val isGuide: Boolean) : PagerAdapter() {
 
-    private var imageClickListener: OnBannerImageClickListener<Any>? = null
+    var imageClickListener: OnBannerImageClickListener<BannerModelCallBack>? = null
 
-    override fun getCount(): Int {
-        return if (isGuide) imageList.size else Integer.MAX_VALUE
-    }
+    override fun getCount(): Int = if (isGuide) imageList.size else Integer.MAX_VALUE
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view === `object`
@@ -40,9 +38,5 @@ internal class BannerAdapter(private val imageList: List<BannerModelCallBack<Any
 
     private fun getPosition(position: Int): Int {
         return position % imageList.size
-    }
-
-    fun setImageClickListener(imageClickListener: OnBannerImageClickListener<Any>) {
-        this.imageClickListener = imageClickListener
     }
 }

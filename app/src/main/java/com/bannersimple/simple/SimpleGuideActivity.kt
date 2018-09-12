@@ -7,10 +7,12 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
+import com.bannerlayout.listener.OnBannerClickListener
+import com.bannerlayout.listener.SimpleOnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
 
 import com.bannersimple.R
-import com.bannersimple.SimpleOnBannerChangeListener
+import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
 
 class SimpleGuideActivity : AppCompatActivity() {
@@ -26,15 +28,24 @@ class SimpleGuideActivity : AppCompatActivity() {
         val guideButton = findViewById<AppCompatButton>(R.id.button_guide)
         guideButton.visibility = View.GONE
         guideBanner
+                .apply {
+                    isGuide = true
+                    dotsSelector = R.drawable.banner
+                    dotsSite = BannerLayout.CENTER
+                    tipsWidth = BannerLayout.MATCH_PARENT
+                    tipsHeight = 300
+                    dotsWidth = 30
+                    dotsHeight = 30
+                    onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
+                        override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
+                            Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
                 .initTips()
-                .setGuide(true)
-                .setTipsDotsSelector(R.drawable.banner)
-                .setDotsSite(BannerLayout.CENTER)
-                .setTipsWidthAndHeight(BannerLayout.MATCH_PARENT, 300)
-                .setDotsWidthAndHeight(30, 30)
-                .initListResources(SimpleData.update())
+                .resource(SimpleData.update())
 
-        guideBanner.addOnPageChangeListener(object : SimpleOnBannerChangeListener() {
+        guideBanner.onBannerChangeListener = (object : SimpleOnBannerChangeListener() {
             override fun onPageSelected(position: Int) {
                 guideButton.visibility = if (position == guideBanner.getImageList().size - 1) View.VISIBLE else View.GONE
             }

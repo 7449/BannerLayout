@@ -20,17 +20,22 @@ class BannerPageView : AppCompatTextView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    fun initPageView(pageNumViewInterface: PageNumViewInterface): FrameLayout.LayoutParams {
-        val pageParams = FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
-        pageParams.setMargins(
-                pageNumViewInterface.pageNumViewLeftMargin,
-                pageNumViewInterface.pageNumViewTopMargin,
-                pageNumViewInterface.pageNumViewRightMargin,
-                pageNumViewInterface.pageNumViewBottomMargin
-        )
-        when (pageNumViewInterface.pageNumViewSite) {
+    var viewTopMargin: Int = 0
+    var viewRightMargin: Int = 0
+    var viewBottomMargin: Int = 0
+    var viewLeftMargin: Int = 0
+    var viewPaddingTop: Int = 0
+    var viewPaddingLeft: Int = 0
+    var viewPaddingBottom: Int = 0
+    var viewPaddingRight: Int = 0
+    var viewRadius: Float = 0F
+    var viewBackgroundColor: Int = 0
+    var viewSite: Int = 0
+
+    fun initPageView(): FrameLayout.LayoutParams {
+        val pageParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        pageParams.setMargins(viewLeftMargin, viewTopMargin, viewRightMargin, viewBottomMargin)
+        when (viewSite) {
             BannerLayout.PAGE_NUM_VIEW_TOP_LEFT -> {
             }
             BannerLayout.PAGE_NUM_VIEW_TOP_RIGHT -> pageParams.gravity = Gravity.END or Gravity.TOP
@@ -41,31 +46,8 @@ class BannerPageView : AppCompatTextView {
             BannerLayout.PAGE_NUM_VIEW_TOP_CENTER -> pageParams.gravity = Gravity.TOP or Gravity.CENTER
             BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER -> pageParams.gravity = Gravity.BOTTOM or Gravity.CENTER
         }
-        setTextColor(pageNumViewInterface.pageNumViewTextColor)
-        textSize = pageNumViewInterface.pageNumViewTextSize
-        setPadding(pageNumViewInterface.pageNumViewPaddingLeft,
-                pageNumViewInterface.pageNumViewPaddingTop,
-                pageNumViewInterface.pageNumViewPaddingRight,
-                pageNumViewInterface.pageNumViewPaddingBottom)
-        setBackgroundDrawable(BannerSelectorUtils.getShape(pageNumViewInterface.pageNumViewRadius,
-                pageNumViewInterface.pageNumViewBackgroundColor))
+        setPadding(viewPaddingLeft, viewPaddingTop, viewPaddingRight, viewPaddingBottom)
+        setBackgroundDrawable(BannerSelectorUtils.getShape(viewRadius, viewBackgroundColor))
         return pageParams
     }
-
-    interface PageNumViewInterface {
-        val pageNumViewTopMargin: Int
-        val pageNumViewRightMargin: Int
-        val pageNumViewBottomMargin: Int
-        val pageNumViewLeftMargin: Int
-        val pageNumViewTextColor: Int
-        val pageNumViewTextSize: Float
-        val pageNumViewPaddingTop: Int
-        val pageNumViewPaddingLeft: Int
-        val pageNumViewPaddingBottom: Int
-        val pageNumViewPaddingRight: Int
-        val pageNumViewRadius: Float
-        val pageNumViewBackgroundColor: Int
-        val pageNumViewSite: Int
-    }
-
 }

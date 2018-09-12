@@ -1,7 +1,6 @@
 package com.bannerlayout.widget
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
@@ -26,44 +25,58 @@ class BannerTipsLayout : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    var viewTitleColor: Int = 0
+    var viewTitleSize: Float = 0F
+    var viewTitleLeftMargin: Int = 0
+    var viewTitleRightMargin: Int = 0
+    var viewTitleWidth: Int = 0
+    var viewTitleHeight: Int = 0
+    var viewTitleSite: Int = 0
 
-    /**
-     * Initialize the dots
-     */
-    fun setDots(dotsInterface: DotsInterface) {
+    var showViewTipsBackgroundColor: Boolean = false
+    var viewTipsSite: Int = 0
+    var viewTipsWidth: Int = 0
+    var viewTipsHeight: Int = 0
+    var viewTipsLayoutBackgroundColor: Int = 0
+
+    var viewDotsCount: Int = 0
+    var viewDotsHeight: Int = 0
+    var viewDotsWidth: Int = 0
+    var viewDotsLeftMargin: Int = 0
+    var viewDotsRightMargin: Int = 0
+    var viewDotsSite: Int = 0
+
+    fun initDots(bannerLayout: BannerLayout) {
         linearLayout.removeAllViews()
-        for (i in 0 until dotsInterface.dotsCount()) {
+        for (i in 0 until viewDotsCount) {
             val view = View(context)
-            view.setBackgroundDrawable(dotsInterface.dotsSelector())
+            view.setBackgroundDrawable(bannerLayout.dotsSelector())
             view.isEnabled = i == 0
-            val params = LinearLayout.LayoutParams(dotsInterface.dotsWidth(), dotsInterface.dotsHeight())
+            val params = LinearLayout.LayoutParams(viewDotsWidth, viewDotsHeight)
             view.layoutParams = params
-            params.leftMargin = dotsInterface.dotsLeftMargin()
-            params.rightMargin = dotsInterface.dotsRightMargin()
+            params.leftMargin = viewDotsLeftMargin
+            params.rightMargin = viewDotsRightMargin
             linearLayout.addView(view)
         }
         val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_VERTICAL)
-        params.addRule(dotsInterface.dotsSite())
+        params.addRule(viewDotsSite)
         addView(linearLayout, params)
     }
 
-    fun setBannerTips(tipsInterface: TipsInterface): FrameLayout.LayoutParams {
-        val tipsParams = FrameLayout.LayoutParams(tipsInterface.tipsWidth, tipsInterface.tipsHeight)
-        when (tipsInterface.tipsSite) {
+    fun initTips(): FrameLayout.LayoutParams {
+        val tipsParams = FrameLayout.LayoutParams(viewTipsWidth, viewTipsHeight)
+        when (viewTipsSite) {
             BannerLayout.BOTTOM -> tipsParams.gravity = Gravity.BOTTOM
             BannerLayout.TOP -> tipsParams.gravity = Gravity.TOP
             BannerLayout.CENTER -> tipsParams.gravity = Gravity.CENTER
         }
-        if (tipsInterface.showBackgroundColor) {
-            setBackgroundColor(tipsInterface.tipsLayoutBackgroundColor)
+        if (showViewTipsBackgroundColor) {
+            setBackgroundColor(viewTipsLayoutBackgroundColor)
         }
         return tipsParams
     }
 
-    /**
-     * Update the dot position
-     */
     fun changeDotsPosition(position: Int, newPosition: Int) {
         val childAt = linearLayout.getChildAt(position)
         val newChildAt = linearLayout.getChildAt(newPosition)
@@ -75,21 +88,17 @@ class BannerTipsLayout : RelativeLayout {
         }
     }
 
-
-    /**
-     * Update title, the default on the left
-     */
-    fun setTitle(titleInterface: TitleInterface) {
+    fun initTitle() {
         textView.gravity = Gravity.CENTER_VERTICAL
-        textView.setTextColor(titleInterface.titleColor)
-        textView.textSize = titleInterface.titleSize
+        textView.setTextColor(viewTitleColor)
+        textView.textSize = viewTitleSize
         textView.setSingleLine(true)
         textView.ellipsize = TextUtils.TruncateAt.END
-        val params = RelativeLayout.LayoutParams(titleInterface.titleWidth, titleInterface.titleHeight)
+        val params = RelativeLayout.LayoutParams(viewTitleWidth, viewTitleHeight)
         params.addRule(RelativeLayout.CENTER_VERTICAL)
-        params.leftMargin = titleInterface.titleLeftMargin
-        params.rightMargin = titleInterface.titleRightMargin
-        params.addRule(titleInterface.titleSite)
+        params.leftMargin = viewTitleLeftMargin
+        params.rightMargin = viewTitleRightMargin
+        params.addRule(viewTitleSite)
         addView(textView, params)
     }
 
@@ -102,39 +111,5 @@ class BannerTipsLayout : RelativeLayout {
 
     private fun clearText() {
         textView.text = ""
-    }
-
-    interface TipsInterface {
-        val showBackgroundColor: Boolean
-        val tipsSite: Int
-        val tipsWidth: Int
-        val tipsHeight: Int
-        val tipsLayoutBackgroundColor: Int
-    }
-
-    interface TitleInterface {
-        val titleColor: Int
-        val titleSize: Float
-        val titleLeftMargin: Int
-        val titleRightMargin: Int
-        val titleWidth: Int
-        val titleHeight: Int
-        val titleSite: Int
-    }
-
-    interface DotsInterface {
-        fun dotsCount(): Int
-
-        fun dotsSelector(): Drawable
-
-        fun dotsHeight(): Int
-
-        fun dotsWidth(): Int
-
-        fun dotsLeftMargin(): Int
-
-        fun dotsRightMargin(): Int
-
-        fun dotsSite(): Int
     }
 }

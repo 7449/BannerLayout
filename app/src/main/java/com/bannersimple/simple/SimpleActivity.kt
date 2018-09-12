@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
-
 import com.bannerlayout.listener.OnBannerChangeListener
 import com.bannerlayout.listener.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
@@ -43,45 +42,58 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
         verticalBanner = findViewById(R.id.vertical_banner)
 
         defaultBanner
+                .apply {
+                    delayTime = 2000
+                    dotsSelector = R.drawable.banner
+                    pageNumViewBottomMargin = 12
+                    pageNumViewLeftMargin = 12
+                    pageNumViewRightMargin = 12
+                    pageNumViewTopMargin = 12
+                    imageLoaderManager = GlideAppSimpleImageManager()
+                    onBannerClickListener = this@SimpleActivity
+                }
                 .initPageNumView()
-                .setDuration(2000)
-                .setImageLoaderManager(GlideAppSimpleImageManager())
-                .setTipsDotsSelector(R.drawable.banner)
-                .setPageNumViewMargin(12, 12, 12, 12)
-                .initListResources(SimpleData.initModel())
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
-                .setOnBannerClickListener(this)
 
         customizeBanner
+                .apply {
+                    pageNumViewBottomMargin = 12
+                    pageNumViewLeftMargin = 12
+                    pageNumViewRightMargin = 12
+                    pageNumViewTopMargin = 12
+                    pageNumViewMark = " & "
+                    pageNumViewSite = BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT
+                    pageNumViewTextColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
+                    dotsSite = BannerLayout.CENTER
+                    onBannerClickListener = this@SimpleActivity
+                    onBannerChangeListener = object : OnBannerChangeListener {
+                        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+                        }
+
+                        override fun onPageSelected(position: Int) {
+
+                        }
+
+                        override fun onPageScrollStateChanged(state: Int) {
+
+                        }
+                    }
+                }
                 .initPageNumView()
-                .setPageNumViewMargin(12, 12, 12, 12)
-                .setPageNumViewMark(" & ")
-                .setPageNumViewSite(BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT)
-                .setDotsSite(BannerLayout.CENTER)
-                .setPageNumViewTextColor(ContextCompat.getColor(applicationContext, R.color.colorAccent))
-                .initListResources(ArrayUtils.initArrayResources(image, title))
+                .resource(ArrayUtils.initArrayResources(image, title))
                 .switchBanner(true)
-                .setOnBannerClickListener(this)
-                .addOnPageChangeListener(
-                        object : OnBannerChangeListener {
-                            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-                            }
-
-                            override fun onPageSelected(position: Int) {
-
-                            }
-
-                            override fun onPageScrollStateChanged(state: Int) {
-
-                            }
-                        })
 
         verticalBanner
-                .setVertical(true)
-                .initTips(true, true, true)
-                .setOnBannerClickListener(this)
-                .initListResources(SimpleData.initModel())
+                .apply {
+                    isVertical = true
+                    showTipsBackgroundColor = true
+                    isVisibleDots = true
+                    isVisibleTitle = true
+                    onBannerClickListener = this@SimpleActivity
+                }
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
 
     }

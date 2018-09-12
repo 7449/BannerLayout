@@ -29,27 +29,28 @@ class TransformerActivity : AppCompatActivity() {
         positionTv = findViewById(R.id.banner_position)
         positionTv.text = "select position:" + 0
         transformerBanner
-                .setBannerTransformer(BannerLayout.ANIMATION_ACCORDION)
-                .setDelayTime(300)
-                .initListResources(SimpleData.initModel())
+                .apply {
+                    delayTime = 300
+                    bannerTransformerType = BannerLayout.ANIMATION_ACCORDION
+                    onBannerChangeListener = object : OnBannerChangeListener {
+                        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+                        override fun onPageSelected(position: Int) {
+                            positionTv.text = "select position:$position"
+                        }
+
+                        override fun onPageScrollStateChanged(state: Int) {
+
+                        }
+                    }
+                }
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
-                .addOnPageChangeListener(
-                        object : OnBannerChangeListener {
-                            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-                            override fun onPageSelected(position: Int) {
-                                positionTv.text = "select position:$position"
-                            }
-
-                            override fun onPageScrollStateChanged(state: Int) {
-
-                            }
-                        })
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                transformerBanner.setBannerTransformer(position)
+                transformerBanner.bannerTransformerType = position
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
