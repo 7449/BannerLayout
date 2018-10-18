@@ -2,10 +2,10 @@ package com.bannersimple.simple
 
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bannerlayout.listener.OnBannerChangeListener
 import com.bannerlayout.listener.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout

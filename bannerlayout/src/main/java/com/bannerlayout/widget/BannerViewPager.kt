@@ -3,11 +3,11 @@ package com.bannerlayout.widget
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.viewpager.widget.ViewPager
 
 /**
  * by y on 2016/10/25

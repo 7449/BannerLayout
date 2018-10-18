@@ -1,8 +1,6 @@
 package com.bannersimple.simple;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.bannerlayout.listener.BannerModelCallBack;
 import com.bannerlayout.widget.BannerLayout;
@@ -12,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * by y.

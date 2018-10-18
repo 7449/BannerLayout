@@ -1,8 +1,8 @@
 package com.bannerlayout.widget
 
-import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 import com.bannerlayout.listener.BannerModelCallBack
 import com.bannerlayout.listener.ImageLoaderManager
 import com.bannerlayout.listener.OnBannerImageClickListener

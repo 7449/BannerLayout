@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.bannersimple"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -21,12 +21,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation project(':bannerlayout')
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.ydevelop:rxNetWork:0.1.8'
+    implementation 'com.ydevelop:rxNetWork:0.1.9'
     implementation 'com.facebook.fresco:fresco:1.10.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

@@ -1,11 +1,11 @@
 package com.bannersimple.simple
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleData
 import com.bannersimple.refresh.Api
@@ -38,10 +38,10 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     }
 
     override fun onRefresh() {
-        RxNetWork.getInstance().cancel(javaClass.simpleName)
+        RxNetWork.instance.cancel(javaClass.simpleName)
         RxNetWork
-                .getInstance()
-                .setBaseUrl(Api.ZL_BASE_API)
+                .instance
+                .apply { baseUrl = Api.ZL_BASE_API }
                 .getApi(javaClass.simpleName, RxNetWork.observable(Api.ZLService::class.java).getList("daily", 20, 0), this)
     }
 
@@ -68,7 +68,7 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onDestroy() {
         super.onDestroy()
-        RxNetWork.getInstance().cancel(javaClass.simpleName)
+        RxNetWork.instance.cancel(javaClass.simpleName)
     }
 
     override fun run() {

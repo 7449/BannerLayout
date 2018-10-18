@@ -1,12 +1,11 @@
 package com.bannerlayout.widget
 
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
-
+import androidx.appcompat.widget.AppCompatTextView
 import com.bannerlayout.util.BannerSelectorUtils
 
 /**

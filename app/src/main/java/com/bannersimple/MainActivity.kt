@@ -2,8 +2,8 @@ package com.bannersimple
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bannersimple.simple.*
 import com.bannersimple.simple.issues.Issues10Activity
 import com.bannersimple.simple.issues.Issues12Activity

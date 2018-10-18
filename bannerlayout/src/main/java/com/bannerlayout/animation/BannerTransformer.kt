@@ -1,6 +1,6 @@
 package com.bannerlayout.animation
 
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 
 /**
  * by y on 2016/11/11

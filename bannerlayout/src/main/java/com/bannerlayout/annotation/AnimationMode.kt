@@ -1,6 +1,6 @@
 package com.bannerlayout.annotation
 
-import android.support.annotation.IntDef
+import androidx.annotation.IntDef
 import com.bannerlayout.widget.BannerLayout
 
 /**

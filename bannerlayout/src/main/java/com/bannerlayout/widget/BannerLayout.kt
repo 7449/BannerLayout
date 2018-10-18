@@ -3,14 +3,14 @@ package com.bannerlayout.widget
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Message
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import com.bannerlayout.R
 import com.bannerlayout.animation.BannerTransformer
 import com.bannerlayout.animation.VerticalTransformer

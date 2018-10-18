@@ -1,8 +1,8 @@
 package com.bannersimple.simple
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bannerlayout.listener.OnBannerChangeListener
 import com.bannerlayout.listener.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
