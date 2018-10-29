@@ -6,7 +6,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
-import com.bannerlayout.listener.OnBannerChangeListener
+import com.bannerlayout.OnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleData

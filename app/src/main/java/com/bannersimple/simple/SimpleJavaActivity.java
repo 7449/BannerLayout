@@ -2,7 +2,7 @@ package com.bannersimple.simple;
 
 import android.os.Bundle;
 
-import com.bannerlayout.listener.BannerModelCallBack;
+import com.bannerlayout.BannerModelCallBack;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 

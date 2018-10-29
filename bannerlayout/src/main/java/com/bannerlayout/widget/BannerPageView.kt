@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatTextView
-import com.bannerlayout.util.BannerSelectorUtils
+import com.bannerlayout.getShape
 
 /**
  * by y on 2017/1/6
@@ -46,7 +46,7 @@ class BannerPageView : AppCompatTextView {
             BannerLayout.PAGE_NUM_VIEW_BOTTOM_CENTER -> pageParams.gravity = Gravity.BOTTOM or Gravity.CENTER
         }
         setPadding(viewPaddingLeft, viewPaddingTop, viewPaddingRight, viewPaddingBottom)
-        setBackgroundDrawable(BannerSelectorUtils.getShape(viewRadius, viewBackgroundColor))
+        setBackgroundDrawable(getShape(viewRadius, viewBackgroundColor))
         return pageParams
     }
 }

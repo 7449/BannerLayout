@@ -2,8 +2,8 @@ package com.bannersimple.imagemanager
 
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bannerlayout.ImageLoaderManager
 
-import com.bannerlayout.listener.ImageLoaderManager
 import com.bannersimple.bean.SimpleBannerModel
 import com.nostra13.universalimageloader.core.ImageLoader
 

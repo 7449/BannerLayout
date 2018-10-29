@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.bannerlayout.listener.OnBannerChangeListener
-import com.bannerlayout.listener.OnBannerClickListener
+import com.bannerlayout.OnBannerChangeListener
+import com.bannerlayout.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel

@@ -3,8 +3,8 @@ package com.bannersimple.simple
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.bannerlayout.listener.OnBannerChangeListener
-import com.bannerlayout.listener.OnBannerClickListener
+import com.bannerlayout.OnBannerChangeListener
+import com.bannerlayout.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel

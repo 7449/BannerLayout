@@ -11,13 +11,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import com.bannerlayout.R
-import com.bannerlayout.animation.BannerTransformer
-import com.bannerlayout.animation.VerticalTransformer
-import com.bannerlayout.listener.*
-import com.bannerlayout.util.BannerHandlerUtils
-import com.bannerlayout.util.BannerSelectorUtils
-import com.bannerlayout.util.TransformerUtils
+import com.bannerlayout.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -55,7 +49,7 @@ class BannerLayout : FrameLayout, ViewPagerCurrent, ViewPager.OnPageChangeListen
     var bannerTransformerType = 0
         set(value) {
             field = value
-            bannerTransformer = TransformerUtils.getTransformer(value)
+            bannerTransformer = getTransformer(value)
         }
 
     var enabledRadius: Float = 0F
@@ -319,14 +313,14 @@ class BannerLayout : FrameLayout, ViewPagerCurrent, ViewPager.OnPageChangeListen
 
     fun dotsSelector(): Drawable {
         return if (dotsSelector == BannerDefaults.DOTS_SELECTOR)
-            BannerSelectorUtils.getDrawableSelector(
+            getDrawableSelector(
                     enabledRadius,
                     enabledColor,
                     normalRadius,
                     normalColor)
         else
             ContextCompat.getDrawable(context, dotsSelector)
-                    ?: BannerSelectorUtils.getDrawableSelector(
+                    ?: getDrawableSelector(
                             enabledRadius,
                             enabledColor,
                             normalRadius,

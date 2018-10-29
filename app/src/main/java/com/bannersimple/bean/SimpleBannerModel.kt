@@ -1,6 +1,7 @@
 package com.bannersimple.bean
 
-import com.bannerlayout.listener.BannerModelCallBack
+import com.bannerlayout.BannerModelCallBack
+
 
 /**
  * by y on 2016/10/24
