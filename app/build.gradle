@@ -16,9 +16,6 @@ android {
     }
 }
 
-
-
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.recyclerview:recyclerview:1.0.0"
