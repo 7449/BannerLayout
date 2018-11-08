@@ -38,14 +38,14 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    api 'com.ydevelop:bannerlayout:1.1.3'
+    api 'com.ydevelop:bannerlayout:1.1.4'
     
 >maven
 
 	<dependency>
 	  <groupId>com.ydevelop</groupId>
 	  <artifactId>bannerlayout</artifactId>
-	  <version>1.1.3</version>
+	  <version>1.1.4</version>
 	  <type>pom</type>
 	</dependency>
 	
