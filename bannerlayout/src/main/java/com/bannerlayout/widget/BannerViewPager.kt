@@ -1,12 +1,12 @@
 package com.bannerlayout.widget
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Scroller
 import androidx.viewpager.widget.ViewPager
 
 /**
@@ -52,39 +52,21 @@ class BannerViewPager : ViewPager {
         }
     }
 
-    /**
-     * When mViewTouchMode is true, ViewPager does not intercept the click event, and the click event will be handled by the childView
-     */
-    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
-        return if (isVertical) {
-            !viewTouchMode && super.onInterceptTouchEvent(swapEvent(event))
-        } else {
-            !viewTouchMode && super.onInterceptTouchEvent(event)
-        }
+    override fun onInterceptTouchEvent(event: MotionEvent): Boolean = if (isVertical) {
+        !viewTouchMode && super.onInterceptTouchEvent(swapEvent(event))
+    } else {
+        !viewTouchMode && super.onInterceptTouchEvent(event)
     }
 
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        return if (isVertical) {
-            super.onTouchEvent(swapEvent(ev))
-        } else {
-            super.onTouchEvent(ev)
-        }
+    override fun onTouchEvent(ev: MotionEvent): Boolean = if (isVertical) {
+        super.onTouchEvent(swapEvent(ev))
+    } else {
+        super.onTouchEvent(ev)
     }
 
-    /**
-     * In the mViewTouchMode true or sliding direction is not about time, ViewPager will give up control of click events,
-     * This is conducive to the ListView in the ListView can be added, such as sliding control, or sliding between the two will have a conflict
-     */
-    override fun arrowScroll(direction: Int): Boolean {
-        return !viewTouchMode && !(direction != View.FOCUS_LEFT && direction != View.FOCUS_RIGHT) && super.arrowScroll(direction)
-    }
+    override fun arrowScroll(direction: Int): Boolean = !viewTouchMode && !(direction != View.FOCUS_LEFT && direction != View.FOCUS_RIGHT) && super.arrowScroll(direction)
 
 
-    /**
-     * Set the switching speed
-     */
     fun setDuration(duration: Int) = apply {
         try {
             val mScroller = ViewPager::class.java.getDeclaredField("mScroller")
@@ -105,5 +87,14 @@ class BannerViewPager : ViewPager {
         val swappedY = event.x / width * height
         event.setLocation(swappedX, swappedY)
         return event
+    }
+}
+
+class FixedSpeedScroller(context: Context) : Scroller(context) {
+
+    var fixDuration: Int = 0
+
+    override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
+        super.startScroll(startX, startY, dx, dy, fixDuration)
     }
 }

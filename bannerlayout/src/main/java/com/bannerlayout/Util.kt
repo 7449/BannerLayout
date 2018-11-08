@@ -25,7 +25,7 @@ fun getTransformer(@AnimationMode type: Int): BannerTransformer {
         BannerLayout.ANIMATION_ZOOMIN -> return ZoomInTransformer()
         BannerLayout.ANIMATION_ZOOMOUTPAGE -> return ZoomOutPageTransformer()
         BannerLayout.ANIMATION_ZOOMOUTSLIDE -> return ZoomOutSlideTransformer()
-        BannerLayout.ANIMATION_ZOOMOUT -> return ZoomOutTranformer()
+        BannerLayout.ANIMATION_ZOOMOUT -> return ZoomOutTransformer()
         BannerLayout.ANIMATION_DRAWER -> return DrawerTransformer()
         else -> return AccordionTransformer()
     }

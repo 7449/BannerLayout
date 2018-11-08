@@ -2,7 +2,6 @@ package com.bannerlayout.widget
 
 import android.content.Context
 import android.text.TextUtils
-import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +13,10 @@ import android.widget.TextView
 /**
  * by y on 2016/10/25
  */
-class BannerTipsLayout : RelativeLayout {
+class BannerTipsLayout(context: Context) : RelativeLayout(context) {
 
     private var textView: TextView = TextView(context)
     private var linearLayout: LinearLayout = LinearLayout(context)
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     var viewTitleColor: Int = 0
     var viewTitleSize: Float = 0F

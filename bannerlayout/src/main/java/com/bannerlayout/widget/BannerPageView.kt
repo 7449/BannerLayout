@@ -1,7 +1,6 @@
 package com.bannerlayout.widget
 
 import android.content.Context
-import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -11,13 +10,7 @@ import com.bannerlayout.getShape
 /**
  * by y on 2017/1/6
  */
-class BannerPageView : AppCompatTextView {
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+class BannerPageView(context: Context) : AppCompatTextView(context) {
 
     var viewTopMargin: Int = 0
     var viewRightMargin: Int = 0

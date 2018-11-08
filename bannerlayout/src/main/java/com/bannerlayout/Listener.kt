@@ -29,6 +29,6 @@ interface OnBannerClickListener<in T : BannerModelCallBack> {
     fun onBannerClick(view: View, position: Int, model: T)
 }
 
-interface OnBannerImageClickListener<T : BannerModelCallBack> {
+interface OnBannerImageClickListener<in T : BannerModelCallBack> {
     fun onBannerClick(view: View, position: Int, model: T)
 }

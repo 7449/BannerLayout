@@ -351,7 +351,7 @@ class ZoomOutSlideTransformer : ABaseTransformer() {
     }
 }
 
-class ZoomOutTranformer : ABaseTransformer() {
+class ZoomOutTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
         val scale = 1f + Math.abs(position)
         page.scaleX = scale

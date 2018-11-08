@@ -19,9 +19,7 @@ internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
 
     override fun getCount(): Int = if (isGuide) imageList.size else Integer.MAX_VALUE
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view === `object`
-    }
+    override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
@@ -36,7 +34,5 @@ internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
         return img
     }
 
-    private fun getPosition(position: Int): Int {
-        return position % imageList.size
-    }
+    private fun getPosition(position: Int): Int = position % imageList.size
 }
