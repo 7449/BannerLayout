@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.bannerlayout.OnBannerClickListener
 import com.bannerlayout.SimpleOnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
+import com.bannerlayout.widget.BANNER_TIPS_CENTER
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
@@ -30,7 +31,7 @@ class SimpleGuideActivity : AppCompatActivity() {
                 .apply {
                     isGuide = true
                     dotsSelector = R.drawable.banner
-                    dotsSite = BannerLayout.CENTER
+                    dotsSite = BANNER_TIPS_CENTER
                     tipsWidth = BannerLayout.MATCH_PARENT
                     tipsHeight = 300
                     dotsWidth = 30
@@ -46,7 +47,7 @@ class SimpleGuideActivity : AppCompatActivity() {
 
         guideBanner.onBannerChangeListener = (object : SimpleOnBannerChangeListener() {
             override fun onPageSelected(position: Int) {
-                guideButton.visibility = if (position == guideBanner.getImageList().size - 1) View.VISIBLE else View.GONE
+                guideButton.visibility = if (position == guideBanner.imageList().size - 1) View.VISIBLE else View.GONE
             }
         })
 

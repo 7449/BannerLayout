@@ -41,7 +41,6 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         RxNetWork.instance.cancel(javaClass.simpleName)
         RxNetWork
                 .instance
-                .apply { baseUrl = Api.ZL_BASE_API }
                 .getApi(javaClass.simpleName, RxNetWork.observable(Api.ZLService::class.java).getList("daily", 20, 0), this)
     }
 

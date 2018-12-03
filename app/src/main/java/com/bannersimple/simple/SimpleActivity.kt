@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import com.bannerlayout.OnBannerChangeListener
 import com.bannerlayout.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
+import com.bannerlayout.widget.BANNER_TIPS_CENTER
+import com.bannerlayout.widget.PAGE_NUM_VIEW_BOTTOM_RIGHT
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
@@ -63,9 +65,9 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     pageNumViewRightMargin = 12
                     pageNumViewTopMargin = 12
                     pageNumViewMark = " & "
-                    pageNumViewSite = BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT
+                    pageNumViewSite = PAGE_NUM_VIEW_BOTTOM_RIGHT
                     pageNumViewTextColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
-                    dotsSite = BannerLayout.CENTER
+                    dotsSite = BANNER_TIPS_CENTER
                     onBannerClickListener = this@SimpleActivity
                     onBannerChangeListener = object : OnBannerChangeListener {
                         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -89,8 +91,8 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                 .apply {
                     isVertical = true
                     showTipsBackgroundColor = true
-                    isVisibleDots = true
-                    isVisibleTitle = true
+                    visibleDots = true
+                    visibleTitle = true
                     onBannerClickListener = this@SimpleActivity
                 }
                 .resource(SimpleData.initModel())

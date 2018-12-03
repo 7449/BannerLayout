@@ -15,7 +15,7 @@ class SimpleBannerModel : BannerModelCallBack {
         get() = image.toString()
 
     override val bannerTitle: String
-        get() = title.toString()
+        get() = title ?: ""
 
     constructor(image: Any) {
         this.image = image

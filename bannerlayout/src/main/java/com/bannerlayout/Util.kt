@@ -6,27 +6,27 @@ import android.os.Handler
 import android.os.Message
 import com.bannerlayout.widget.BannerLayout
 
-fun getTransformer(@AnimationMode type: Int): BannerTransformer {
+fun getTransformer(type: Int): BannerTransformer {
     when (type) {
-        BannerLayout.ANIMATION_ACCORDION -> return AccordionTransformer()
-        BannerLayout.ANIMATION_BACKGROUND -> return BackgroundToForegroundTransformer()
-        BannerLayout.ANIMATION_CUBE_IN -> return CubeInTransformer()
-        BannerLayout.ANIMATION_CUBE_OUT -> return CubeOutTransformer()
-        BannerLayout.ANIMATION_DEFAULT -> return DefaultTransformer()
-        BannerLayout.ANIMATION_DEPTH_PAGE -> return DepthPageTransformer()
-        BannerLayout.ANIMATION_FLIPHORIZONTAL -> return FlipHorizontalTransformer()
-        BannerLayout.ANIMATION_FLIPVERTICAL -> return FlipVerticalTransformer()
-        BannerLayout.ANIMATION_FOREGROUND -> return ForegroundToBackgroundTransformer()
-        BannerLayout.ANIMATION_ROTATEDOWN -> return RotateDownTransformer()
-        BannerLayout.ANIMATION_ROTATEUP -> return RotateUpTransformer()
-        BannerLayout.ANIMATION_SCALEINOUT -> return ScaleInOutTransformer()
-        BannerLayout.ANIMATION_STACK -> return StackTransformer()
-        BannerLayout.ANIMATION_TABLET -> return TabletTransformer()
-        BannerLayout.ANIMATION_ZOOMIN -> return ZoomInTransformer()
-        BannerLayout.ANIMATION_ZOOMOUTPAGE -> return ZoomOutPageTransformer()
-        BannerLayout.ANIMATION_ZOOMOUTSLIDE -> return ZoomOutSlideTransformer()
-        BannerLayout.ANIMATION_ZOOMOUT -> return ZoomOutTransformer()
-        BannerLayout.ANIMATION_DRAWER -> return DrawerTransformer()
+        ANIMATION_ACCORDION -> return AccordionTransformer()
+        ANIMATION_BACKGROUND -> return BackgroundToForegroundTransformer()
+        ANIMATION_CUBE_IN -> return CubeInTransformer()
+        ANIMATION_CUBE_OUT -> return CubeOutTransformer()
+        ANIMATION_DEFAULT -> return DefaultTransformer()
+        ANIMATION_DEPTH_PAGE -> return DepthPageTransformer()
+        ANIMATION_FLIPHORIZONTAL -> return FlipHorizontalTransformer()
+        ANIMATION_FLIPVERTICAL -> return FlipVerticalTransformer()
+        ANIMATION_FOREGROUND -> return ForegroundToBackgroundTransformer()
+        ANIMATION_ROTATEDOWN -> return RotateDownTransformer()
+        ANIMATION_ROTATEUP -> return RotateUpTransformer()
+        ANIMATION_SCALEINOUT -> return ScaleInOutTransformer()
+        ANIMATION_STACK -> return StackTransformer()
+        ANIMATION_TABLET -> return TabletTransformer()
+        ANIMATION_ZOOMIN -> return ZoomInTransformer()
+        ANIMATION_ZOOMOUTPAGE -> return ZoomOutPageTransformer()
+        ANIMATION_ZOOMOUTSLIDE -> return ZoomOutSlideTransformer()
+        ANIMATION_ZOOMOUT -> return ZoomOutTransformer()
+        ANIMATION_DRAWER -> return DrawerTransformer()
         else -> return AccordionTransformer()
     }
 }
@@ -48,11 +48,7 @@ fun getShape(radius: Float, color: Int): GradientDrawable {
     return gd
 }
 
-interface ViewPagerCurrent {
-    fun setCurrentItem(page: Int)
-}
-
-class BannerHandlerUtils(private val mCurrent: ViewPagerCurrent) : Handler() {
+class BannerHandlerUtils(private val mCurrent: BannerLayout) : Handler() {
 
     var status: Int = 0
         private set
@@ -71,7 +67,7 @@ class BannerHandlerUtils(private val mCurrent: ViewPagerCurrent) : Handler() {
         val what = msg.what
         when (what) {
             MSG_UPDATE -> {
-                mCurrent.setCurrentItem(++handlerPage)
+                mCurrent.currentItem(++handlerPage)
                 sendEmptyMessageDelayed(MSG_UPDATE, handlerDelayTime)
             }
             MSG_PAGE -> handlerPage = msg.arg1

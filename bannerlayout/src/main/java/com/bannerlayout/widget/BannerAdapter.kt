@@ -5,19 +5,18 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.bannerlayout.BannerModelCallBack
 import com.bannerlayout.ImageLoaderManager
-import com.bannerlayout.OnBannerImageClickListener
+import com.bannerlayout.OnBannerClickListener
 
 
 /**
  * by y on 2016/10/24.
  */
-internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
-                             private val imageLoaderManage: ImageLoaderManager<BannerModelCallBack>,
-                             private val isGuide: Boolean) : PagerAdapter() {
+class BannerAdapter(private val imageList: List<BannerModelCallBack>,
+                    private val loaderManager: ImageLoaderManager<BannerModelCallBack>,
+                    private val listener: OnBannerClickListener<BannerModelCallBack>?,
+                    private val guide: Boolean) : PagerAdapter() {
 
-    var imageClickListener: OnBannerImageClickListener<BannerModelCallBack>? = null
-
-    override fun getCount(): Int = if (isGuide) imageList.size else Integer.MAX_VALUE
+    override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
 
@@ -26,10 +25,8 @@ internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val img = imageLoaderManage.display(container, imageList[getPosition(position)])
-        img.setOnClickListener { v ->
-            imageClickListener?.onBannerClick(v, getPosition(position), imageList[getPosition(position)])
-        }
+        val img = loaderManager.display(container, imageList[getPosition(position)])
+        img.setOnClickListener { v -> listener?.onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
         container.addView(img)
         return img
     }

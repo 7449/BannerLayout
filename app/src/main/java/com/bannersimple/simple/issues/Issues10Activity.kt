@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bannerlayout.SimpleOnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
+import com.bannerlayout.widget.BANNER_TIPS_CENTER
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
@@ -141,7 +142,7 @@ class Issues10Activity : AppCompatActivity() {
                     pageNumViewLeftMargin = 10
                     pageNumViewRightMargin = 10
                     pageNumViewTopMargin = 10
-                    dotsSite = BannerLayout.CENTER
+                    dotsSite = BANNER_TIPS_CENTER
                     dotsWidth = dotWidthAndHeight
                     dotsHeight = dotWidthAndHeight
                     dotsRightMargin = dotMargin
@@ -167,8 +168,8 @@ class Issues10Activity : AppCompatActivity() {
             bannerLayout
                     .apply {
                         showTipsBackgroundColor = false
-                        isVisibleDots = false
-                        isVisibleTitle = false
+                        visibleDots = false
+                        visibleTitle = false
                     }
                     .resource(alterData)
                     .switchBanner(false)
@@ -177,8 +178,8 @@ class Issues10Activity : AppCompatActivity() {
             bannerLayout
                     .apply {
                         showTipsBackgroundColor = true
-                        isVisibleDots = true
-                        isVisibleTitle = true
+                        visibleDots = true
+                        visibleTitle = true
                     }
                     .resource(alterData)
                     .switchBanner(true)

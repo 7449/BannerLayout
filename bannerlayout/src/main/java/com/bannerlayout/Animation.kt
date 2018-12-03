@@ -6,6 +6,26 @@ import android.graphics.Matrix
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 
+const val ANIMATION_ACCORDION = 0
+const val ANIMATION_BACKGROUND = 1
+const val ANIMATION_CUBE_IN = 2
+const val ANIMATION_CUBE_OUT = 3
+const val ANIMATION_DEFAULT = 4
+const val ANIMATION_DEPTH_PAGE = 5
+const val ANIMATION_FLIPHORIZONTAL = 6
+const val ANIMATION_FLIPVERTICAL = 7
+const val ANIMATION_FOREGROUND = 8
+const val ANIMATION_ROTATEDOWN = 9
+const val ANIMATION_ROTATEUP = 10
+const val ANIMATION_STACK = 11
+const val ANIMATION_SCALEINOUT = 12
+const val ANIMATION_TABLET = 13
+const val ANIMATION_ZOOMIN = 14
+const val ANIMATION_ZOOMOUTPAGE = 15
+const val ANIMATION_ZOOMOUTSLIDE = 16
+const val ANIMATION_ZOOMOUT = 17
+const val ANIMATION_DRAWER = 18
+
 abstract class BannerTransformer : ViewPager.PageTransformer
 
 abstract class ABaseTransformer : BannerTransformer() {

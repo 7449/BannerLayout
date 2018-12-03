@@ -2,15 +2,14 @@ package com.bannerlayout
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 
 interface BannerModelCallBack {
     val bannerUrl: Any
-    val bannerTitle: String
+    val bannerTitle: String?
 }
 
-interface ImageLoaderManager<in T : BannerModelCallBack> {
-    fun display(container: ViewGroup, model: T): ImageView
+interface ImageLoaderManager<T : BannerModelCallBack> {
+    fun display(container: ViewGroup, model: T): View
 }
 
 interface OnBannerChangeListener {
@@ -25,10 +24,6 @@ open class SimpleOnBannerChangeListener : OnBannerChangeListener {
     override fun onPageScrollStateChanged(state: Int) {}
 }
 
-interface OnBannerClickListener<in T : BannerModelCallBack> {
-    fun onBannerClick(view: View, position: Int, model: T)
-}
-
-interface OnBannerImageClickListener<in T : BannerModelCallBack> {
+interface OnBannerClickListener<T : BannerModelCallBack> {
     fun onBannerClick(view: View, position: Int, model: T)
 }

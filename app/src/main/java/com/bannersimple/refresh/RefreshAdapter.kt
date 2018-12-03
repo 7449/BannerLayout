@@ -45,8 +45,8 @@ class RefreshAdapter(private val listModels: MutableList<ListModel>?) : Recycler
                         .apply {
                             delayTime = 1000
                             showTipsBackgroundColor = true
-                            isVisibleDots = true
-                            isVisibleTitle = true
+                            visibleDots = true
+                            visibleTitle = true
                             onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
                                 override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
                                     Toast.makeText(view.context, model.title, Toast.LENGTH_LONG).show()
