@@ -72,7 +72,7 @@ or
 
     class ImageLoaderSimpleManager : ImageLoaderManager<SimpleBannerModel> {
     
-        override fun display(container: ViewGroup, model: SimpleBannerModel): ImageView {
+        override fun display(container: ViewGroup, model: SimpleBannerModel): View {
             val imageView = ImageView(container.context)
             val imageLoader = ImageLoader.getInstance()
             imageLoader.displayImage(model.bannerUrl, imageView)
@@ -175,8 +175,6 @@ see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/s
 #### xml method
 
 > xml default parameter see:
-
-[BannerDefaults.java](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/widget/BannerDefaults.kt)
 
         app:banner_guide="true"
         app:banner_dots_visible="true"                              
