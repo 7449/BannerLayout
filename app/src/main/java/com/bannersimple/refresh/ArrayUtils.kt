@@ -9,15 +9,6 @@ import java.util.*
 
 object ArrayUtils {
 
-
-    fun initArrayResources(imageArray: Array<Any>): MutableList<SimpleBannerModel> {
-        val imageArrayList = ArrayList<SimpleBannerModel>()
-        for (url in Arrays.asList(*imageArray)) {
-            imageArrayList.add(SimpleBannerModel(url))
-        }
-        return imageArrayList
-    }
-
     fun initArrayResources(
             imageArray: Array<Any>,
             imageArrayTitle: Array<String>): MutableList<SimpleBannerModel> {
@@ -26,12 +17,9 @@ object ArrayUtils {
         val imageArrayList = ArrayList<SimpleBannerModel>()
         var bannerModel: SimpleBannerModel
         for (i in url.indices) {
-            bannerModel = SimpleBannerModel()
-            bannerModel.image = url[i]
-            bannerModel.title = title[i]
+            bannerModel = SimpleBannerModel(url[i], title[i])
             imageArrayList.add(bannerModel)
         }
-
         return imageArrayList
     }
 

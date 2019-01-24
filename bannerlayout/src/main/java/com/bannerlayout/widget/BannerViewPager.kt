@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
 /**
  * by y on 2016/10/25
  */
-class BannerViewPager : ViewPager {
+internal class BannerViewPager : ViewPager {
 
     var viewTouchMode: Boolean = false
         set(value) {
@@ -90,7 +90,7 @@ class BannerViewPager : ViewPager {
     }
 }
 
-class FixedSpeedScroller(context: Context) : Scroller(context) {
+internal class FixedSpeedScroller(context: Context) : Scroller(context) {
 
     var fixDuration: Int = 0
 

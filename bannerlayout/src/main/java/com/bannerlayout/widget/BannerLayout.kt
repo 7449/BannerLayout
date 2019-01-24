@@ -15,7 +15,6 @@ import com.bannerlayout.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-
 @Suppress("FunctionName")
 fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     val context = bannerLayout.context
@@ -49,10 +48,10 @@ fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     bannerLayout.titleLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_banner_title_left_margin, 10)
     bannerLayout.titleWidth = typedArray.getInteger(R.styleable.BannerLayout_banner_title_width, BannerLayout.WRAP_CONTENT)
     bannerLayout.titleHeight = typedArray.getInteger(R.styleable.BannerLayout_banner_title_height, BannerLayout.WRAP_CONTENT)
-    bannerLayout.tipsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_site, BANNER_TIPS_BOTTOM)
-    bannerLayout.dotsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_dots_site, BANNER_TIPS_RIGHT)
-    bannerLayout.titleSite = typedArray.getInteger(R.styleable.BannerLayout_banner_title_site, BANNER_TIPS_LEFT)
-    bannerLayout.pageNumViewSite = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_site, PAGE_NUM_VIEW_TOP_RIGHT)
+    bannerLayout.tipsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_site, BannerLayout.BANNER_TIPS_BOTTOM)
+    bannerLayout.dotsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_dots_site, BannerLayout.BANNER_TIPS_RIGHT)
+    bannerLayout.titleSite = typedArray.getInteger(R.styleable.BannerLayout_banner_title_site, BannerLayout.BANNER_TIPS_LEFT)
+    bannerLayout.pageNumViewSite = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_site, BannerLayout.PAGE_NUM_VIEW_TOP_RIGHT)
     bannerLayout.pageNumViewRadius = typedArray.getFloat(R.styleable.BannerLayout_banner_page_num_radius, 25f)
     bannerLayout.pageNumViewPaddingTop = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_top, 5)
     bannerLayout.pageNumViewPaddingLeft = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_left, 20)
@@ -69,11 +68,29 @@ fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     typedArray.recycle()
 }
 
-class BannerLayout : FrameLayout, ViewPager.OnPageChangeListener {
+class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr),
+        ViewPager.OnPageChangeListener {
 
     companion object {
+
         const val MATCH_PARENT = FrameLayout.LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = FrameLayout.LayoutParams.WRAP_CONTENT
+
+        const val PAGE_NUM_VIEW_TOP_LEFT = 0
+        const val PAGE_NUM_VIEW_TOP_RIGHT = 1
+        const val PAGE_NUM_VIEW_BOTTOM_LEFT = 2
+        const val PAGE_NUM_VIEW_BOTTOM_RIGHT = 3
+        const val PAGE_NUM_VIEW_CENTER_LEFT = 4
+        const val PAGE_NUM_VIEW_CENTER_RIGHT = 5
+        const val PAGE_NUM_VIEW_TOP_CENTER = 6
+        const val PAGE_NUM_VIEW_BOTTOM_CENTER = 7
+
+        const val BANNER_TIPS_LEFT = 9
+        const val BANNER_TIPS_TOP = 10
+        const val BANNER_TIPS_RIGHT = 11
+        const val BANNER_TIPS_BOTTOM = 12
+        const val BANNER_TIPS_CENTER = 13
+
     }
 
     private var preEnablePosition = 0
@@ -156,20 +173,8 @@ class BannerLayout : FrameLayout, ViewPager.OnPageChangeListener {
     var pageNumViewTextSize: Float = 0F
     var pageNumViewMark: String = ""
 
-    private fun init(attrs: AttributeSet?) {
+    init {
         BannerTypedArrayImpl(this, attrs)
-    }
-
-    constructor(context: Context) : super(context) {
-        init(null)
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(attrs)
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init(attrs)
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

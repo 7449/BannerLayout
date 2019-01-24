@@ -8,81 +8,22 @@ import java.util.*
 
 object SimpleData {
 
+    const val IMAGE_URL_1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548309788159&di=67eb598399be0844195f1736a1a0507b&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F503d269759ee3d6d2a5b193849166d224e4adea0.jpg"
+    const val IMAGE_URL_2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548309790818&di=d1aba9f256a4b540eb8a5168aa52da9f&imgtype=0&src=http%3A%2F%2Fpic3.16pic.com%2F00%2F55%2F48%2F16pic_5548763_b.jpg"
+    const val IMAGE_URL_3 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548309791841&di=bf035fe9fb5fe456cb10c156127584d5&imgtype=0&src=http%3A%2F%2Fpic32.photophoto.cn%2F20140915%2F0034034424700073_b.jpg"
+    const val IMAGE_URL_4 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548309793610&di=b4d40aa123ac377de0b7d1828d7b906a&imgtype=0&src=http%3A%2F%2Fa4.topitme.com%2Fo%2F201101%2F03%2F12939857045446.jpg"
+
+    const val TITLE_1 = "title A"
+    const val TITLE_2 = "title B"
+    const val TITLE_3 = "title C"
+    const val TITLE_4 = "title D"
 
     fun initModel(): MutableList<SimpleBannerModel> {
-        val mDatas = ArrayList<SimpleBannerModel>()
-        mDatas.add(SimpleBannerModel("http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg", "At that time just love, this time to break up"))
-        mDatas.add(SimpleBannerModel("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1491588490192&di=c7c9dfd2fc4b1eeb5a4a874ec9a30d1d&imgtype=0&src=http%3A%2F%2Fmvimg2.meitudata.com%2F55713dd0165c89055.jpg"))
-        mDatas.add(SimpleBannerModel("http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg", "The legs are not long but thin"))
-        mDatas.add(SimpleBannerModel("http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg", "Late at night"))
-        return mDatas
-    }
-
-    fun update(): MutableList<SimpleBannerModel> {
-        val mDatas = ArrayList<SimpleBannerModel>()
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        mDatas.add(SimpleBannerModel("http://img.taopic.com/uploads/allimg/140326/235113-1403260U22059.jpg"))
-        mDatas.add(SimpleBannerModel("http://img4.imgtn.bdimg.com/it/u=938946740,2496936570&fm=214&gp=0.jpg"))
-        return mDatas
-    }
-
-    fun data(): MutableList<SimpleBannerModel> {
-        val mDatas = ArrayList<SimpleBannerModel>()
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        mDatas.add(SimpleBannerModel("http://img.taopic.com/uploads/allimg/140326/235113-1403260U22059.jpg"))
-        mDatas.add(SimpleBannerModel("http://img4.imgtn.bdimg.com/it/u=938946740,2496936570&fm=214&gp=0.jpg"))
-
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        mDatas.add(SimpleBannerModel("http://img.taopic.com/uploads/allimg/140326/235113-1403260U22059.jpg"))
-        mDatas.add(SimpleBannerModel("http://img4.imgtn.bdimg.com/it/u=938946740,2496936570&fm=214&gp=0.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        mDatas.add(SimpleBannerModel("http://img.taopic.com/uploads/allimg/140326/235113-1403260U22059.jpg"))
-        mDatas.add(SimpleBannerModel("http://img4.imgtn.bdimg.com/it/u=938946740,2496936570&fm=214&gp=0.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        return mDatas
-    }
-
-    fun alterData(): MutableList<SimpleBannerModel> {
-        val mDatas = ArrayList<SimpleBannerModel>()
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        return mDatas
-    }
-
-
-    fun lnstagramData(): MutableList<SimpleBannerModel> {
-        val mDatas = ArrayList<SimpleBannerModel>()
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic.58pic.com/58pic/13/87/72/73t58PICjpT_1024.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/113/d/10.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic39.nipic.com/20140325/9855626_214029182103_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://pic15.nipic.com/20110803/7180732_211822337168_2.jpg"))
-        mDatas.add(SimpleBannerModel("http://img1.3lian.com/2015/a1/124/d/234.jpg"))
-        return mDatas
+        val modules = ArrayList<SimpleBannerModel>()
+        modules.add(SimpleBannerModel(IMAGE_URL_1, TITLE_1))
+        modules.add(SimpleBannerModel(IMAGE_URL_2, TITLE_2))
+        modules.add(SimpleBannerModel(IMAGE_URL_3, TITLE_3))
+        modules.add(SimpleBannerModel(IMAGE_URL_4, TITLE_4))
+        return modules
     }
 }

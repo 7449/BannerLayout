@@ -6,7 +6,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
-import com.bannerlayout.ANIMATION_ACCORDION
+import com.bannerlayout.BannerTransformer
 import com.bannerlayout.OnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
@@ -31,7 +31,7 @@ class TransformerActivity : AppCompatActivity() {
         transformerBanner
                 .apply {
                     delayTime = 300
-                    bannerTransformerType = ANIMATION_ACCORDION
+                    bannerTransformerType = BannerTransformer.ANIMATION_ACCORDION
                     onBannerChangeListener = object : OnBannerChangeListener {
                         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 

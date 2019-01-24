@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bannerlayout.SimpleOnBannerChangeListener
 import com.bannerlayout.widget.BannerLayout
-import com.bannerlayout.widget.BANNER_TIPS_CENTER
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
@@ -67,7 +66,7 @@ class Issues10Activity : AppCompatActivity() {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun testlnstagram() {
-        val data = SimpleData.lnstagramData()
+        val data = SimpleData.initModel()
         bannerlnstagram
                 .apply {
                     pageNumViewBottomMargin = 10
@@ -142,7 +141,7 @@ class Issues10Activity : AppCompatActivity() {
                     pageNumViewLeftMargin = 10
                     pageNumViewRightMargin = 10
                     pageNumViewTopMargin = 10
-                    dotsSite = BANNER_TIPS_CENTER
+                    dotsSite = BannerLayout.BANNER_TIPS_CENTER
                     dotsWidth = dotWidthAndHeight
                     dotsHeight = dotWidthAndHeight
                     dotsRightMargin = dotMargin
@@ -150,7 +149,7 @@ class Issues10Activity : AppCompatActivity() {
                 }
                 .initTips()
                 .initPageNumView()
-                .resource(SimpleData.data())
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
         findViewById<View>(R.id.btn_alter_count)
                 .setOnClickListener { alterBannerCount() }
@@ -158,9 +157,9 @@ class Issues10Activity : AppCompatActivity() {
 
     private fun alterBannerCount() {
         val alterData: MutableList<SimpleBannerModel> = if (!isShowTips) {
-            SimpleData.alterData()
+            SimpleData.initModel()
         } else {
-            SimpleData.data()
+            SimpleData.initModel()
         }
         isShowTips = !isShowTips
         val size = alterData.size

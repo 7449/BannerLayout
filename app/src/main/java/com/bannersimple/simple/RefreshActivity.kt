@@ -20,7 +20,7 @@ import java.util.*
  * by y on 2017/3/8.
  */
 
-class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<List<ListModel>>, Runnable {
+class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<ListModel>, Runnable {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var adapter: RefreshAdapter
@@ -58,10 +58,10 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         swipeRefreshLayout.isRefreshing = false
     }
 
-    override fun onNetWorkSuccess(data: List<ListModel>) {
+    override fun onNetWorkSuccess(data: ListModel) {
         adapter.clear()
         adapter.addBanner(SimpleData.initModel())
-        adapter.addAll(data)
+        adapter.addAll(data.data)
     }
 
 

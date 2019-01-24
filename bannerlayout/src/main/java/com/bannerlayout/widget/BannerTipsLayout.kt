@@ -10,13 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 
-const val BANNER_TIPS_LEFT = 9
-const val BANNER_TIPS_TOP = 10
-const val BANNER_TIPS_RIGHT = 11
-const val BANNER_TIPS_BOTTOM = 12
-const val BANNER_TIPS_CENTER = 13
-
-class BannerTipsLayout(context: Context) : RelativeLayout(context) {
+internal class BannerTipsLayout(context: Context) : RelativeLayout(context) {
 
     private var textView: TextView = TextView(context)
     private var linearLayout: LinearLayout = LinearLayout(context)
@@ -63,9 +57,9 @@ class BannerTipsLayout(context: Context) : RelativeLayout(context) {
     fun initTips(): FrameLayout.LayoutParams {
         val tipsParams = FrameLayout.LayoutParams(viewTipsWidth, viewTipsHeight)
         when (viewTipsSite) {
-            BANNER_TIPS_BOTTOM -> tipsParams.gravity = Gravity.BOTTOM
-            BANNER_TIPS_TOP -> tipsParams.gravity = Gravity.TOP
-            BANNER_TIPS_CENTER -> tipsParams.gravity = Gravity.CENTER
+            BannerLayout.BANNER_TIPS_BOTTOM -> tipsParams.gravity = Gravity.BOTTOM
+            BannerLayout.BANNER_TIPS_TOP -> tipsParams.gravity = Gravity.TOP
+            BannerLayout.BANNER_TIPS_CENTER -> tipsParams.gravity = Gravity.CENTER
         }
         if (showViewTipsBackgroundColor) {
             setBackgroundColor(viewTipsLayoutBackgroundColor)

@@ -19,7 +19,8 @@ import com.bumptech.glide.Glide
  * by y on 2017/3/8.
  */
 
-class RefreshAdapter(private val listModels: MutableList<ListModel>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RefreshAdapter(private val listModels: MutableList<DataModel>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     companion object {
         private const val TYPE_BANNER = 0
         private const val TYPE_ITEM = 1
@@ -60,7 +61,7 @@ class RefreshAdapter(private val listModels: MutableList<ListModel>?) : Recycler
                 viewHolder.start.setOnClickListener { viewHolder.bannerLayout.switchBanner(true) }
                 viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.switchBanner(false) }
                 viewHolder.update.setOnClickListener {
-                    val update = SimpleData.update()
+                    val update = SimpleData.initModel()
                     bannerModels = update
                     bannerLayout.resource(update)
                 }
@@ -72,7 +73,7 @@ class RefreshAdapter(private val listModels: MutableList<ListModel>?) : Recycler
                 val itemViewHolder = holder as ItemViewHolder
                 Glide
                         .with(itemViewHolder.imageView.context)
-                        .load(listModels[position - 1].titleImage)
+                        .load(listModels[position - 1].title_image)
                         .into(itemViewHolder.imageView)
                 itemViewHolder.textView.text = listModels[position - 1].title
             }
@@ -89,7 +90,7 @@ class RefreshAdapter(private val listModels: MutableList<ListModel>?) : Recycler
         return if (position == 0) TYPE_BANNER else TYPE_ITEM
     }
 
-    fun addAll(data: List<ListModel>) {
+    fun addAll(data: List<DataModel>) {
         if (listModels != null) {
             listModels.addAll(data)
             notifyDataSetChanged()

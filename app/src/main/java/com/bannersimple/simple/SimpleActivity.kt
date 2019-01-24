@@ -9,8 +9,7 @@ import androidx.core.content.ContextCompat
 import com.bannerlayout.OnBannerChangeListener
 import com.bannerlayout.OnBannerClickListener
 import com.bannerlayout.widget.BannerLayout
-import com.bannerlayout.widget.BANNER_TIPS_CENTER
-import com.bannerlayout.widget.PAGE_NUM_VIEW_BOTTOM_RIGHT
+import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_CENTER
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
@@ -23,17 +22,6 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
     private lateinit var defaultBanner: BannerLayout
     private lateinit var customizeBanner: BannerLayout
     private lateinit var verticalBanner: BannerLayout
-
-    private val image = arrayOf<Any>(
-            "http://ww2.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6kxwh0j30dw099ta3.jpg",
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1491588490192&di=c7c9dfd2fc4b1eeb5a4a874ec9a30d1d&imgtype=0&src=http%3A%2F%2Fmvimg2.meitudata.com%2F55713dd0165c89055.jpg",
-            "http://ww1.sinaimg.cn/bmiddle/0060lm7Tgw1f94c6f7f26j30dw0ii76k.jpg",
-            "http://ww4.sinaimg.cn/bmiddle/0060lm7Tgw1f94c63dfjxj30dw0hjjtn.jpg")
-    private val title = arrayOf(
-            "At that time just love, this time to break up",
-            "Shame it ~",
-            "The legs are not long but thin",
-            "Late at night")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +43,7 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     onBannerClickListener = this@SimpleActivity
                 }
                 .initPageNumView()
+                .initTips()
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
 
@@ -65,9 +54,9 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     pageNumViewRightMargin = 12
                     pageNumViewTopMargin = 12
                     pageNumViewMark = " & "
-                    pageNumViewSite = PAGE_NUM_VIEW_BOTTOM_RIGHT
+                    pageNumViewSite = BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT
                     pageNumViewTextColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
-                    dotsSite = BANNER_TIPS_CENTER
+                    dotsSite = BannerLayout.BANNER_TIPS_CENTER
                     onBannerClickListener = this@SimpleActivity
                     onBannerChangeListener = object : OnBannerChangeListener {
                         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -84,7 +73,7 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     }
                 }
                 .initPageNumView()
-                .resource(ArrayUtils.initArrayResources(image, title))
+                .resource(SimpleData.initModel())
                 .switchBanner(true)
 
         verticalBanner

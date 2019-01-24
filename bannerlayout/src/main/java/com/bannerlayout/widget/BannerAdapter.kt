@@ -11,10 +11,10 @@ import com.bannerlayout.OnBannerClickListener
 /**
  * by y on 2016/10/24.
  */
-class BannerAdapter(private val imageList: List<BannerModelCallBack>,
-                    private val loaderManager: ImageLoaderManager<BannerModelCallBack>,
-                    private val listener: OnBannerClickListener<BannerModelCallBack>?,
-                    private val guide: Boolean) : PagerAdapter() {
+internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
+                             private val loaderManager: ImageLoaderManager<BannerModelCallBack>,
+                             private val listener: OnBannerClickListener<BannerModelCallBack>?,
+                             private val guide: Boolean) : PagerAdapter() {
 
     override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
 
