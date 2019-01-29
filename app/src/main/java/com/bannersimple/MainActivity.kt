@@ -2,15 +2,14 @@ package com.bannersimple
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bannersimple.simple.*
 import com.bannersimple.simple.issues.Issues10Activity
 import com.bannersimple.simple.issues.Issues12Activity
+import com.bannersimple.simple.issues.Issues13Activity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +52,11 @@ class MainActivity : AppCompatActivity() {
 
         btn_issues_12.setOnClickListener { v ->
             val intent = Intent(v.context, Issues12Activity::class.java)
+            startActivity(intent)
+        }
+
+        btn_issues_13.setOnClickListener { v ->
+            val intent = Intent(v.context, Issues13Activity::class.java)
             startActivity(intent)
         }
 

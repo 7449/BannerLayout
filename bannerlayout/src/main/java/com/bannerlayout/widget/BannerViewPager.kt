@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
 /**
  * by y on 2016/10/25
  */
-internal class BannerViewPager : ViewPager {
+class BannerViewPager : ViewPager {
 
     var viewTouchMode: Boolean = false
         set(value) {

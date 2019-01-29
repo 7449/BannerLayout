@@ -15,6 +15,7 @@ import com.bannerlayout.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+
 @Suppress("FunctionName")
 fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     val context = bannerLayout.context
@@ -64,7 +65,8 @@ fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     bannerLayout.pageNumViewTextColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_text_color, ContextCompat.getColor(context, R.color.colorWhite))
     bannerLayout.pageNumViewBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_background_color, ContextCompat.getColor(context, R.color.colorBackground))
     bannerLayout.pageNumViewTextSize = typedArray.getDimension(R.styleable.BannerLayout_banner_page_num_text_size, 10f)
-    bannerLayout.pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_banner_page_num_mark) ?: " / "
+    bannerLayout.pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_banner_page_num_mark)
+            ?: " / "
     typedArray.recycle()
 }
 
@@ -97,7 +99,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var handler: BannerHandlerUtils = BannerHandlerUtils(this)
     private var imageList: List<BannerModelCallBack> = ArrayList()
 
-    private var viewPager: BannerViewPager = BannerViewPager(context)
+    var viewPager: BannerViewPager = BannerViewPager(context)
     private var pageView: BannerPageView? = null
     private var tipLayout: BannerTipsLayout? = null
 
@@ -121,6 +123,12 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         set(value) {
             field = value
             bannerTransformer = getTransformer(value)
+        }
+
+    var offscreenPageLimit = 0
+        set(value) {
+            field = value
+            viewPager.offscreenPageLimit = offscreenPageLimit
         }
 
     var enabledRadius: Float = 0F
@@ -270,13 +278,13 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         viewPager.addOnPageChangeListener(this)
         viewPager.setDuration(bannerDuration)
         viewPager.adapter = BannerAdapter(imageList, imageLoaderManager as ImageLoaderManager<BannerModelCallBack>, onBannerClickListener as OnBannerClickListener<BannerModelCallBack>?, isGuide)
-        viewPager.currentItem = currentItem
         if (isVertical) {
             viewPager.isVertical = true
             viewPager.setPageTransformer(true, VerticalTransformer())
         } else {
             viewPager.setPageTransformer(true, bannerTransformer)
         }
+        viewPager.currentItem = currentItem
         addView(viewPager)
     }
 
@@ -359,6 +367,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     val duration: Int get() = viewPager.duration
 
     val bannerStatus: Int get() = handler.status
+
+    fun viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager.layoutParams as LayoutParams
 
     fun removeHandler() = handler.removeCallbacksAndMessages(null)
 

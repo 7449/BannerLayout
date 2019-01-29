@@ -51,6 +51,12 @@
             android:text="issues 12" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_issues_13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="issues 13" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_method_test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
