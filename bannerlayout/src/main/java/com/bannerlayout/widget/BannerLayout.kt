@@ -368,7 +368,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     val bannerStatus: Int get() = handler.status
 
-    fun viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager.layoutParams as LayoutParams
+    fun viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager.layoutParams as LayoutParams?
 
     fun removeHandler() = handler.removeCallbacksAndMessages(null)
 
