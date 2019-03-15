@@ -70,8 +70,7 @@ fun BannerTypedArrayImpl(bannerLayout: BannerLayout, attrs: AttributeSet?) {
     typedArray.recycle()
 }
 
-class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr),
-        ViewPager.OnPageChangeListener {
+class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
 
     companion object {
 
