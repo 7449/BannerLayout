@@ -3,7 +3,6 @@ package com.bannersimple.imagemanager
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bannerlayout.ImageLoaderManager
-
 import com.bannersimple.bean.SimpleBannerModel
 import com.facebook.drawee.view.SimpleDraweeView
 
@@ -13,9 +12,9 @@ import com.facebook.drawee.view.SimpleDraweeView
 
 class FrescoSimpleImageManager : ImageLoaderManager<SimpleBannerModel> {
 
-    override fun display(container: ViewGroup, model: SimpleBannerModel): ImageView {
+    override fun display(container: ViewGroup, info: SimpleBannerModel, position: Int): ImageView {
         val draweeView = SimpleDraweeView(container.context)
-        draweeView.setImageURI(model.bannerUrl)
+        draweeView.setImageURI(info.bannerUrl)
         return draweeView
     }
 }

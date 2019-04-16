@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import com.bannerlayout.BannerTransformer
 import com.bannerlayout.OnBannerChangeListener
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleData
@@ -32,18 +33,8 @@ class TransformerActivity : AppCompatActivity() {
                 .apply {
                     delayTime = 300
                     bannerTransformerType = BannerTransformer.ANIMATION_ACCORDION
-                    onBannerChangeListener = object : OnBannerChangeListener {
-                        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-                        override fun onPageSelected(position: Int) {
-                            positionTv.text = "select position:$position"
-                        }
-
-                        override fun onPageScrollStateChanged(state: Int) {
-
-                        }
-                    }
                 }
+                .OnBannerChangeListener { onPageSelected { positionTv.text = "select position:$it" } }
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
 
@@ -61,6 +52,6 @@ class TransformerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        transformerBanner.removeHandler()
+        transformerBanner.removeCallbacksAndMessages()
     }
 }

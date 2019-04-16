@@ -14,10 +14,10 @@ import com.squareup.picasso.Picasso
 
 class PicassoSimpleImageManager : ImageLoaderManager<SimpleBannerModel> {
 
-    override fun display(container: ViewGroup, model: SimpleBannerModel): ImageView {
+    override fun display(container: ViewGroup, info: SimpleBannerModel, position: Int): ImageView {
         val imageView = ImageView(container.context)
         Picasso.get()
-                .load(model.bannerUrl)
+                .load(info.bannerUrl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(imageView)

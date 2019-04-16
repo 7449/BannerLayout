@@ -2,22 +2,21 @@ package com.bannersimple.simple
 
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.bannerlayout.ImageLoader
 import com.bannerlayout.OnBannerChangeListener
-import com.bannerlayout.OnBannerClickListener
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannerlayout.widget.BannerLayout
-import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_CENTER
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
 import com.bannersimple.bean.SimpleData
-import com.bannersimple.imagemanager.GlideAppSimpleImageManager
-import com.bannersimple.refresh.ArrayUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerModel> {
+class SimpleActivity : AppCompatActivity() {
 
     private lateinit var defaultBanner: BannerLayout
     private lateinit var customizeBanner: BannerLayout
@@ -39,13 +38,22 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     pageNumViewLeftMargin = 12
                     pageNumViewRightMargin = 12
                     pageNumViewTopMargin = 12
-                    imageLoaderManager = GlideAppSimpleImageManager()
-                    onBannerClickListener = this@SimpleActivity
                 }
                 .initPageNumView()
                 .initTips()
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
+        defaultBanner.ImageLoader<SimpleBannerModel> { container, info, position ->
+            val imageView = ImageView(container.context)
+            Glide.with(imageView.context)
+                    .load(info.bannerUrl)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .fallback(R.mipmap.ic_launcher)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView)
+            imageView
+        }
 
         customizeBanner
                 .apply {
@@ -57,20 +65,11 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     pageNumViewSite = BannerLayout.PAGE_NUM_VIEW_BOTTOM_RIGHT
                     pageNumViewTextColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
                     dotsSite = BannerLayout.BANNER_TIPS_CENTER
-                    onBannerClickListener = this@SimpleActivity
-                    onBannerChangeListener = object : OnBannerChangeListener {
-                        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-                        }
-
-                        override fun onPageSelected(position: Int) {
-
-                        }
-
-                        override fun onPageScrollStateChanged(state: Int) {
-
-                        }
-                    }
+                }
+                .OnBannerChangeListener {
+                    onPageScrollStateChanged { }
+                    onPageScrolled { position, positionOffset, positionOffsetPixels -> }
+                    onPageSelected { position -> }
                 }
                 .initPageNumView()
                 .resource(SimpleData.initModel())
@@ -82,7 +81,6 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
                     showTipsBackgroundColor = true
                     visibleDots = true
                     visibleTitle = true
-                    onBannerClickListener = this@SimpleActivity
                 }
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
@@ -91,12 +89,8 @@ class SimpleActivity : AppCompatActivity(), OnBannerClickListener<SimpleBannerMo
 
     override fun onDestroy() {
         super.onDestroy()
-        defaultBanner.removeHandler()
-        customizeBanner.removeHandler()
-        verticalBanner.removeHandler()
-    }
-
-    override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
-        Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
+        defaultBanner.removeCallbacksAndMessages()
+        customizeBanner.removeCallbacksAndMessages()
+        verticalBanner.removeCallbacksAndMessages()
     }
 }

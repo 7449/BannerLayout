@@ -5,6 +5,9 @@ import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bannerlayout.BannerTransformer
+import com.bannerlayout.ViewPager
+import com.bannerlayout.ViewPagerLayoutParams
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannersimple.bean.SimpleData
 import kotlinx.android.synthetic.main.activity_issues_13.*
 
@@ -32,21 +35,21 @@ class Issues13Activity : AppCompatActivity() {
                 .initTips()
                 .initPageNumView()
                 .resource(SimpleData.initModel())
-        val layoutParams = issues_13_banner.viewPagerLayoutParams()
+        val layoutParams = issues_13_banner.ViewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
 
         val handler = Handler()
         val r = Runnable {
-            issues_13_banner.viewPager.beginFakeDrag()
-            issues_13_banner.viewPager.fakeDragBy(1.0f)
-            issues_13_banner.viewPager.endFakeDrag()
+            issues_13_banner.ViewPager().beginFakeDrag()
+            issues_13_banner.ViewPager().fakeDragBy(1.0f)
+            issues_13_banner.ViewPager().endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }
 
     override fun onDestroy() {
-        issues_13_banner.removeHandler()
+        issues_13_banner.removeCallbacksAndMessages()
         super.onDestroy()
     }
 }

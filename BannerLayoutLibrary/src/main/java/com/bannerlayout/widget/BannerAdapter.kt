@@ -3,7 +3,7 @@ package com.bannerlayout.widget
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.bannerlayout.BannerModelCallBack
+import com.bannerlayout.BannerInfo
 import com.bannerlayout.ImageLoaderManager
 import com.bannerlayout.OnBannerClickListener
 
@@ -11,9 +11,9 @@ import com.bannerlayout.OnBannerClickListener
 /**
  * by y on 2016/10/24.
  */
-internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
-                             private val loaderManager: ImageLoaderManager<BannerModelCallBack>,
-                             private val listener: OnBannerClickListener<BannerModelCallBack>?,
+internal class BannerAdapter(private val imageList: List<BannerInfo>,
+                             private val loaderManager: ImageLoaderManager<BannerInfo>,
+                             private val listener: OnBannerClickListener<BannerInfo>?,
                              private val guide: Boolean) : PagerAdapter() {
 
     override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
@@ -25,7 +25,7 @@ internal class BannerAdapter(private val imageList: List<BannerModelCallBack>,
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val img = loaderManager.display(container, imageList[getPosition(position)])
+        val img = loaderManager.display(container, imageList[getPosition(position)], position)
         img.setOnClickListener { v -> listener?.onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
         container.addView(img)
         return img

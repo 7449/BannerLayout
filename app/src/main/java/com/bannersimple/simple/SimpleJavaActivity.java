@@ -2,15 +2,12 @@ package com.bannersimple.simple;
 
 import android.os.Bundle;
 
-import com.bannerlayout.BannerModelCallBack;
+import com.bannerlayout.BannerInfo;
 import com.bannerlayout.widget.BannerLayout;
 import com.bannersimple.R;
 import com.bannersimple.bean.SimpleData;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +33,7 @@ public class SimpleJavaActivity extends AppCompatActivity {
     }
 
 
-    private static class SimpleJavaBean implements BannerModelCallBack {
+    private static class SimpleJavaBean implements BannerInfo {
 
         private String url;
         private String title;

@@ -2,6 +2,7 @@ package com.bannersimple.simple.issues
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleData
@@ -39,6 +40,6 @@ class Issues12Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        bannerLayout.removeHandler()
+        bannerLayout.removeCallbacksAndMessages()
     }
 }

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.bannerlayout.dotsSelector
 
 internal class BannerTipsLayout(context: Context) : RelativeLayout(context) {
 
@@ -48,8 +49,8 @@ internal class BannerTipsLayout(context: Context) : RelativeLayout(context) {
             params.rightMargin = viewDotsRightMargin
             linearLayout.addView(view)
         }
-        val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.addRule(RelativeLayout.CENTER_VERTICAL)
+        val params = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.addRule(CENTER_VERTICAL)
         params.addRule(viewDotsSite)
         addView(linearLayout, params)
     }
@@ -84,8 +85,8 @@ internal class BannerTipsLayout(context: Context) : RelativeLayout(context) {
         textView.textSize = viewTitleSize
         textView.setSingleLine(true)
         textView.ellipsize = TextUtils.TruncateAt.END
-        val params = RelativeLayout.LayoutParams(viewTitleWidth, viewTitleHeight)
-        params.addRule(RelativeLayout.CENTER_VERTICAL)
+        val params = LayoutParams(viewTitleWidth, viewTitleHeight)
+        params.addRule(CENTER_VERTICAL)
         params.leftMargin = viewTitleLeftMargin
         params.rightMargin = viewTitleRightMargin
         params.addRule(viewTitleSite)

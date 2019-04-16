@@ -2,6 +2,8 @@ package com.bannersimple.simple
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bannerlayout.ImageLoaderManager
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleData
@@ -28,32 +30,27 @@ class ImageManagerActivity : AppCompatActivity() {
 
 
         frescoBanner
-                .apply {
-                    imageLoaderManager = FrescoSimpleImageManager()
-                }
+                .ImageLoaderManager { FrescoSimpleImageManager() }
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
 
         imageLoaderBanner
-                .apply {
-                    imageLoaderManager = ImageLoaderSimpleManager()
-                }
+                .ImageLoaderManager { ImageLoaderSimpleManager() }
                 .resource(SimpleData.initModel())
                 .switchBanner(false)
 
         picassoBanner
-                .apply {
-                    imageLoaderManager = PicassoSimpleImageManager()
-                }
+                .ImageLoaderManager { PicassoSimpleImageManager() }
+                .initPageNumView()
+                .initTips()
                 .resource(SimpleData.initModel())
                 .switchBanner(true)
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        frescoBanner.removeHandler()
-        imageLoaderBanner.removeHandler()
-        picassoBanner.removeHandler()
+        frescoBanner.removeCallbacksAndMessages()
+        imageLoaderBanner.removeCallbacksAndMessages()
+        picassoBanner.removeCallbacksAndMessages()
     }
 }

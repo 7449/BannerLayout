@@ -11,7 +11,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.bannerlayout.SimpleOnBannerChangeListener
+import com.bannerlayout.OnBannerChangeListener
+import com.bannerlayout.removeCallbacksAndMessages
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
@@ -60,8 +61,8 @@ class Issues10Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        bannerLayout.removeHandler()
-        bannerlnstagram.removeHandler()
+        bannerLayout.removeCallbacksAndMessages()
+        bannerlnstagram.removeCallbacksAndMessages()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -96,10 +97,8 @@ class Issues10Activity : AppCompatActivity() {
         }
 
         bannerlnstagram
-                .onBannerChangeListener = (
-                object : SimpleOnBannerChangeListener() {
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
+                .OnBannerChangeListener {
+                    onPageSelected { position ->
                         linearLayout.getChildAt(position).isEnabled = true
                         linearLayout.getChildAt(preEnablePosition).isEnabled = false
                         preEnablePosition = position
@@ -117,7 +116,7 @@ class Issues10Activity : AppCompatActivity() {
                             endView.scaleY = 0.6f
                         }
                     }
-                })
+                }
     }
 
 
@@ -156,7 +155,7 @@ class Issues10Activity : AppCompatActivity() {
     }
 
     private fun alterBannerCount() {
-        val alterData: MutableList<SimpleBannerModel> = if (!isShowTips) {
+        val alterData: ArrayList<SimpleBannerModel> = if (!isShowTips) {
             SimpleData.initModel()
         } else {
             SimpleData.initModel()

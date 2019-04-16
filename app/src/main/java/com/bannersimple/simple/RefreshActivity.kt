@@ -41,7 +41,7 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
         RxNetWork.instance.cancel(javaClass.simpleName)
         RxNetWork
                 .instance
-                .getApi(javaClass.simpleName, RxNetWork.observable(Api.ZLService::class.java).getList("daily", 20, 0), this)
+                .getApi(javaClass.simpleName, RxNetWork.observable(Api.ZLService::class.java).getList(), this)
     }
 
 
@@ -51,7 +51,7 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onNetWorkError(e: Throwable) {
         swipeRefreshLayout.isRefreshing = false
-        Toast.makeText(applicationContext, "net work error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onNetWorkComplete() {
@@ -61,7 +61,7 @@ class RefreshActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListene
     override fun onNetWorkSuccess(data: ListModel) {
         adapter.clear()
         adapter.addBanner(SimpleData.initModel())
-        adapter.addAll(data.data)
+        adapter.addAll(data.top_stories)
     }
 
 

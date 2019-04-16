@@ -7,8 +7,9 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import com.bannerlayout.OnBannerClickListener
-import com.bannerlayout.SimpleOnBannerChangeListener
+import com.bannerlayout.OnBannerChangeListener
+import com.bannerlayout.OnItemClick
+import com.bannerlayout.imageList
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
@@ -35,20 +36,18 @@ class SimpleGuideActivity : AppCompatActivity() {
                     tipsHeight = 300
                     dotsWidth = 30
                     dotsHeight = 30
-                    onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
-                        override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
-                            Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                    }
                 }
                 .initTips()
                 .resource(SimpleData.initModel())
 
-        guideBanner.onBannerChangeListener = (object : SimpleOnBannerChangeListener() {
-            override fun onPageSelected(position: Int) {
-                guideButton.visibility = if (position == guideBanner.imageList().size - 1) View.VISIBLE else View.GONE
-            }
-        })
+        guideBanner
+                .OnItemClick<SimpleBannerModel> { view, position, _ ->
+                    Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
+                }.OnBannerChangeListener {
+                    onPageSelected { position ->
+                        guideButton.visibility = if (position == guideBanner.imageList<SimpleBannerModel>().size - 1) View.VISIBLE else View.GONE
+                    }
+                }
 
         guideButton.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
     }

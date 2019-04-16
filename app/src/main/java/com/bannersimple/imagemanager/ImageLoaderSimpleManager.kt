@@ -13,10 +13,10 @@ import com.nostra13.universalimageloader.core.ImageLoader
 
 class ImageLoaderSimpleManager : ImageLoaderManager<SimpleBannerModel> {
 
-    override fun display(container: ViewGroup, model: SimpleBannerModel): ImageView {
+    override fun display(container: ViewGroup, info: SimpleBannerModel, position: Int): ImageView {
         val imageView = ImageView(container.context)
         val imageLoader = ImageLoader.getInstance()
-        imageLoader.displayImage(model.bannerUrl, imageView)
+        imageLoader.displayImage(info.bannerUrl, imageView)
         return imageView
     }
 }

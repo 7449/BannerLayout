@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bannerlayout.OnBannerClickListener
+import com.bannerlayout.OnItemClick
 import com.bannerlayout.widget.BannerLayout
 import com.bannersimple.R
 import com.bannersimple.bean.SimpleBannerModel
@@ -26,7 +26,7 @@ class RefreshAdapter(private val listModels: MutableList<DataModel>?) : Recycler
         private const val TYPE_ITEM = 1
     }
 
-    private var bannerModels: MutableList<SimpleBannerModel>? = null
+    private var bannerModels: ArrayList<SimpleBannerModel>? = null
     private lateinit var bannerLayout: BannerLayout
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,11 +48,9 @@ class RefreshAdapter(private val listModels: MutableList<DataModel>?) : Recycler
                             showTipsBackgroundColor = true
                             visibleDots = true
                             visibleTitle = true
-                            onBannerClickListener = object : OnBannerClickListener<SimpleBannerModel> {
-                                override fun onBannerClick(view: View, position: Int, model: SimpleBannerModel) {
-                                    Toast.makeText(view.context, model.title, Toast.LENGTH_LONG).show()
-                                }
-                            }
+                        }
+                        .OnItemClick<SimpleBannerModel> { view, _, info ->
+                            Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
                         .initTips()
                         .resource(bannerModels!!)
@@ -73,7 +71,7 @@ class RefreshAdapter(private val listModels: MutableList<DataModel>?) : Recycler
                 val itemViewHolder = holder as ItemViewHolder
                 Glide
                         .with(itemViewHolder.imageView.context)
-                        .load(listModels[position - 1].title_image)
+                        .load(listModels[position - 1].image)
                         .into(itemViewHolder.imageView)
                 itemViewHolder.textView.text = listModels[position - 1].title
             }
@@ -105,7 +103,7 @@ class RefreshAdapter(private val listModels: MutableList<DataModel>?) : Recycler
     }
 
 
-    fun addBanner(bannerModels: MutableList<SimpleBannerModel>) {
+    fun addBanner(bannerModels: ArrayList<SimpleBannerModel>) {
         this.bannerModels = bannerModels
     }
 
