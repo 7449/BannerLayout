@@ -27,8 +27,8 @@ fun <T : BannerInfo> BannerLayout.imageList(): List<T> = imageList as List<T>
 
 fun BannerLayout.removeCallbacksAndMessages() = handler.removeCallbacksAndMessages(null)
 
-fun BannerLayout.OnBannerChangeListener(onBannerChangeListenerDLS: SimpleOnBannerChangeListenerDLS.() -> Unit) = apply {
-    this.onBannerChangeListener = SimpleOnBannerChangeListenerDLS().also(onBannerChangeListenerDLS).build()
+fun BannerLayout.OnBannerChangeListener(onBannerChangeListenerKt: SimpleOnBannerChangeListenerKt.() -> Unit) = apply {
+    this.onBannerChangeListener = SimpleOnBannerChangeListenerKt().also(onBannerChangeListenerKt).build()
 }
 
 fun <T : BannerInfo> BannerLayout.ImageLoader(imageLoaderManager: (container: ViewGroup, info: T, position: Int) -> View) = apply {
@@ -54,12 +54,12 @@ fun <T : BannerInfo> BannerLayout.OnItemClick(onBannerClickListener: (view: View
 fun <T : BannerInfo> BannerLayout.OnItemClickListener(onBannerClickListener: () -> OnBannerClickListener<T>) = apply {
     this.onBannerClickListener = onBannerClickListener.invoke()
 }
-//
-//fun BannerLayout.setAttributes(bannerAttributesDLS: BannerAttributesDLS.() -> Unit) = apply {
-//    BannerAttributesDLS().also(bannerAttributesDLS).build(this)
+
+//fun BannerLayout.setAttributes(bannerAttributesKt: BannerAttributesKt.() -> Unit) = apply {
+//    BannerAttributesKt().also(bannerAttributesKt).build(this)
 //}
 //
-//class BannerAttributesDLS {
+//class BannerAttributesKt {
 //
 //    private var bannerTransformer: (() -> BannerTransformer)? = null
 //    private var bannerTransformerType: (() -> Int)? = null

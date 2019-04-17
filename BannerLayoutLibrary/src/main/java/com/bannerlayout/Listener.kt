@@ -30,7 +30,7 @@ open class SimpleOnBannerChangeListener : OnBannerChangeListener {
     override fun onPageScrollStateChanged(state: Int) {}
 }
 
-class SimpleOnBannerChangeListenerDLS {
+class SimpleOnBannerChangeListenerKt {
 
     private var onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null
     private var onPageSelected: ((position: Int) -> Unit)? = null
