@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName", "UNCHECKED_CAST")
+@file:Suppress("FunctionName", "UNCHECKED_CAST", "NOTHING_TO_INLINE")
 
 package com.bannerlayout
 
@@ -18,6 +18,8 @@ import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_RIGHT
 import com.bannerlayout.widget.BannerLayout.Companion.MATCH_PARENT
 import com.bannerlayout.widget.BannerLayout.Companion.PAGE_NUM_VIEW_TOP_RIGHT
 import com.bannerlayout.widget.BannerLayout.Companion.WRAP_CONTENT
+import com.bannerlayout.widget.BannerPageView
+import com.bannerlayout.widget.BannerTipsLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -26,7 +28,7 @@ import com.bumptech.glide.request.RequestOptions
  * @create 2019/4/16
  */
 
-internal fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager<BannerInfo> {
+internal inline fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager<BannerInfo> {
     val requestOptions = RequestOptions().placeholder(placeImageView).error(errorImageView).centerCrop()
     return object : ImageLoaderManager<BannerInfo> {
         override fun display(container: ViewGroup, info: BannerInfo, position: Int): View {
@@ -37,7 +39,7 @@ internal fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager<Banner
     }
 }
 
-internal fun BannerLayout.dotsSelector(): Drawable {
+internal inline fun BannerLayout.dotsSelector(): Drawable {
     return if (dotsSelector == 0x0)
         StateListDrawable()
                 .addEnabledState(enabledRadius, enabledColor)
@@ -49,19 +51,27 @@ internal fun BannerLayout.dotsSelector(): Drawable {
                         .addNormalState(normalRadius, normalColor)
 }
 
-internal fun BannerLayout.initBanner() = apply {
+internal inline fun BannerLayout.initBanner(showTipsLayout: Boolean = false, showPageView: Boolean = false, startRotation: Boolean = true) = apply {
     removeAllViews()
     preEnablePosition = 0
     val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize()
     initViewPager(currentItem)
-    initPageView()
-    initTipsView()
+    if (showTipsLayout) {
+        initTipsLayout()
+    }
+    if (showPageView) {
+        initPageView()
+    }
     handler.handlerPage = currentItem
     handler.handlerDelayTime = delayTime
-    switchBanner(isStartRotation)
+    if (isGuide) {
+        switchBanner(false)
+    } else {
+        switchBanner(startRotation)
+    }
 }
 
-internal fun BannerLayout.initViewPager(currentItem: Int) {
+internal inline fun BannerLayout.initViewPager(currentItem: Int) {
     viewPager.viewTouchMode = viewPagerTouchMode
     viewPager.addOnPageChangeListener(this)
     viewPager.setDuration(bannerDuration)
@@ -76,11 +86,8 @@ internal fun BannerLayout.initViewPager(currentItem: Int) {
     addView(viewPager)
 }
 
-
-internal fun BannerLayout.initPageView() {
-    if (pageView == null) {
-        return
-    }
+internal inline fun BannerLayout.initPageView() {
+    pageView = BannerPageView(context)
     pageView?.text = TextUtils.concat(1.toString(), pageNumViewMark, dotsSize().toString())
     val params = pageView?.run {
         setTextColor(pageNumViewTextColor)
@@ -101,11 +108,9 @@ internal fun BannerLayout.initPageView() {
     addView(pageView, params)
 }
 
-internal fun BannerLayout.initTipsView() {
-    if (tipLayout == null) {
-        return
-    }
-    val params = tipLayout?.run {
+internal inline fun BannerLayout.initTipsLayout() {
+    tipLayout = BannerTipsLayout(context)
+    addView(tipLayout, tipLayout?.run {
         removeAllViews()
         viewTitleColor = titleColor
         viewTitleSize = titleSize
@@ -129,18 +134,17 @@ internal fun BannerLayout.initTipsView() {
         viewDotsSite = dotsSite
 
         if (visibleDots) {
-            initDots(this@initTipsView)
+            initDots(this@initTipsLayout)
         }
         if (visibleTitle) {
             initTitle()
             setTitle(imageList[0].bannerTitle)
         }
         initTips()
-    }
-    addView(tipLayout, params)
+    })
 }
 
-internal fun BannerLayout.BannerTypedArrayImpl(attrs: AttributeSet?) {
+internal inline fun BannerLayout.BannerTypedArrayImpl(attrs: AttributeSet?) {
     val context = context
     val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
     isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, false)

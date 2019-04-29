@@ -52,9 +52,7 @@ class ExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         .addOnItemClickListener<NetBannerInfo> { view, _, info ->
                             Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
-                        .initTips()
                         .resource(info)
-                        .switchBanner(true)
 
                 viewHolder.start.setOnClickListener { viewHolder.bannerLayout.switchBanner(true) }
                 viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.switchBanner(false) }

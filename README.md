@@ -1,4 +1,4 @@
-# BannerLayout
+ # BannerLayout
 
 BannerLayout for unlimited rotation of images
 
@@ -38,19 +38,19 @@ BannerLayout for unlimited rotation of images
 
 >gradle
 
-    api 'com.ydevelop:bannerlayout:1.1.6'
+    api 'com.ydevelop:bannerlayout:1.1.7'
     
 >maven
 
 	<dependency>
 	  <groupId>com.ydevelop</groupId>
 	  <artifactId>bannerlayout</artifactId>
-	  <version>1.1.6</version>
+	  <version>1.1.7</version>
 	  <type>pom</type>
 	</dependency>
 	
 	
-recommended to look at Sample ： [SimpleActivity](https://github.com/7449/BannerLayout/tree/master/app/src/main/java/com/bannersimple/simple)
+recommended to look at Sample ： [SimpleActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/example/banner)
 	
 >If the network is loading pictures remember to add
 
@@ -58,21 +58,19 @@ recommended to look at Sample ： [SimpleActivity](https://github.com/7449/Banne
 
 >simple to use
 
+Bean class please implement [BannerInfo](https://github.com/7449/BannerLayout/blob/master/library/src/main/java/com/bannerlayout/Listener.kt)
 
-Bean class please implement [BannerModelCallBack](https://github.com/7449/BannerLayout/blob/master/bannerlayout/src/main/java/com/bannerlayout/listener/BannerModelCallBack.kt)
-
-Specific reference [SimpleBannerModel](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/bean/SimpleBannerModel.kt)
-
+Specific reference [NetBannerInfo](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/example/NetBannerInfo.kt)
 
 If you use the built-in frame, please rely on glide
 
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
     
 or
 
-    class ImageLoaderSimpleManager : ImageLoaderManager<SimpleBannerModel> {
+    class ImageLoaderSimpleManager : ImageLoaderManager<NetBannerInfo> {
     
-        override fun display(container: ViewGroup, model: SimpleBannerModel): View {
+        override fun display(container: ViewGroup, model: NetBannerInfo): View {
             val imageView = ImageView(container.context)
             val imageLoader = ImageLoader.getInstance()
             imageLoader.displayImage(model.bannerUrl, imageView)
@@ -81,12 +79,12 @@ or
     }
 	
 
-see :[ImageManagerSimple](https://github.com/7449/BannerLayout/tree/master/app/src/main/java/com/bannersimple/imagemanager)
+see :[ImageManagerSimple](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/example/display)
 
 
 #### simple:
 
-    banner.resource(data).switchBanner(true/false);
+    banner.resource(data);
                 
 #### Vertical scrolling
 
@@ -140,39 +138,7 @@ If you want to customize the animation, please inherit ABaseTransformer or Banne
 	
 	banner.bannerTransformer = ZoomOutSlideTransformer()
 
-#### Animation collection：
-	
-    List<BannerTransformer> bannerTransformer = new ArrayList<>();
-    
-    etBannerSystemTransformerList(bannerTransformer);
-			
-#### java method
-
-see: [MethodTestActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/bannersimple/simple/MethodTestActivity.kt)
-
-    bannerLayout
-            .apply {
-                delayTime = 3000
-                errorImageView = R.mipmap.ic_launcher
-                placeImageView = R.mipmap.ic_launcher
-                bannerDuration = 3000
-                viewPagerTouchMode = true
-                isVertical = true
-                titleColor = ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark)
-                titleSize = 23F
-                tipsLayoutBackgroundColor = ContextCompat.getColor(applicationContext, R.color.colorAccent)
-                dotsSelector = R.drawable.banner
-                tipsWidth = BannerLayout.MATCH_PARENT
-                tipsHeight = 300
-                tipsSite = BannerLayout.TOP
-                ...
-            }
-            .initPageNumView()
-            .initTips()
-            .resource(SimpleData.initModel())
-            .switchBanner(true)
-                
-#### xml method
+#### xml 
 
 > xml default parameter see:
 

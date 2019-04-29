@@ -29,9 +29,8 @@ class TransformerActivity : AppCompatActivity() {
                     delayTime = 300
                     bannerTransformerType = BannerTransformer.ANIMATION_ACCORDION
                 }
-                .resource(newModel())
-                .switchBanner(true)
                 .doOnPageSelected { banner_position.text = "select position:$it" }
+                .resource(newModel())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

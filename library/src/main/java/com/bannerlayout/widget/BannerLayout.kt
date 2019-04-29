@@ -32,7 +32,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     internal var preEnablePosition = 0
     internal var handler: BannerHandler = BannerHandler(this)
     internal var imageList: List<BannerInfo> = ArrayList()
-    internal var transformerList: List<BannerTransformer> = ArrayList()
     internal var viewPager: BannerViewPager = BannerViewPager(context)
     internal var pageView: BannerPageView? = null
     internal var tipLayout: BannerTipsLayout? = null
@@ -128,9 +127,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
             tipLayout?.setTitle(imageList[newPosition].bannerTitle)
         }
         preEnablePosition = newPosition
-        if (transformerList.isNotEmpty() && !isVertical) {
-            viewPager.setPageTransformer(true, transformerList[(Math.random() * transformerList.size).toInt()])
-        }
         handler.sendMessage(Message.obtain(handler, BannerHandler.MSG_PAGE, viewPager.currentItem, 0))
         onBannerChangeListener?.onPageSelected(newPosition)
     }
@@ -146,15 +142,12 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         onBannerChangeListener?.onPageScrollStateChanged(state)
     }
 
-    fun initPageNumView() = apply { pageView = BannerPageView(context) }
-
-    fun initTips() = apply { tipLayout = BannerTipsLayout(context) }
-
-    fun resource(imageList: ArrayList<out BannerInfo>) = apply {
-        if (imageList.isNotEmpty()) {
-            this.imageList = imageList
-            initBanner()
+    fun resource(imageList: ArrayList<out BannerInfo>, showTipsLayout: Boolean = false, showPageView: Boolean = false, isStartRotation: Boolean = true) {
+        if (imageList.isNullOrEmpty()) {
+            return
         }
+        this.imageList = imageList
+        initBanner(showTipsLayout, showPageView, isStartRotation)
     }
 
     fun switchBanner(isStartRotation: Boolean) = apply {

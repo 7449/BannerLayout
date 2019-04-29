@@ -68,9 +68,7 @@ class Issues10Activity : AppCompatActivity() {
                     pageNumViewTopMargin = 10
                     delayTime = 1000
                 }
-                .initPageNumView()
-                .resource(data)
-                .switchBanner(false)
+                .resource(data, showPageView = true)
 
 
         //  dots
@@ -135,10 +133,7 @@ class Issues10Activity : AppCompatActivity() {
                     dotsRightMargin = dotMargin
                     dotsLeftMargin = dotMargin
                 }
-                .initTips()
-                .initPageNumView()
-                .resource(newModel())
-                .switchBanner(true)
+                .resource(newModel(), showTipsLayout = true, showPageView = true)
         findViewById<View>(R.id.btn_alter_count)
                 .setOnClickListener { alterBannerCount() }
     }
@@ -158,8 +153,7 @@ class Issues10Activity : AppCompatActivity() {
                         visibleDots = false
                         visibleTitle = false
                     }
-                    .resource(alterData)
-                    .switchBanner(false)
+                    .resource(alterData, isStartRotation = false)
             Toast.makeText(this, "size <=1 , stopBanner , not show tipsLayout", Toast.LENGTH_SHORT).show()
         } else {
             banner
@@ -168,8 +162,7 @@ class Issues10Activity : AppCompatActivity() {
                         visibleDots = true
                         visibleTitle = true
                     }
-                    .resource(alterData)
-                    .switchBanner(true)
+                    .resource(alterData, isStartRotation = true)
             Toast.makeText(this, "size >1 , startBanner , show tipsLayout", Toast.LENGTH_SHORT).show()
         }
     }

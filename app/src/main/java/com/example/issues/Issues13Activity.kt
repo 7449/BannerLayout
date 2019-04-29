@@ -32,9 +32,7 @@ class Issues13Activity : AppCompatActivity() {
                     offscreenPageLimit = 3
                     bannerTransformer = MeizuBannerTransformer()
                 }
-                .initTips()
-                .initPageNumView()
-                .resource(newModel())
+                .resource(newModel(), showTipsLayout = true, showPageView = true)
         val layoutParams = issues_13_banner.ViewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50

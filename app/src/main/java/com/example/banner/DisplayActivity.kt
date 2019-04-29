@@ -30,19 +30,14 @@ class DisplayActivity : AppCompatActivity() {
                     draweeView
                 }
                 .resource(newModel())
-                .switchBanner(true)
 
         imageloader_banner
                 .ImageLoaderManager { ImageLoaderSimpleManager() }
-                .resource(newModel())
-                .switchBanner(false)
+                .resource(newModel(), isStartRotation = false)
 
         picasso_banner
                 .ImageLoaderManager { PicassoSimpleImageManager() }
-                .initPageNumView()
-                .initTips()
-                .resource(newModel())
-                .switchBanner(true)
+                .resource(newModel(), showTipsLayout = true, showPageView = true)
     }
 
     override fun onDestroy() {
