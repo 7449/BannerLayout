@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bannersimple">
+    package="com.example">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,18 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".simple.RefreshActivity" />
-        <activity android:name=".simple.SimpleActivity" />
+        <activity android:name=".recyclerview.RecyclerViewActivity" />
         <activity
-            android:name=".simple.SimpleGuideActivity"
+            android:name=".banner.GuideActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".simple.ImageManagerActivity" />
-        <activity android:name=".simple.TransformerActivity" />
-        <activity android:name=".simple.MethodTestActivity" />
-        <activity android:name=".simple.issues.Issues10Activity" />
-        <activity android:name=".simple.issues.Issues12Activity" />
-        <activity android:name=".simple.issues.Issues13Activity" />
-        <activity android:name=".simple.SimpleJavaActivity" />
+        <activity android:name=".banner.DisplayActivity" />
+        <activity android:name=".banner.TransformerActivity" />
+        <activity android:name="com.example.issues.Issues10Activity" />
+        <activity android:name="com.example.issues.Issues12Activity" />
+        <activity android:name="com.example.issues.Issues13Activity" />
     </application>
 
 </manifest>

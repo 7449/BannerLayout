@@ -72,7 +72,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
                 <View
                     android:layout_width="15dp"
@@ -80,7 +80,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
                 <View
                     android:layout_width="15dp"
@@ -88,7 +88,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
                 <View
                     android:layout_width="15dp"
@@ -96,7 +96,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
                 <View
                     android:layout_width="15dp"
@@ -104,7 +104,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
                 <View
                     android:layout_width="15dp"
@@ -112,7 +112,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/banner" />
+                    android:background="@drawable/selector_banner_dots" />
 
             </LinearLayout>
 

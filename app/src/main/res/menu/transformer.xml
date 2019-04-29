@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/transformer_accordion"
+        android:title="accordion" />
+    <item
+        android:id="@+id/transformer_background"
+        android:title="background" />
+    <item
+        android:id="@+id/transformer_cube_in"
+        android:title="cube_in" />
+    <item
+        android:id="@+id/transformer_cube_out"
+        android:title="cube_out" />
+    <item
+        android:id="@+id/transformer_default"
+        android:title="default" />
+    <item
+        android:id="@+id/transformer_depth_page"
+        android:title="depth_page" />
+    <item
+        android:id="@+id/transformer_flip_horizontal"
+        android:title="flip_horizontal" />
+    <item
+        android:id="@+id/transformer_flip_vertical"
+        android:title="flip_vertical" />
+    <item
+        android:id="@+id/transformer_foreground"
+        android:title="foreground" />
+    <item
+        android:id="@+id/transformer_rotate_down"
+        android:title="rotate_down" />
+    <item
+        android:id="@+id/transformer_rotate_up"
+        android:title="rotate_up" />
+    <item
+        android:id="@+id/transformer_stack"
+        android:title="stack" />
+    <item
+        android:id="@+id/transformer_scale_in_out"
+        android:title="scale_in_out" />
+    <item
+        android:id="@+id/transformer_tablet"
+        android:title="tablet" />
+    <item
+        android:id="@+id/transformer_zoom_in"
+        android:title="zoom_in" />
+    <item
+        android:id="@+id/transformer_zoom_out_page"
+        android:title="zoom_out_page" />
+    <item
+        android:id="@+id/transformer_zoom_out_slide"
+        android:title="zoom_out_slide" />
+    <item
+        android:id="@+id/transformer_zoom_out"
+        android:title="zoom_out" />
+    <item
+        android:id="@+id/transformer_drawer"
+        android:title="drawer" />
+</menu>

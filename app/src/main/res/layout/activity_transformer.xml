@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <com.bannerlayout.widget.BannerLayout
         android:id="@+id/transformer_banner"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="300dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/banner_position"
@@ -18,11 +17,5 @@
         android:gravity="center"
         android:padding="10dp"
         tools:text="tips" />
-
-    <Spinner
-        android:id="@+id/transformer_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:entries="@array/transformer" />
 
 </LinearLayout>

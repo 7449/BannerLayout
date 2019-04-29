@@ -1,1 +1,1 @@
-include ':app', ':BannerLayoutLibrary'
+include ':app', ':library'

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.bannerlayout.widget.BannerLayout
         android:id="@+id/banner_guide"
@@ -16,6 +15,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="80dp"
         android:gravity="center"
-        android:text="开启" />
+        android:text="开启"
+        android:visibility="gone" />
 
 </FrameLayout>

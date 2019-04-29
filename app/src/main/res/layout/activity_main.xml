@@ -9,66 +9,54 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_simple"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SIMPLE" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_guide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GUIDE" />
+            android:text="Guide"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_refresh_simple"
+            android:id="@+id/btn_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="REFRESH" />
+            android:text="RecyclerView Header"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_image_manager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="IMAGE_MANAGER" />
+            android:text="ImageManager"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_transformer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Transformer" />
+            android:text="Transformer"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_issues_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="issues 10" />
+            android:text="issues 10"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_issues_12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="issues 12" />
+            android:text="issues 12"
+            android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_issues_13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="issues 13" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_method_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="METHOD TEST" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_java"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="JAVA" />
+            android:text="issues 13"
+            android:textAllCaps="false" />
 
     </LinearLayout>
-
 
 </androidx.core.widget.NestedScrollView>
