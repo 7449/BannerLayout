@@ -5,6 +5,8 @@ import android.graphics.Camera
 import android.graphics.Matrix
 import android.view.View
 import androidx.viewpager.widget.ViewPager
+import kotlin.math.abs
+import kotlin.math.max
 
 fun getTransformer(type: Int): BannerTransformer {
     when (type) {
@@ -116,7 +118,7 @@ class BackgroundToForegroundTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
         val height = page.height.toFloat()
         val width = page.width.toFloat()
-        val scale = min(if (position < 0) 1f else Math.abs(1f - position), 0.5f)
+        val scale = min(if (position < 0) 1f else abs(1f - position), 0.5f)
         page.scaleX = scale
         page.scaleY = scale
         page.pivotX = width * 0.5f
@@ -226,7 +228,7 @@ class ForegroundToBackgroundTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
         val height = page.height.toFloat()
         val width = page.width.toFloat()
-        val scale = min(if (position > 0) 1f else Math.abs(1f + position), 0.5f)
+        val scale = min(if (position > 0) 1f else abs(1f + position), 0.5f)
         page.scaleX = scale
         page.scaleY = scale
         page.pivotX = width * 0.5f
@@ -287,7 +289,7 @@ class StackTransformer : ABaseTransformer() {
 
 class TabletTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
-        val rotation = (if (position < 0) 30f else -30f) * Math.abs(position)
+        val rotation = (if (position < 0) 30f else -30f) * abs(position)
         page.translationX = getOffsetXForRotation(rotation, page.width, page.height)
         page.pivotX = page.width * 0.5f
         page.pivotY = 0f
@@ -301,7 +303,7 @@ class TabletTransformer : ABaseTransformer() {
         private fun getOffsetXForRotation(degrees: Float, width: Int, height: Int): Float {
             OFFSET_MATRIX.reset()
             OFFSET_CAMERA.save()
-            OFFSET_CAMERA.rotateY(Math.abs(degrees))
+            OFFSET_CAMERA.rotateY(abs(degrees))
             OFFSET_CAMERA.getMatrix(OFFSET_MATRIX)
             OFFSET_CAMERA.restore()
             OFFSET_MATRIX.preTranslate(-width * 0.5f, -height * 0.5f)
@@ -332,7 +334,7 @@ class VerticalTransformer : BannerTransformer() {
 
 class ZoomInTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
-        val scale = if (position < 0) position + 1f else Math.abs(1f - position)
+        val scale = if (position < 0) position + 1f else abs(1f - position)
         page.scaleX = scale
         page.scaleY = scale
         page.pivotX = page.width * 0.5f
@@ -349,7 +351,7 @@ class ZoomOutPageTransformer : BannerTransformer() {
         when {
             position < -1 -> view.alpha = 0f
             position <= 1 -> {
-                val scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position))
+                val scaleFactor = max(MIN_SCALE, 1 - abs(position))
                 val vertMargin = pageHeight * (1 - scaleFactor) / 2
                 val horzMargin = pageWidth * (1 - scaleFactor) / 2
                 if (position < 0) {
@@ -376,7 +378,7 @@ class ZoomOutSlideTransformer : ABaseTransformer() {
         if (position >= -1 || position <= 1) {
             val height = page.height.toFloat()
             val width = page.width.toFloat()
-            val scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position))
+            val scaleFactor = max(MIN_SCALE, 1 - abs(position))
             val vertMargin = height * (1 - scaleFactor) / 2
             val horzMargin = width * (1 - scaleFactor) / 2
             page.pivotY = 0.5f * height
@@ -400,7 +402,7 @@ class ZoomOutSlideTransformer : ABaseTransformer() {
 
 class ZoomOutTransformer : ABaseTransformer() {
     override fun onTransform(page: View, position: Float) {
-        val scale = 1f + Math.abs(position)
+        val scale = 1f + abs(position)
         page.scaleX = scale
         page.scaleY = scale
         page.pivotX = page.width * 0.5f
