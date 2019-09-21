@@ -2,9 +2,9 @@ package com.example.issues
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bannerlayout.removeCallbacksAndMessages
-import com.bannerlayout.valueTipsBackgroundColor
-import com.bannerlayout.valueTipsLayoutBackgroundColor
+import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.valueTipsBackgroundColor
+import com.android.banner.valueTipsLayoutBackgroundColor
 import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_12.*

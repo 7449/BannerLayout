@@ -1,12 +1,11 @@
-package com.bannerlayout.widget
+package com.android.banner.widget
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.bannerlayout.BannerInfo
-import com.bannerlayout.ImageLoaderManager
-import com.bannerlayout.OnBannerClickListener
-
+import com.android.banner.BannerInfo
+import com.android.banner.ImageLoaderManager
+import com.android.banner.OnBannerClickListener
 
 /**
  * by y on 2016/10/24.

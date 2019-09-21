@@ -1,4 +1,4 @@
-package com.bannerlayout.widget
+package com.android.banner.widget
 
 import android.content.Context
 import android.text.TextUtils
@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.bannerlayout.dotsSelector
+import com.android.banner.dotsSelector
 
 internal class BannerTipsLayout(context: Context) : RelativeLayout(context) {
 

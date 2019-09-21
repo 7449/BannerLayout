@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bannerlayout.widget.BannerLayout
+    <com.android.banner.widget.BannerLayout
         android:id="@+id/transformer_banner"
         android:layout_width="match_parent"
         android:layout_height="300dp" />

@@ -2,7 +2,7 @@ package com.example.display
 
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.bannerlayout.ImageLoaderManager
+import com.android.banner.ImageLoaderManager
 
 import com.example.R
 import com.example.NetBannerInfo

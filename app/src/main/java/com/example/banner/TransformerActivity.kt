@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.bannerlayout.BannerTransformer
-import com.bannerlayout.doOnPageSelected
-import com.bannerlayout.removeCallbacksAndMessages
+import com.android.banner.BannerTransformer
+import com.android.banner.doOnPageSelected
+import com.android.banner.removeCallbacksAndMessages
 import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_transformer.*

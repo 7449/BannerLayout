@@ -1,8 +1,8 @@
-package com.bannerlayout.run
+package com.android.banner.run
 
 import android.os.Handler
 import android.os.Message
-import com.bannerlayout.widget.BannerLayout
+import com.android.banner.widget.BannerLayout
 
 /**
  * @author y

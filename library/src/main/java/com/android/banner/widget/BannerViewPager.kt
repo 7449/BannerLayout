@@ -1,4 +1,4 @@
-package com.bannerlayout.widget
+package com.android.banner.widget
 
 import android.app.Activity
 import android.content.Context
@@ -74,7 +74,7 @@ class BannerViewPager : ViewPager {
             mScroller.set(this, scroller)
             scroller.fixDuration = duration
         } catch (e: Exception) {
-            Log.i(javaClass.simpleName, e.message)
+            Log.i(javaClass.simpleName, e.message ?: "")
         }
         return this
     }

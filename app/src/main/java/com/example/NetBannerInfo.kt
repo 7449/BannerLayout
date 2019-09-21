@@ -1,6 +1,6 @@
 package com.example
 
-import com.bannerlayout.BannerInfo
+import com.android.banner.BannerInfo
 
 
 /**

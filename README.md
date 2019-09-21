@@ -2,60 +2,14 @@
 
 BannerLayout for unlimited rotation of images
 
-
-> RecyclerView Banner
-
-[RecyclerBanner](https://github.com/7449/BannerLayout/tree/RecyclerBanner)
-
-
-[中文文档](https://7449.github.io/2016/10/26/Android_BannerLayout/)
-
-## Support function
-
-
-- can be customized  dots , title, prompt bar position，Support for custom selectors
-
-- you can customize small dots, and whether to automatically rotate to the next page and rotation time
-
-- support for click events and rotation speed and viewPager slide switch speed
-
-- whether to display a dots, title, or the entire tip column
-
-- support for loading and loading fails to display custom pictures
-
-- supports pause to resume the rotation status
-
-- supports animation and vertical scrolling
-
-#### Effect
-
-![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_simple.gif)
-![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_transformer.gif)
-![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_refresh.gif)
-![](https://github.com/7449/BannerLayout/blob/master/screenshot/banner_imagemanager.gif)
-
 ## Basic Usage
 
 >gradle
 
-    api 'com.ydevelop:bannerlayout:1.1.7'
+    api 'com.ydevelop:bannerlayout:1.1.8'
     
->maven
-
-	<dependency>
-	  <groupId>com.ydevelop</groupId>
-	  <artifactId>bannerlayout</artifactId>
-	  <version>1.1.7</version>
-	  <type>pom</type>
-	</dependency>
-	
-	
 recommended to look at Sample ： [SimpleActivity](https://github.com/7449/BannerLayout/blob/master/app/src/main/java/com/example/banner)
 	
->If the network is loading pictures remember to add
-
-	<uses-permission android:name="android.permission.INTERNET" />
-
 >simple to use
 
 Bean class please implement [BannerInfo](https://github.com/7449/BannerLayout/blob/master/library/src/main/java/com/bannerlayout/Listener.kt)
@@ -120,7 +74,7 @@ see :[ImageManagerSimple](https://github.com/7449/BannerLayout/blob/master/app/s
 	titleSite               	Title The location of the prompt bar，left,center,right Three optional
 
 	xml:
-		    <com.bannerlayout.widget.BannerLayout
+		    <com.android.banner.widget.BannerLayout
 		        ...
 		        app:tips_site="center" />
 

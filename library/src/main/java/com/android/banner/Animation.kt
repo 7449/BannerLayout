@@ -1,4 +1,4 @@
-package com.bannerlayout
+package com.android.banner
 
 import android.annotation.SuppressLint
 import android.graphics.Camera
@@ -6,7 +6,6 @@ import android.graphics.Matrix
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
-import kotlin.math.max
 
 fun getTransformer(type: Int): BannerTransformer {
     when (type) {
@@ -351,7 +350,7 @@ class ZoomOutPageTransformer : BannerTransformer() {
         when {
             position < -1 -> view.alpha = 0f
             position <= 1 -> {
-                val scaleFactor = max(MIN_SCALE, 1 - abs(position))
+                val scaleFactor = MIN_SCALE.coerceAtLeast(1 - abs(position))
                 val vertMargin = pageHeight * (1 - scaleFactor) / 2
                 val horzMargin = pageWidth * (1 - scaleFactor) / 2
                 if (position < 0) {
@@ -378,7 +377,7 @@ class ZoomOutSlideTransformer : ABaseTransformer() {
         if (position >= -1 || position <= 1) {
             val height = page.height.toFloat()
             val width = page.width.toFloat()
-            val scaleFactor = max(MIN_SCALE, 1 - abs(position))
+            val scaleFactor = MIN_SCALE.coerceAtLeast(1 - abs(position))
             val vertMargin = height * (1 - scaleFactor) / 2
             val horzMargin = width * (1 - scaleFactor) / 2
             page.pivotY = 0.5f * height

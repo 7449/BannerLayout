@@ -1,4 +1,4 @@
-package com.bannerlayout.widget
+package com.android.banner.widget
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
@@ -6,8 +6,8 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatTextView
-import com.bannerlayout.color
-import com.bannerlayout.cornerRadius
+import com.android.banner.color
+import com.android.banner.cornerRadius
 
 internal class BannerPageView(context: Context) : AppCompatTextView(context) {
 

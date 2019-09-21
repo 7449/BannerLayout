@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.bannerlayout.widget.BannerLayout
+    <com.android.banner.widget.BannerLayout
         android:id="@+id/banner_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

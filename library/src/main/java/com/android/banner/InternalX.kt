@@ -1,6 +1,4 @@
-@file:Suppress("FunctionName", "UNCHECKED_CAST", "NOTHING_TO_INLINE")
-
-package com.bannerlayout
+package com.android.banner
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
@@ -10,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.bannerlayout.widget.BannerAdapter
-import com.bannerlayout.widget.BannerLayout
-import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_BOTTOM
-import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_LEFT
-import com.bannerlayout.widget.BannerLayout.Companion.BANNER_TIPS_RIGHT
-import com.bannerlayout.widget.BannerLayout.Companion.MATCH_PARENT
-import com.bannerlayout.widget.BannerLayout.Companion.PAGE_NUM_VIEW_TOP_RIGHT
-import com.bannerlayout.widget.BannerLayout.Companion.WRAP_CONTENT
-import com.bannerlayout.widget.BannerPageView
-import com.bannerlayout.widget.BannerTipsLayout
+import com.android.banner.widget.BannerAdapter
+import com.android.banner.widget.BannerLayout
+import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_BOTTOM
+import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_LEFT
+import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_RIGHT
+import com.android.banner.widget.BannerLayout.Companion.MATCH_PARENT
+import com.android.banner.widget.BannerLayout.Companion.PAGE_NUM_VIEW_TOP_RIGHT
+import com.android.banner.widget.BannerLayout.Companion.WRAP_CONTENT
+import com.android.banner.widget.BannerPageView
+import com.android.banner.widget.BannerTipsLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -27,8 +25,7 @@ import com.bumptech.glide.request.RequestOptions
  * @author y
  * @create 2019/4/16
  */
-
-internal inline fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager<BannerInfo> {
+internal fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager<BannerInfo> {
     val requestOptions = RequestOptions().placeholder(placeImageView).error(errorImageView).centerCrop()
     return object : ImageLoaderManager<BannerInfo> {
         override fun display(container: ViewGroup, info: BannerInfo, position: Int): View {
@@ -39,7 +36,7 @@ internal inline fun BannerLayout.defaultImageLoaderManager(): ImageLoaderManager
     }
 }
 
-internal inline fun BannerLayout.dotsSelector(): Drawable {
+internal fun BannerLayout.dotsSelector(): Drawable {
     return if (dotsSelector == 0x0)
         StateListDrawable()
                 .addEnabledState(enabledRadius, enabledColor)
@@ -51,7 +48,7 @@ internal inline fun BannerLayout.dotsSelector(): Drawable {
                         .addNormalState(normalRadius, normalColor)
 }
 
-internal inline fun BannerLayout.initBanner(showTipsLayout: Boolean = false, showPageView: Boolean = false, startRotation: Boolean = true) = apply {
+internal fun BannerLayout.initBanner(showTipsLayout: Boolean = false, showPageView: Boolean = false, startRotation: Boolean = true) = apply {
     removeAllViews()
     preEnablePosition = 0
     val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize()
@@ -71,7 +68,7 @@ internal inline fun BannerLayout.initBanner(showTipsLayout: Boolean = false, sho
     }
 }
 
-internal inline fun BannerLayout.initViewPager(currentItem: Int) {
+internal fun BannerLayout.initViewPager(currentItem: Int) {
     viewPager.viewTouchMode = viewPagerTouchMode
     viewPager.addOnPageChangeListener(this)
     viewPager.setDuration(bannerDuration)
@@ -86,7 +83,7 @@ internal inline fun BannerLayout.initViewPager(currentItem: Int) {
     addView(viewPager)
 }
 
-internal inline fun BannerLayout.initPageView() {
+internal fun BannerLayout.initPageView() {
     pageView = BannerPageView(context)
     pageView?.text = TextUtils.concat(1.toString(), pageNumViewMark, dotsSize().toString())
     val params = pageView?.run {
@@ -108,7 +105,7 @@ internal inline fun BannerLayout.initPageView() {
     addView(pageView, params)
 }
 
-internal inline fun BannerLayout.initTipsLayout() {
+internal fun BannerLayout.initTipsLayout() {
     tipLayout = BannerTipsLayout(context)
     addView(tipLayout, tipLayout?.run {
         removeAllViews()
@@ -144,7 +141,7 @@ internal inline fun BannerLayout.initTipsLayout() {
     })
 }
 
-internal inline fun BannerLayout.BannerTypedArrayImpl(attrs: AttributeSet?) {
+internal fun BannerLayout.bannerTypedArrayImpl(attrs: AttributeSet?) {
     val context = context
     val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
     isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, false)
@@ -192,7 +189,6 @@ internal inline fun BannerLayout.BannerTypedArrayImpl(attrs: AttributeSet?) {
     pageNumViewTextColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_text_color, ContextCompat.getColor(context, R.color.colorWhite))
     pageNumViewBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_background_color, ContextCompat.getColor(context, R.color.colorBackground))
     pageNumViewTextSize = typedArray.getDimension(R.styleable.BannerLayout_banner_page_num_text_size, 10f)
-    pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_banner_page_num_mark)
-            ?: " / "
+    pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_banner_page_num_mark) ?: " / "
     typedArray.recycle()
 }

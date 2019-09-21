@@ -11,9 +11,9 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.bannerlayout.doOnPageSelected
-import com.bannerlayout.removeCallbacksAndMessages
-import com.bannerlayout.widget.BannerLayout
+import com.android.banner.doOnPageSelected
+import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.widget.BannerLayout
 import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_10.*

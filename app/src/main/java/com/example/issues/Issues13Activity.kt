@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.bannerlayout.BannerTransformer
-import com.bannerlayout.ViewPager
-import com.bannerlayout.ViewPagerLayoutParams
-import com.bannerlayout.removeCallbacksAndMessages
+import com.android.banner.BannerTransformer
+import com.android.banner.viewPager
+import com.android.banner.viewPagerLayoutParams
+import com.android.banner.removeCallbacksAndMessages
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_13.*
 
@@ -33,14 +33,14 @@ class Issues13Activity : AppCompatActivity() {
                     bannerTransformer = MeizuBannerTransformer()
                 }
                 .resource(newModel(), showTipsLayout = true, showPageView = true)
-        val layoutParams = issues_13_banner.ViewPagerLayoutParams()
+        val layoutParams = issues_13_banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
         val handler = Handler()
         val r = Runnable {
-            issues_13_banner.ViewPager().beginFakeDrag()
-            issues_13_banner.ViewPager().fakeDragBy(1.0f)
-            issues_13_banner.ViewPager().endFakeDrag()
+            issues_13_banner.viewPager().beginFakeDrag()
+            issues_13_banner.viewPager().fakeDragBy(1.0f)
+            issues_13_banner.viewPager().endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }

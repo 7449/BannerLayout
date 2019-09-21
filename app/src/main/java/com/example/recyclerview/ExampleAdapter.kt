@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bannerlayout.addOnItemClickListener
-import com.bannerlayout.widget.BannerLayout
+import com.android.banner.addOnItemClickListener
+import com.android.banner.widget.BannerLayout
 import com.bumptech.glide.Glide
 import com.example.NetBannerInfo
 import com.example.R

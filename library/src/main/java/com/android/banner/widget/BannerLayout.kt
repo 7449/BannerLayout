@@ -1,4 +1,4 @@
-package com.bannerlayout.widget
+package com.android.banner.widget
 
 import android.content.Context
 import android.os.Message
@@ -6,8 +6,8 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.viewpager.widget.ViewPager
-import com.bannerlayout.*
-import com.bannerlayout.run.BannerHandler
+import com.android.banner.*
+import com.android.banner.run.BannerHandler
 
 class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
 
@@ -110,7 +110,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     var pageNumViewMark: String = ""
 
     init {
-        BannerTypedArrayImpl(attrs)
+        bannerTypedArrayImpl(attrs)
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

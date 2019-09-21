@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_recycler_view.*
 /**
  * by y on 2017/3/8.
  */
-
 class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<ListModel>, Runnable {
 
     private lateinit var adapter: ExampleAdapter
@@ -33,7 +32,7 @@ class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLi
     }
 
     override fun onRefresh() {
-        RxNetWork.cancelX(javaClass.simpleName)
+        RxNetWork.cancelTag(javaClass.simpleName)
         RxNetWork
                 .observable(Api.ZLService::class.java)
                 .getList()
@@ -61,7 +60,7 @@ class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLi
 
     override fun onDestroy() {
         super.onDestroy()
-        RxNetWork.cancelX(javaClass.simpleName)
+        RxNetWork.cancelTag(javaClass.simpleName)
     }
 
     override fun run() {

@@ -6,8 +6,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bannerlayout.*
-import com.bannerlayout.widget.BannerLayout
+import com.android.banner.*
+import com.android.banner.widget.BannerLayout
 import com.example.NetBannerInfo
 import com.example.R
 import com.example.newModel

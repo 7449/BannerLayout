@@ -1,4 +1,4 @@
-package com.bannerlayout
+package com.android.banner
 
 import android.view.View
 import android.view.ViewGroup
