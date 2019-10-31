@@ -10,12 +10,6 @@ import com.android.banner.widget.BannerLayout
  */
 class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
 
-    companion object {
-        const val MSG_UPDATE = 1
-        const val MSG_KEEP = 2
-        const val MSG_PAGE = 3
-    }
-
     var status: Int = 0
         private set
 
@@ -27,17 +21,17 @@ class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
         if (handlerPage == -1) {
             return
         }
-        if (hasMessages(MSG_UPDATE)) {
-            removeMessages(MSG_UPDATE)
+        if (hasMessages(BannerLayout.MSG_UPDATE)) {
+            removeMessages(BannerLayout.MSG_UPDATE)
         }
         val what = msg.what
         when (what) {
-            MSG_UPDATE -> {
+            BannerLayout.MSG_UPDATE -> {
                 mCurrent.viewPager.currentItem = ++handlerPage
-                sendEmptyMessageDelayed(MSG_UPDATE, handlerDelayTime)
+                sendEmptyMessageDelayed(BannerLayout.MSG_UPDATE, handlerDelayTime)
             }
-            MSG_PAGE -> handlerPage = msg.arg1
-            MSG_KEEP -> {
+            BannerLayout.MSG_PAGE -> handlerPage = msg.arg1
+            BannerLayout.MSG_KEEP -> {
             }
         }
         status = what

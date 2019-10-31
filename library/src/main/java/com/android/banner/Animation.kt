@@ -159,7 +159,7 @@ class DepthPageTransformer : ABaseTransformer() {
             page.scaleX = 1f
             page.scaleY = 1f
         } else if (position <= 1f) {
-            val scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position))
+            val scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - abs(position))
             page.alpha = 1 - position
             page.pivotY = 0.5f * page.height
             page.translationX = page.width * -position

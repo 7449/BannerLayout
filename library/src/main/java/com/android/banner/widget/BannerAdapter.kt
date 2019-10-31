@@ -25,7 +25,7 @@ internal class BannerAdapter(private val imageList: List<BannerInfo>,
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val img = loaderManager.display(container, imageList[getPosition(position)], position)
-        img.setOnClickListener { v -> listener?.onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
+        listener?.let { img.setOnClickListener { v -> it.onBannerClick(v, getPosition(position), imageList[getPosition(position)]) } }
         container.addView(img)
         return img
     }

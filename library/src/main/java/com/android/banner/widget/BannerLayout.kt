@@ -12,6 +12,9 @@ import com.android.banner.run.BannerHandler
 class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
 
     companion object {
+        const val MSG_UPDATE = 1
+        const val MSG_KEEP = 2
+        const val MSG_PAGE = 3
         const val MATCH_PARENT = LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
         const val PAGE_NUM_VIEW_TOP_LEFT = 0
@@ -127,7 +130,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
             tipLayout?.setTitle(imageList[newPosition].bannerTitle)
         }
         preEnablePosition = newPosition
-        handler.sendMessage(Message.obtain(handler, BannerHandler.MSG_PAGE, viewPager.currentItem, 0))
+        handler.sendMessage(Message.obtain(handler, MSG_PAGE, viewPager.currentItem, 0))
         onBannerChangeListener?.onPageSelected(newPosition)
     }
 
@@ -135,8 +138,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (isStartRotation) {
             removeCallbacksAndMessages()
             when (state) {
-                ViewPager.SCROLL_STATE_DRAGGING -> handler.sendEmptyMessage(BannerHandler.MSG_KEEP)
-                ViewPager.SCROLL_STATE_IDLE -> handler.sendEmptyMessageDelayed(BannerHandler.MSG_UPDATE, delayTime)
+                ViewPager.SCROLL_STATE_DRAGGING -> handler.sendEmptyMessage(MSG_KEEP)
+                ViewPager.SCROLL_STATE_IDLE -> handler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
             }
         }
         onBannerChangeListener?.onPageScrollStateChanged(state)
@@ -155,9 +158,9 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.isStartRotation = isStartRotation
         if (isStartRotation) {
             handler.handlerDelayTime = delayTime
-            handler.sendEmptyMessageDelayed(BannerHandler.MSG_UPDATE, delayTime)
+            handler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
         } else {
-            handler.sendEmptyMessage(BannerHandler.MSG_KEEP)
+            handler.sendEmptyMessage(MSG_KEEP)
             removeCallbacksAndMessages()
         }
     }

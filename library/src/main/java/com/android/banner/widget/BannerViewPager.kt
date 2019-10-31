@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
 /**
  * by y on 2016/10/25
  */
-class BannerViewPager : ViewPager {
+class BannerViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
 
     var viewTouchMode: Boolean = false
         set(value) {
@@ -29,10 +29,6 @@ class BannerViewPager : ViewPager {
     private lateinit var scroller: FixedSpeedScroller
 
     val duration: Int get() = scroller.fixDuration
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
