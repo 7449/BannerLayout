@@ -155,7 +155,7 @@ fun BannerLayout.addOnBannerChangeListener(
         override fun onPageSelected(position: Int) = onPageSelected(position)
         override fun onPageScrollStateChanged(state: Int) = onPageScrollStateChanged(state)
     }
-    onBannerChangeListener = listener
+    onBannerChangeListener.add(listener)
     return this
 }
 

@@ -42,7 +42,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     var imageLoaderManager: ImageLoaderManager<out BannerInfo> = defaultImageLoaderManager()
     var onBannerClickListener: OnBannerClickListener<out BannerInfo>? = null
-    var onBannerChangeListener: OnBannerChangeListener? = null
+    val onBannerChangeListener: ArrayList<OnBannerChangeListener> = ArrayList()
 
     var bannerTransformer: BannerTransformer? = null
         set(value) {
@@ -66,7 +66,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     var errorImageView: Int = 0
     var placeImageView: Int = 0
     var bannerDuration: Int = 0
-    var isVertical: Boolean = false
     var delayTime: Long = 0
 
     var visibleDots: Boolean = false
@@ -112,7 +111,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        onBannerChangeListener?.onPageScrolled(position % dotsSize(), positionOffset, positionOffsetPixels)
+        onBannerChangeListener.forEach { it.onPageScrolled(position % dotsSize(), positionOffset, positionOffsetPixels) }
     }
 
     override fun onPageSelected(position: Int) {
@@ -126,7 +125,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         preEnablePosition = newPosition
         handler.sendMessage(Message.obtain(handler, MSG_PAGE, viewPager.currentItem, 0))
-        onBannerChangeListener?.onPageSelected(newPosition)
+        onBannerChangeListener.forEach { it.onPageSelected(newPosition) }
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -137,7 +136,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
                 ViewPager.SCROLL_STATE_IDLE -> handler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
             }
         }
-        onBannerChangeListener?.onPageScrollStateChanged(state)
+        onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
     }
 
     fun resource(imageList: ArrayList<out BannerInfo>, showTipsLayout: Boolean = false, showPageView: Boolean = false, isStartRotation: Boolean = true) {
