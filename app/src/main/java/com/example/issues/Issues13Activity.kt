@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.BannerTransformer
 import com.android.banner.viewPager
 import com.android.banner.viewPagerLayoutParams
 import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.transformer.BannerTransformer
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_13.*
+import kotlin.math.abs
+import kotlin.math.max
 
 
 /**
@@ -55,7 +57,7 @@ class MeizuBannerTransformer : BannerTransformer() {
     override fun transformPage(page: View, position: Float) {
         when {
             position < -1 -> page.scaleY = 0.8f
-            position <= 1 -> page.scaleY = Math.max(0.8f, 1 - Math.abs(position))
+            position <= 1 -> page.scaleY = max(0.8f, 1 - abs(position))
             else -> page.scaleY = 0.8f
         }
     }

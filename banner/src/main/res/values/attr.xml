@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BannerLayout">
+        <attr name="banner_delay_time" format="integer" />
+        <attr name="banner_start_rotation" format="boolean" />
+        <attr name="banner_view_pager_touch_mode" format="boolean" />
+        <attr name="banner_duration" format="integer" />
+        <attr name="banner_guide" format="boolean" />
+
+        <attr name="banner_dots_visible" format="boolean" />
+        <attr name="banner_dots_selector" format="reference" />
+        <attr name="banner_dots_left_margin" format="integer" />
+        <attr name="banner_dots_right_margin" format="integer" />
+        <attr name="banner_dots_width" format="integer" />
+        <attr name="banner_dots_height" format="integer" />
+
+        <attr name="banner_enabled_radius" format="float" />
+        <attr name="banner_norma_radius" format="float" />
+        <attr name="banner_enabled_color" format="color" />
+        <attr name="banner_normal_color" format="color" />
+
+        <attr name="banner_show_tips_background" format="boolean" />
+        <attr name="banner_tips_background" format="color" />
+        <attr name="banner_tips_width" format="integer">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="banner_tips_height" format="integer">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="banner_glide_error_image" format="reference" />
+        <attr name="banner_glide_place_image" format="reference" />
+
+        <attr name="banner_title_visible" format="boolean" />
+        <attr name="banner_title_size" format="dimension" />
+        <attr name="banner_title_color" format="color" />
+        <attr name="banner_title_width" format="integer" />
+        <attr name="banner_title_height" format="integer" />
+        <attr name="banner_title_left_margin" format="integer" />
+        <attr name="banner_title_right_margin" format="integer" />
+
+        <attr name="banner_page_num_radius" format="float" />
+        <attr name="banner_page_num_padding_top" format="integer" />
+        <attr name="banner_page_num_padding_left" format="integer" />
+        <attr name="banner_page_num_padding_right" format="integer" />
+        <attr name="banner_page_num_padding_bottom" format="integer" />
+        <attr name="banner_page_num_margin_top" format="integer" />
+        <attr name="banner_page_num_margin_left" format="integer" />
+        <attr name="banner_page_num_margin_right" format="integer" />
+        <attr name="banner_page_num_margin_bottom" format="integer" />
+        <attr name="banner_page_num_text_color" format="color" />
+        <attr name="banner_page_num_background_color" format="color" />
+        <attr name="banner_page_num_text_size" format="dimension" />
+        <attr name="banner_page_num_mark" format="string" />
+
+        <attr name="banner_page_num_site">
+            <enum name="topLeft" value="0" />
+            <enum name="topRight" value="1" />
+            <enum name="bottomLeft" value="2" />
+            <enum name="bottomRight" value="3" />
+            <enum name="centerLeft" value="4" />
+            <enum name="centerRight" value="5" />
+            <enum name="topCenter" value="6" />
+            <enum name="bottomCenter" value="7" />
+        </attr>
+        <attr name="banner_tips_site">
+            <enum name="top" value="10" />
+            <enum name="bottom" value="12" />
+            <enum name="center" value="13" />
+        </attr>
+        <attr name="banner_dots_site">
+            <enum name="left" value="9" />
+            <enum name="center" value="13" />
+            <enum name="right" value="11" />
+        </attr>
+        <attr name="banner_title_site">
+            <enum name="left" value="9" />
+            <enum name="center" value="13" />
+            <enum name="right" value="11" />
+        </attr>
+    </declare-styleable>
+</resources>

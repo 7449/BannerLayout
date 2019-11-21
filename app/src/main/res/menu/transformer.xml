@@ -57,4 +57,7 @@
     <item
         android:id="@+id/transformer_drawer"
         android:title="drawer" />
+    <item
+        android:id="@+id/transformer_vertical"
+        android:title="vertical" />
 </menu>
