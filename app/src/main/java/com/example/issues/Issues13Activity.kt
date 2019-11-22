@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.viewPager
-import com.android.banner.viewPagerLayoutParams
-import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.*
+import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
+import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_13.*
 import kotlin.math.abs
 import kotlin.math.max
-
 
 /**
  * Issues sample : https://github.com/7449/BannerLayout/issues/13
@@ -22,19 +21,14 @@ class Issues13Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.R.layout.activity_issues_13)
+        setContentView(R.layout.activity_issues_13)
         issues_13_banner.clipChildren = false
         issues_13_banner
-                .apply {
-                    dotsSelector = com.example.R.drawable.selector_banner_dots
-                    pageNumViewBottomMargin = 12
-                    pageNumViewLeftMargin = 12
-                    pageNumViewRightMargin = 12
-                    pageNumViewTopMargin = 12
-                    offscreenPageLimit = 3
-                    bannerTransformer = MeizuBannerTransformer()
-                }
-                .resource(newModel(), showTipsLayout = true, showPageView = true)
+                .valueDotsSelector(R.drawable.selector_banner_dots)
+                .valueOffscreenPageLimit(3)
+                .valueTransformer(MeizuBannerTransformer())
+                .resource(newModel(), showTipsLayout = true)
+                .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
         val layoutParams = issues_13_banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50

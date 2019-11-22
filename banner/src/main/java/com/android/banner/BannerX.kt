@@ -13,6 +13,16 @@ import com.android.banner.widget.BannerViewPager
  * @author y
  * @create 2019/4/16
  */
+
+fun BannerLayout.checkViewPager(): Boolean {
+    for (index in 0 until childCount) {
+        if (getChildAt(index) is BannerViewPager) {
+            return true
+        }
+    }
+    return false
+}
+
 fun BannerLayout.viewPager(): BannerViewPager = viewPager
 
 fun BannerLayout.viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager().layoutParams as FrameLayout.LayoutParams?
@@ -92,34 +102,6 @@ fun BannerLayout.valueTitleWidth(titleWidth: Int) = also { this.titleWidth = tit
 fun BannerLayout.valueTitleHeight(titleHeight: Int) = also { this.titleHeight = titleHeight }
 
 fun BannerLayout.valueTitleSite(titleSite: Int) = also { this.titleSite = titleSite }
-
-fun BannerLayout.valuePageNumViewRadius(pageNumViewRadius: Float) = also { this.pageNumViewRadius = pageNumViewRadius }
-
-fun BannerLayout.valuePageNumViewPaddingTop(pageNumViewPaddingTop: Int) = also { this.pageNumViewPaddingTop = pageNumViewPaddingTop }
-
-fun BannerLayout.valuePageNumViewPaddingLeft(pageNumViewPaddingLeft: Int) = also { this.pageNumViewPaddingLeft = pageNumViewPaddingLeft }
-
-fun BannerLayout.valuePageNumViewPaddingBottom(pageNumViewPaddingBottom: Int) = also { this.pageNumViewPaddingBottom = pageNumViewPaddingBottom }
-
-fun BannerLayout.valuePageNumViewPaddingRight(pageNumViewPaddingRight: Int) = also { this.pageNumViewPaddingRight = pageNumViewPaddingRight }
-
-fun BannerLayout.valuePageNumViewTopMargin(pageNumViewTopMargin: Int) = also { this.pageNumViewTopMargin = pageNumViewTopMargin }
-
-fun BannerLayout.valuePageNumViewRightMargin(pageNumViewRightMargin: Int) = also { this.pageNumViewRightMargin = pageNumViewRightMargin }
-
-fun BannerLayout.valuePageNumViewBottomMargin(pageNumViewBottomMargin: Int) = also { this.pageNumViewBottomMargin = pageNumViewBottomMargin }
-
-fun BannerLayout.valuePageNumViewLeftMargin(pageNumViewLeftMargin: Int) = also { this.pageNumViewLeftMargin = pageNumViewLeftMargin }
-
-fun BannerLayout.valuePageNumViewSite(pageNumViewSite: Int) = also { this.pageNumViewSite = pageNumViewSite }
-
-fun BannerLayout.valuePageNumViewTextColor(pageNumViewTextColor: Int) = also { this.pageNumViewTextColor = pageNumViewTextColor }
-
-fun BannerLayout.valuePageNumViewBackgroundColor(pageNumViewBackgroundColor: Int) = also { this.pageNumViewBackgroundColor = pageNumViewBackgroundColor }
-
-fun BannerLayout.valuePageNumViewTextSize(pageNumViewTextSize: Float) = also { this.pageNumViewTextSize = pageNumViewTextSize }
-
-fun BannerLayout.valuePageNumViewMark(pageNumViewMark: String) = also { this.pageNumViewMark = pageNumViewMark }
 
 fun <T : BannerInfo> BannerLayout.imageLoaderManager(imageLoaderManager: () -> ImageLoaderManager<T>) = apply { this.imageLoaderManager = imageLoaderManager.invoke() }
 

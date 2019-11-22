@@ -2,7 +2,6 @@ package com.android.banner
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,7 @@ import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_BOTTOM
 import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_LEFT
 import com.android.banner.widget.BannerLayout.Companion.BANNER_TIPS_RIGHT
 import com.android.banner.widget.BannerLayout.Companion.MATCH_PARENT
-import com.android.banner.widget.BannerLayout.Companion.PAGE_NUM_VIEW_TOP_RIGHT
 import com.android.banner.widget.BannerLayout.Companion.WRAP_CONTENT
-import com.android.banner.widget.BannerPageView
 import com.android.banner.widget.BannerTipsLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -48,16 +45,13 @@ internal fun BannerLayout.dotsSelector(): Drawable {
                         .addNormalState(normalRadius, normalColor)
 }
 
-internal fun BannerLayout.initBanner(showTipsLayout: Boolean = false, showPageView: Boolean = false, startRotation: Boolean = true) = apply {
+internal fun BannerLayout.initBanner(showTipsLayout: Boolean = false, startRotation: Boolean = true) = apply {
     removeAllViews()
     preEnablePosition = 0
     val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize()
     initViewPager(currentItem)
     if (showTipsLayout) {
         initTipsLayout()
-    }
-    if (showPageView) {
-        initPageView()
     }
     handler.handlerPage = currentItem
     handler.handlerDelayTime = delayTime
@@ -76,28 +70,6 @@ internal fun BannerLayout.initViewPager(currentItem: Int) {
     viewPager.setPageTransformer(true, bannerTransformer)
     viewPager.currentItem = currentItem
     addView(viewPager)
-}
-
-internal fun BannerLayout.initPageView() {
-    pageView = BannerPageView(context)
-    pageView?.text = TextUtils.concat(1.toString(), pageNumViewMark, dotsSize().toString())
-    val params = pageView?.run {
-        setTextColor(pageNumViewTextColor)
-        textSize = pageNumViewTextSize
-        viewTopMargin = pageNumViewTopMargin
-        viewRightMargin = pageNumViewRightMargin
-        viewBottomMargin = pageNumViewBottomMargin
-        viewLeftMargin = pageNumViewLeftMargin
-        viewPaddingTop = pageNumViewPaddingTop
-        viewPaddingBottom = pageNumViewPaddingBottom
-        viewPaddingLeft = pageNumViewPaddingLeft
-        viewPaddingRight = pageNumViewPaddingRight
-        viewRadius = pageNumViewRadius
-        viewBackgroundColor = pageNumViewBackgroundColor
-        viewSite = pageNumViewSite
-        initPageView()
-    }
-    addView(pageView, params)
 }
 
 internal fun BannerLayout.initTipsLayout() {
@@ -170,19 +142,5 @@ internal fun BannerLayout.bannerTypedArrayImpl(attrs: AttributeSet?) {
     tipsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_tips_site, BANNER_TIPS_BOTTOM)
     dotsSite = typedArray.getInteger(R.styleable.BannerLayout_banner_dots_site, BANNER_TIPS_RIGHT)
     titleSite = typedArray.getInteger(R.styleable.BannerLayout_banner_title_site, BANNER_TIPS_LEFT)
-    pageNumViewSite = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_site, PAGE_NUM_VIEW_TOP_RIGHT)
-    pageNumViewRadius = typedArray.getFloat(R.styleable.BannerLayout_banner_page_num_radius, 25f)
-    pageNumViewPaddingTop = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_top, 5)
-    pageNumViewPaddingLeft = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_left, 20)
-    pageNumViewPaddingBottom = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_bottom, 5)
-    pageNumViewPaddingRight = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_padding_right, 20)
-    pageNumViewTopMargin = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_margin_top, 0)
-    pageNumViewRightMargin = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_margin_right, 0)
-    pageNumViewBottomMargin = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_margin_bottom, 0)
-    pageNumViewLeftMargin = typedArray.getInteger(R.styleable.BannerLayout_banner_page_num_margin_left, 0)
-    pageNumViewTextColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_text_color, ContextCompat.getColor(context, R.color.colorWhite))
-    pageNumViewBackgroundColor = typedArray.getColor(R.styleable.BannerLayout_banner_page_num_background_color, ContextCompat.getColor(context, R.color.colorBackground))
-    pageNumViewTextSize = typedArray.getDimension(R.styleable.BannerLayout_banner_page_num_text_size, 10f)
-    pageNumViewMark = typedArray.getString(R.styleable.BannerLayout_banner_page_num_mark) ?: " / "
     typedArray.recycle()
 }

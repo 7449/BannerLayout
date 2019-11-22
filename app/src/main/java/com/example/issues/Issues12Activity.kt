@@ -2,7 +2,9 @@ package com.example.issues
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.android.banner.page.addPageView
 import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.valueDotsSelector
 import com.android.banner.valueTipsBackgroundColor
 import com.android.banner.valueTipsLayoutBackgroundColor
 import com.example.R
@@ -23,16 +25,11 @@ class Issues12Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issues_12)
         issues_12_banner
-                .apply {
-                    dotsSelector = R.drawable.selector_banner_dots
-                    pageNumViewBottomMargin = 12
-                    pageNumViewLeftMargin = 12
-                    pageNumViewRightMargin = 12
-                    pageNumViewTopMargin = 12
-                }
+                .valueDotsSelector(R.drawable.selector_banner_dots)
                 .valueTipsLayoutBackgroundColor(R.color.colorBackground)
                 .valueTipsBackgroundColor(true)
-                .resource(newModel(), showTipsLayout = true, showPageView = true)
+                .resource(newModel(), showTipsLayout = true)
+                .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
     }
 
     override fun onDestroy() {

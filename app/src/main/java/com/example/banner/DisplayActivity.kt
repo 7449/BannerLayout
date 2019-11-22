@@ -3,8 +3,8 @@ package com.example.banner
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.imageLoaderManager
-import com.android.banner.setImageLoaderManager
 import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.setImageLoaderManager
 import com.example.NetBannerInfo
 import com.example.R
 import com.example.display.ImageLoaderSimpleManager
@@ -36,7 +36,7 @@ class DisplayActivity : AppCompatActivity() {
 
         picasso_banner
                 .imageLoaderManager { PicassoSimpleImageManager() }
-                .resource(newModel(), showTipsLayout = true, showPageView = true)
+                .resource(newModel(), showTipsLayout = true)
     }
 
     override fun onDestroy() {

@@ -12,7 +12,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.banner.doOnPageSelected
+import com.android.banner.page.BannerPageView
+import com.android.banner.page.addPageView
 import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.valueDelayTime
 import com.android.banner.widget.BannerLayout
 import com.example.R
 import com.example.newModel
@@ -61,15 +64,9 @@ class Issues10Activity : AppCompatActivity() {
     private fun testlnstagram() {
         val data = newModel()
         banner_lnstagram
-                .apply {
-                    pageNumViewBottomMargin = 10
-                    pageNumViewLeftMargin = 10
-                    pageNumViewRightMargin = 10
-                    pageNumViewTopMargin = 10
-                    delayTime = 1000
-                }
-                .resource(data, showPageView = true)
-
+                .valueDelayTime(1000)
+                .resource(data)
+                .addPageView(pageBottomMargin = 10, pageLeftMargin = 10, pageRightMargin = 10, pageTopMargin = 10)
 
         //  dots
         sizelnstagram = data.size
@@ -123,19 +120,21 @@ class Issues10Activity : AppCompatActivity() {
         }
         banner
                 .apply {
-                    pageNumViewBottomMargin = 10
-                    pageNumViewLeftMargin = 10
-                    pageNumViewRightMargin = 10
-                    pageNumViewTopMargin = 10
                     dotsSite = BannerLayout.BANNER_TIPS_CENTER
                     dotsWidth = dotWidthAndHeight
                     dotsHeight = dotWidthAndHeight
                     dotsRightMargin = dotMargin
                     dotsLeftMargin = dotMargin
                 }
-                .resource(newModel(), showTipsLayout = true, showPageView = true)
-        findViewById<View>(R.id.btn_alter_count)
-                .setOnClickListener { alterBannerCount() }
+                .resource(newModel(), showTipsLayout = true)
+                .addPageView(
+                        pageBottomMargin = 10,
+                        pageLeftMargin = 10,
+                        pageRightMargin = 10,
+                        pageTopMargin = 10,
+                        pageSite = BannerPageView.PAGE_NUM_VIEW_BOTTOM_CENTER,
+                        pageMark = " * ")
+        findViewById<View>(R.id.btn_alter_count).setOnClickListener { alterBannerCount() }
     }
 
     private fun alterBannerCount() {
