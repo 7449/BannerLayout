@@ -17,18 +17,11 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val MSG_PAGE = 3
         const val MATCH_PARENT = LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
-        const val BANNER_TIPS_LEFT = 9
-        const val BANNER_TIPS_TOP = 10
-        const val BANNER_TIPS_RIGHT = 11
-        const val BANNER_TIPS_BOTTOM = 12
-        const val BANNER_TIPS_CENTER = 13
     }
 
-    internal var preEnablePosition = 0
     internal var handler: BannerHandler = BannerHandler(this)
     internal var imageList: List<BannerInfo> = ArrayList()
     internal var viewPager: BannerViewPager = BannerViewPager(context)
-    internal var tipLayout: BannerTipsLayout? = null
 
     var imageLoaderManager: ImageLoaderManager<out BannerInfo> = defaultImageLoaderManager()
     var onBannerClickListener: OnBannerClickListener<out BannerInfo>? = null
@@ -47,39 +40,13 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
     var isStartRotation: Boolean = false
-    var enabledRadius: Float = 0F
-    var normalRadius: Float = 0F
-    var enabledColor: Int = 0
-    var normalColor: Int = 0
+
     var isGuide: Boolean = false
     var viewPagerTouchMode: Boolean = false
     var errorImageView: Int = 0
     var placeImageView: Int = 0
     var bannerDuration: Int = 0
     var delayTime: Long = 0
-
-    var visibleDots: Boolean = false
-    var dotsWidth: Int = 0
-    var dotsHeight: Int = 0
-    var dotsSelector: Int = 0
-    var dotsLeftMargin: Int = 0
-    var dotsRightMargin: Int = 0
-    var dotsSite: Int = 0
-
-    var showTipsBackgroundColor: Boolean = false
-    var tipsHeight: Int = 0
-    var tipsWidth: Int = 0
-    var tipsLayoutBackgroundColor: Int = 0
-    var tipsSite: Int = 0
-
-    var visibleTitle: Boolean = false
-    var titleSize: Float = 0.toFloat()
-    var titleColor: Int = 0
-    var titleLeftMargin: Int = 0
-    var titleRightMargin: Int = 0
-    var titleWidth: Int = 0
-    var titleHeight: Int = 0
-    var titleSite: Int = 0
 
     init {
         bannerTypedArrayImpl(attrs)
@@ -90,16 +57,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onPageSelected(position: Int) {
-        val newPosition = position % dotsSize()
-        if (visibleDots) {
-            tipLayout?.changeDotsPosition(preEnablePosition, newPosition)
-        }
-        if (visibleTitle) {
-            tipLayout?.setTitle(imageList[newPosition].bannerTitle)
-        }
-        preEnablePosition = newPosition
         handler.sendMessage(Message.obtain(handler, MSG_PAGE, viewPager.currentItem, 0))
-        onBannerChangeListener.forEach { it.onPageSelected(newPosition) }
+        onBannerChangeListener.forEach { it.onPageSelected(position % dotsSize()) }
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -113,10 +72,12 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
     }
 
-    fun resource(imageList: ArrayList<out BannerInfo>, showTipsLayout: Boolean = false, isStartRotation: Boolean = true) = apply {
+    fun getItem(position: Int): BannerInfo = imageList[position]
+
+    fun resource(imageList: ArrayList<out BannerInfo>, isStartRotation: Boolean = true) = apply {
         if (imageList.isNotEmpty()) {
             this.imageList = imageList
-            initBanner(showTipsLayout, isStartRotation)
+            initBanner(isStartRotation)
         }
     }
 

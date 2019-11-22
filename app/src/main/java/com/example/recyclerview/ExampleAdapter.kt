@@ -9,6 +9,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.banner.addOnItemClickListener
+import com.android.banner.shadow.BannerTip
+import com.android.banner.shadow.addTipLayout
+import com.android.banner.valueDelayTime
 import com.android.banner.widget.BannerLayout
 import com.bumptech.glide.Glide
 import com.example.NetBannerInfo
@@ -43,17 +46,14 @@ class ExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val viewHolder = holder as BannerViewHolder
                 bannerLayout = viewHolder.bannerLayout
                 bannerLayout
-                        .apply {
-                            delayTime = 1000
-                            showTipsBackgroundColor = true
-                            visibleDots = true
-                            visibleTitle = true
-                        }
+                        .valueDelayTime(1000)
                         .addOnItemClickListener<NetBannerInfo> { view, _, info ->
                             Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
                         .resource(info)
-
+                if (info.isNotEmpty()) {
+                    bannerLayout.addTipLayout(BannerTip(visibleTitle = true))
+                }
                 viewHolder.start.setOnClickListener { viewHolder.bannerLayout.switchBanner(true) }
                 viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.switchBanner(false) }
                 viewHolder.update.setOnClickListener {

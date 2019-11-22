@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.page.addPageView
 import com.android.banner.removeCallbacksAndMessages
-import com.android.banner.valueDotsSelector
-import com.android.banner.valueTipsBackgroundColor
-import com.android.banner.valueTipsLayoutBackgroundColor
 import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_12.*
@@ -25,10 +22,7 @@ class Issues12Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issues_12)
         issues_12_banner
-                .valueDotsSelector(R.drawable.selector_banner_dots)
-                .valueTipsLayoutBackgroundColor(R.color.colorBackground)
-                .valueTipsBackgroundColor(true)
-                .resource(newModel(), showTipsLayout = true)
+                .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
     }
 

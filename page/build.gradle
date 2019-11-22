@@ -25,7 +25,7 @@ android {
 //    website = 'https://github.com/7449/BannerLayout'
 //}
 dependencies {
-    api project(':banner')
+    compileOnly project(':banner')
     compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

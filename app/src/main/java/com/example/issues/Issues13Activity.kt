@@ -24,10 +24,9 @@ class Issues13Activity : AppCompatActivity() {
         setContentView(R.layout.activity_issues_13)
         issues_13_banner.clipChildren = false
         issues_13_banner
-                .valueDotsSelector(R.drawable.selector_banner_dots)
                 .valueOffscreenPageLimit(3)
                 .valueTransformer(MeizuBannerTransformer())
-                .resource(newModel(), showTipsLayout = true)
+                .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
         val layoutParams = issues_13_banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50

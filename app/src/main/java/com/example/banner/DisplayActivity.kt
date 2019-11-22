@@ -36,7 +36,7 @@ class DisplayActivity : AppCompatActivity() {
 
         picasso_banner
                 .imageLoaderManager { PicassoSimpleImageManager() }
-                .resource(newModel(), showTipsLayout = true)
+                .resource(newModel())
     }
 
     override fun onDestroy() {

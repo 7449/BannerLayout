@@ -6,7 +6,13 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.*
+import com.android.banner.addOnItemClickListener
+import com.android.banner.doOnPageSelected
+import com.android.banner.imageList
+import com.android.banner.shadow.BannerTip
+import com.android.banner.shadow.BannerTipLayout
+import com.android.banner.shadow.addTipLayout
+import com.android.banner.valueGuide
 import com.android.banner.widget.BannerLayout
 import com.example.NetBannerInfo
 import com.example.R
@@ -25,13 +31,14 @@ class GuideActivity : AppCompatActivity() {
         button_guide.visibility = View.GONE
         banner_guide
                 .valueGuide(true)
-                .valueDotsSelector(R.drawable.selector_banner_dots)
-                .valueDotsSite(BannerLayout.BANNER_TIPS_CENTER)
-                .valueTipsWidth(BannerLayout.MATCH_PARENT)
-                .valueTipsHeight(300)
-                .valueDotsWidth(30)
-                .valueDotsHeight(30)
-                .resource(newModel(), showTipsLayout = true)
+                .resource(newModel())
+                .addTipLayout(BannerTip(
+                        dotSelector = R.drawable.selector_banner_dots,
+                        dotSite = BannerTipLayout.CENTER,
+                        tipWidth = BannerLayout.MATCH_PARENT,
+                        dotWidth = 30,
+                        dotHeight = 30,
+                        tipHeight = 300))
 
         banner_guide
                 .addOnItemClickListener<NetBannerInfo> { view, position, _ ->

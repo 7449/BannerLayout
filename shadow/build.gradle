@@ -25,8 +25,7 @@ android {
 //    website = 'https://github.com/7449/BannerLayout'
 //}
 dependencies {
-    implementation project(':banner')
-    compileOnly 'androidx.appcompat:appcompat:1.1.0'
-    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly project(':banner')
+    compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

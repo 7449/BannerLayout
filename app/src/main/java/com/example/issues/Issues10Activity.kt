@@ -15,8 +15,11 @@ import com.android.banner.doOnPageSelected
 import com.android.banner.page.BannerPageView
 import com.android.banner.page.addPageView
 import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.shadow.BannerTip
+import com.android.banner.shadow.BannerTipLayout
+import com.android.banner.shadow.addTipLayout
+import com.android.banner.shadow.removeTipLayout
 import com.android.banner.valueDelayTime
-import com.android.banner.widget.BannerLayout
 import com.example.R
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_10.*
@@ -119,14 +122,7 @@ class Issues10Activity : AppCompatActivity() {
             dotMargin = 3
         }
         banner
-                .apply {
-                    dotsSite = BannerLayout.BANNER_TIPS_CENTER
-                    dotsWidth = dotWidthAndHeight
-                    dotsHeight = dotWidthAndHeight
-                    dotsRightMargin = dotMargin
-                    dotsLeftMargin = dotMargin
-                }
-                .resource(newModel(), showTipsLayout = true)
+                .resource(newModel())
                 .addPageView(
                         pageBottomMargin = 10,
                         pageLeftMargin = 10,
@@ -134,12 +130,19 @@ class Issues10Activity : AppCompatActivity() {
                         pageTopMargin = 10,
                         pageSite = BannerPageView.PAGE_NUM_VIEW_BOTTOM_CENTER,
                         pageMark = " * ")
+                .addTipLayout(BannerTip(
+                        dotSite = BannerTipLayout.CENTER,
+                        dotWidth = dotWidthAndHeight,
+                        dotHeight = dotWidthAndHeight,
+                        dotRightMargin = dotMargin,
+                        dotLeftMargin = dotMargin
+                ))
         findViewById<View>(R.id.btn_alter_count).setOnClickListener { alterBannerCount() }
     }
 
     private fun alterBannerCount() {
         val alterData: ArrayList<com.example.NetBannerInfo> = if (!isShowTips) {
-            newModel()
+            newModel().also { it.addAll(newModel()) }
         } else {
             newModel()
         }
@@ -147,21 +150,13 @@ class Issues10Activity : AppCompatActivity() {
         val size = alterData.size
         if (size <= 1) {
             banner
-                    .apply {
-                        showTipsBackgroundColor = false
-                        visibleDots = false
-                        visibleTitle = false
-                    }
                     .resource(alterData, isStartRotation = false)
+                    .removeTipLayout()
             Toast.makeText(this, "size <=1 , stopBanner , not show tipsLayout", Toast.LENGTH_SHORT).show()
         } else {
             banner
-                    .apply {
-                        showTipsBackgroundColor = true
-                        visibleDots = true
-                        visibleTitle = true
-                    }
                     .resource(alterData, isStartRotation = true)
+                    .addTipLayout(BannerTip(visibleTitle = true))
             Toast.makeText(this, "size >1 , startBanner , show tipsLayout", Toast.LENGTH_SHORT).show()
         }
     }

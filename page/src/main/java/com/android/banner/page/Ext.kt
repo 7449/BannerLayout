@@ -62,6 +62,16 @@ fun BannerLayout.addPageView(
         addPageView(dotsSize(), pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
     }
     doOnPageSelected { bannerPageView.text = TextUtils.concat((if (dotsSize() == 0) 0 else it % dotsSize() + 1).toString(), pageMark, dotsSize().toString()) }
+    removePageView()
     addView(bannerPageView, params)
 }
 
+fun BannerLayout.removePageView() {
+    for (index in 0 until childCount) {
+        getChildAt(index)?.let {
+            if (it is BannerPageView) {
+                removeView(it)
+            }
+        }
+    }
+}
