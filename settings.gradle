@@ -1,1 +1,1 @@
-include ':app', ':banner', ':shadow', ':transformer'
+include ':app', ':banner', ':shadow', ':transformer', ':page'
