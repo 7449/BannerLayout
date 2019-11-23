@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.android.banner.transformer.BannerTransformer
-import com.android.banner.widget.BannerLayout
-import com.android.banner.widget.BannerViewPager
+import com.android.banner.viewpager.BannerViewPager
 
 /**
  * @author y
@@ -31,29 +30,31 @@ fun BannerLayout.dotsSize(): Int = imageList.size
 
 fun BannerLayout.duration(): Int = viewPager.duration
 
-fun BannerLayout.bannerStatus(): Int = handler.status
+fun BannerLayout.bannerStatus(): Int = bannerHandler.status
 
 fun <T : BannerInfo> BannerLayout.imageList(): List<T> = imageList as List<T>
 
-fun BannerLayout.removeCallbacksAndMessages() = handler.removeCallbacksAndMessages(null)
+fun BannerLayout.removeCallbacksAndMessages() = bannerHandler.removeCallbacksAndMessages(null)
 
-fun BannerLayout.valueTransformer(bannerTransformer: BannerTransformer) = also { this.bannerTransformer = bannerTransformer }
+fun BannerLayout.transformer(bannerTransformer: BannerTransformer) = also { this.bannerTransformer = bannerTransformer }
 
-fun BannerLayout.valueOffscreenPageLimit(offscreenPageLimit: Int) = also { this.offscreenPageLimit = offscreenPageLimit }
+fun BannerLayout.offscreenPageLimit(offscreenPageLimit: Int) = also { this.offscreenPageLimit = offscreenPageLimit }
 
-fun BannerLayout.valueStartRotation(isStartRotation: Boolean) = also { this.isStartRotation = isStartRotation }
+fun BannerLayout.guide() = also { this.isGuide = true }
 
-fun BannerLayout.valueGuide(isGuide: Boolean) = also { this.isGuide = isGuide }
+fun BannerLayout.viewPagerTouchMode(viewPagerTouchMode: Boolean) = also { this.viewPagerTouchMode = viewPagerTouchMode }
 
-fun BannerLayout.valueViewPagerTouchMode(viewPagerTouchMode: Boolean) = also { this.viewPagerTouchMode = viewPagerTouchMode }
+fun BannerLayout.bannerDuration(bannerDuration: Int) = also { this.bannerDuration = bannerDuration }
 
-fun BannerLayout.valueErrorImageView(errorImageView: Int) = also { this.errorImageView = errorImageView }
+fun BannerLayout.delayTime(delayTime: Long) = also { this.delayTime = delayTime }
 
-fun BannerLayout.valuePlaceImageView(placeImageView: Int) = also { this.placeImageView = placeImageView }
+fun BannerLayout.play(isStartRotation: Boolean) = also { this.isPlay = isStartRotation }
 
-fun BannerLayout.valueBannerDuration(bannerDuration: Int) = also { this.bannerDuration = bannerDuration }
+fun BannerLayout.resource(imageList: ArrayList<out BannerInfo>) = also { resource(imageList, false) }
 
-fun BannerLayout.valueDelayTime(delayTime: Long) = also { this.delayTime = delayTime }
+fun BannerLayout.playBanner() = also { playBanner(true) }
+
+fun BannerLayout.stopBanner() = also { playBanner(false) }
 
 fun <T : BannerInfo> BannerLayout.imageLoaderManager(imageLoaderManager: () -> ImageLoaderManager<T>) = apply { this.imageLoaderManager = imageLoaderManager.invoke() }
 

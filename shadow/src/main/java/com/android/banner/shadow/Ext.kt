@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import androidx.core.content.ContextCompat
 import com.android.banner.*
-import com.android.banner.widget.BannerLayout
 
 internal fun BannerTipLayout.dotsSelector(bannerTip: BannerTip): Drawable {
     return if (bannerTip.dotSelector == 0x0)

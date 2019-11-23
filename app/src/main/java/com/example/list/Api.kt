@@ -1,4 +1,4 @@
-package com.example.recyclerview
+package com.example.list
 
 import io.reactivex.Observable
 import retrofit2.http.GET

@@ -1,4 +1,4 @@
-package com.example.recyclerview
+package com.example.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,21 +8,20 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.banner.addOnItemClickListener
+import com.android.banner.*
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.addTipLayout
-import com.android.banner.valueDelayTime
-import com.android.banner.widget.BannerLayout
 import com.bumptech.glide.Glide
 import com.example.NetBannerInfo
 import com.example.R
+import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 
 /**
  * by y on 2017/3/8.
  */
 
-class ExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_BANNER = 0
@@ -46,7 +45,8 @@ class ExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val viewHolder = holder as BannerViewHolder
                 bannerLayout = viewHolder.bannerLayout
                 bannerLayout
-                        .valueDelayTime(1000)
+                        .delayTime(1000)
+                        .imageLoaderManager { GlideAppSimpleImageManager() }
                         .addOnItemClickListener<NetBannerInfo> { view, _, info ->
                             Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
@@ -54,8 +54,8 @@ class ExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 if (info.isNotEmpty()) {
                     bannerLayout.addTipLayout(BannerTip(visibleTitle = true))
                 }
-                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.switchBanner(true) }
-                viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.switchBanner(false) }
+                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.playBanner() }
+                viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.stopBanner() }
                 viewHolder.update.setOnClickListener {
                     val update = newModel()
                     info = update

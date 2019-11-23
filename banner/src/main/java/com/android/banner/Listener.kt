@@ -21,9 +21,3 @@ interface OnBannerChangeListener {
     fun onPageSelected(position: Int)
     fun onPageScrollStateChanged(state: Int)
 }
-
-open class SimpleOnBannerChangeListener : OnBannerChangeListener {
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-    override fun onPageSelected(position: Int) {}
-    override fun onPageScrollStateChanged(state: Int) {}
-}

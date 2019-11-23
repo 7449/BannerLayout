@@ -1,7 +1,7 @@
 package com.example
 
 import android.app.Application
-import com.example.recyclerview.Api
+import com.example.list.Api
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * by y on 2017/5/16
  */
-
 class App : Application() {
     override fun onCreate() {
         super.onCreate()

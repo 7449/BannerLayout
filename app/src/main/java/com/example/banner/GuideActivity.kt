@@ -6,16 +6,13 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.addOnItemClickListener
-import com.android.banner.doOnPageSelected
-import com.android.banner.imageList
+import com.android.banner.*
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
-import com.android.banner.valueGuide
-import com.android.banner.widget.BannerLayout
 import com.example.NetBannerInfo
 import com.example.R
+import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_guide.*
 
@@ -30,7 +27,8 @@ class GuideActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guide)
         button_guide.visibility = View.GONE
         banner_guide
-                .valueGuide(true)
+                .guide()
+                .imageLoaderManager { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addTipLayout(BannerTip(
                         dotSelector = R.drawable.selector_banner_dots,

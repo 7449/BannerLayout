@@ -1,4 +1,4 @@
-package com.android.banner.widget
+package com.android.banner.viewpager
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -85,7 +85,7 @@ class BannerViewPager @JvmOverloads constructor(context: Context, attrs: Attribu
         return event
     }
 
-    internal class FixedSpeedScroller(context: Context) : Scroller(context) {
+    private class FixedSpeedScroller(context: Context) : Scroller(context) {
 
         var fixDuration: Int = 0
 

@@ -32,7 +32,7 @@ class DisplayActivity : AppCompatActivity() {
 
         imageloader_banner
                 .imageLoaderManager { ImageLoaderSimpleManager() }
-                .resource(newModel(), isStartRotation = false)
+                .resource(newModel(), isPlay = false)
 
         picasso_banner
                 .imageLoaderManager { PicassoSimpleImageManager() }

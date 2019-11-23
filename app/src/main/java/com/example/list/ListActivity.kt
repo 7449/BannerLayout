@@ -1,4 +1,4 @@
-package com.example.recyclerview
+package com.example.list
 
 import android.os.Bundle
 import android.widget.Toast
@@ -12,13 +12,12 @@ import io.reactivex.network.RxNetWorkListener
 import io.reactivex.network.getApi
 import kotlinx.android.synthetic.main.activity_recycler_view.*
 
-
 /**
  * by y on 2017/3/8.
  */
-class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<ListModel>, Runnable {
+class ListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<ListModel>, Runnable {
 
-    private lateinit var adapter: ExampleAdapter
+    private lateinit var adapter: ListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +25,7 @@ class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLi
         setContentView(R.layout.activity_recycler_view)
         refresh_layout.setOnRefreshListener(this)
         refresh_layout.post(this)
-        adapter = ExampleAdapter()
+        adapter = ListAdapter()
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
     }
@@ -55,7 +54,7 @@ class RecyclerViewActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshLi
     override fun onNetWorkSuccess(data: ListModel) {
         adapter.clear()
         adapter.addBanner(newModel())
-        adapter.addAll(data.top_stories)
+        adapter.addAll(data.topStories)
     }
 
     override fun onDestroy() {

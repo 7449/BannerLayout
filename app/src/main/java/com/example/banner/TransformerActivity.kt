@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.doOnPageSelected
-import com.android.banner.removeCallbacksAndMessages
+import com.android.banner.*
 import com.android.banner.transformer.*
-import com.android.banner.valueDelayTime
-import com.android.banner.valueTransformer
 import com.example.R
+import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_transformer.*
 
@@ -26,8 +24,9 @@ class TransformerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_transformer)
         banner_position.text = "select position:" + 0
         transformer_banner
-                .valueDelayTime(300)
-                .valueTransformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
+                .delayTime(300)
+                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .transformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
                 .doOnPageSelected { banner_position.text = "select position:$it" }
                 .resource(newModel())
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.banner.widget.BannerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.banner.BannerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/issues_12_banner"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

@@ -1,4 +1,6 @@
-package com.android.banner.widget
+@file:Suppress("UNCHECKED_CAST")
+
+package com.android.banner.viewpager
 
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,13 @@ import com.android.banner.OnBannerClickListener
  * by y on 2016/10/24.
  */
 internal class BannerAdapter(private val imageList: List<BannerInfo>,
-                             private val loaderManager: ImageLoaderManager<BannerInfo>,
-                             private val listener: OnBannerClickListener<BannerInfo>?,
+                             private val loaderManager: ImageLoaderManager<out BannerInfo>?,
+                             private val listener: OnBannerClickListener<out BannerInfo>?,
                              private val guide: Boolean) : PagerAdapter() {
+
+    init {
+        require(loaderManager != null) { "ImageLoaderManager == null" }
+    }
 
     override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
 
@@ -24,8 +30,8 @@ internal class BannerAdapter(private val imageList: List<BannerInfo>,
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val img = loaderManager.display(container, imageList[getPosition(position)], position)
-        listener?.let { img.setOnClickListener { v -> it.onBannerClick(v, getPosition(position), imageList[getPosition(position)]) } }
+        val img = (loaderManager as ImageLoaderManager<BannerInfo>).display(container, imageList[getPosition(position)], position)
+        listener?.let { img.setOnClickListener { v -> (it as OnBannerClickListener<BannerInfo>).onBannerClick(v, getPosition(position), imageList[getPosition(position)]) } }
         container.addView(img)
         return img
     }

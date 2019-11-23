@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.android.banner.widget.BannerLayout
+        <com.android.banner.BannerLayout
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="ISSUES 10" />
 
-        <com.android.banner.widget.BannerLayout
+        <com.android.banner.BannerLayout
             android:id="@+id/banner_lnstagram"
             android:layout_width="match_parent"
             android:layout_height="200dp" />

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: "guru.stefma.bintrayrelease"
+//apply plugin: "guru.stefma.bintrayrelease"
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -13,19 +13,18 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.bannerlayout"]
     }
 }
-version = "1.1.9"
-group = "com.ydevelop"
-androidArtifact {
-    artifactId = "bannerlayout"
-    javadoc = false
-}
-publish {
-    userOrg = 'ydevelop'
-    desc = 'this is android Bannerlayout'
-    website = 'https://github.com/7449/BannerLayout'
-}
+//version = "1.1.9"
+//group = "com.ydevelop"
+//androidArtifact {
+//    artifactId = "bannerlayout"
+//    javadoc = false
+//}
+//publish {
+//    userOrg = 'ydevelop'
+//    desc = 'this is android Bannerlayout'
+//    website = 'https://github.com/7449/BannerLayout'
+//}
 dependencies {
-    compileOnly 'androidx.appcompat:appcompat:1.1.0'
-    compileOnly 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

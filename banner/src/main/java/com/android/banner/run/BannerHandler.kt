@@ -2,7 +2,7 @@ package com.android.banner.run
 
 import android.os.Handler
 import android.os.Message
-import com.android.banner.widget.BannerLayout
+import com.android.banner.BannerLayout
 
 /**
  * @author y

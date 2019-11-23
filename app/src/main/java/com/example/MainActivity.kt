@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.banner.DisplayActivity
-import com.example.recyclerview.RecyclerViewActivity
+import com.example.list.ListActivity
 import com.example.banner.GuideActivity
 import com.example.banner.TransformerActivity
 import com.example.issues.Issues10Activity
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_recycler_view.setOnClickListener { v ->
-            val intent = Intent(v.context, RecyclerViewActivity::class.java)
+            val intent = Intent(v.context, ListActivity::class.java)
             startActivity(intent)
         }
 

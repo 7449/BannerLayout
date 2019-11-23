@@ -1,7 +1,7 @@
 package com.android.banner.shadow
 
 import android.graphics.Color
-import com.android.banner.widget.BannerLayout
+import com.android.banner.BannerLayout
 
 class BannerTip(
         val visibleDot: Boolean = true,

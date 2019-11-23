@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.banner.doOnPageSelected
+import com.android.banner.imageLoaderManager
 import com.android.banner.page.BannerPageView
 import com.android.banner.page.addPageView
 import com.android.banner.removeCallbacksAndMessages
@@ -19,8 +20,9 @@ import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
 import com.android.banner.shadow.removeTipLayout
-import com.android.banner.valueDelayTime
+import com.android.banner.delayTime
 import com.example.R
+import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_10.*
 
@@ -67,7 +69,8 @@ class Issues10Activity : AppCompatActivity() {
     private fun testlnstagram() {
         val data = newModel()
         banner_lnstagram
-                .valueDelayTime(1000)
+                .delayTime(1000)
+                .imageLoaderManager { GlideAppSimpleImageManager() }
                 .resource(data)
                 .addPageView(pageBottomMargin = 10, pageLeftMargin = 10, pageRightMargin = 10, pageTopMargin = 10)
 
@@ -122,6 +125,7 @@ class Issues10Activity : AppCompatActivity() {
             dotMargin = 3
         }
         banner
+                .imageLoaderManager { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addPageView(
                         pageBottomMargin = 10,
@@ -150,12 +154,12 @@ class Issues10Activity : AppCompatActivity() {
         val size = alterData.size
         if (size <= 1) {
             banner
-                    .resource(alterData, isStartRotation = false)
+                    .resource(alterData, isPlay = false)
                     .removeTipLayout()
             Toast.makeText(this, "size <=1 , stopBanner , not show tipsLayout", Toast.LENGTH_SHORT).show()
         } else {
             banner
-                    .resource(alterData, isStartRotation = true)
+                    .resource(alterData, isPlay = true)
                     .addTipLayout(BannerTip(visibleTitle = true))
             Toast.makeText(this, "size >1 , startBanner , show tipsLayout", Toast.LENGTH_SHORT).show()
         }

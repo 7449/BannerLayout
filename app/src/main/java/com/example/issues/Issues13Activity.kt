@@ -8,6 +8,7 @@ import com.android.banner.*
 import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
 import com.example.R
+import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_13.*
 import kotlin.math.abs
@@ -24,8 +25,9 @@ class Issues13Activity : AppCompatActivity() {
         setContentView(R.layout.activity_issues_13)
         issues_13_banner.clipChildren = false
         issues_13_banner
-                .valueOffscreenPageLimit(3)
-                .valueTransformer(MeizuBannerTransformer())
+                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .offscreenPageLimit(3)
+                .transformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
         val layoutParams = issues_13_banner.viewPagerLayoutParams()

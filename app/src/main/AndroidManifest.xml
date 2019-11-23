@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".recyclerview.RecyclerViewActivity"
+            android:name=".list.ListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".banner.GuideActivity"

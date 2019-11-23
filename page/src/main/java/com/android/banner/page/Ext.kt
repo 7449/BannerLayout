@@ -2,10 +2,10 @@ package com.android.banner.page
 
 import android.graphics.Color
 import android.text.TextUtils
+import com.android.banner.BannerLayout
 import com.android.banner.checkViewPager
 import com.android.banner.doOnPageSelected
 import com.android.banner.dotsSize
-import com.android.banner.widget.BannerLayout
 
 fun BannerLayout.marginPageView(
         margin: Int,
@@ -61,7 +61,7 @@ fun BannerLayout.addPageView(
     val params = bannerPageView.run {
         addPageView(dotsSize(), pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
     }
-    doOnPageSelected { bannerPageView.text = TextUtils.concat((if (dotsSize() == 0) 0 else it % dotsSize() + 1).toString(), pageMark, dotsSize().toString()) }
+    doOnPageSelected { bannerPageView.text = TextUtils.concat((it + 1).toString(), pageMark, dotsSize().toString()) }
     removePageView()
     addView(bannerPageView, params)
 }
