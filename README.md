@@ -72,7 +72,7 @@
 
     banner.addOnItemClickListener()
     
-## pageChange
+## pageChanged
 
     banner.doOnpageScrolled()
     
