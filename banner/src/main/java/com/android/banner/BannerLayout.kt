@@ -20,8 +20,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
     }
 
-    internal var bannerHandler: BannerHandler = BannerHandler(this)
-    internal var viewPager: BannerViewPager = BannerViewPager(context)
+    internal val bannerHandler: BannerHandler = BannerHandler(this)
+    internal val viewPager: BannerViewPager = BannerViewPager(context)
     internal var imageList: List<BannerInfo> = ArrayList()
 
     var imageLoaderManager: ImageLoaderManager<out BannerInfo>? = null
