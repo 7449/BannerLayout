@@ -25,6 +25,6 @@ publish {
     website = 'https://github.com/7449/BannerLayout'
 }
 dependencies {
-    compileOnly 'androidx.viewpager:viewpager:1.0.0'
+    compileOnly 'androidx.viewpager2:viewpager2:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

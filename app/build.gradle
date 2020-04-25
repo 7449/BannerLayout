@@ -11,6 +11,10 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -20,19 +24,23 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'androidx.viewpager:viewpager:1.0.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.facebook.fresco:fresco:2.0.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     implementation 'com.ydevelop:rxNetWork:0.2.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
-    implementation 'com.ydevelop:bannerlayout.shadow:0.0.1'
-    implementation 'com.ydevelop:bannerlayout.page:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout:1.1.9'
+//    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout.shadow:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout.page:0.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(path: ':transformer')
+    implementation project(path: ':banner')
+    implementation project(path: ':shadow')
+    implementation project(path: ':page')
 }
