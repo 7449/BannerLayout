@@ -3,32 +3,36 @@ package com.android.banner
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.StateListDrawable
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.android.banner.transformer.BannerTransformer
-import com.android.banner.viewpager.BannerViewPager
+import android.widget.ImageView
+import androidx.viewpager2.widget.ViewPager2
+import com.android.banner.transformer.Banner2Transformer
 
 /**
  * @author y
  * @create 2019/4/16
  */
 
-fun BannerLayout.checkViewPager(): Boolean {
+fun BannerLayout.checkViewPager2(): Boolean {
     for (index in 0 until childCount) {
-        if (getChildAt(index) is BannerViewPager) {
+        if (getChildAt(index) is ViewPager2) {
             return true
         }
     }
     return false
 }
 
-fun BannerLayout.viewPager(): BannerViewPager = viewPager
+//fun BannerLayout.viewPager(): BannerViewPager = viewPager
 
-fun BannerLayout.viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager().layoutParams as FrameLayout.LayoutParams?
+fun BannerLayout.viewPager2(): ViewPager2 = viewPager2
+
+//fun BannerLayout.viewPagerLayoutParams(): FrameLayout.LayoutParams? = viewPager().layoutParams as FrameLayout.LayoutParams?
+
+fun BannerLayout.viewPager2LayoutParams(): FrameLayout.LayoutParams? = viewPager2().layoutParams as FrameLayout.LayoutParams?
 
 fun BannerLayout.dotsSize(): Int = imageList.size
 
-fun BannerLayout.duration(): Int = viewPager.duration
+//fun BannerLayout.duration(): Int = viewPager.duration
 
 fun BannerLayout.bannerStatus(): Int = bannerHandler.status
 
@@ -36,7 +40,7 @@ fun <T : BannerInfo> BannerLayout.imageList(): List<T> = imageList as List<T>
 
 fun BannerLayout.removeCallbacksAndMessages() = bannerHandler.removeCallbacksAndMessages(null)
 
-fun BannerLayout.transformer(bannerTransformer: BannerTransformer) = also { this.bannerTransformer = bannerTransformer }
+fun BannerLayout.transformer(bannerTransformer: Banner2Transformer) = also { this.bannerTransformer = bannerTransformer }
 
 fun BannerLayout.offscreenPageLimit(offscreenPageLimit: Int) = also { this.offscreenPageLimit = offscreenPageLimit }
 
@@ -58,9 +62,11 @@ fun BannerLayout.stopBanner() = also { playBanner(false) }
 
 fun <T : BannerInfo> BannerLayout.imageLoaderManager(imageLoaderManager: () -> ImageLoaderManager<T>) = apply { this.imageLoaderManager = imageLoaderManager.invoke() }
 
-fun <T : BannerInfo> BannerLayout.setImageLoaderManager(action: (container: ViewGroup, info: T, position: Int) -> View): BannerLayout {
+fun <T : BannerInfo> BannerLayout.setImageLoaderManager(action: (imageView: ImageView, info: T, position: Int) -> Unit): BannerLayout {
     val imageManager = object : ImageLoaderManager<T> {
-        override fun display(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
+        override fun display(imageView: ImageView, info: T, position: Int) {
+            action(imageView, info, position)
+        }
     }
     imageLoaderManager = imageManager
     return this

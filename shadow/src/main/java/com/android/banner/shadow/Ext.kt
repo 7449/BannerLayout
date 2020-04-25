@@ -18,7 +18,7 @@ internal fun BannerTipLayout.dotsSelector(bannerTip: BannerTip): Drawable {
 }
 
 fun BannerLayout.addTipLayout(bannerTip: BannerTip = BannerTip()) {
-    require(checkViewPager()) { "must add ViewPage first;" }
+    require(checkViewPager2()) { "must add ViewPage first;" }
     val tipLayout = BannerTipLayout(context)
     val params = tipLayout.run {
         removeAllViews()

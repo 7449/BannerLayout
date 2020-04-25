@@ -27,7 +27,7 @@ class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
         val what = msg.what
         when (what) {
             BannerLayout.MSG_UPDATE -> {
-                mCurrent.viewPager.currentItem = ++handlerPage
+                mCurrent.viewPager2.currentItem = ++handlerPage
                 sendEmptyMessageDelayed(BannerLayout.MSG_UPDATE, handlerDelayTime)
             }
             BannerLayout.MSG_PAGE -> handlerPage = msg.arg1

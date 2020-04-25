@@ -2,10 +2,10 @@ package com.android.banner.transformer
 
 import android.view.View
 
-abstract class ABaseTransformer : BannerTransformer() {
+abstract class ABaseTransformer : Banner2Transformer() {
 
     companion object {
-        fun min(`val`: Float, min: Float) = if (`val` < min) min else `val`
+        fun min(value: Float, min: Float) = if (value < min) min else value
 
         const val ANIMATION_ACCORDION = 0
         const val ANIMATION_BACKGROUND = 1

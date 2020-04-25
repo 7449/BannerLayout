@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.*
 import com.android.banner.page.addPageView
-import com.android.banner.transformer.BannerTransformer
+import com.android.banner.transformer.Banner2Transformer
 import com.example.R
 import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
@@ -30,14 +30,14 @@ class Issues13Activity : AppCompatActivity() {
                 .transformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
-        val layoutParams = issues_13_banner.viewPagerLayoutParams()
+        val layoutParams = issues_13_banner.viewPager2LayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
         val handler = Handler()
         val r = Runnable {
-            issues_13_banner.viewPager().beginFakeDrag()
-            issues_13_banner.viewPager().fakeDragBy(1.0f)
-            issues_13_banner.viewPager().endFakeDrag()
+            issues_13_banner.viewPager2().beginFakeDrag()
+            issues_13_banner.viewPager2().fakeDragBy(1.0f)
+            issues_13_banner.viewPager2().endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }
@@ -48,7 +48,8 @@ class Issues13Activity : AppCompatActivity() {
     }
 }
 
-class MeizuBannerTransformer : BannerTransformer() {
+class MeizuBannerTransformer : Banner2Transformer() {
+
     override fun transformPage(page: View, position: Float) {
         when {
             position < -1 -> page.scaleY = 0.8f
@@ -56,4 +57,5 @@ class MeizuBannerTransformer : BannerTransformer() {
             else -> page.scaleY = 0.8f
         }
     }
+
 }

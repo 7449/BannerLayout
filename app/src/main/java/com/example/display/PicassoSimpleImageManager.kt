@@ -1,11 +1,9 @@
 package com.example.display
 
-import android.view.ViewGroup
 import android.widget.ImageView
 import com.android.banner.ImageLoaderManager
-
-import com.example.R
 import com.example.NetBannerInfo
+import com.example.R
 import com.squareup.picasso.Picasso
 
 /**
@@ -14,13 +12,11 @@ import com.squareup.picasso.Picasso
 
 class PicassoSimpleImageManager : ImageLoaderManager<NetBannerInfo> {
 
-    override fun display(container: ViewGroup, info: NetBannerInfo, position: Int): ImageView {
-        val imageView = ImageView(container.context)
+    override fun display(imageView: ImageView, info: NetBannerInfo, position: Int) {
         Picasso.get()
                 .load(info.bannerUrl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(imageView)
-        return imageView
     }
 }

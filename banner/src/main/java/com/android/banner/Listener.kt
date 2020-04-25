@@ -1,7 +1,7 @@
 package com.android.banner
 
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 
 interface BannerInfo {
     val bannerUrl: Any
@@ -9,7 +9,7 @@ interface BannerInfo {
 }
 
 interface ImageLoaderManager<T : BannerInfo> {
-    fun display(container: ViewGroup, info: T, position: Int): View
+    fun display(imageView: ImageView, info: T, position: Int)
 }
 
 interface OnBannerClickListener<T : BannerInfo> {

@@ -1,10 +1,10 @@
 package com.android.banner.transformer.internal
 
 import android.view.View
-import com.android.banner.transformer.BannerTransformer
+import com.android.banner.transformer.Banner2Transformer
 import kotlin.math.abs
 
-class ZoomOutPageTransformer : BannerTransformer() {
+class ZoomOutPageTransformer : Banner2Transformer() {
 
     override fun transformPage(view: View, position: Float) {
         val pageWidth = view.width

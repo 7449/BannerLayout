@@ -1,8 +1,9 @@
 package com.android.banner.transformer
 
+import androidx.viewpager2.widget.ViewPager2
 import com.android.banner.BannerLayout
 import com.android.banner.transformer.internal.*
-import com.android.banner.viewPager
+import com.android.banner.viewPager2
 
 fun BannerLayout.accordionTransformer() = also { bannerTransformer = AccordionTransformer() }
 
@@ -43,11 +44,10 @@ fun BannerLayout.zoomOutTransformer() = also { bannerTransformer = ZoomOutTransf
 fun BannerLayout.drawerTransformer() = also { bannerTransformer = DrawerTransformer() }
 
 fun BannerLayout.verticalTransformer() = also {
-    viewPager().isVertical = true
-    viewPager().setPageTransformer(true, VerticalTransformer())
+    viewPager2().orientation = ViewPager2.ORIENTATION_VERTICAL
 }
 
-fun getTransformer(type: Int): BannerTransformer {
+fun getTransformer(type: Int): Banner2Transformer {
     when (type) {
         ABaseTransformer.ANIMATION_ACCORDION -> return AccordionTransformer()
         ABaseTransformer.ANIMATION_BACKGROUND -> return BackgroundToForegroundTransformer()

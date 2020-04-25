@@ -10,7 +10,6 @@ import com.example.R
 import com.example.display.ImageLoaderSimpleManager
 import com.example.display.PicassoSimpleImageManager
 import com.example.newModel
-import com.facebook.drawee.view.SimpleDraweeView
 import kotlinx.android.synthetic.main.activity_display.*
 
 /**
@@ -23,10 +22,7 @@ class DisplayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_display)
         title = "ImageManager Example"
         fresco_banner
-                .setImageLoaderManager<NetBannerInfo> { container, info, _ ->
-                    val draweeView = SimpleDraweeView(container.context)
-                    draweeView.setImageURI(info.bannerUrl)
-                    draweeView
+                .setImageLoaderManager<NetBannerInfo> { imageView, info, _ ->
                 }
                 .resource(newModel())
 

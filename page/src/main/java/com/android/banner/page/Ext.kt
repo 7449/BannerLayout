@@ -3,7 +3,7 @@ package com.android.banner.page
 import android.graphics.Color
 import android.text.TextUtils
 import com.android.banner.BannerLayout
-import com.android.banner.checkViewPager
+import com.android.banner.checkViewPager2
 import com.android.banner.doOnPageSelected
 import com.android.banner.dotsSize
 
@@ -56,7 +56,7 @@ fun BannerLayout.addPageView(
         pageTextColor: Int = Color.WHITE,
         pageBackgroundColor: Int = Color.DKGRAY,
         pageSite: Int = BannerPageView.PAGE_NUM_VIEW_TOP_RIGHT) = also {
-    require(checkViewPager()) { "must add ViewPage first;" }
+    require(checkViewPager2()) { "must add ViewPage first;" }
     val bannerPageView = BannerPageView(context)
     val params = bannerPageView.run {
         addPageView(dotsSize(), pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
