@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.imageLoaderManager
+import com.android.banner.imageLoader
 import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
 import com.example.R
@@ -25,7 +25,7 @@ class Issues13Activity : AppCompatActivity() {
         setContentView(R.layout.activity_issues_13)
         issues_13_banner.clipChildren = false
         issues_13_banner
-                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .imageLoader { GlideAppSimpleImageManager() }
                 .setOffscreenPageLimit(3)
                 .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())

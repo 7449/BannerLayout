@@ -8,7 +8,7 @@ interface BannerInfo {
     val bannerTitle: String?
 }
 
-interface ImageLoaderManager<T : BannerInfo> {
+interface OnBannerImageLoader<T : BannerInfo> {
     fun display(container: ViewGroup, info: T, position: Int): View
 }
 

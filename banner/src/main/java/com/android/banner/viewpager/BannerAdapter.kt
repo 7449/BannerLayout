@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.android.banner.BannerInfo
-import com.android.banner.ImageLoaderManager
+import com.android.banner.OnBannerImageLoader
 import com.android.banner.OnBannerClickListener
 
 /**
  * by y on 2016/10/24.
  */
 internal class BannerAdapter(private val imageList: List<BannerInfo>,
-                             private val loaderManager: ImageLoaderManager<*>,
+                             private val loaderManager: OnBannerImageLoader<*>,
                              private val listener: ArrayList<OnBannerClickListener<*>>,
                              private val guide: Boolean) : PagerAdapter() {
 
@@ -26,7 +26,7 @@ internal class BannerAdapter(private val imageList: List<BannerInfo>,
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val img = (loaderManager as ImageLoaderManager<BannerInfo>).display(container, imageList[getPosition(position)], position)
+        val img = (loaderManager as OnBannerImageLoader<BannerInfo>).display(container, imageList[getPosition(position)], position)
         listener.forEach {
             img.setOnClickListener { v -> (it as OnBannerClickListener<BannerInfo>).onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
         }

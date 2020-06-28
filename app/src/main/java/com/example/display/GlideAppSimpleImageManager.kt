@@ -3,14 +3,14 @@ package com.example.display
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.android.banner.ImageLoaderManager
+import com.android.banner.OnBannerImageLoader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.NetBannerInfo
 import com.example.R
 
-class GlideAppSimpleImageManager : ImageLoaderManager<NetBannerInfo> {
+class GlideAppSimpleImageManager : OnBannerImageLoader<NetBannerInfo> {
 
     private val requestOptions: RequestOptions = RequestOptions().centerCrop()
 

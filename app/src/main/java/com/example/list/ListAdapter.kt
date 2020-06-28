@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.banner.BannerLayout
 import com.android.banner.addOnItemClickListener
-import com.android.banner.imageLoaderManager
+import com.android.banner.imageLoader
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.addTipLayout
 import com.bumptech.glide.Glide
@@ -48,7 +48,7 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 bannerLayout = viewHolder.bannerLayout
                 bannerLayout
                         .delayTime(1000)
-                        .imageLoaderManager { GlideAppSimpleImageManager() }
+                        .imageLoader { GlideAppSimpleImageManager() }
                         .addOnItemClickListener<NetBannerInfo> { view, _, info ->
                             Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
@@ -56,8 +56,8 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 if (info.isNotEmpty()) {
                     bannerLayout.addTipLayout(BannerTip(visibleTitle = true))
                 }
-                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.startBanner() }
-                viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.stopBanner() }
+                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.start() }
+                viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.stop() }
                 viewHolder.update.setOnClickListener {
                     val update = newModel()
                     info = update

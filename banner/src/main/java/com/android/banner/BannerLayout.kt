@@ -25,7 +25,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val bannerHandler: BannerHandler = BannerHandler(this)
     private val onBannerChangeListener: ArrayList<OnBannerChangeListener> = arrayListOf()
     private val onBannerClickListener: ArrayList<OnBannerClickListener<*>> = arrayListOf()
-    private var imageLoaderManager: ImageLoaderManager<*> = DEFAULT_IMAGE_LOADER
+    private val imageList: MutableList<BannerInfo> = mutableListOf()
+    private var onBannerImageLoader: OnBannerImageLoader<*> = DEFAULT_IMAGE_LOADER
     private var isGuide: Boolean = false
     private var isPlay: Boolean = false
     private var touchMode: Boolean = false
@@ -33,7 +34,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var delayTime: Long = 0
 
     val viewPager: BannerViewPager = BannerViewPager(context)
-    val imageList: MutableList<BannerInfo> = mutableListOf()
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
@@ -46,11 +46,11 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        onBannerChangeListener.forEach { it.onPageScrolled(position % dotsSize, positionOffset, positionOffsetPixels) }
+        onBannerChangeListener.forEach { it.onPageScrolled(position % itemCount, positionOffset, positionOffsetPixels) }
     }
 
     override fun onPageSelected(position: Int) {
-        onBannerChangeListener.forEach { it.onPageSelected(position % dotsSize) }
+        onBannerChangeListener.forEach { it.onPageSelected(position % itemCount) }
         bannerHandler.sendMessage(Message.obtain(bannerHandler, MSG_PAGE, viewPager.currentItem, 0))
     }
 
@@ -65,8 +65,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun getItem(position: Int): BannerInfo = imageList[position]
-
     fun resource(imageList: MutableList<out BannerInfo>, isPlay: Boolean = true) = also {
         if (imageList.isEmpty()) {
             return@also
@@ -74,10 +72,10 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         removeAllViews()
         this.imageList.clear()
         this.imageList.addAll(imageList)
-        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize
+        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount
         viewPager.viewTouchMode = touchMode
         viewPager.setDuration(duration)
-        viewPager.adapter = BannerAdapter(imageList, imageLoaderManager, onBannerClickListener, isGuide)
+        viewPager.adapter = BannerAdapter(imageList, onBannerImageLoader, onBannerClickListener, isGuide)
         viewPager.currentItem = currentItem
         addView(viewPager)
         bannerHandler.handlerPage = currentItem
@@ -89,10 +87,10 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     /** 启动轮播 */
-    fun startBanner() = also { play(true) }
+    fun start() = also { play(true) }
 
     /** 停止轮播 */
-    fun stopBanner() = also { play(false) }
+    fun stop() = also { play(false) }
 
     fun play(isPlay: Boolean) = also {
         release()
@@ -114,8 +112,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onBannerClickListener.add(onBannerClickListener)
     }
 
-    fun <T : BannerInfo> setImageLoaderManager(imageLoaderManager: ImageLoaderManager<T>) = also {
-        this.imageLoaderManager = imageLoaderManager
+    fun <T : BannerInfo> setOnBannerImageLoader(onBannerImageLoader: OnBannerImageLoader<T>) = also {
+        this.onBannerImageLoader = onBannerImageLoader
     }
 
     fun delayTime(delayTime: Long) = also {
@@ -136,13 +134,17 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun release() = bannerHandler.removeCallbacksAndMessages(null)
 
+    /** [BannerInfo] */
+    @Suppress("UNCHECKED_CAST")
+    fun <T : BannerInfo> getItem(position: Int): T = imageList[position] as T
+
+    /** data count */
+    val itemCount: Int
+        get() = imageList.size
+
     /** [MSG_KEEP],[MSG_PAGE],[MSG_UPDATE] */
     val status: Int
         get() = bannerHandler.status
-
-    /** data count */
-    val dotsSize: Int
-        get() = imageList.size
 
     fun checkViewPager(): Boolean {
         for (index in 0 until childCount) {

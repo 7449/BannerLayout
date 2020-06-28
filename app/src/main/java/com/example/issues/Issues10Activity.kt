@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.banner.doOnPageSelected
-import com.android.banner.imageLoaderManager
+import com.android.banner.imageLoader
 import com.android.banner.page.BannerPageView
 import com.android.banner.page.addPageView
 import com.android.banner.shadow.BannerTip
@@ -68,7 +68,7 @@ class Issues10Activity : AppCompatActivity() {
         val data = newModel()
         banner_lnstagram
                 .delayTime(1000)
-                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .imageLoader { GlideAppSimpleImageManager() }
                 .resource(data)
                 .addPageView(pageBottomMargin = 10, pageLeftMargin = 10, pageRightMargin = 10, pageTopMargin = 10)
 
@@ -123,7 +123,7 @@ class Issues10Activity : AppCompatActivity() {
             dotMargin = 3
         }
         banner
-                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .imageLoader { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addPageView(
                         pageBottomMargin = 10,

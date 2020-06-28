@@ -57,9 +57,9 @@ fun BannerLayout.addPageView(
     require(checkViewPager()) { "must add ViewPage first;" }
     val bannerPageView = BannerPageView(context)
     val params = bannerPageView.run {
-        addPageView(dotsSize, pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
+        addPageView(itemCount, pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
     }
-    doOnPageSelected { bannerPageView.text = TextUtils.concat((it + 1).toString(), pageMark, dotsSize.toString()) }
+    doOnPageSelected { bannerPageView.text = TextUtils.concat((it + 1).toString(), pageMark, itemCount.toString()) }
     removePageView()
     addView(bannerPageView, params)
 }

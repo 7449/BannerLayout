@@ -8,20 +8,20 @@ import android.view.ViewGroup
  * @create 2019/4/16
  */
 
-val DEFAULT_IMAGE_LOADER: ImageLoaderManager<BannerInfo>
-    get() = object : ImageLoaderManager<BannerInfo> {
+val DEFAULT_IMAGE_LOADER: OnBannerImageLoader<BannerInfo>
+    get() = object : OnBannerImageLoader<BannerInfo> {
         override fun display(container: ViewGroup, info: BannerInfo, position: Int): View {
-            throw KotlinNullPointerException("ImageLoaderManager == null")
+            throw KotlinNullPointerException("OnBannerImageLoader == null")
         }
     }
 
-fun <T : BannerInfo> BannerLayout.imageLoaderManager(imageLoaderManager: () -> ImageLoaderManager<T>) = apply { setImageLoaderManager(imageLoaderManager.invoke()) }
+fun <T : BannerInfo> BannerLayout.imageLoader(imageLoaderManager: () -> OnBannerImageLoader<T>) = apply { setOnBannerImageLoader(imageLoaderManager.invoke()) }
 
-fun <T : BannerInfo> BannerLayout.setImageLoaderManager(action: (container: ViewGroup, info: T, position: Int) -> View): BannerLayout {
-    val imageManager = object : ImageLoaderManager<T> {
+fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View): BannerLayout {
+    val imageManager = object : OnBannerImageLoader<T> {
         override fun display(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
     }
-    setImageLoaderManager(imageManager)
+    setOnBannerImageLoader(imageManager)
     return this
 }
 

@@ -2,8 +2,8 @@ package com.example.banner
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.imageLoaderManager
-import com.android.banner.setImageLoaderManager
+import com.android.banner.imageLoader
+import com.android.banner.setOnBannerImageLoader
 import com.example.NetBannerInfo
 import com.example.R
 import com.example.display.ImageLoaderSimpleManager
@@ -22,7 +22,7 @@ class DisplayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_display)
         title = "ImageManager Example"
         fresco_banner
-                .setImageLoaderManager<NetBannerInfo> { container, info, _ ->
+                .setOnBannerImageLoader<NetBannerInfo> { container, info, _ ->
                     val draweeView = SimpleDraweeView(container.context)
                     draweeView.setImageURI(info.bannerUrl)
                     draweeView
@@ -30,11 +30,11 @@ class DisplayActivity : AppCompatActivity() {
                 .resource(newModel())
 
         imageloader_banner
-                .imageLoaderManager { ImageLoaderSimpleManager() }
+                .imageLoader { ImageLoaderSimpleManager() }
                 .resource(newModel(), isPlay = false)
 
         picasso_banner
-                .imageLoaderManager { PicassoSimpleImageManager() }
+                .imageLoader { PicassoSimpleImageManager() }
                 .resource(newModel())
     }
 

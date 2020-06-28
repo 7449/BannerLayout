@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.BannerLayout
 import com.android.banner.addOnItemClickListener
 import com.android.banner.doOnPageSelected
-import com.android.banner.imageLoaderManager
+import com.android.banner.imageLoader
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
@@ -30,7 +30,7 @@ class GuideActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guide)
         button_guide.visibility = View.GONE
         banner_guide
-                .imageLoaderManager { GlideAppSimpleImageManager() }
+                .imageLoader { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addTipLayout(BannerTip(
                         dotSelector = R.drawable.selector_banner_dots,
@@ -45,7 +45,7 @@ class GuideActivity : AppCompatActivity() {
                     Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .doOnPageSelected {
-                    button_guide.visibility = if (it == banner_guide.imageList.size - 1) View.VISIBLE else View.GONE
+                    button_guide.visibility = if (it == banner_guide.itemCount - 1) View.VISIBLE else View.GONE
                 }
 
         button_guide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
