@@ -3,7 +3,6 @@ package com.example.banner
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.imageLoaderManager
-import com.android.banner.removeCallbacksAndMessages
 import com.android.banner.setImageLoaderManager
 import com.example.NetBannerInfo
 import com.example.R
@@ -41,8 +40,8 @@ class DisplayActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        fresco_banner.removeCallbacksAndMessages()
-        imageloader_banner.removeCallbacksAndMessages()
-        picasso_banner.removeCallbacksAndMessages()
+        fresco_banner.release()
+        imageloader_banner.release()
+        picasso_banner.release()
     }
 }

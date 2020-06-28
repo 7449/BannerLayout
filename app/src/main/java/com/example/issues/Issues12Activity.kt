@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.imageLoaderManager
 import com.android.banner.page.addPageView
-import com.android.banner.removeCallbacksAndMessages
 import com.example.R
 import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
@@ -31,6 +30,6 @@ class Issues12Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        issues_12_banner.removeCallbacksAndMessages()
+        issues_12_banner.release()
     }
 }

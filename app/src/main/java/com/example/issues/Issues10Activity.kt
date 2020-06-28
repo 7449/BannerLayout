@@ -15,12 +15,10 @@ import com.android.banner.doOnPageSelected
 import com.android.banner.imageLoaderManager
 import com.android.banner.page.BannerPageView
 import com.android.banner.page.addPageView
-import com.android.banner.removeCallbacksAndMessages
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
 import com.android.banner.shadow.removeTipLayout
-import com.android.banner.delayTime
 import com.example.R
 import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
@@ -61,8 +59,8 @@ class Issues10Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        banner.removeCallbacksAndMessages()
-        banner_lnstagram.removeCallbacksAndMessages()
+        banner.release()
+        banner_lnstagram.release()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

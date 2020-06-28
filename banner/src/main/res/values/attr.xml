@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="BannerLayout">
         <attr name="banner_delay_time" format="integer" />
-        <attr name="banner_play" format="boolean" />
         <attr name="banner_view_pager_touch_mode" format="boolean" />
         <attr name="banner_duration" format="integer" />
         <attr name="banner_guide" format="boolean" />

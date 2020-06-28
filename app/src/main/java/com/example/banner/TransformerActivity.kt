@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.*
+import com.android.banner.doOnPageSelected
+import com.android.banner.imageLoaderManager
 import com.android.banner.transformer.*
 import com.example.R
 import com.example.display.GlideAppSimpleImageManager
@@ -26,7 +27,7 @@ class TransformerActivity : AppCompatActivity() {
         transformer_banner
                 .delayTime(300)
                 .imageLoaderManager { GlideAppSimpleImageManager() }
-                .transformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
+                .setTransformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
                 .doOnPageSelected { banner_position.text = "select position:$it" }
                 .resource(newModel())
     }
@@ -64,6 +65,6 @@ class TransformerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        transformer_banner.removeCallbacksAndMessages()
+        transformer_banner.release()
     }
 }

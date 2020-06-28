@@ -30,9 +30,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
-    implementation 'com.ydevelop:bannerlayout.shadow:0.0.1'
-    implementation 'com.ydevelop:bannerlayout.page:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout:1.1.9'
+//    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout.shadow:0.0.1'
+//    implementation 'com.ydevelop:bannerlayout.page:0.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(path: ':shadow')
+    implementation project(path: ':page')
+    implementation project(path: ':transformer')
+    implementation project(path: ':banner')
 }

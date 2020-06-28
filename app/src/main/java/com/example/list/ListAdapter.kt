@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.banner.*
+import com.android.banner.BannerLayout
+import com.android.banner.addOnItemClickListener
+import com.android.banner.imageLoaderManager
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.addTipLayout
 import com.bumptech.glide.Glide
@@ -54,7 +56,7 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 if (info.isNotEmpty()) {
                     bannerLayout.addTipLayout(BannerTip(visibleTitle = true))
                 }
-                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.playBanner() }
+                viewHolder.start.setOnClickListener { viewHolder.bannerLayout.startBanner() }
                 viewHolder.stop.setOnClickListener { viewHolder.bannerLayout.stopBanner() }
                 viewHolder.update.setOnClickListener {
                     val update = newModel()

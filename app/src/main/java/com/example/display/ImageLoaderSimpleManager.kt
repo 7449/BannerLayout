@@ -1,10 +1,11 @@
 package com.example.display
 
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.android.banner.ImageLoaderManager
-
 import com.example.NetBannerInfo
+import com.example.R
 import com.nostra13.universalimageloader.core.ImageLoader
 
 /**
@@ -13,10 +14,10 @@ import com.nostra13.universalimageloader.core.ImageLoader
 
 class ImageLoaderSimpleManager : ImageLoaderManager<NetBannerInfo> {
 
-    override fun display(container: ViewGroup, info: NetBannerInfo, position: Int): ImageView {
-        val imageView = ImageView(container.context)
+    override fun display(container: ViewGroup, info: NetBannerInfo, position: Int): View {
+        val inflate = View.inflate(container.context, R.layout.banner_item, null)
         val imageLoader = ImageLoader.getInstance()
-        imageLoader.displayImage(info.bannerUrl, imageView)
-        return imageView
+        imageLoader.displayImage(info.bannerUrl, inflate.findViewById<ImageView>(R.id.iv))
+        return inflate
     }
 }

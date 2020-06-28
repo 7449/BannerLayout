@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.*
+import com.android.banner.imageLoaderManager
 import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
 import com.example.R
@@ -26,8 +26,8 @@ class Issues13Activity : AppCompatActivity() {
         issues_13_banner.clipChildren = false
         issues_13_banner
                 .imageLoaderManager { GlideAppSimpleImageManager() }
-                .offscreenPageLimit(3)
-                .transformer(MeizuBannerTransformer())
+                .setOffscreenPageLimit(3)
+                .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
         val layoutParams = issues_13_banner.viewPagerLayoutParams()
@@ -35,15 +35,15 @@ class Issues13Activity : AppCompatActivity() {
         layoutParams?.rightMargin = 50
         val handler = Handler()
         val r = Runnable {
-            issues_13_banner.viewPager().beginFakeDrag()
-            issues_13_banner.viewPager().fakeDragBy(1.0f)
-            issues_13_banner.viewPager().endFakeDrag()
+            issues_13_banner.viewPager.beginFakeDrag()
+            issues_13_banner.viewPager.fakeDragBy(1.0f)
+            issues_13_banner.viewPager.endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }
 
     override fun onDestroy() {
-        issues_13_banner.removeCallbacksAndMessages()
+        issues_13_banner.release()
         super.onDestroy()
     }
 }

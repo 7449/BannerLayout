@@ -3,7 +3,10 @@ package com.android.banner.shadow
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import androidx.core.content.ContextCompat
-import com.android.banner.*
+import com.android.banner.BannerLayout
+import com.android.banner.addEnabledState
+import com.android.banner.addNormalState
+import com.android.banner.doOnPageSelected
 
 internal fun BannerTipLayout.dotsSelector(bannerTip: BannerTip): Drawable {
     return if (bannerTip.dotSelector == 0x0)
@@ -23,7 +26,7 @@ fun BannerLayout.addTipLayout(bannerTip: BannerTip = BannerTip()) {
     val params = tipLayout.run {
         removeAllViews()
         if (bannerTip.visibleDot) {
-            initDot(dotsSize(), bannerTip.dotHeight, bannerTip.dotWidth, bannerTip.dotLeftMargin, bannerTip.dotRightMargin, bannerTip.dotSite, bannerTip)
+            initDot(dotsSize, bannerTip.dotHeight, bannerTip.dotWidth, bannerTip.dotLeftMargin, bannerTip.dotRightMargin, bannerTip.dotSite, bannerTip)
         }
         if (bannerTip.visibleTitle) {
             initTitle(bannerTip.titleColor, bannerTip.titleSize, bannerTip.titleLeftMargin, bannerTip.titleRightMargin, bannerTip.titleWidth, bannerTip.titleHeight, bannerTip.titleSite)

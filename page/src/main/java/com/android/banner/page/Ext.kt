@@ -3,9 +3,7 @@ package com.android.banner.page
 import android.graphics.Color
 import android.text.TextUtils
 import com.android.banner.BannerLayout
-import com.android.banner.checkViewPager
 import com.android.banner.doOnPageSelected
-import com.android.banner.dotsSize
 
 fun BannerLayout.marginPageView(
         margin: Int,
@@ -59,9 +57,9 @@ fun BannerLayout.addPageView(
     require(checkViewPager()) { "must add ViewPage first;" }
     val bannerPageView = BannerPageView(context)
     val params = bannerPageView.run {
-        addPageView(dotsSize(), pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
+        addPageView(dotsSize, pageTopMargin, pageRightMargin, pageBottomMargin, pageLeftMargin, pagePaddingTop, pagePaddingLeft, pagePaddingBottom, pagePaddingRight, pageRadius, pageMark, pageTextSize, pageTextColor, pageBackgroundColor, pageSite)
     }
-    doOnPageSelected { bannerPageView.text = TextUtils.concat((it + 1).toString(), pageMark, dotsSize().toString()) }
+    doOnPageSelected { bannerPageView.text = TextUtils.concat((it + 1).toString(), pageMark, dotsSize.toString()) }
     removePageView()
     addView(bannerPageView, params)
 }

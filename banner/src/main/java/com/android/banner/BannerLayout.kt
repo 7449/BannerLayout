@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.android.banner
 
 import android.content.Context
@@ -20,92 +22,134 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
     }
 
-    internal val bannerHandler: BannerHandler = BannerHandler(this)
-    internal val viewPager: BannerViewPager = BannerViewPager(context)
-    internal var imageList: List<BannerInfo> = ArrayList()
+    private val bannerHandler: BannerHandler = BannerHandler(this)
+    private val onBannerChangeListener: ArrayList<OnBannerChangeListener> = arrayListOf()
+    private val onBannerClickListener: ArrayList<OnBannerClickListener<*>> = arrayListOf()
+    private var imageLoaderManager: ImageLoaderManager<*> = DEFAULT_IMAGE_LOADER
+    private var isGuide: Boolean = false
+    private var isPlay: Boolean = false
+    private var touchMode: Boolean = false
+    private var duration: Int = 0
+    private var delayTime: Long = 0
 
-    var imageLoaderManager: ImageLoaderManager<out BannerInfo>? = null
-    var onBannerClickListener: OnBannerClickListener<out BannerInfo>? = null
-    val onBannerChangeListener: ArrayList<OnBannerChangeListener> = ArrayList()
-
-    var bannerTransformer: BannerTransformer? = null
-        set(value) {
-            field = value
-            viewPager.setPageTransformer(true, value)
-        }
-
-    var offscreenPageLimit = 0
-        set(value) {
-            field = value
-            viewPager.offscreenPageLimit = offscreenPageLimit
-        }
-
-    var isPlay: Boolean = false
-    var isGuide: Boolean = false
-    var viewPagerTouchMode: Boolean = false
-    var bannerDuration: Int = 0
-    var delayTime: Long = 0
+    val viewPager: BannerViewPager = BannerViewPager(context)
+    val imageList: MutableList<BannerInfo> = mutableListOf()
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
         isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, false)
         delayTime = typedArray.getInteger(R.styleable.BannerLayout_banner_delay_time, 2000).toLong()
-        isPlay = typedArray.getBoolean(R.styleable.BannerLayout_banner_play, false)
-        viewPagerTouchMode = typedArray.getBoolean(R.styleable.BannerLayout_banner_view_pager_touch_mode, false)
-        bannerDuration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, 800)
+        touchMode = typedArray.getBoolean(R.styleable.BannerLayout_banner_view_pager_touch_mode, false)
+        duration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, 800)
         typedArray.recycle()
         viewPager.addOnPageChangeListener(this)
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        onBannerChangeListener.forEach { it.onPageScrolled(position % dotsSize(), positionOffset, positionOffsetPixels) }
+        onBannerChangeListener.forEach { it.onPageScrolled(position % dotsSize, positionOffset, positionOffsetPixels) }
     }
 
     override fun onPageSelected(position: Int) {
+        onBannerChangeListener.forEach { it.onPageSelected(position % dotsSize) }
         bannerHandler.sendMessage(Message.obtain(bannerHandler, MSG_PAGE, viewPager.currentItem, 0))
-        onBannerChangeListener.forEach { it.onPageSelected(position % dotsSize()) }
     }
 
     override fun onPageScrollStateChanged(state: Int) {
+        onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
         if (isPlay) {
-            removeCallbacksAndMessages()
+            release()
             when (state) {
                 ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendEmptyMessage(MSG_KEEP)
                 ViewPager.SCROLL_STATE_IDLE -> bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
             }
         }
-        onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
     }
 
     fun getItem(position: Int): BannerInfo = imageList[position]
 
-    fun resource(imageList: ArrayList<out BannerInfo>, isPlay: Boolean = true) = also {
+    fun resource(imageList: MutableList<out BannerInfo>, isPlay: Boolean = true) = also {
         if (imageList.isEmpty()) {
             return@also
         }
         removeAllViews()
-        this.imageList = imageList
-        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize()
-        viewPager.viewTouchMode = viewPagerTouchMode
-        viewPager.setDuration(bannerDuration)
+        this.imageList.clear()
+        this.imageList.addAll(imageList)
+        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % dotsSize
+        viewPager.viewTouchMode = touchMode
+        viewPager.setDuration(duration)
         viewPager.adapter = BannerAdapter(imageList, imageLoaderManager, onBannerClickListener, isGuide)
-        viewPager.setPageTransformer(true, bannerTransformer)
         viewPager.currentItem = currentItem
         addView(viewPager)
         bannerHandler.handlerPage = currentItem
         bannerHandler.handlerDelayTime = delayTime
-        playBanner(if (isGuide) false else isPlay)
+        if (isGuide) {
+            return@also
+        }
+        play(isPlay)
     }
 
-    fun playBanner(isPlay: Boolean) = also {
-        removeCallbacksAndMessages()
+    /** 启动轮播 */
+    fun startBanner() = also { play(true) }
+
+    /** 停止轮播 */
+    fun stopBanner() = also { play(false) }
+
+    fun play(isPlay: Boolean) = also {
+        release()
         this.isPlay = isPlay
         if (isPlay) {
             bannerHandler.handlerDelayTime = delayTime
             bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
         } else {
             bannerHandler.sendEmptyMessage(MSG_KEEP)
-            removeCallbacksAndMessages()
+            release()
         }
+    }
+
+    fun addOnBannerChangeListener(onBannerChangeListener: OnBannerChangeListener) = also {
+        this.onBannerChangeListener.add(onBannerChangeListener)
+    }
+
+    fun <T : BannerInfo> addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<T>) = also {
+        this.onBannerClickListener.add(onBannerClickListener)
+    }
+
+    fun <T : BannerInfo> setImageLoaderManager(imageLoaderManager: ImageLoaderManager<T>) = also {
+        this.imageLoaderManager = imageLoaderManager
+    }
+
+    fun delayTime(delayTime: Long) = also {
+        this.delayTime = delayTime
+    }
+
+    fun setTransformer(bannerTransformer: BannerTransformer) = also {
+        viewPager.setPageTransformer(true, bannerTransformer)
+    }
+
+    fun setOffscreenPageLimit(offscreenPageLimit: Int) = also {
+        viewPager.offscreenPageLimit = offscreenPageLimit
+    }
+
+    fun viewPagerLayoutParams(): LayoutParams? {
+        return viewPager.layoutParams as LayoutParams?
+    }
+
+    fun release() = bannerHandler.removeCallbacksAndMessages(null)
+
+    /** [MSG_KEEP],[MSG_PAGE],[MSG_UPDATE] */
+    val status: Int
+        get() = bannerHandler.status
+
+    /** data count */
+    val dotsSize: Int
+        get() = imageList.size
+
+    fun checkViewPager(): Boolean {
+        for (index in 0 until childCount) {
+            if (getChildAt(index) is BannerViewPager) {
+                return true
+            }
+        }
+        return false
     }
 }

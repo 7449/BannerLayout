@@ -13,25 +13,23 @@ import com.android.banner.OnBannerClickListener
  * by y on 2016/10/24.
  */
 internal class BannerAdapter(private val imageList: List<BannerInfo>,
-                             private val loaderManager: ImageLoaderManager<out BannerInfo>?,
-                             private val listener: OnBannerClickListener<out BannerInfo>?,
+                             private val loaderManager: ImageLoaderManager<*>,
+                             private val listener: ArrayList<OnBannerClickListener<*>>,
                              private val guide: Boolean) : PagerAdapter() {
-
-    init {
-        require(loaderManager != null) { "ImageLoaderManager == null" }
-    }
 
     override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
+    override fun isViewFromObject(view: View, any: Any): Boolean = view === any
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as View)
+    override fun destroyItem(container: ViewGroup, position: Int, any: Any) {
+        container.removeView(any as? View)
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val img = (loaderManager as ImageLoaderManager<BannerInfo>).display(container, imageList[getPosition(position)], position)
-        listener?.let { img.setOnClickListener { v -> (it as OnBannerClickListener<BannerInfo>).onBannerClick(v, getPosition(position), imageList[getPosition(position)]) } }
+        listener.forEach {
+            img.setOnClickListener { v -> (it as OnBannerClickListener<BannerInfo>).onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
+        }
         container.addView(img)
         return img
     }
