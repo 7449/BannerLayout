@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <com.android.banner.BannerLayout
-        android:id="@+id/transformer_banner"
+        android:id="@+id/transformerBanner"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/banner_position"
+        android:id="@+id/bannerPosition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

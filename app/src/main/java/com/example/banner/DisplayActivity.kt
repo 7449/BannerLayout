@@ -21,7 +21,7 @@ class DisplayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display)
         title = "ImageManager Example"
-        fresco_banner
+        frescoBanner
                 .setOnBannerImageLoader<NetBannerInfo> { container, info, _ ->
                     val draweeView = SimpleDraweeView(container.context)
                     draweeView.setImageURI(info.bannerUrl)
@@ -29,19 +29,19 @@ class DisplayActivity : AppCompatActivity() {
                 }
                 .resource(newModel())
 
-        imageloader_banner
+        imageloaderBanner
                 .imageLoader { ImageLoaderSimpleManager() }
                 .resource(newModel(), isPlay = false)
 
-        picasso_banner
+        picassoBanner
                 .imageLoader { PicassoSimpleImageManager() }
                 .resource(newModel())
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        fresco_banner.release()
-        imageloader_banner.release()
-        picasso_banner.release()
+        frescoBanner.release()
+        imageloaderBanner.release()
+        picassoBanner.release()
     }
 }

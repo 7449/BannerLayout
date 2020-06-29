@@ -25,6 +25,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val bannerHandler: BannerHandler = BannerHandler(this)
     private val onBannerChangeListener: ArrayList<OnBannerChangeListener> = arrayListOf()
     private val onBannerClickListener: ArrayList<OnBannerClickListener<*>> = arrayListOf()
+    private val onBannerResourceChangedListener: ArrayList<OnBannerResourceChangedListener> = arrayListOf()
     private val imageList: MutableList<BannerInfo> = mutableListOf()
     private var onBannerImageLoader: OnBannerImageLoader<*> = DEFAULT_IMAGE_LOADER
     private var isGuide: Boolean = false
@@ -43,6 +44,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         duration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, 800)
         typedArray.recycle()
         viewPager.addOnPageChangeListener(this)
+        addView(viewPager, 0)
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -69,17 +71,18 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (imageList.isEmpty()) {
             return@also
         }
-        removeAllViews()
         this.imageList.clear()
         this.imageList.addAll(imageList)
+        removeView(viewPager)
         val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount
         viewPager.viewTouchMode = touchMode
         viewPager.setDuration(duration)
         viewPager.adapter = BannerAdapter(imageList, onBannerImageLoader, onBannerClickListener, isGuide)
         viewPager.currentItem = currentItem
-        addView(viewPager)
         bannerHandler.handlerPage = currentItem
         bannerHandler.handlerDelayTime = delayTime
+        addView(viewPager, 0)
+        onBannerResourceChangedListener.forEach { it.onBannerDataChanged() }
         if (isGuide) {
             return@also
         }
@@ -106,6 +109,10 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun addOnBannerChangeListener(onBannerChangeListener: OnBannerChangeListener) = also {
         this.onBannerChangeListener.add(onBannerChangeListener)
+    }
+
+    fun addOnBannerResourceChangedListener(onBannerResourceChangedListener: OnBannerResourceChangedListener) = also {
+        this.onBannerResourceChangedListener.add(onBannerResourceChangedListener)
     }
 
     fun <T : BannerInfo> addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<T>) = also {

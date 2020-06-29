@@ -17,15 +17,14 @@ import kotlinx.android.synthetic.main.activity_recycler_view.*
  */
 class ListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RxNetWorkListener<ListModel>, Runnable {
 
-    private lateinit var adapter: ListAdapter
+    private val adapter: ListAdapter by lazy { ListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "RecyclerView Example"
         setContentView(R.layout.activity_recycler_view)
-        refresh_layout.setOnRefreshListener(this)
-        refresh_layout.post(this)
-        adapter = ListAdapter()
+        refreshLayout.setOnRefreshListener(this)
+        refreshLayout.post(this)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
     }
@@ -39,16 +38,16 @@ class ListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, 
     }
 
     override fun onNetWorkStart() {
-        refresh_layout.isRefreshing = true
+        refreshLayout.isRefreshing = true
     }
 
     override fun onNetWorkError(e: Throwable) {
-        refresh_layout.isRefreshing = false
+        refreshLayout.isRefreshing = false
         Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onNetWorkComplete() {
-        refresh_layout.isRefreshing = false
+        refreshLayout.isRefreshing = false
     }
 
     override fun onNetWorkSuccess(data: ListModel) {

@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/list_image"
+        android:id="@+id/listImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/list_tv"
+        android:id="@+id/listTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp" />

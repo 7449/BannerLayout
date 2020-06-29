@@ -16,6 +16,10 @@ interface OnBannerClickListener<T : BannerInfo> {
     fun onBannerClick(view: View, position: Int, info: T)
 }
 
+interface OnBannerResourceChangedListener {
+    fun onBannerDataChanged()
+}
+
 interface OnBannerChangeListener {
     fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int)
     fun onPageSelected(position: Int)

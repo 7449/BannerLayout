@@ -17,13 +17,13 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_alter_count"
+            android:id="@+id/btnAlterCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ISSUES 10" />
 
         <com.android.banner.BannerLayout
-            android:id="@+id/banner_lnstagram"
+            android:id="@+id/bannerInstagram"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
@@ -56,7 +56,7 @@
                 tools:ignore="RtlHardcoded" />
 
             <LinearLayout
-                android:id="@+id/ll_view"
+                android:id="@+id/llView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

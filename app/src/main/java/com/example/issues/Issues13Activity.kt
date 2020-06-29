@@ -23,27 +23,27 @@ class Issues13Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issues_13)
-        issues_13_banner.clipChildren = false
-        issues_13_banner
+        issues13Banner.clipChildren = false
+        issues13Banner
                 .imageLoader { GlideAppSimpleImageManager() }
                 .setOffscreenPageLimit(3)
                 .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
-        val layoutParams = issues_13_banner.viewPagerLayoutParams()
+        val layoutParams = issues13Banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
         val handler = Handler()
         val r = Runnable {
-            issues_13_banner.viewPager.beginFakeDrag()
-            issues_13_banner.viewPager.fakeDragBy(1.0f)
-            issues_13_banner.viewPager.endFakeDrag()
+            issues13Banner.viewPager.beginFakeDrag()
+            issues13Banner.viewPager.fakeDragBy(1.0f)
+            issues13Banner.viewPager.endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }
 
     override fun onDestroy() {
-        issues_13_banner.release()
+        issues13Banner.release()
         super.onDestroy()
     }
 }

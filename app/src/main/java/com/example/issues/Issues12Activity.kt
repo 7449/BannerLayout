@@ -22,7 +22,7 @@ class Issues12Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issues_12)
-        issues_12_banner
+        issues12Banner
                 .imageLoader { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
@@ -30,6 +30,6 @@ class Issues12Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        issues_12_banner.release()
+        issues12Banner.release()
     }
 }

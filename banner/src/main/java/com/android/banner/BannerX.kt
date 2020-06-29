@@ -15,22 +15,29 @@ val DEFAULT_IMAGE_LOADER: OnBannerImageLoader<BannerInfo>
         }
     }
 
-fun <T : BannerInfo> BannerLayout.imageLoader(imageLoaderManager: () -> OnBannerImageLoader<T>) = apply { setOnBannerImageLoader(imageLoaderManager.invoke()) }
+fun <T : BannerInfo> BannerLayout.imageLoader(imageLoaderManager: () -> OnBannerImageLoader<T>) = also { setOnBannerImageLoader(imageLoaderManager.invoke()) }
 
-fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View): BannerLayout {
+fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View) = also {
     val imageManager = object : OnBannerImageLoader<T> {
         override fun display(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
     }
     setOnBannerImageLoader(imageManager)
-    return this
 }
 
-fun <T : BannerInfo> BannerLayout.addOnItemClickListener(action: (view: View, position: Int, info: T) -> Unit): BannerLayout {
+fun <T : BannerInfo> BannerLayout.addOnItemClickListener(action: (view: View, position: Int, info: T) -> Unit) = also {
     val listener = object : OnBannerClickListener<T> {
         override fun onBannerClick(view: View, position: Int, info: T) = action(view, position, info)
     }
     addOnBannerClickListener(listener)
-    return this
+}
+
+fun BannerLayout.addOnBannerResourceChangedListener(action: () -> Unit) = also {
+    val listener = object : OnBannerResourceChangedListener {
+        override fun onBannerDataChanged() {
+            action.invoke()
+        }
+    }
+    addOnBannerResourceChangedListener(listener)
 }
 
 fun BannerLayout.doOnPageScrolled(action: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit) = addOnBannerChangeListener(onPageScrolled = action)
@@ -43,12 +50,11 @@ fun BannerLayout.addOnBannerChangeListener(
         onPageScrolled: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit = { _: Int, _: Float, _: Int -> },
         onPageSelected: (position: Int) -> Unit = { _: Int -> },
         onPageScrollStateChanged: (state: Int) -> Unit = { _: Int -> }
-): BannerLayout {
+) = also {
     val listener = object : OnBannerChangeListener {
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = onPageScrolled(position, positionOffset, positionOffsetPixels)
         override fun onPageSelected(position: Int) = onPageSelected(position)
         override fun onPageScrollStateChanged(state: Int) = onPageScrollStateChanged(state)
     }
     addOnBannerChangeListener(listener)
-    return this
 }

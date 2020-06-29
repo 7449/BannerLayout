@@ -23,12 +23,12 @@ class TransformerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         title = "Transformer Example"
         setContentView(R.layout.activity_transformer)
-        banner_position.text = "select position:" + 0
-        transformer_banner
+        bannerPosition.text = "select position:" + 0
+        transformerBanner
                 .delayTime(300)
                 .imageLoader { GlideAppSimpleImageManager() }
                 .setTransformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
-                .doOnPageSelected { banner_position.text = "select position:$it" }
+                .doOnPageSelected { bannerPosition.text = "select position:$it" }
                 .resource(newModel())
     }
 
@@ -39,32 +39,32 @@ class TransformerActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.transformer_accordion -> transformer_banner.accordionTransformer()
-            R.id.transformer_background -> transformer_banner.backgroundTransformer()
-            R.id.transformer_cube_in -> transformer_banner.cubeInTransformer()
-            R.id.transformer_cube_out -> transformer_banner.cubeOutTransformer()
-            R.id.transformer_default -> transformer_banner.defaultTransformer()
-            R.id.transformer_depth_page -> transformer_banner.depthPageTransformer()
-            R.id.transformer_flip_horizontal -> transformer_banner.flipHorizontalTransformer()
-            R.id.transformer_flip_vertical -> transformer_banner.flipVerticalTransformer()
-            R.id.transformer_foreground -> transformer_banner.foregroundTransformer()
-            R.id.transformer_rotate_down -> transformer_banner.rotateDownTransformer()
-            R.id.transformer_rotate_up -> transformer_banner.rotateUpTransformer()
-            R.id.transformer_stack -> transformer_banner.stackTransformer()
-            R.id.transformer_scale_in_out -> transformer_banner.scaleInOutTransformer()
-            R.id.transformer_tablet -> transformer_banner.tabletTransformer()
-            R.id.transformer_zoom_in -> transformer_banner.zoomInTransformer()
-            R.id.transformer_zoom_out_page -> transformer_banner.zoomOutPageTransformer()
-            R.id.transformer_zoom_out_slide -> transformer_banner.zoomOutSlideTransformer()
-            R.id.transformer_zoom_out -> transformer_banner.zoomOutTransformer()
-            R.id.transformer_drawer -> transformer_banner.drawerTransformer()
-            R.id.transformer_vertical -> transformer_banner.verticalTransformer()
+            R.id.transformer_accordion -> transformerBanner.accordionTransformer()
+            R.id.transformer_background -> transformerBanner.backgroundTransformer()
+            R.id.transformer_cube_in -> transformerBanner.cubeInTransformer()
+            R.id.transformer_cube_out -> transformerBanner.cubeOutTransformer()
+            R.id.transformer_default -> transformerBanner.defaultTransformer()
+            R.id.transformer_depth_page -> transformerBanner.depthPageTransformer()
+            R.id.transformer_flip_horizontal -> transformerBanner.flipHorizontalTransformer()
+            R.id.transformer_flip_vertical -> transformerBanner.flipVerticalTransformer()
+            R.id.transformer_foreground -> transformerBanner.foregroundTransformer()
+            R.id.transformer_rotate_down -> transformerBanner.rotateDownTransformer()
+            R.id.transformer_rotate_up -> transformerBanner.rotateUpTransformer()
+            R.id.transformer_stack -> transformerBanner.stackTransformer()
+            R.id.transformer_scale_in_out -> transformerBanner.scaleInOutTransformer()
+            R.id.transformer_tablet -> transformerBanner.tabletTransformer()
+            R.id.transformer_zoom_in -> transformerBanner.zoomInTransformer()
+            R.id.transformer_zoom_out_page -> transformerBanner.zoomOutPageTransformer()
+            R.id.transformer_zoom_out_slide -> transformerBanner.zoomOutSlideTransformer()
+            R.id.transformer_zoom_out -> transformerBanner.zoomOutTransformer()
+            R.id.transformer_drawer -> transformerBanner.drawerTransformer()
+            R.id.transformer_vertical -> transformerBanner.verticalTransformer()
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        transformer_banner.release()
+        transformerBanner.release()
     }
 }

@@ -9,49 +9,49 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_guide"
+            android:id="@+id/btnGuide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="guide"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_recycler_view"
+            android:id="@+id/btnRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="RecyclerView Header"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_image_manager"
+            android:id="@+id/btnImageManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ImageManager"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_transformer"
+            android:id="@+id/btnTransformer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Transformer"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_issues_10"
+            android:id="@+id/btnIssues10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="issues 10"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_issues_12"
+            android:id="@+id/btnIssues12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="issues 12"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_issues_13"
+            android:id="@+id/btnIssues13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="issues 13"

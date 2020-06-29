@@ -18,37 +18,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_guide.setOnClickListener { v ->
+        btnGuide.setOnClickListener { v ->
             val intent = Intent(v.context, GuideActivity::class.java)
             startActivity(intent)
         }
 
-        btn_recycler_view.setOnClickListener { v ->
+        btnRecyclerView.setOnClickListener { v ->
             val intent = Intent(v.context, ListActivity::class.java)
             startActivity(intent)
         }
 
-        btn_image_manager.setOnClickListener { v ->
+        btnImageManager.setOnClickListener { v ->
             val intent = Intent(v.context, DisplayActivity::class.java)
             startActivity(intent)
         }
 
-        btn_transformer.setOnClickListener { v ->
+        btnTransformer.setOnClickListener { v ->
             val intent = Intent(v.context, TransformerActivity::class.java)
             startActivity(intent)
         }
 
-        btn_issues_10.setOnClickListener { v ->
+        btnIssues10.setOnClickListener { v ->
             val intent = Intent(v.context, Issues10Activity::class.java)
             startActivity(intent)
         }
 
-        btn_issues_12.setOnClickListener { v ->
+        btnIssues12.setOnClickListener { v ->
             val intent = Intent(v.context, Issues12Activity::class.java)
             startActivity(intent)
         }
 
-        btn_issues_13.setOnClickListener { v ->
+        btnIssues13.setOnClickListener { v ->
             val intent = Intent(v.context, Issues13Activity::class.java)
             startActivity(intent)
         }

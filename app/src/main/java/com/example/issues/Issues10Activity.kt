@@ -60,13 +60,13 @@ class Issues10Activity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         banner.release()
-        banner_lnstagram.release()
+        bannerInstagram.release()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun testlnstagram() {
         val data = newModel()
-        banner_lnstagram
+        bannerInstagram
                 .delayTime(1000)
                 .imageLoader { GlideAppSimpleImageManager() }
                 .resource(data)
@@ -74,7 +74,7 @@ class Issues10Activity : AppCompatActivity() {
 
         //  dots
         sizelnstagram = data.size
-        ll_view.removeAllViews()
+        llView.removeAllViews()
         for (i in 0 until sizelnstagram) {
             val view = View(this)
             view.background = ContextCompat.getDrawable(this, R.drawable.selector_banner_dots)
@@ -84,15 +84,15 @@ class Issues10Activity : AppCompatActivity() {
             params.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER
             params.leftMargin = 5
             params.rightMargin = 5
-            ll_view.addView(view)
+            llView.addView(view)
         }
 
-        banner_lnstagram.doOnPageSelected { position ->
-            ll_view.getChildAt(position).isEnabled = true
-            ll_view.getChildAt(preEnablePosition).isEnabled = false
+        bannerInstagram.doOnPageSelected { position ->
+            llView.getChildAt(position).isEnabled = true
+            llView.getChildAt(preEnablePosition).isEnabled = false
             preEnablePosition = position
-            val startView = ll_view.getChildAt(0)
-            val endView = ll_view.getChildAt(sizelnstagram - 1)
+            val startView = llView.getChildAt(0)
+            val endView = llView.getChildAt(sizelnstagram - 1)
             if (position == sizelnstagram - 1) {
                 startView.scaleX = 0.6f
                 startView.scaleY = 0.6f
@@ -139,7 +139,7 @@ class Issues10Activity : AppCompatActivity() {
                         dotRightMargin = dotMargin,
                         dotLeftMargin = dotMargin
                 ))
-        findViewById<View>(R.id.btn_alter_count).setOnClickListener { alterBannerCount() }
+        findViewById<View>(R.id.btnAlterCount).setOnClickListener { alterBannerCount() }
     }
 
     private fun alterBannerCount() {

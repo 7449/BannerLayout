@@ -28,8 +28,8 @@ class GuideActivity : AppCompatActivity() {
         val flag = WindowManager.LayoutParams.FLAG_FULLSCREEN
         window.setFlags(flag, flag)
         setContentView(R.layout.activity_guide)
-        button_guide.visibility = View.GONE
-        banner_guide
+        buttonGuide.visibility = View.GONE
+        bannerGuide
                 .imageLoader { GlideAppSimpleImageManager() }
                 .resource(newModel())
                 .addTipLayout(BannerTip(
@@ -40,14 +40,14 @@ class GuideActivity : AppCompatActivity() {
                         dotHeight = 30,
                         tipHeight = 300))
 
-        banner_guide
+        bannerGuide
                 .addOnItemClickListener<NetBannerInfo> { view, position, _ ->
                     Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .doOnPageSelected {
-                    button_guide.visibility = if (it == banner_guide.itemCount - 1) View.VISIBLE else View.GONE
+                    buttonGuide.visibility = if (it == bannerGuide.itemCount - 1) View.VISIBLE else View.GONE
                 }
 
-        button_guide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
+        buttonGuide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
     }
 }

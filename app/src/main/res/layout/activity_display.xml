@@ -15,7 +15,7 @@
             android:text="Fresco " />
 
         <com.android.banner.BannerLayout
-            android:id="@+id/fresco_banner"
+            android:id="@+id/frescoBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
@@ -26,7 +26,7 @@
             android:text="ImageLoader " />
 
         <com.android.banner.BannerLayout
-            android:id="@+id/imageloader_banner"
+            android:id="@+id/imageloaderBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
@@ -37,7 +37,7 @@
             android:text="Picasso " />
 
         <com.android.banner.BannerLayout
-            android:id="@+id/picasso_banner"
+            android:id="@+id/picassoBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
