@@ -2,14 +2,7 @@ package com.example.banner
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.imageLoader
-import com.android.banner.setOnBannerImageLoader
-import com.example.NetBannerInfo
-import com.example.R
-import com.example.display.ImageLoaderSimpleManager
-import com.example.display.PicassoSimpleImageManager
-import com.example.newModel
-import com.facebook.drawee.view.SimpleDraweeView
+import com.example.*
 import kotlinx.android.synthetic.main.activity_display.*
 
 /**
@@ -20,21 +13,17 @@ class DisplayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display)
-        title = "ImageManager Example"
+        title = "ImageLoader Example"
         frescoBanner
-                .setOnBannerImageLoader<NetBannerInfo> { container, info, _ ->
-                    val draweeView = SimpleDraweeView(container.context)
-                    draweeView.setImageURI(info.bannerUrl)
-                    draweeView
-                }
+                .setOnBannerImageLoader(FrescoImageLoader())
                 .resource(newModel())
 
         imageloaderBanner
-                .imageLoader { ImageLoaderSimpleManager() }
-                .resource(newModel(), isPlay = false)
+                .setOnBannerImageLoader(ImageLoader())
+                .resource(newModel())
 
         picassoBanner
-                .imageLoader { PicassoSimpleImageManager() }
+                .setOnBannerImageLoader(PicassoImageLoader())
                 .resource(newModel())
     }
 

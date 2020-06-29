@@ -9,13 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.BannerLayout
 import com.android.banner.addOnItemClickListener
 import com.android.banner.doOnPageSelected
-import com.android.banner.imageLoader
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
-import com.example.NetBannerInfo
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
+import com.example.SimpleBannerInfo
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_guide.*
 
@@ -30,7 +29,7 @@ class GuideActivity : AppCompatActivity() {
         setContentView(R.layout.activity_guide)
         buttonGuide.visibility = View.GONE
         bannerGuide
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addTipLayout(BannerTip(
                         dotSelector = R.drawable.selector_banner_dots,
@@ -39,15 +38,12 @@ class GuideActivity : AppCompatActivity() {
                         dotWidth = 30,
                         dotHeight = 30,
                         tipHeight = 300))
-
-        bannerGuide
-                .addOnItemClickListener<NetBannerInfo> { view, position, _ ->
+                .addOnItemClickListener<SimpleBannerInfo> { view, position, _ ->
                     Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .doOnPageSelected {
                     buttonGuide.visibility = if (it == bannerGuide.itemCount - 1) View.VISIBLE else View.GONE
                 }
-
         buttonGuide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
     }
 }

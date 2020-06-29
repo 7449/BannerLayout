@@ -58,7 +58,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     override fun onPageScrollStateChanged(state: Int) {
         onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
-        if (isPlay) {
+        if (!isPlay) {
             release()
             when (state) {
                 ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendEmptyMessage(MSG_KEEP)

@@ -11,19 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.banner.BannerLayout
 import com.android.banner.addOnBannerResourceChangedListener
 import com.android.banner.addOnItemClickListener
-import com.android.banner.imageLoader
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.addTipLayout
 import com.bumptech.glide.Glide
-import com.example.NetBannerInfo
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
+import com.example.SimpleBannerInfo
 import com.example.newModel
 
 /**
  * by y on 2017/3/8.
  */
-
 class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -31,7 +29,7 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private const val TYPE_ITEM = 1
     }
 
-    private var info: ArrayList<NetBannerInfo> = ArrayList()
+    private var info: ArrayList<SimpleBannerInfo> = ArrayList()
     private val listModels: ArrayList<DataModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,8 +46,8 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val bannerLayout = viewHolder.bannerLayout
                 bannerLayout
                         .delayTime(1000)
-                        .imageLoader { GlideAppSimpleImageManager() }
-                        .addOnItemClickListener<NetBannerInfo> { view, _, info ->
+                        .setOnBannerImageLoader(GlideImageLoader())
+                        .addOnItemClickListener<SimpleBannerInfo> { view, _, info ->
                             Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
                         }
                         .addOnBannerResourceChangedListener {
@@ -88,7 +86,7 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun addBanner(info: ArrayList<NetBannerInfo>) {
+    fun addBanner(info: ArrayList<SimpleBannerInfo>) {
         this.info = info
     }
 

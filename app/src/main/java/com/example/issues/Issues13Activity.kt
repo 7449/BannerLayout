@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.imageLoader
 import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_13.*
 import kotlin.math.abs
@@ -17,7 +16,6 @@ import kotlin.math.max
 /**
  * Issues sample : https://github.com/7449/BannerLayout/issues/13
  */
-
 class Issues13Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +23,7 @@ class Issues13Activity : AppCompatActivity() {
         setContentView(R.layout.activity_issues_13)
         issues13Banner.clipChildren = false
         issues13Banner
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .setOffscreenPageLimit(3)
                 .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())

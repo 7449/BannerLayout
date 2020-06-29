@@ -17,7 +17,7 @@ internal fun BannerTipLayout.dotsSelector(bannerTip: BannerTip): Drawable {
                         .addNormalState(bannerTip.normalRadius, bannerTip.normalColor)
 }
 
-fun BannerLayout.addTipLayout(bannerTip: BannerTip = BannerTip()) {
+fun BannerLayout.addTipLayout(bannerTip: BannerTip = BannerTip()) = also {
     require(checkViewPager()) { "must add ViewPage first;" }
     val tipLayout = BannerTipLayout(context)
     val params = tipLayout.run {

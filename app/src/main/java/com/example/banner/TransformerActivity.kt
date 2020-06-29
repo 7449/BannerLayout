@@ -6,10 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.doOnPageSelected
-import com.android.banner.imageLoader
 import com.android.banner.transformer.*
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_transformer.*
 
@@ -26,7 +25,7 @@ class TransformerActivity : AppCompatActivity() {
         bannerPosition.text = "select position:" + 0
         transformerBanner
                 .delayTime(300)
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .setTransformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
                 .doOnPageSelected { bannerPosition.text = "select position:$it" }
                 .resource(newModel())

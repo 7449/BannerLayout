@@ -12,15 +12,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.android.banner.doOnPageSelected
-import com.android.banner.imageLoader
 import com.android.banner.page.BannerPageView
 import com.android.banner.page.addPageView
 import com.android.banner.shadow.BannerTip
 import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
 import com.android.banner.shadow.removeTipLayout
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_10.*
 
@@ -68,7 +67,7 @@ class Issues10Activity : AppCompatActivity() {
         val data = newModel()
         bannerInstagram
                 .delayTime(1000)
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .resource(data)
                 .addPageView(pageBottomMargin = 10, pageLeftMargin = 10, pageRightMargin = 10, pageTopMargin = 10)
 
@@ -123,7 +122,7 @@ class Issues10Activity : AppCompatActivity() {
             dotMargin = 3
         }
         banner
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addPageView(
                         pageBottomMargin = 10,
@@ -143,7 +142,7 @@ class Issues10Activity : AppCompatActivity() {
     }
 
     private fun alterBannerCount() {
-        val alterData: ArrayList<com.example.NetBannerInfo> = if (!isShowTips) {
+        val alterData: ArrayList<com.example.SimpleBannerInfo> = if (!isShowTips) {
             newModel().also { it.addAll(newModel()) }
         } else {
             newModel()

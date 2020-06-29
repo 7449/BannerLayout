@@ -2,10 +2,9 @@ package com.example.issues
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.android.banner.imageLoader
 import com.android.banner.page.addPageView
+import com.example.GlideImageLoader
 import com.example.R
-import com.example.display.GlideAppSimpleImageManager
 import com.example.newModel
 import kotlinx.android.synthetic.main.activity_issues_12.*
 
@@ -23,7 +22,7 @@ class Issues12Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issues_12)
         issues12Banner
-                .imageLoader { GlideAppSimpleImageManager() }
+                .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
     }

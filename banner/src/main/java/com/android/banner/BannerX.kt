@@ -15,8 +15,6 @@ val DEFAULT_IMAGE_LOADER: OnBannerImageLoader<BannerInfo>
         }
     }
 
-fun <T : BannerInfo> BannerLayout.imageLoader(imageLoaderManager: () -> OnBannerImageLoader<T>) = also { setOnBannerImageLoader(imageLoaderManager.invoke()) }
-
 fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View) = also {
     val imageManager = object : OnBannerImageLoader<T> {
         override fun display(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
