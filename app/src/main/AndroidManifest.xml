@@ -35,6 +35,9 @@
             android:name=".banner.TransformerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".banner.VideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.example.issues.Issues10Activity"
             android:screenOrientation="portrait" />
         <activity

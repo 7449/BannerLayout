@@ -10,14 +10,14 @@ import android.view.ViewGroup
 
 val DEFAULT_IMAGE_LOADER: OnBannerImageLoader<BannerInfo>
     get() = object : OnBannerImageLoader<BannerInfo> {
-        override fun display(container: ViewGroup, info: BannerInfo, position: Int): View {
+        override fun instantiateItem(container: ViewGroup, info: BannerInfo, position: Int): View {
             throw KotlinNullPointerException("OnBannerImageLoader == null")
         }
     }
 
 fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View) = also {
     val imageManager = object : OnBannerImageLoader<T> {
-        override fun display(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
+        override fun instantiateItem(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
     }
     setOnBannerImageLoader(imageManager)
 }

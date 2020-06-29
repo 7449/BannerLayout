@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.banner.DisplayActivity
 import com.example.banner.GuideActivity
 import com.example.banner.TransformerActivity
+import com.example.banner.VideoActivity
 import com.example.issues.Issues10Activity
 import com.example.issues.Issues12Activity
 import com.example.issues.Issues13Activity
@@ -35,6 +36,11 @@ class MainActivity : AppCompatActivity() {
 
         btnTransformer.setOnClickListener { v ->
             val intent = Intent(v.context, TransformerActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnVideo.setOnClickListener { v ->
+            val intent = Intent(v.context, VideoActivity::class.java)
             startActivity(intent)
         }
 

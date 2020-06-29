@@ -24,7 +24,6 @@ class Issues13Activity : AppCompatActivity() {
         issues13Banner.clipChildren = false
         issues13Banner
                 .setOnBannerImageLoader(GlideImageLoader())
-                .setOffscreenPageLimit(3)
                 .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)

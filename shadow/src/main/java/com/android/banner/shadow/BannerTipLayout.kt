@@ -66,7 +66,13 @@ class BannerTipLayout(context: Context) : RelativeLayout(context) {
     }
 
     internal fun changeDotsPosition(position: Int) {
-        linearLayout.getChildAt(if (position == 0) linearLayout.childCount - 1 else position - 1)?.isEnabled = false
+        for (index in 0 until linearLayout.childCount) {
+            linearLayout.getChildAt(index)?.let {
+                if (it.isEnabled) {
+                    it.isEnabled = false
+                }
+            }
+        }
         linearLayout.getChildAt(position)?.isEnabled = true
     }
 

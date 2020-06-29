@@ -9,7 +9,13 @@ interface BannerInfo {
 }
 
 interface OnBannerImageLoader<T : BannerInfo> {
-    fun display(container: ViewGroup, info: T, position: Int): View
+    fun instantiateItem(container: ViewGroup, info: T, position: Int): View
+    fun destroyItem(container: ViewGroup, position: Int, any: Any, info: T) {
+        container.removeView(any as? View)
+    }
+
+    fun setPrimaryItem(container: ViewGroup, position: Int, any: Any, info: T) {
+    }
 }
 
 interface OnBannerClickListener<T : BannerInfo> {
