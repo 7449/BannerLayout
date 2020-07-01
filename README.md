@@ -1,81 +1,91 @@
- # BannerLayout
+# BannerLayout
 
 ## core
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
+    implementation 'com.ydevelop:bannerlayout:1.2.0'
     
 ## page
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.page:0.0.1'
+    implementation 'com.ydevelop:bannerlayout:1.2.0'
+    implementation 'com.ydevelop:bannerlayout.page:0.0.2'
 
 ## shadow
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.shadow:0.0.1'
+    implementation 'com.ydevelop:bannerlayout:1.2.0'
+    implementation 'com.ydevelop:bannerlayout.shadow:0.0.2'
 
 ## transformer
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
+    implementation 'com.ydevelop:bannerlayout:1.2.0'
+    implementation 'com.ydevelop:bannerlayout.transformer:0.0.2'
     
 ## api
 
-    banner.bannerStatus()
+    banner.viewPager
     
-    banner.removeCallbacksAndMessages()
+    banner.resource(list,boolean)
     
-    banner.transformer()
+    banner.start()
     
-    banner.offscreenPageLimit()
+    banner.stop()
     
-    banner.viewPagerTouchMode()
+    banner.play(boolean)
     
-    banner.bannerDuration()
+    banner.addOnBannerChangeListener(OnBannerChangeListener)
     
-    banner.guide()
+    banner.addOnBannerResourceChangedListener(OnBannerResourceChangedListener)
     
-    banner.delayTime()
+    banner.addOnBannerClickListener(OnBannerClickListener)
     
-    banner.play()
+    banner.setOnBannerImageLoader(OnBannerImageLoader)
     
-    banner.resource()
+    banner.delayTime(Long)
     
-    banner.playBanner()
+    banner.touchMode(boolean)
     
-    banner.stopBanner()
+    banner.duration(Int)
     
-## ImageLoaderManager
+    banner.setTransformer(BannerTransformer)
 
-    class ImageLoaderSimpleManager : ImageLoaderManager<NetBannerInfo> {
-    
-        override fun display(container: ViewGroup, model: NetBannerInfo): View {
-            val imageView = ImageView(container.context)
-            val imageLoader = ImageLoader.getInstance()
-            imageLoader.displayImage(model.bannerUrl, imageView)
-            return imageView
-        }
-    }
-    
-    banner.imageLoaderManager{ ImageLoaderSimpleManager() }
-    
-    banner.setImageLoaderManager()
-    
-## Vertical scrolling
+    banner.setOffscreenPageLimit(Int)
 
-    implementation 'com.ydevelop:bannerlayout:1.1.9'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.1'
+    banner.viewPagerLayoutParams()
 
-    banner.verticalTransformer()
+    banner.release()
+
+    banner.getItem(position)
+
+    banner.itemCount
+
+    banner.status
+
+    banner.checkViewPager()
     
-## click
+## kotlin expand
+
+    banner.setOnBannerImageLoader()
 
     banner.addOnItemClickListener()
-    
-## pageChanged
 
-    banner.doOnpageScrolled()
-    
+    banner.addOnBannerResourceChangedListener()
+
+    banner.doOnPageScrolled()
+
     banner.doOnPageSelected()
-    
+
     banner.doOnPageScrollStateChanged()
+
+    banner.addOnBannerChangeListener()
+
+## ImageLoaderManager
+
+    class ImageLoader : OnBannerImageLoader<BannerInfo> {
+        override fun instantiateItem(container: ViewGroup, info: BannerInfo, position: Int): View {
+            return ImageView(container.context).apply {
+                Glide.with(container.context)
+                        .applyDefaultRequestOptions(RequestOptions().centerCrop())
+                        .load(info.bannerUrl)
+                        .into(this)
+            }
+        }
+    }

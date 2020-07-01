@@ -10,11 +10,11 @@ interface BannerInfo {
 
 interface OnBannerImageLoader<T : BannerInfo> {
     fun instantiateItem(container: ViewGroup, info: T, position: Int): View
-    fun destroyItem(container: ViewGroup, position: Int, any: Any, info: T) {
+    fun destroyItem(container: ViewGroup, correctPosition: Int, bannerPosition: Int, any: Any, info: T) {
         container.removeView(any as? View)
     }
 
-    fun setPrimaryItem(container: ViewGroup, position: Int, any: Any, info: T) {
+    fun setPrimaryItem(container: ViewGroup, correctPosition: Int, bannerPosition: Int, any: Any, info: T) {
     }
 }
 

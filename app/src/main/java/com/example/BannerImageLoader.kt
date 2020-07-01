@@ -14,12 +14,12 @@ import kotlinx.android.synthetic.main.banner_video_item.view.*
 
 class VideoImageLoader : OnBannerImageLoader<SimpleBannerInfo> {
 
-    override fun destroyItem(container: ViewGroup, position: Int, any: Any, info: SimpleBannerInfo) {
-        super.destroyItem(container, position, any, info)
+    override fun destroyItem(container: ViewGroup, correctPosition: Int, bannerPosition: Int, any: Any, info: SimpleBannerInfo) {
+        super.destroyItem(container, correctPosition, bannerPosition, any, info)
         Jzvd.releaseAllVideos()
     }
 
-    override fun setPrimaryItem(container: ViewGroup, position: Int, any: Any, info: SimpleBannerInfo) {
+    override fun setPrimaryItem(container: ViewGroup, correctPosition: Int, bannerPosition: Int, any: Any, info: SimpleBannerInfo) {
         if (!info.isVideo) {
             return
         }

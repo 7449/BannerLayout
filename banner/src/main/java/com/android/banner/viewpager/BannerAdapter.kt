@@ -26,7 +26,7 @@ internal class BannerAdapter(private val imageList: List<BannerInfo>,
     override fun isViewFromObject(view: View, any: Any): Boolean = view === any
 
     override fun destroyItem(container: ViewGroup, position: Int, any: Any) {
-        imageLoader.destroyItem(container, getPosition(position), any, imageList[getPosition(position)])
+        imageLoader.destroyItem(container, position, getPosition(position), any, imageList[getPosition(position)])
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -39,7 +39,7 @@ internal class BannerAdapter(private val imageList: List<BannerInfo>,
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, any: Any) {
-        imageLoader.setPrimaryItem(container, getPosition(position), any, imageList[getPosition(position)])
+        imageLoader.setPrimaryItem(container, position, getPosition(position), any, imageList[getPosition(position)])
     }
 
     private fun getPosition(position: Int): Int = position % imageList.size

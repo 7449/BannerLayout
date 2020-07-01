@@ -123,8 +123,19 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onBannerImageLoader = onBannerImageLoader
     }
 
+    /** [resource]之前调用 */
     fun delayTime(delayTime: Long) = also {
         this.delayTime = delayTime
+    }
+
+    /** [resource]之前调用 */
+    fun touchMode(touchMode: Boolean) = also {
+        this.touchMode = touchMode
+    }
+
+    /** [resource]之前调用 */
+    fun duration(duration: Int) = also {
+        this.duration = duration
     }
 
     fun setTransformer(bannerTransformer: BannerTransformer) = also {
