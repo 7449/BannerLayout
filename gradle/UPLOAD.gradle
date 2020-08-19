@@ -1,0 +1,15 @@
+apply plugin: "guru.stefma.bintrayrelease"
+
+version = mavenVersion
+group = "com.ydevelop"
+
+androidArtifact {
+    artifactId = mavenArtifactId
+    javadoc = false
+}
+
+publish {
+    userOrg = 'ydevelop'
+    desc = 'this is android banner library'
+    website = 'https://github.com/7449/BannerLayout'
+}
