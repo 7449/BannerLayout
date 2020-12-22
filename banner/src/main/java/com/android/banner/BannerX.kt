@@ -3,28 +3,9 @@ package com.android.banner
 import android.view.View
 import android.view.ViewGroup
 
-/**
- * @author y
- * @create 2019/4/16
- */
-
-val DEFAULT_IMAGE_LOADER: OnBannerImageLoader<BannerInfo>
-    get() = object : OnBannerImageLoader<BannerInfo> {
-        override fun instantiateItem(container: ViewGroup, info: BannerInfo, position: Int): View {
-            throw KotlinNullPointerException("OnBannerImageLoader == null")
-        }
-    }
-
-fun <T : BannerInfo> BannerLayout.setOnBannerImageLoader(action: (container: ViewGroup, info: T, position: Int) -> View) = also {
-    val imageManager = object : OnBannerImageLoader<T> {
-        override fun instantiateItem(container: ViewGroup, info: T, position: Int): View = action(container, info, position)
-    }
-    setOnBannerImageLoader(imageManager)
-}
-
-fun <T : BannerInfo> BannerLayout.addOnItemClickListener(action: (view: View, position: Int, info: T) -> Unit) = also {
-    val listener = object : OnBannerClickListener<T> {
-        override fun onBannerClick(view: View, position: Int, info: T) = action(view, position, info)
+fun BannerLayout.addOnItemClickListener(action: (view: View, position: Int, info: BannerInfo) -> Unit) = also {
+    val listener = object : OnBannerClickListener<BannerInfo> {
+        override fun onBannerClick(view: View, position: Int, info: BannerInfo) = action(view, position, info)
     }
     addOnBannerClickListener(listener)
 }

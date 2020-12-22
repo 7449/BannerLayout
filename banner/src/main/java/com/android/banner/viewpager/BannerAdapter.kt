@@ -9,38 +9,43 @@ import com.android.banner.BannerInfo
 import com.android.banner.OnBannerClickListener
 import com.android.banner.OnBannerImageLoader
 
-
 /**
  * by y on 2016/10/24.
  */
-internal class BannerAdapter(private val imageList: List<BannerInfo>,
-                             private val loaderManager: OnBannerImageLoader<*>,
-                             private val listener: ArrayList<OnBannerClickListener<*>>,
-                             private val guide: Boolean) : PagerAdapter() {
-
-    private val imageLoader: OnBannerImageLoader<BannerInfo>
-        get() = loaderManager as OnBannerImageLoader<BannerInfo>
+class BannerAdapter(
+        private val imageList: List<BannerInfo>,
+        private val loaderManager: OnBannerImageLoader<BannerInfo>,
+        private val listener: ArrayList<OnBannerClickListener<BannerInfo>>,
+        private val guide: Boolean
+) : PagerAdapter() {
 
     override fun getCount(): Int = if (guide) imageList.size else Integer.MAX_VALUE
 
-    override fun isViewFromObject(view: View, any: Any): Boolean = view === any
+    override fun isViewFromObject(view: View, any: Any): Boolean {
+        return loaderManager.isViewFromObject(view, any)
+    }
 
     override fun destroyItem(container: ViewGroup, position: Int, any: Any) {
-        imageLoader.destroyItem(container, position, getPosition(position), any, imageList[getPosition(position)])
+        loaderManager.destroyItem(container, position, getPosition(position), any, imageList[getPosition(position)])
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = imageLoader.instantiateItem(container, imageList[getPosition(position)], position)
-        listener.forEach {
-            view.setOnClickListener { v -> (it as OnBannerClickListener<BannerInfo>).onBannerClick(v, getPosition(position), imageList[getPosition(position)]) }
+        val view = loaderManager.instantiateItem(container, imageList[getPosition(position)], position)
+        if (listener.isNotEmpty()) {
+            view.setOnClickListener {
+                listener.forEach { listener ->
+                    listener.onBannerClick(it, getPosition(position), imageList[getPosition(position)])
+                }
+            }
         }
         container.addView(view)
         return view
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, any: Any) {
-        imageLoader.setPrimaryItem(container, position, getPosition(position), any, imageList[getPosition(position)])
+        loaderManager.setPrimaryItem(container, position, getPosition(position), any, imageList[getPosition(position)])
     }
 
     private fun getPosition(position: Int): Int = position % imageList.size
+
 }

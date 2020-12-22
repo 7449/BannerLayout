@@ -18,7 +18,7 @@ android {
     }
 }
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
 
@@ -35,9 +35,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.6.2")
 
     implementation(Dep.viewPager)
-    implementation(Dep.banner)
-    implementation(Dep.transformer)
-    implementation(Dep.shadow)
-    implementation(Dep.page)
     implementation(Dep.kotlin)
+    implementation(project(":banner"))
+    implementation(project(":transformer"))
+    implementation(project(":shadow"))
+    implementation(project(":page"))
+//    implementation(Dep.banner)
+//    implementation(Dep.transformer)
+//    implementation(Dep.shadow)
+//    implementation(Dep.page)
 }

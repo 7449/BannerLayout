@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package com.android.banner
 
 import android.content.Context
@@ -12,7 +10,8 @@ import com.android.banner.transformer.BannerTransformer
 import com.android.banner.viewpager.BannerAdapter
 import com.android.banner.viewpager.BannerViewPager
 
-class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
+class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
 
     companion object {
         const val MSG_UPDATE = 1
@@ -24,22 +23,23 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val bannerHandler: BannerHandler = BannerHandler(this)
     private val onBannerChangeListener: ArrayList<OnBannerChangeListener> = arrayListOf()
-    private val onBannerClickListener: ArrayList<OnBannerClickListener<*>> = arrayListOf()
+    private val onBannerClickListener: ArrayList<OnBannerClickListener<BannerInfo>> = arrayListOf()
     private val onBannerResourceChangedListener: ArrayList<OnBannerResourceChangedListener> = arrayListOf()
+    private var onBannerImageLoader: OnBannerImageLoader<BannerInfo>? = null
     private val imageList: MutableList<BannerInfo> = mutableListOf()
-    private var onBannerImageLoader: OnBannerImageLoader<*> = DEFAULT_IMAGE_LOADER
+
     private var isGuide: Boolean = false
     private var isPlay: Boolean = false
     private var touchMode: Boolean = false
     private var duration: Int = 0
-    private var delayTime: Long = 0
+    private var delayTime: Int = 0
 
     val viewPager: BannerViewPager = BannerViewPager(context)
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerLayout)
         isGuide = typedArray.getBoolean(R.styleable.BannerLayout_banner_guide, false)
-        delayTime = typedArray.getInteger(R.styleable.BannerLayout_banner_delay_time, 2000).toLong()
+        delayTime = typedArray.getInteger(R.styleable.BannerLayout_banner_delay_time, 2000)
         touchMode = typedArray.getBoolean(R.styleable.BannerLayout_banner_view_pager_touch_mode, false)
         duration = typedArray.getInteger(R.styleable.BannerLayout_banner_duration, 800)
         typedArray.recycle()
@@ -58,12 +58,13 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     override fun onPageScrollStateChanged(state: Int) {
         onBannerChangeListener.forEach { it.onPageScrollStateChanged(state) }
-        if (isPlay) {
-            release()
-            when (state) {
-                ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendEmptyMessage(MSG_KEEP)
-                ViewPager.SCROLL_STATE_IDLE -> bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
-            }
+        if (!isPlay) {
+            return
+        }
+        release()
+        when (state) {
+            ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendEmptyMessage(MSG_KEEP)
+            ViewPager.SCROLL_STATE_IDLE -> bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime.toLong())
         }
     }
 
@@ -77,7 +78,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount
         viewPager.viewTouchMode = touchMode
         viewPager.setDuration(duration)
-        viewPager.adapter = BannerAdapter(imageList, onBannerImageLoader, onBannerClickListener, isGuide)
+        viewPager.adapter = BannerAdapter(imageList, onBannerImageLoader
+                ?: throw KotlinNullPointerException("onBannerImageLoader == null"), onBannerClickListener, isGuide)
         viewPager.currentItem = currentItem
         bannerHandler.handlerPage = currentItem
         bannerHandler.handlerDelayTime = delayTime
@@ -100,7 +102,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.isPlay = isPlay
         if (isPlay) {
             bannerHandler.handlerDelayTime = delayTime
-            bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime)
+            bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime.toLong())
         } else {
             bannerHandler.sendEmptyMessage(MSG_KEEP)
             release()
@@ -115,16 +117,18 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.onBannerResourceChangedListener.add(onBannerResourceChangedListener)
     }
 
-    fun <T : BannerInfo> addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<T>) = also {
+    fun addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<BannerInfo>) = also {
         this.onBannerClickListener.add(onBannerClickListener)
     }
 
-    fun <T : BannerInfo> setOnBannerImageLoader(onBannerImageLoader: OnBannerImageLoader<T>) = also {
-        this.onBannerImageLoader = onBannerImageLoader
+    /** [resource]之前调用 */
+    @Suppress("UNCHECKED_CAST")
+    fun setOnBannerImageLoader(onBannerImageLoader: OnBannerImageLoader<out BannerInfo>) = also {
+        this.onBannerImageLoader = onBannerImageLoader as OnBannerImageLoader<BannerInfo>
     }
 
     /** [resource]之前调用 */
-    fun delayTime(delayTime: Long) = also {
+    fun delayTime(delayTime: Int) = also {
         this.delayTime = delayTime
     }
 
@@ -150,11 +154,15 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         return viewPager.layoutParams as LayoutParams?
     }
 
-    fun release() = bannerHandler.removeCallbacksAndMessages(null)
+    fun release() {
+        bannerHandler.removeCallbacksAndMessages(null)
+    }
 
     /** [BannerInfo] */
     @Suppress("UNCHECKED_CAST")
-    fun <T : BannerInfo> getItem(position: Int): T = imageList[position] as T
+    fun <T : BannerInfo> getItem(position: Int): T {
+        return imageList[position] as T
+    }
 
     /** data count */
     val itemCount: Int

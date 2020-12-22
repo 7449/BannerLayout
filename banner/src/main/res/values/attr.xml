@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BannerLayout">
+        <!--    轮播时间    -->
         <attr name="banner_delay_time" format="integer" />
+        <!--    ViewPager是否可以触摸滑动    -->
         <attr name="banner_view_pager_touch_mode" format="boolean" />
+        <!--    ViewPager滑动时间    -->
         <attr name="banner_duration" format="integer" />
+        <!--    是否改轮播图为导航图    -->
         <attr name="banner_guide" format="boolean" />
     </declare-styleable>
 </resources>

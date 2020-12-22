@@ -14,7 +14,8 @@ android {
     compileOptions { kotlinOptions.freeCompilerArgs += listOf("-module-name", "com.ydevelop.bannerlayout.transformer") }
 }
 dependencies {
-    compileOnly(Dep.banner)
+    compileOnly(project(":banner"))
+//    compileOnly(Dep.banner)
     compileOnly(Dep.viewPager)
     compileOnly(Dep.kotlin)
 }

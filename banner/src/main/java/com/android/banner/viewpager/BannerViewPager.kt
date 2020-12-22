@@ -27,23 +27,17 @@ class BannerViewPager @JvmOverloads constructor(context: Context, attrs: Attribu
 
     var isVertical: Boolean = false
 
-    private lateinit var scroller: FixedSpeedScroller
-
-    val duration: Int get() = scroller.fixDuration
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        try {
+        runCatching {
             val mFirstLayout = ViewPager::class.java.getDeclaredField("mFirstLayout")
             mFirstLayout.isAccessible = true
             mFirstLayout.set(this, false)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
     override fun onDetachedFromWindow() {
-        if ((context as Activity).isFinishing) {
+        if ((context as? Activity)?.isFinishing == true) {
             super.onDetachedFromWindow()
         }
     }
@@ -63,17 +57,12 @@ class BannerViewPager @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun arrowScroll(direction: Int): Boolean = !viewTouchMode && !(direction != View.FOCUS_LEFT && direction != View.FOCUS_RIGHT) && super.arrowScroll(direction)
 
-    fun setDuration(duration: Int) = apply {
-        try {
+    fun setDuration(duration: Int) {
+        runCatching {
             val mScroller = ViewPager::class.java.getDeclaredField("mScroller")
             mScroller.isAccessible = true
-            scroller = FixedSpeedScroller(context)
-            mScroller.set(this, scroller)
-            scroller.fixDuration = duration
-        } catch (e: Exception) {
-            Log.i(javaClass.simpleName, e.message ?: "")
-        }
-        return this
+            mScroller.set(this, FixedSpeedScroller(context, duration))
+        }.onFailure { Log.i(javaClass.simpleName, it.message ?: "") }
     }
 
     private fun swapEvent(event: MotionEvent): MotionEvent {
@@ -85,10 +74,7 @@ class BannerViewPager @JvmOverloads constructor(context: Context, attrs: Attribu
         return event
     }
 
-    private class FixedSpeedScroller(context: Context) : Scroller(context) {
-
-        var fixDuration: Int = 0
-
+    private class FixedSpeedScroller(context: Context, val fixDuration: Int) : Scroller(context) {
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
             super.startScroll(startX, startY, dx, dy, fixDuration)
         }

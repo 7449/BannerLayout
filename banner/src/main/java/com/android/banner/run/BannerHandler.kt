@@ -8,12 +8,14 @@ import com.android.banner.BannerLayout
  * @author y
  * @create 2019-04-29
  */
-class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
+class BannerHandler(
+        private val mCurrent: BannerLayout
+) : Handler() {
 
     var status: Int = 0
         private set
 
-    var handlerDelayTime: Long = 2000
+    var handlerDelayTime: Int = 2000
     var handlerPage: Int = 0
 
     override fun handleMessage(msg: Message) {
@@ -28,7 +30,7 @@ class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
         when (what) {
             BannerLayout.MSG_UPDATE -> {
                 mCurrent.viewPager.currentItem = ++handlerPage
-                sendEmptyMessageDelayed(BannerLayout.MSG_UPDATE, handlerDelayTime)
+                sendEmptyMessageDelayed(BannerLayout.MSG_UPDATE, handlerDelayTime.toLong())
             }
             BannerLayout.MSG_PAGE -> handlerPage = msg.arg1
             BannerLayout.MSG_KEEP -> {
@@ -36,4 +38,5 @@ class BannerHandler(private val mCurrent: BannerLayout) : Handler() {
         }
         status = what
     }
+
 }

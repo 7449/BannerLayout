@@ -47,8 +47,8 @@ class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 bannerLayout
                         .delayTime(1000)
                         .setOnBannerImageLoader(GlideImageLoader())
-                        .addOnItemClickListener<SimpleBannerInfo> { view, _, info ->
-                            Toast.makeText(view.context, info.title, Toast.LENGTH_LONG).show()
+                        .addOnItemClickListener { view, _, info ->
+                            Toast.makeText(view.context, info.bannerTitle, Toast.LENGTH_LONG).show()
                         }
                         .addOnBannerResourceChangedListener {
                             bannerLayout.addTipLayout(BannerTip(visibleTitle = true))

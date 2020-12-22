@@ -38,7 +38,7 @@ class GuideActivity : AppCompatActivity() {
                         dotWidth = 30,
                         dotHeight = 30,
                         tipHeight = 300))
-                .addOnItemClickListener<SimpleBannerInfo> { view, position, _ ->
+                .addOnItemClickListener { view, position, _ ->
                     Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .doOnPageSelected {
