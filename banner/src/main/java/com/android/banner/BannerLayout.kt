@@ -14,9 +14,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     : FrameLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener {
 
     companion object {
-        const val MSG_UPDATE = 1
-        const val MSG_KEEP = 2
-        const val MSG_PAGE = 3
         const val MATCH_PARENT = LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
     }
@@ -53,7 +50,7 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     override fun onPageSelected(position: Int) {
         onBannerChangeListener.forEach { it.onPageSelected(position % itemCount) }
-        bannerHandler.sendMessage(Message.obtain(bannerHandler, MSG_PAGE, viewPager.currentItem, 0))
+        bannerHandler.sendMessageSelected()
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -63,8 +60,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         release()
         when (state) {
-            ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendEmptyMessage(MSG_KEEP)
-            ViewPager.SCROLL_STATE_IDLE -> bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime.toLong())
+            ViewPager.SCROLL_STATE_DRAGGING -> bannerHandler.sendKeepMessage()
+            ViewPager.SCROLL_STATE_IDLE -> bannerHandler.sendUpdateMessage()
         }
     }
 
@@ -102,9 +99,9 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         this.isPlay = isPlay
         if (isPlay) {
             bannerHandler.handlerDelayTime = delayTime
-            bannerHandler.sendEmptyMessageDelayed(MSG_UPDATE, delayTime.toLong())
+            bannerHandler.sendUpdateMessage()
         } else {
-            bannerHandler.sendEmptyMessage(MSG_KEEP)
+            bannerHandler.sendKeepMessage()
             release()
         }
     }
@@ -154,23 +151,31 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         return viewPager.layoutParams as LayoutParams?
     }
 
-    fun release() {
-        bannerHandler.removeCallbacksAndMessages(null)
-    }
-
     /** [BannerInfo] */
     @Suppress("UNCHECKED_CAST")
     fun <T : BannerInfo> getItem(position: Int): T {
         return imageList[position] as T
     }
 
-    /** data count */
+    fun release() {
+        bannerHandler.release()
+    }
+
+    /** [BannerHandler.MSG_KEEP],[BannerHandler.MSG_PAGE],[BannerHandler.MSG_UPDATE] */
+    private val status: Int
+        get() = bannerHandler.status
+
+    val isUpdate: Boolean
+        get() = status == BannerHandler.MSG_UPDATE
+
+    val isKeep: Boolean
+        get() = status == BannerHandler.MSG_KEEP
+
+    val isPage: Boolean
+        get() = status == BannerHandler.MSG_PAGE
+
     val itemCount: Int
         get() = imageList.size
-
-    /** [MSG_KEEP],[MSG_PAGE],[MSG_UPDATE] */
-    val status: Int
-        get() = bannerHandler.status
 
     fun checkViewPager(): Boolean {
         for (index in 0 until childCount) {
