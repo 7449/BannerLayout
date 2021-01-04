@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.page.addPageView
 import com.example.GlideImageLoader
-import com.example.R
+import com.example.databinding.ActivityIssues12Binding
 import com.example.newModel
-import kotlinx.android.synthetic.main.activity_issues_12.*
-
+import com.example.viewBinding
 
 /**
  * by y on 25/07/2017.
@@ -18,10 +17,11 @@ import kotlinx.android.synthetic.main.activity_issues_12.*
 
 class Issues12Activity : AppCompatActivity() {
 
+    private val viewBind by viewBinding(ActivityIssues12Binding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_issues_12)
-        issues12Banner
+        viewBind.issues12Banner
                 .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
@@ -29,6 +29,6 @@ class Issues12Activity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        issues12Banner.release()
+        viewBind.issues12Banner.release()
     }
 }

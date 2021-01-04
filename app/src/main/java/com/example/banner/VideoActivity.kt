@@ -4,17 +4,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cn.jzvd.Jzvd
 import com.android.banner.shadow.addTipLayout
-import com.example.R
 import com.example.VideoImageLoader
+import com.example.databinding.ActivityVideoBinding
 import com.example.newVideoModel
-import kotlinx.android.synthetic.main.activity_video.*
+import com.example.viewBinding
 
 class VideoActivity : AppCompatActivity() {
 
+    private val viewBind by viewBinding(ActivityVideoBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video)
-        videoBanner
+        viewBind.videoBanner
                 .delayTime(5000)
                 .setOnBannerImageLoader(VideoImageLoader())
                 .resource(newVideoModel())

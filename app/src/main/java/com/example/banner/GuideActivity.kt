@@ -14,11 +14,13 @@ import com.android.banner.shadow.BannerTipLayout
 import com.android.banner.shadow.addTipLayout
 import com.example.GlideImageLoader
 import com.example.R
-import com.example.SimpleBannerInfo
+import com.example.databinding.ActivityGuideBinding
 import com.example.newModel
-import kotlinx.android.synthetic.main.activity_guide.*
+import com.example.viewBinding
 
 class GuideActivity : AppCompatActivity() {
+
+    private val viewBind by viewBinding(ActivityGuideBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +28,8 @@ class GuideActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         val flag = WindowManager.LayoutParams.FLAG_FULLSCREEN
         window.setFlags(flag, flag)
-        setContentView(R.layout.activity_guide)
-        buttonGuide.visibility = View.GONE
-        bannerGuide
+        viewBind.buttonGuide.visibility = View.GONE
+        viewBind.bannerGuide
                 .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addTipLayout(BannerTip(
@@ -42,8 +43,8 @@ class GuideActivity : AppCompatActivity() {
                     Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
                 }
                 .doOnPageSelected {
-                    buttonGuide.visibility = if (it == bannerGuide.itemCount - 1) View.VISIBLE else View.GONE
+                    viewBind.buttonGuide.visibility = if (it == viewBind.bannerGuide.itemCount - 1) View.VISIBLE else View.GONE
                 }
-        buttonGuide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
+        viewBind.buttonGuide.setOnClickListener { v -> Toast.makeText(v.context, "开启", Toast.LENGTH_SHORT).show() }
     }
 }

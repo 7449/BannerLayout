@@ -16,6 +16,7 @@ android {
         sourceCompatibility = Version.java
         targetCompatibility = Version.java
     }
+    buildFeatures.viewBinding = true
 }
 dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
@@ -33,6 +34,11 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.6.2")
     implementation("com.squareup.retrofit2:converter-gson:2.6.2")
+
+    implementation("androidx.lifecycle:lifecycle-runtime:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
     implementation(Dep.viewPager)
     implementation(Dep.kotlin)

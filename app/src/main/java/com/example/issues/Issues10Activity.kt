@@ -20,9 +20,9 @@ import com.android.banner.shadow.addTipLayout
 import com.android.banner.shadow.removeTipLayout
 import com.example.GlideImageLoader
 import com.example.R
+import com.example.databinding.ActivityIssues10Binding
 import com.example.newModel
-import kotlinx.android.synthetic.main.activity_issues_10.*
-
+import com.example.viewBinding
 
 /**
  * by y on 25/07/2017.
@@ -48,24 +48,24 @@ class Issues10Activity : AppCompatActivity() {
     private var isShowTips = false
     private var preEnablePosition = 0
     private var sizelnstagram: Int = 0
+    private val viewBind by viewBinding(ActivityIssues10Binding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_issues_10)
         test()
         testlnstagram()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        banner.release()
-        bannerInstagram.release()
+        viewBind.banner.release()
+        viewBind.bannerInstagram.release()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun testlnstagram() {
         val data = newModel()
-        bannerInstagram
+        viewBind.bannerInstagram
                 .delayTime(1000)
                 .setOnBannerImageLoader(GlideImageLoader())
                 .resource(data)
@@ -73,7 +73,7 @@ class Issues10Activity : AppCompatActivity() {
 
         //  dots
         sizelnstagram = data.size
-        llView.removeAllViews()
+        viewBind.llView.removeAllViews()
         for (i in 0 until sizelnstagram) {
             val view = View(this)
             view.background = ContextCompat.getDrawable(this, R.drawable.selector_banner_dots)
@@ -83,15 +83,15 @@ class Issues10Activity : AppCompatActivity() {
             params.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER
             params.leftMargin = 5
             params.rightMargin = 5
-            llView.addView(view)
+            viewBind.llView.addView(view)
         }
 
-        bannerInstagram.doOnPageSelected { position ->
-            llView.getChildAt(position).isEnabled = true
-            llView.getChildAt(preEnablePosition).isEnabled = false
+        viewBind.bannerInstagram.doOnPageSelected { position ->
+            viewBind.llView.getChildAt(position).isEnabled = true
+            viewBind.llView.getChildAt(preEnablePosition).isEnabled = false
             preEnablePosition = position
-            val startView = llView.getChildAt(0)
-            val endView = llView.getChildAt(sizelnstagram - 1)
+            val startView = viewBind.llView.getChildAt(0)
+            val endView = viewBind.llView.getChildAt(sizelnstagram - 1)
             if (position == sizelnstagram - 1) {
                 startView.scaleX = 0.6f
                 startView.scaleY = 0.6f
@@ -121,7 +121,7 @@ class Issues10Activity : AppCompatActivity() {
             dotWidthAndHeight = 6
             dotMargin = 3
         }
-        banner
+        viewBind.banner
                 .setOnBannerImageLoader(GlideImageLoader())
                 .resource(newModel())
                 .addPageView(
@@ -150,12 +150,12 @@ class Issues10Activity : AppCompatActivity() {
         isShowTips = !isShowTips
         val size = alterData.size
         if (size <= 1) {
-            banner
+            viewBind.banner
                     .resource(alterData, isPlay = false)
                     .removeTipLayout()
             Toast.makeText(this, "size <=1 , stopBanner , not show tipsLayout", Toast.LENGTH_SHORT).show()
         } else {
-            banner
+            viewBind.banner
                     .resource(alterData, isPlay = true)
                     .addTipLayout(BannerTip(visibleTitle = true))
             Toast.makeText(this, "size >1 , startBanner , show tipsLayout", Toast.LENGTH_SHORT).show()

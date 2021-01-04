@@ -7,54 +7,54 @@ import com.example.banner.DisplayActivity
 import com.example.banner.GuideActivity
 import com.example.banner.TransformerActivity
 import com.example.banner.VideoActivity
+import com.example.databinding.ActivityMainBinding
 import com.example.issues.Issues10Activity
 import com.example.issues.Issues12Activity
 import com.example.issues.Issues13Activity
 import com.example.list.ListActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val viewBind: ActivityMainBinding by viewBinding(ActivityMainBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        btnGuide.setOnClickListener { v ->
+        viewBind.btnGuide.setOnClickListener { v ->
             val intent = Intent(v.context, GuideActivity::class.java)
             startActivity(intent)
         }
 
-        btnRecyclerView.setOnClickListener { v ->
+        viewBind.btnRecyclerView.setOnClickListener { v ->
             val intent = Intent(v.context, ListActivity::class.java)
             startActivity(intent)
         }
 
-        btnImageLoader.setOnClickListener { v ->
+        viewBind.btnImageLoader.setOnClickListener { v ->
             val intent = Intent(v.context, DisplayActivity::class.java)
             startActivity(intent)
         }
 
-        btnTransformer.setOnClickListener { v ->
+        viewBind.btnTransformer.setOnClickListener { v ->
             val intent = Intent(v.context, TransformerActivity::class.java)
             startActivity(intent)
         }
 
-        btnVideo.setOnClickListener { v ->
+        viewBind.btnVideo.setOnClickListener { v ->
             val intent = Intent(v.context, VideoActivity::class.java)
             startActivity(intent)
         }
 
-        btnIssues10.setOnClickListener { v ->
+        viewBind.btnIssues10.setOnClickListener { v ->
             val intent = Intent(v.context, Issues10Activity::class.java)
             startActivity(intent)
         }
 
-        btnIssues12.setOnClickListener { v ->
+        viewBind.btnIssues12.setOnClickListener { v ->
             val intent = Intent(v.context, Issues12Activity::class.java)
             startActivity(intent)
         }
 
-        btnIssues13.setOnClickListener { v ->
+        viewBind.btnIssues13.setOnClickListener { v ->
             val intent = Intent(v.context, Issues13Activity::class.java)
             startActivity(intent)
         }

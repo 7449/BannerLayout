@@ -8,8 +8,9 @@ import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
 import com.example.GlideImageLoader
 import com.example.R
+import com.example.databinding.ActivityIssues13Binding
 import com.example.newModel
-import kotlinx.android.synthetic.main.activity_issues_13.*
+import com.example.viewBinding
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -18,29 +19,30 @@ import kotlin.math.max
  */
 class Issues13Activity : AppCompatActivity() {
 
+    private val viewBind by viewBinding(ActivityIssues13Binding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_issues_13)
-        issues13Banner.clipChildren = false
-        issues13Banner
+        viewBind.issues13Banner.clipChildren = false
+        viewBind.issues13Banner
                 .setOnBannerImageLoader(GlideImageLoader())
                 .setTransformer(MeizuBannerTransformer())
                 .resource(newModel())
                 .addPageView(pageBottomMargin = 12, pageLeftMargin = 12, pageRightMargin = 12, pageTopMargin = 12)
-        val layoutParams = issues13Banner.viewPagerLayoutParams()
+        val layoutParams = viewBind.issues13Banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
         val handler = Handler()
         val r = Runnable {
-            issues13Banner.viewPager.beginFakeDrag()
-            issues13Banner.viewPager.fakeDragBy(1.0f)
-            issues13Banner.viewPager.endFakeDrag()
+            viewBind.issues13Banner.viewPager.beginFakeDrag()
+            viewBind.issues13Banner.viewPager.fakeDragBy(1.0f)
+            viewBind.issues13Banner.viewPager.endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }
 
     override fun onDestroy() {
-        issues13Banner.release()
+        viewBind.issues13Banner.release()
         super.onDestroy()
     }
 }

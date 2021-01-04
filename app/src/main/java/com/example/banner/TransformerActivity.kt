@@ -9,25 +9,27 @@ import com.android.banner.doOnPageSelected
 import com.android.banner.transformer.*
 import com.example.GlideImageLoader
 import com.example.R
+import com.example.databinding.ActivityTransformerBinding
 import com.example.newModel
-import kotlinx.android.synthetic.main.activity_transformer.*
+import com.example.viewBinding
 
 /**
  * by y on 2017/5/28.
  */
 class TransformerActivity : AppCompatActivity() {
 
+    private val viewBind by viewBinding(ActivityTransformerBinding::inflate)
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Transformer Example"
-        setContentView(R.layout.activity_transformer)
-        bannerPosition.text = "select position:" + 0
-        transformerBanner
+        viewBind.bannerPosition.text = "select position:" + 0
+        viewBind.transformerBanner
                 .delayTime(300)
                 .setOnBannerImageLoader(GlideImageLoader())
                 .setTransformer(getTransformer(ABaseTransformer.ANIMATION_ACCORDION))
-                .doOnPageSelected { bannerPosition.text = "select position:$it" }
+                .doOnPageSelected { viewBind.bannerPosition.text = "select position:$it" }
                 .resource(newModel())
     }
 
@@ -38,32 +40,32 @@ class TransformerActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.transformer_accordion -> transformerBanner.accordionTransformer()
-            R.id.transformer_background -> transformerBanner.backgroundTransformer()
-            R.id.transformer_cube_in -> transformerBanner.cubeInTransformer()
-            R.id.transformer_cube_out -> transformerBanner.cubeOutTransformer()
-            R.id.transformer_default -> transformerBanner.defaultTransformer()
-            R.id.transformer_depth_page -> transformerBanner.depthPageTransformer()
-            R.id.transformer_flip_horizontal -> transformerBanner.flipHorizontalTransformer()
-            R.id.transformer_flip_vertical -> transformerBanner.flipVerticalTransformer()
-            R.id.transformer_foreground -> transformerBanner.foregroundTransformer()
-            R.id.transformer_rotate_down -> transformerBanner.rotateDownTransformer()
-            R.id.transformer_rotate_up -> transformerBanner.rotateUpTransformer()
-            R.id.transformer_stack -> transformerBanner.stackTransformer()
-            R.id.transformer_scale_in_out -> transformerBanner.scaleInOutTransformer()
-            R.id.transformer_tablet -> transformerBanner.tabletTransformer()
-            R.id.transformer_zoom_in -> transformerBanner.zoomInTransformer()
-            R.id.transformer_zoom_out_page -> transformerBanner.zoomOutPageTransformer()
-            R.id.transformer_zoom_out_slide -> transformerBanner.zoomOutSlideTransformer()
-            R.id.transformer_zoom_out -> transformerBanner.zoomOutTransformer()
-            R.id.transformer_drawer -> transformerBanner.drawerTransformer()
-            R.id.transformer_vertical -> transformerBanner.verticalTransformer()
+            R.id.transformer_accordion -> viewBind.transformerBanner.accordionTransformer()
+            R.id.transformer_background -> viewBind.transformerBanner.backgroundTransformer()
+            R.id.transformer_cube_in -> viewBind.transformerBanner.cubeInTransformer()
+            R.id.transformer_cube_out -> viewBind.transformerBanner.cubeOutTransformer()
+            R.id.transformer_default -> viewBind.transformerBanner.defaultTransformer()
+            R.id.transformer_depth_page -> viewBind.transformerBanner.depthPageTransformer()
+            R.id.transformer_flip_horizontal -> viewBind.transformerBanner.flipHorizontalTransformer()
+            R.id.transformer_flip_vertical -> viewBind.transformerBanner.flipVerticalTransformer()
+            R.id.transformer_foreground -> viewBind.transformerBanner.foregroundTransformer()
+            R.id.transformer_rotate_down -> viewBind.transformerBanner.rotateDownTransformer()
+            R.id.transformer_rotate_up -> viewBind.transformerBanner.rotateUpTransformer()
+            R.id.transformer_stack -> viewBind.transformerBanner.stackTransformer()
+            R.id.transformer_scale_in_out -> viewBind.transformerBanner.scaleInOutTransformer()
+            R.id.transformer_tablet -> viewBind.transformerBanner.tabletTransformer()
+            R.id.transformer_zoom_in -> viewBind.transformerBanner.zoomInTransformer()
+            R.id.transformer_zoom_out_page -> viewBind.transformerBanner.zoomOutPageTransformer()
+            R.id.transformer_zoom_out_slide -> viewBind.transformerBanner.zoomOutSlideTransformer()
+            R.id.transformer_zoom_out -> viewBind.transformerBanner.zoomOutTransformer()
+            R.id.transformer_drawer -> viewBind.transformerBanner.drawerTransformer()
+            R.id.transformer_vertical -> viewBind.transformerBanner.verticalTransformer()
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        transformerBanner.release()
+        viewBind.transformerBanner.release()
     }
 }
