@@ -42,8 +42,8 @@ fun BannerLayout.zoomOutTransformer() = also { setTransformer(ZoomOutTransformer
 fun BannerLayout.drawerTransformer() = also { setTransformer(DrawerTransformer()) }
 
 fun BannerLayout.verticalTransformer() = also {
-    viewPager.isVertical = true
-    viewPager.setPageTransformer(true, VerticalTransformer())
+    isVertical(true)
+    setTransformer(VerticalTransformer())
 }
 
 fun getTransformer(type: Int): BannerTransformer {

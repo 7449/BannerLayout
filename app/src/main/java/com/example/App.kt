@@ -2,9 +2,6 @@ package com.example
 
 import android.app.Application
 import com.example.list.Api
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.SimpleRxNetOptionFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,8 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        Fresco.initialize(this)
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this))
         RxNetWork.initialization(SimpleRxNetOptionFactory(Api.ZL_BASE_API, GsonConverterFactory.create()))
     }
 }

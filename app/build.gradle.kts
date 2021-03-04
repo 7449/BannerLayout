@@ -26,19 +26,11 @@ dependencies {
     implementation("cn.jzvd:jiaozivideoplayer:7.4.1")
 
     implementation("com.github.bumptech.glide:glide:4.11.0")
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("com.facebook.fresco:fresco:2.2.0")
-    implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
 
     implementation("com.ydevelop:rxNetWork:0.2.1")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.6.2")
     implementation("com.squareup.retrofit2:converter-gson:2.6.2")
-
-    implementation("androidx.lifecycle:lifecycle-runtime:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
     implementation(Dep.viewPager)
     implementation(Dep.kotlin)

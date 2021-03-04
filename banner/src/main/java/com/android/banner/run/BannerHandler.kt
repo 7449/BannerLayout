@@ -1,16 +1,16 @@
 package com.android.banner.run
 
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
-import com.android.banner.BannerLayout
 
 /**
  * @author y
  * @create 2019-04-29
  */
 internal class BannerHandler(
-        private val mCurrent: BannerLayout
-) : Handler() {
+        private val action: (page: Int) -> Unit
+) : Handler(Looper.getMainLooper()) {
 
     companion object {
         const val MSG_UPDATE = 1
@@ -18,11 +18,7 @@ internal class BannerHandler(
         const val MSG_PAGE = 3
     }
 
-    var status: Int = 0
-        private set
-
-    var handlerDelayTime: Int = 2000
-    var handlerPage: Int = 0
+    private var handlerPage: Int = -1
 
     override fun handleMessage(msg: Message) {
         super.handleMessage(msg)
@@ -32,33 +28,33 @@ internal class BannerHandler(
         if (hasMessages(MSG_UPDATE)) {
             removeMessages(MSG_UPDATE)
         }
-        val what = msg.what
-        when (what) {
+        when (msg.what) {
             MSG_UPDATE -> {
-                mCurrent.viewPager.currentItem = ++handlerPage
-                sendEmptyMessageDelayed(MSG_UPDATE, handlerDelayTime.toLong())
+                action.invoke(++handlerPage)
+                sendUpdateMessage(msg.arg1)
             }
             MSG_PAGE -> handlerPage = msg.arg1
-            MSG_KEEP -> {
-            }
         }
-        status = what
     }
 
     fun release() {
         removeCallbacksAndMessages(null)
     }
 
-    fun sendUpdateMessage() {
-        sendEmptyMessageDelayed(MSG_UPDATE, handlerDelayTime.toLong())
-    }
-
     fun sendKeepMessage() {
         sendEmptyMessage(MSG_KEEP)
     }
 
-    fun sendMessageSelected() {
-        sendMessage(Message.obtain(this, MSG_PAGE, mCurrent.viewPager.currentItem, 0))
+    fun sendUpdateMessage(delayTime: Int) {
+        sendMessageDelayed(Message.obtain(this, MSG_UPDATE, delayTime, 0), delayTime.toLong())
+    }
+
+    fun sendMessageSelected(currentItem: Int) {
+        sendMessage(Message.obtain(this, MSG_PAGE, currentItem, 0))
+    }
+
+    fun updateCurrentPage(item: Int) {
+        handlerPage = item
     }
 
 }

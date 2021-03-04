@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.android.banner.viewpager
 
 import android.view.View

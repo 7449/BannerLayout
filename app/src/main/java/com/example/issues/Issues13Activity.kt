@@ -2,12 +2,12 @@ package com.example.issues
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.android.banner.page.addPageView
 import com.android.banner.transformer.BannerTransformer
 import com.example.GlideImageLoader
-import com.example.R
 import com.example.databinding.ActivityIssues13Binding
 import com.example.newModel
 import com.example.viewBinding
@@ -32,11 +32,11 @@ class Issues13Activity : AppCompatActivity() {
         val layoutParams = viewBind.issues13Banner.viewPagerLayoutParams()
         layoutParams?.leftMargin = 50
         layoutParams?.rightMargin = 50
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         val r = Runnable {
-            viewBind.issues13Banner.viewPager.beginFakeDrag()
-            viewBind.issues13Banner.viewPager.fakeDragBy(1.0f)
-            viewBind.issues13Banner.viewPager.endFakeDrag()
+            viewBind.issues13Banner.beginFakeDrag()
+            viewBind.issues13Banner.fakeDragBy(1.0f)
+            viewBind.issues13Banner.endFakeDrag()
         }
         handler.postDelayed(r, 10)
     }

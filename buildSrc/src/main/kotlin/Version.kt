@@ -8,9 +8,9 @@ object Plugin {
 }
 
 object Version {
-    const val compileSdk = 29
+    const val compileSdk = 30
     const val minSdk = 14
-    const val targetSdk = 29
+    const val targetSdk = 30
     const val versionCode = 1
     const val versionName = "1.0"
     val java = JavaVersion.VERSION_1_8
@@ -18,12 +18,12 @@ object Version {
 
 object ClassPath {
     const val bintray = "guru.stefma.bintrayrelease:bintrayrelease:1.1.2"
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0"
-    const val gradle = "com.android.tools.build:gradle:4.0.1"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31"
+    const val gradle = "com.android.tools.build:gradle:4.1.2"
 }
 
 object Dep {
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
     const val viewPager = "androidx.viewpager:viewpager:1.0.0"
     const val banner = "com.ydevelop:bannerlayout:1.2.0"
     const val transformer = "com.ydevelop:bannerlayout.transformer:0.0.2"

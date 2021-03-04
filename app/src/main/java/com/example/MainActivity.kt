@@ -3,7 +3,6 @@ package com.example
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.banner.DisplayActivity
 import com.example.banner.GuideActivity
 import com.example.banner.TransformerActivity
 import com.example.banner.VideoActivity
@@ -26,11 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         viewBind.btnRecyclerView.setOnClickListener { v ->
             val intent = Intent(v.context, ListActivity::class.java)
-            startActivity(intent)
-        }
-
-        viewBind.btnImageLoader.setOnClickListener { v ->
-            val intent = Intent(v.context, DisplayActivity::class.java)
             startActivity(intent)
         }
 

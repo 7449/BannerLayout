@@ -23,13 +23,6 @@
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnImageLoader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ImageLoader"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnTransformer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
