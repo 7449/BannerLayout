@@ -1,6 +1,7 @@
 package com.android.banner.transformer
 
 import com.android.banner.BannerLayout
+import com.android.banner.BannerTransformer
 import com.android.banner.transformer.internal.*
 
 fun BannerLayout.accordionTransformer() = also { setTransformer(AccordionTransformer()) }

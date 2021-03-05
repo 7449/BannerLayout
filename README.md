@@ -2,26 +2,24 @@
 
 ## core
 
-    implementation 'com.ydevelop:bannerlayout:1.2.0'
+    implementation 'com.ydevelop:bannerlayout:1.2.1'
     
 ## page
 
-    implementation 'com.ydevelop:bannerlayout:1.2.0'
-    implementation 'com.ydevelop:bannerlayout.page:0.0.2'
+    implementation 'com.ydevelop:bannerlayout:1.2.1'
+    implementation 'com.ydevelop:bannerlayout.page:0.0.3'
 
 ## shadow
 
-    implementation 'com.ydevelop:bannerlayout:1.2.0'
-    implementation 'com.ydevelop:bannerlayout.shadow:0.0.2'
+    implementation 'com.ydevelop:bannerlayout:1.2.1'
+    implementation 'com.ydevelop:bannerlayout.shadow:0.0.3'
 
 ## transformer
 
-    implementation 'com.ydevelop:bannerlayout:1.2.0'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.2'
+    implementation 'com.ydevelop:bannerlayout:1.2.1'
+    implementation 'com.ydevelop:bannerlayout.transformer:0.0.3'
     
 ## api
-
-    banner.viewPager
     
     banner.resource(list,boolean)
     

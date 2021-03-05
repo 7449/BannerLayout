@@ -1,62 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.android.banner.BannerLayout
+        android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="150dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnGuide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="guide"
-            android:textAllCaps="false" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="RecyclerView Header"
+        android:textAllCaps="false" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RecyclerView Header"
-            android:textAllCaps="false" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTransformer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Transformer"
+        android:textAllCaps="false" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnTransformer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Transformer"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Video"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnIssues10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="issues 10"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnIssues12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="issues 12"
-            android:textAllCaps="false" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnIssues13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="issues 13"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

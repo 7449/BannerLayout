@@ -25,23 +25,7 @@
             android:name=".list.ListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".banner.GuideActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
             android:name=".banner.TransformerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".banner.VideoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.issues.Issues10Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.issues.Issues12Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.example.issues.Issues13Activity"
             android:screenOrientation="portrait" />
     </application>
 

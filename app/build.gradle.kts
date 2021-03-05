@@ -23,8 +23,6 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
 
-    implementation("cn.jzvd:jiaozivideoplayer:7.4.1")
-
     implementation("com.github.bumptech.glide:glide:4.11.0")
 
     implementation("com.ydevelop:rxNetWork:0.2.1")
@@ -34,12 +32,12 @@ dependencies {
 
     implementation(Dep.viewPager)
     implementation(Dep.kotlin)
-    implementation(project(":banner"))
-    implementation(project(":transformer"))
-    implementation(project(":shadow"))
-    implementation(project(":page"))
-//    implementation(Dep.banner)
-//    implementation(Dep.transformer)
-//    implementation(Dep.shadow)
-//    implementation(Dep.page)
+//    implementation(project(":banner"))
+//    implementation(project(":transformer"))
+//    implementation(project(":shadow"))
+//    implementation(project(":page"))
+    implementation(Dep.banner)
+    implementation(Dep.transformer)
+    implementation(Dep.shadow)
+    implementation(Dep.page)
 }

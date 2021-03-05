@@ -1,7 +1,9 @@
 package com.android.banner
 
 import android.view.View
-import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
+
+abstract class BannerTransformer : ViewPager.PageTransformer
 
 fun BannerLayout.addOnItemClickListener(action: (view: View, position: Int, info: BannerInfo) -> Unit) = also {
     val listener = object : OnBannerClickListener<BannerInfo> {

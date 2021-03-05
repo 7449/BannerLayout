@@ -1,7 +1,7 @@
 package com.android.banner.transformer.internal
 
 import android.view.View
-import com.android.banner.transformer.BannerTransformer
+import com.android.banner.BannerTransformer
 import kotlin.math.abs
 
 class ZoomOutPageTransformer : BannerTransformer() {

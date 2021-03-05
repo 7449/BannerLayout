@@ -6,7 +6,6 @@ import io.reactivex.network.RxNetWork
 import io.reactivex.network.SimpleRxNetOptionFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 /**
  * by y on 2017/5/16
  */

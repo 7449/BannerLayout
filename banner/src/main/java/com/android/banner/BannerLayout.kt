@@ -1,11 +1,12 @@
 package com.android.banner
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.viewpager.widget.ViewPager
-import com.android.banner.run.BannerHandler
-import com.android.banner.transformer.BannerTransformer
 import com.android.banner.viewpager.BannerAdapter
 import com.android.banner.viewpager.BannerViewPager
 
@@ -15,11 +16,40 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     companion object {
         const val MATCH_PARENT = LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
+        const val MSG_UPDATE = 1
+        const val MSG_KEEP = 2
     }
 
-    private val bannerHandler: BannerHandler = BannerHandler {
-        viewPager.currentItem = it
+    private class BannerHandler(private val action: () -> Unit) : Handler(Looper.getMainLooper()) {
+
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if (hasMessages(MSG_UPDATE)) {
+                removeMessages(MSG_UPDATE)
+            }
+            when (msg.what) {
+                MSG_UPDATE -> {
+                    action.invoke()
+                    sendUpdateMessage(msg.arg1)
+                }
+            }
+        }
+
+        fun release() {
+            removeCallbacksAndMessages(null)
+        }
+
+        fun sendKeepMessage() {
+            sendEmptyMessage(MSG_KEEP)
+        }
+
+        fun sendUpdateMessage(delayTime: Int) {
+            sendMessageDelayed(Message.obtain(this, MSG_UPDATE, delayTime, 0), delayTime.toLong())
+        }
+
     }
+
+    private val bannerHandler: BannerHandler = BannerHandler { viewPager.currentItem = ++viewPager.currentItem }
     private val viewPager: BannerViewPager = BannerViewPager(context)
     private val onBannerChangeListener: ArrayList<OnBannerChangeListener> = arrayListOf()
     private val onBannerClickListener: ArrayList<OnBannerClickListener<BannerInfo>> = arrayListOf()
@@ -50,7 +80,6 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     override fun onPageSelected(position: Int) {
         onBannerChangeListener.forEach { it.onPageSelected(position % itemCount) }
-        bannerHandler.sendMessageSelected(viewPager.currentItem)
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -65,33 +94,35 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun resource(imageList: MutableList<out BannerInfo>, isPlay: Boolean = true) = also {
+    fun resource(imageList: MutableList<out BannerInfo>, isPlay: Boolean = true) = apply {
         if (imageList.isEmpty()) {
-            return@also
+            return@apply
         }
         this.imageList.clear()
         this.imageList.addAll(imageList)
         removeView(viewPager)
-        val currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount
         viewPager.viewTouchMode = touchMode
         viewPager.setDuration(duration)
         viewPager.adapter = BannerAdapter(imageList, onBannerImageLoader
                 ?: throw KotlinNullPointerException("onBannerImageLoader == null"), onBannerClickListener, isGuide)
-        viewPager.currentItem = currentItem
-        bannerHandler.updateCurrentPage(currentItem)
+        viewPager.currentItem = if (isGuide) 0 else Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount
         addView(viewPager, 0)
         onBannerResourceChangedListener.forEach { it.onBannerDataChanged() }
         if (isGuide) {
-            return@also
+            return@apply
         }
         play(isPlay)
     }
 
-    fun start() = also { play(true) }
+    fun start() {
+        play(true)
+    }
 
-    fun stop() = also { play(false) }
+    fun stop() {
+        play(false)
+    }
 
-    fun play(isPlay: Boolean) = also {
+    fun play(isPlay: Boolean) {
         release()
         this.isPlay = isPlay
         if (isPlay) {
@@ -102,52 +133,52 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    fun addOnBannerChangeListener(onBannerChangeListener: OnBannerChangeListener) = also {
+    fun addOnBannerChangeListener(onBannerChangeListener: OnBannerChangeListener) {
         this.onBannerChangeListener.add(onBannerChangeListener)
     }
 
-    fun addOnBannerResourceChangedListener(onBannerResourceChangedListener: OnBannerResourceChangedListener) = also {
+    fun addOnBannerResourceChangedListener(onBannerResourceChangedListener: OnBannerResourceChangedListener) {
         this.onBannerResourceChangedListener.add(onBannerResourceChangedListener)
     }
 
-    fun addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<BannerInfo>) = also {
+    fun addOnBannerClickListener(onBannerClickListener: OnBannerClickListener<BannerInfo>) {
         this.onBannerClickListener.add(onBannerClickListener)
     }
 
     /** [resource]之前调用 */
     @Suppress("UNCHECKED_CAST")
-    fun setOnBannerImageLoader(onBannerImageLoader: OnBannerImageLoader<out BannerInfo>) = also {
+    fun setOnBannerImageLoader(onBannerImageLoader: OnBannerImageLoader<out BannerInfo>) = apply {
         this.onBannerImageLoader = onBannerImageLoader as OnBannerImageLoader<BannerInfo>
     }
 
     /** [resource]之前调用 */
-    fun delayTime(delayTime: Int) = also {
+    fun delayTime(delayTime: Int) = apply {
         this.delayTime = delayTime
     }
 
     /** [resource]之前调用 */
-    fun touchMode(touchMode: Boolean) = also {
+    fun touchMode(touchMode: Boolean) = apply {
         this.touchMode = touchMode
     }
 
     /** [resource]之前调用 */
-    fun duration(duration: Int) = also {
+    fun duration(duration: Int) = apply {
         this.duration = duration
     }
 
-    fun setTransformer(bannerTransformer: BannerTransformer) = also {
+    fun setTransformer(bannerTransformer: BannerTransformer) = apply {
         viewPager.setPageTransformer(true, bannerTransformer)
     }
 
-    fun isVertical(isVertical: Boolean) = also {
+    fun isVertical(isVertical: Boolean) {
         viewPager.isVertical = isVertical
     }
 
-    fun beginFakeDrag() = also {
+    fun beginFakeDrag() {
         viewPager.beginFakeDrag()
     }
 
-    fun endFakeDrag() = also {
+    fun endFakeDrag() {
         viewPager.endFakeDrag()
     }
 
@@ -155,18 +186,14 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         viewPager.fakeDragBy(xOffset)
     }
 
-    fun setOffscreenPageLimit(offscreenPageLimit: Int) = also {
+    fun setOffscreenPageLimit(offscreenPageLimit: Int) {
         viewPager.offscreenPageLimit = offscreenPageLimit
     }
 
-    fun viewPagerLayoutParams(): LayoutParams? {
-        return viewPager.layoutParams as LayoutParams?
-    }
+    fun viewPagerLayoutParams(): LayoutParams? = viewPager.layoutParams as LayoutParams?
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : BannerInfo> getItem(position: Int): T {
-        return imageList[position] as T
-    }
+    fun <T : BannerInfo> getItem(position: Int): T = imageList[position] as T
 
     fun release() {
         bannerHandler.release()
@@ -176,10 +203,8 @@ class BannerLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         get() = imageList.size
 
     fun checkViewPager(): Boolean {
-        for (index in 0 until childCount) {
-            if (getChildAt(index) is BannerViewPager) {
-                return true
-            }
+        if (getChildAt(0) is BannerViewPager) {
+            return true
         }
         return false
     }

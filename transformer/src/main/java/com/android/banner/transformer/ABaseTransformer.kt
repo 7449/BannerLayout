@@ -1,6 +1,7 @@
 package com.android.banner.transformer
 
 import android.view.View
+import com.android.banner.BannerTransformer
 
 abstract class ABaseTransformer : BannerTransformer() {
 

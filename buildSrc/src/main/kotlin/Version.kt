@@ -25,8 +25,8 @@ object ClassPath {
 object Dep {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
     const val viewPager = "androidx.viewpager:viewpager:1.0.0"
-    const val banner = "com.ydevelop:bannerlayout:1.2.0"
-    const val transformer = "com.ydevelop:bannerlayout.transformer:0.0.2"
-    const val shadow = "com.ydevelop:bannerlayout.shadow:0.0.2"
-    const val page = "com.ydevelop:bannerlayout.page:0.0.2"
+    const val banner = "com.ydevelop:bannerlayout:1.2.1"
+    const val transformer = "com.ydevelop:bannerlayout.transformer:0.0.3"
+    const val shadow = "com.ydevelop:bannerlayout.shadow:0.0.3"
+    const val page = "com.ydevelop:bannerlayout.page:0.0.3"
 }
