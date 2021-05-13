@@ -31,8 +31,12 @@ dependencies {
 
     implementation(Dep.viewPager)
     implementation(Dep.kotlin)
-    implementation(project(":banner"))
-    implementation(project(":banner-transformer"))
-    implementation(project(":banner-shadow"))
-    implementation(project(":banner-page"))
+    implementation(Dep.banner)
+    implementation(Dep.page)
+    implementation(Dep.shadow)
+    implementation(Dep.transformer)
+//    implementation(project(":banner"))
+//    implementation(project(":banner-transformer"))
+//    implementation(project(":banner-shadow"))
+//    implementation(project(":banner-page"))
 }

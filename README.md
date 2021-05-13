@@ -1,23 +1,29 @@
 # BannerLayout
 
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
 ## core
 
-    implementation 'com.ydevelop:bannerlayout:1.2.1'
+    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
     
 ## page
 
-    implementation 'com.ydevelop:bannerlayout:1.2.1'
-    implementation 'com.ydevelop:bannerlayout.page:0.0.3'
+    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
+    implementation 'com.github.7449.BannerLayout:banner-page:v1.0.0'
 
 ## shadow
 
-    implementation 'com.ydevelop:bannerlayout:1.2.1'
-    implementation 'com.ydevelop:bannerlayout.shadow:0.0.3'
+    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
+    implementation 'com.github.7449.BannerLayout:banner-shadow:v1.0.0'
 
 ## transformer
 
-    implementation 'com.ydevelop:bannerlayout:1.2.1'
-    implementation 'com.ydevelop:bannerlayout.transformer:0.0.3'
+    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
+    implementation 'com.github.7449.BannerLayout:banner-transformer:v1.0.0'
     
 ## api
     
