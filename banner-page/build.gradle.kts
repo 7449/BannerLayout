@@ -1,8 +1,8 @@
 plugins {
     id(Plugin.library)
+    id(Plugin.maven)
     kotlin(Plugin.kotlin_android)
 }
-apply(from = "../gradle/UPLOAD.gradle")
 android {
     compileSdkVersion(Version.compileSdk)
     defaultConfig {
@@ -11,7 +11,12 @@ android {
         versionCode = Version.versionCode
         versionName = Version.versionName
     }
-    compileOptions { kotlinOptions.freeCompilerArgs += listOf("-module-name", "com.ydevelop.bannerlayout.transformer") }
+    compileOptions {
+        kotlinOptions.freeCompilerArgs += listOf(
+            "-module-name",
+            "com.github.7449.banner.page"
+        )
+    }
 }
 dependencies {
 //    compileOnly(project(":banner"))

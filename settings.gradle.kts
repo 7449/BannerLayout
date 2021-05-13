@@ -1,5 +1,6 @@
 include(":app",
         ":banner",
-        ":shadow",
-        ":transformer",
-        ":page")
+    ":banner-shadow",
+    ":banner-transformer",
+    ":banner-page"
+)

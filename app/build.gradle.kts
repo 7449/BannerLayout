@@ -1,7 +1,6 @@
 plugins {
     id(Plugin.application)
     kotlin(Plugin.kotlin_android)
-    kotlin(Plugin.kotlin_ext)
 }
 android {
     compileSdkVersion(Version.compileSdk)
@@ -21,7 +20,7 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.0")
 
     implementation("com.github.bumptech.glide:glide:4.11.0")
 
@@ -32,12 +31,8 @@ dependencies {
 
     implementation(Dep.viewPager)
     implementation(Dep.kotlin)
-//    implementation(project(":banner"))
-//    implementation(project(":transformer"))
-//    implementation(project(":shadow"))
-//    implementation(project(":page"))
-    implementation(Dep.banner)
-    implementation(Dep.transformer)
-    implementation(Dep.shadow)
-    implementation(Dep.page)
+    implementation(project(":banner"))
+    implementation(project(":banner-transformer"))
+    implementation(project(":banner-shadow"))
+    implementation(project(":banner-page"))
 }

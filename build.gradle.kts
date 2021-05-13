@@ -1,17 +1,20 @@
 buildscript {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath(ClassPath.gradle)
         classpath(ClassPath.kotlin)
-        classpath(ClassPath.bintray)
+        classpath(ClassPath.maven)
     }
 }
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
+        maven("https://jitpack.io")
+        jcenter()
     }
 }
