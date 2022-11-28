@@ -9,7 +9,7 @@
 ## core
 
     implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
-    
+
 ## page
 
     implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
@@ -24,9 +24,9 @@
 
     implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
     implementation 'com.github.7449.BannerLayout:banner-transformer:v1.0.0'
-    
+
 ## api
-    
+
     banner.resource(list,boolean)
     
     banner.start()
@@ -64,7 +64,7 @@
     banner.status
 
     banner.checkViewPager()
-    
+
 ## kotlin expand
 
     banner.setOnBannerImageLoader()

@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.android.banner.BannerLayout
+    <androidx.banner.BannerLayout
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="180dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRecyclerView"
