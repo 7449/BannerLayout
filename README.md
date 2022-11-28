@@ -27,69 +27,48 @@
 
 ## api
 
-    banner.resource(list,boolean)
+    banner.resource(items,boolean)
     
     banner.start()
-    
     banner.stop()
-    
-    banner.play(boolean)
-    
-    banner.addOnBannerChangeListener(OnBannerChangeListener)
-    
-    banner.addOnBannerResourceChangedListener(OnBannerResourceChangedListener)
-    
-    banner.addOnBannerClickListener(OnBannerClickListener)
-    
-    banner.setOnBannerImageLoader(OnBannerImageLoader)
-    
-    banner.delayTime(Long)
-    
-    banner.touchMode(boolean)
-    
-    banner.duration(Int)
-    
-    banner.setTransformer(BannerTransformer)
-
-    banner.setOffscreenPageLimit(Int)
-
-    banner.viewPagerLayoutParams()
-
     banner.release()
 
+    banner.delayTime(Long)
+    banner.touchMode(boolean)
+    banner.duration(Int)
+    banner.setTransformer(PageTransformer)
+
     banner.getItem(position)
-
     banner.itemCount
-
-    banner.status
-
-    banner.checkViewPager()
-
-## kotlin expand
+    banner.checkViewPager
 
     banner.setOnBannerImageLoader()
 
     banner.addOnItemClickListener()
+    banner.removeOnBannerClickListener()
 
     banner.addOnBannerResourceChangedListener()
+    banner.removeOnBannerResourceChangedListener()
 
     banner.doOnPageScrolled()
-
     banner.doOnPageSelected()
-
     banner.doOnPageScrollStateChanged()
 
     banner.addOnBannerChangeListener()
+    banner.removeOnBannerChangeListener()
 
 ## ImageLoaderManager
 
-    class ImageLoader : OnBannerImageLoader<BannerInfo> {
-        override fun instantiateItem(container: ViewGroup, info: BannerInfo, position: Int): View {
+    class GlideImageLoader : OnBannerImageLoader<SimpleBannerItem> {
+        override fun instantiateItem(
+            container: ViewGroup,
+            item: SimpleBannerItem,
+        ): View {
             return ImageView(container.context).apply {
                 Glide.with(container.context)
-                        .applyDefaultRequestOptions(RequestOptions().centerCrop())
-                        .load(info.bannerUrl)
-                        .into(this)
+                    .applyDefaultRequestOptions(RequestOptions().centerCrop())
+                    .load(item.bannerUrl)
+                    .into(this)
             }
         }
     }
