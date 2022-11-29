@@ -6,24 +6,12 @@
 		}
 	}
 
-## core
+[![](https://jitpack.io/v/7449/BannerLayout.svg)](https://jitpack.io/#7449/BannerLayout)
 
-    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
-
-## page
-
-    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
-    implementation 'com.github.7449.BannerLayout:banner-page:v1.0.0'
-
-## shadow
-
-    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
-    implementation 'com.github.7449.BannerLayout:banner-shadow:v1.0.0'
-
-## transformer
-
-    implementation 'com.github.7449.BannerLayout:banner:v1.0.0'
-    implementation 'com.github.7449.BannerLayout:banner-transformer:v1.0.0'
+    implementation 'com.github.7449.BannerLayout:banner:release.version'
+    implementation 'com.github.7449.BannerLayout:banner-page:release.version'
+    implementation 'com.github.7449.BannerLayout:banner-shadow:release.version'
+    implementation 'com.github.7449.BannerLayout:banner-transformer:release.version'
 
 ## api
 

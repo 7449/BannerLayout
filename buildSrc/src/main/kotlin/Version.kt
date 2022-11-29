@@ -21,8 +21,8 @@ object Dep {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Plugin.kotlinVersion}"
     const val viewPager = "androidx.viewpager:viewpager:1.1.0-alpha01"
 
-    const val banner = "com.github.7449.BannerLayout:banner:v1.0.0"
-    const val transformer = "com.github.7449.BannerLayout:banner-transformer:v1.0.0"
-    const val shadow = "com.github.7449.BannerLayout:banner-shadow:v1.0.0"
-    const val page = "com.github.7449.BannerLayout:banner-page:v1.0.0"
+    const val banner = "com.github.7449.BannerLayout:banner:v2.0.2"
+    const val transformer = "com.github.7449.BannerLayout:banner-transformer:v2.0.2"
+    const val shadow = "com.github.7449.BannerLayout:banner-shadow:v2.0.2"
+    const val page = "com.github.7449.BannerLayout:banner-page:v2.0.2"
 }
