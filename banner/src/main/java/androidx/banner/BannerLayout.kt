@@ -205,6 +205,8 @@ class BannerLayout @JvmOverloads constructor(
 
     fun <T : BannerItem> getItem(position: Int): T = bannerItems[position] as T
 
+    fun <T : BannerItem> getItemOrNull(position: Int): T? = bannerItems.getOrNull(position) as? T
+
     val itemCount: Int
         get() = bannerItems.size
 

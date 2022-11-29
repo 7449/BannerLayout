@@ -1,0 +1,20 @@
+apply plugin: "maven-publish"
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.getSrcDirs()
+    //noinspection GroovyAccessibility
+    archiveClassifier = "sources"
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                artifact sourceJar
+                groupId = "androidx.banner"
+                artifactId = project.name
+                version = "2.0.0"
+                description project.name
+            }
+        }
+    }
+}

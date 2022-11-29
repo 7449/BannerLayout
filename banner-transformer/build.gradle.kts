@@ -2,6 +2,7 @@ plugins {
     id(Plugin.library)
     kotlin(Plugin.kotlin_android)
 }
+apply("../maven.gradle")
 android {
     namespace = "androidx.banner.transformer"
     compileSdk = Version.compileSdk
