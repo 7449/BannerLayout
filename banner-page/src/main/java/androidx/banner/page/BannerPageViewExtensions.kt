@@ -107,7 +107,7 @@ fun BannerLayout.addPageView(
     addView(bannerPageView, params)
 }
 
-fun BannerLayout.removePageView() {
+private fun BannerLayout.removePageView() {
     for (index in 0 until childCount) {
         getChildAt(index)?.let {
             if (it is BannerPageView) {

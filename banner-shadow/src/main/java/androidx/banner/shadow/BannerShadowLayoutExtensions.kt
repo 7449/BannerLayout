@@ -23,8 +23,8 @@ internal fun BannerShadowLayout.dotsSelector(bannerTip: BannerShadowConfig): Dra
 
 fun BannerLayout.addShadowLayout(config: BannerShadowConfig = BannerShadowConfig()) = also {
     require(checkViewPager) { "must add ViewPage first;" }
-    val tipLayout = BannerShadowLayout(context)
-    val params = tipLayout.run {
+    val shadowLayout = BannerShadowLayout(context)
+    val params = shadowLayout.run {
         removeAllViews()
         initDot(
             itemCount,
@@ -55,16 +55,16 @@ fun BannerLayout.addShadowLayout(config: BannerShadowConfig = BannerShadowConfig
         )
     }
     doOnPageSelected {
-        tipLayout.changeDotsPosition(it)
+        shadowLayout.changeDotsPosition(it)
         if (config.visibleTitle) {
-            tipLayout.setTitle(getItem<BannerItem>(it).bannerTitle)
+            shadowLayout.setTitle(getItem<BannerItem>(it).bannerTitle)
         }
     }
-    removeTipLayout()
-    addView(tipLayout, params)
+    removeShadowLayout()
+    addView(shadowLayout, params)
 }
 
-fun BannerLayout.removeTipLayout() {
+private fun BannerLayout.removeShadowLayout() {
     for (index in 0 until childCount) {
         getChildAt(index)?.let {
             if (it is BannerShadowLayout) {
