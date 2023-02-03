@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Banner</string>
+
+    <string-array name="transformer">
+        <item>ACCORDION</item>
+        <item>BACKGROUND</item>
+        <item>CUBE_IN</item>
+        <item>CUBE_OUT</item>
+        <item>DEFAULT</item>
+        <item>DEPTH_PAGE</item>
+        <item>FLIPHORIZONTAL</item>
+        <item>FLIPVERTICAL</item>
+        <item>FOREGROUND</item>
+        <item>ROTATEDOWN</item>
+        <item>ROTATEUP</item>
+        <item>STACK</item>
+        <item>SCALEINOUT</item>
+        <item>TABLET</item>
+        <item>ZOOMIN</item>
+        <item>ZOOMOUTPAGE</item>
+        <item>ZOOMOUTSLIDE</item>
+        <item>ZOOMOUT</item>
+        <item>DRAWER</item>
+    </string-array>
+</resources>

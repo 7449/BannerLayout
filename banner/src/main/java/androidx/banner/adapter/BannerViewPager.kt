@@ -10,9 +10,6 @@ import android.view.View
 import android.widget.Scroller
 import androidx.viewpager.widget.ViewPager
 
-/**
- * by y on 2016/10/25
- */
 internal class BannerViewPager
 @JvmOverloads constructor(
     context: Context,

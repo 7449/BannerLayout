@@ -22,8 +22,8 @@ class BannerLayout @JvmOverloads constructor(
     companion object {
         const val MATCH_PARENT = LayoutParams.MATCH_PARENT
         const val WRAP_CONTENT = LayoutParams.WRAP_CONTENT
-        const val MSG_UPDATE = 1
-        const val MSG_KEEP = 2
+        private const val MSG_UPDATE = 1
+        private const val MSG_KEEP = 2
     }
 
     private class BannerHandler(private val action: () -> Unit) : Handler(Looper.getMainLooper()) {

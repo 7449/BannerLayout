@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion
 
 object Plugin {
-    const val androidVersion = "7.3.1"
+    const val androidVersion = "7.4.0"
     const val kotlinVersion = "1.7.20"
     const val application = "com.android.application"
     const val library = "com.android.library"
@@ -10,7 +10,7 @@ object Plugin {
 
 object Version {
     const val compileSdk = 33
-    const val minSdk = 19
+    const val minSdk = 21
     const val targetSdk = 33
     const val versionCode = 1
     const val versionName = "1.0"

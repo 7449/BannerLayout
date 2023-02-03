@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 include(
-    ":app",
+    ":sample",
     ":banner",
     ":banner-shadow",
     ":banner-transformer",

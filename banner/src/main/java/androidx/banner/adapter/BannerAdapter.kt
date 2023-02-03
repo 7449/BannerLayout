@@ -7,9 +7,6 @@ import androidx.banner.listener.OnBannerClickListener
 import androidx.banner.listener.OnBannerImageLoader
 import androidx.viewpager.widget.PagerAdapter
 
-/**
- * by y on 2016/10/24.
- */
 internal class BannerAdapter(
     private val items: List<BannerItem>,
     private val imageLoader: OnBannerImageLoader<BannerItem>,

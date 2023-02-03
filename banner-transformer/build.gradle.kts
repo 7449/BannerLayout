@@ -8,16 +8,9 @@ android {
     compileSdk = Version.compileSdk
     defaultConfig {
         minSdk = Version.minSdk
-        targetSdk = Version.targetSdk
-    }
-    buildFeatures {
-        buildConfig = false
     }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += listOf(
-            "-module-name",
-            "com.github.7449.banner.transformer"
-        )
+        kotlinOptions.freeCompilerArgs += listOf("-module-name", "com.github.7449.banner.transformer")
     }
 }
 dependencies {
